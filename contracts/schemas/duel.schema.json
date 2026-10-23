@@ -1,0 +1,747 @@
+{
+  "$defs": {
+    "Cell": {
+      "additionalProperties": false,
+      "properties": {
+        "ci90": {
+          "patternProperties": {
+            "^[A-Z]{3}$": {
+              "maxItems": 2,
+              "minItems": 2,
+              "prefixItems": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "number"
+                }
+              ],
+              "type": "array"
+            }
+          },
+          "title": "Ci90",
+          "type": "object"
+        },
+        "claim_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Claim Id"
+        },
+        "xpts": {
+          "patternProperties": {
+            "^[A-Z]{3}$": {
+              "type": "number"
+            }
+          },
+          "title": "Xpts",
+          "type": "object"
+        }
+      },
+      "required": [
+        "xpts",
+        "ci90",
+        "claim_id"
+      ],
+      "title": "Cell",
+      "type": "object"
+    },
+    "DuelBroadcast": {
+      "additionalProperties": false,
+      "properties": {
+        "regret": {
+          "patternProperties": {
+            "^[A-Z]{3}$": {
+              "$ref": "#/$defs/Regret"
+            }
+          },
+          "title": "Regret",
+          "type": "object"
+        },
+        "revealed": {
+          "patternProperties": {
+            "^[A-Z]{3}$": {
+              "$ref": "#/$defs/RevealedChoice"
+            }
+          },
+          "title": "Revealed",
+          "type": "object"
+        },
+        "true_matrix": {
+          "$ref": "#/$defs/Matrix"
+        }
+      },
+      "required": [
+        "revealed",
+        "true_matrix",
+        "regret"
+      ],
+      "title": "DuelBroadcast",
+      "type": "object"
+    },
+    "EstimatedOption": {
+      "additionalProperties": false,
+      "properties": {
+        "option": {
+          "$ref": "#/$defs/Option"
+        },
+        "probability": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Probability",
+          "type": "number"
+        }
+      },
+      "required": [
+        "option",
+        "probability"
+      ],
+      "title": "EstimatedOption",
+      "type": "object"
+    },
+    "I18nText": {
+      "additionalProperties": false,
+      "properties": {
+        "en": {
+          "title": "En",
+          "type": "string"
+        },
+        "es": {
+          "title": "Es",
+          "type": "string"
+        }
+      },
+      "required": [
+        "en",
+        "es"
+      ],
+      "title": "I18nText",
+      "type": "object"
+    },
+    "LeverChanges": {
+      "additionalProperties": false,
+      "description": "Partial levers: only the fields an option or a Plan B rule changes.",
+      "properties": {
+        "attack_channel": {
+          "anyOf": [
+            {
+              "enum": [
+                "left",
+                "center",
+                "right",
+                "balanced"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Attack Channel"
+        },
+        "build_up": {
+          "anyOf": [
+            {
+              "enum": [
+                "short",
+                "mixed",
+                "direct"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Build Up"
+        },
+        "corner_delivery": {
+          "anyOf": [
+            {
+              "enum": [
+                "near_post",
+                "far_post",
+                "short"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Corner Delivery"
+        },
+        "press_height": {
+          "anyOf": [
+            {
+              "enum": [
+                "high",
+                "mid",
+                "low"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Press Height"
+        },
+        "press_target": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Press Target"
+        }
+      },
+      "required": [
+        "press_height",
+        "press_target",
+        "build_up",
+        "attack_channel",
+        "corner_delivery"
+      ],
+      "title": "LeverChanges",
+      "type": "object"
+    },
+    "Matrix": {
+      "additionalProperties": false,
+      "properties": {
+        "R": {
+          "minimum": 1,
+          "title": "R",
+          "type": "integer"
+        },
+        "believer": {
+          "anyOf": [
+            {
+              "pattern": "^[A-Z]{3}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Owner of a believed matrix; null for true.",
+          "title": "Believer"
+        },
+        "cells": {
+          "items": {
+            "items": {
+              "$ref": "#/$defs/Cell"
+            },
+            "type": "array"
+          },
+          "title": "Cells",
+          "type": "array"
+        },
+        "col_probs": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Believed matrices: the believer's probabilities over the opponent options.",
+          "title": "Col Probs"
+        },
+        "col_team": {
+          "pattern": "^[A-Z]{3}$",
+          "title": "Col Team",
+          "type": "string"
+        },
+        "cols": {
+          "description": "Column option_ids; cols[0] is Stay.",
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 3,
+          "minItems": 2,
+          "title": "Cols",
+          "type": "array"
+        },
+        "illustrative": {
+          "default": false,
+          "title": "Illustrative",
+          "type": "boolean"
+        },
+        "kind": {
+          "enum": [
+            "believed",
+            "true"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "match_id": {
+          "title": "Match Id",
+          "type": "string"
+        },
+        "matrix_id": {
+          "title": "Matrix Id",
+          "type": "string"
+        },
+        "readings": {
+          "patternProperties": {
+            "^[A-Z]{3}$": {
+              "$ref": "#/$defs/MatrixReading"
+            }
+          },
+          "title": "Readings",
+          "type": "object"
+        },
+        "row_team": {
+          "pattern": "^[A-Z]{3}$",
+          "title": "Row Team",
+          "type": "string"
+        },
+        "rows": {
+          "description": "Row option_ids; rows[0] is Stay.",
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 3,
+          "minItems": 2,
+          "title": "Rows",
+          "type": "array"
+        },
+        "seed": {
+          "title": "Seed",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "matrix_id",
+        "match_id",
+        "kind",
+        "believer",
+        "row_team",
+        "col_team",
+        "rows",
+        "cols",
+        "col_probs",
+        "cells",
+        "R",
+        "seed",
+        "readings",
+        "illustrative"
+      ],
+      "title": "Matrix",
+      "type": "object"
+    },
+    "MatrixReading": {
+      "additionalProperties": false,
+      "description": "How one team reads the matrix (computed in code, see engine.duel).",
+      "properties": {
+        "best_guess": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Only when column probabilities are known.",
+          "title": "Best Guess"
+        },
+        "best_response": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Opponent option_id -> this team's best option_id.",
+          "title": "Best Response",
+          "type": "object"
+        },
+        "dominant": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Dominant"
+        },
+        "gamble": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Gamble"
+        },
+        "safe_pick": {
+          "title": "Safe Pick",
+          "type": "string"
+        },
+        "team": {
+          "pattern": "^[A-Z]{3}$",
+          "title": "Team",
+          "type": "string"
+        }
+      },
+      "required": [
+        "team",
+        "best_response",
+        "safe_pick",
+        "best_guess",
+        "gamble",
+        "dominant"
+      ],
+      "title": "MatrixReading",
+      "type": "object"
+    },
+    "OpponentOptionsEstimate": {
+      "additionalProperties": false,
+      "properties": {
+        "claims": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Claims",
+          "type": "array"
+        },
+        "estimator": {
+          "pattern": "^[A-Z]{3}$",
+          "title": "Estimator",
+          "type": "string"
+        },
+        "opponent": {
+          "pattern": "^[A-Z]{3}$",
+          "title": "Opponent",
+          "type": "string"
+        },
+        "options": {
+          "items": {
+            "$ref": "#/$defs/EstimatedOption"
+          },
+          "maxItems": 3,
+          "minItems": 2,
+          "title": "Options",
+          "type": "array"
+        }
+      },
+      "required": [
+        "estimator",
+        "opponent",
+        "options",
+        "claims"
+      ],
+      "title": "OpponentOptionsEstimate",
+      "type": "object"
+    },
+    "Option": {
+      "additionalProperties": false,
+      "properties": {
+        "estimated": {
+          "default": false,
+          "description": "True when this is an analyst's guess of the OPPONENT.",
+          "title": "Estimated",
+          "type": "boolean"
+        },
+        "evidence": {
+          "description": "claim_ids that justify the option.",
+          "items": {
+            "type": "string"
+          },
+          "title": "Evidence",
+          "type": "array"
+        },
+        "intent": {
+          "enum": [
+            "stay_the_course",
+            "press_higher",
+            "drop_block",
+            "go_direct",
+            "short_build_up",
+            "attacking_subs",
+            "protect_lead",
+            "target_weak_side"
+          ],
+          "title": "Intent",
+          "type": "string"
+        },
+        "label": {
+          "$ref": "#/$defs/I18nText"
+        },
+        "lever_changes": {
+          "$ref": "#/$defs/LeverChanges"
+        },
+        "option_id": {
+          "title": "Option Id",
+          "type": "string"
+        },
+        "subs": {
+          "items": {
+            "$ref": "#/$defs/Sub"
+          },
+          "maxItems": 3,
+          "title": "Subs",
+          "type": "array"
+        },
+        "team": {
+          "pattern": "^[A-Z]{3}$",
+          "title": "Team",
+          "type": "string"
+        }
+      },
+      "required": [
+        "option_id",
+        "team",
+        "label",
+        "intent",
+        "lever_changes",
+        "subs",
+        "evidence",
+        "estimated"
+      ],
+      "title": "Option",
+      "type": "object"
+    },
+    "Regret": {
+      "additionalProperties": false,
+      "properties": {
+        "best_response": {
+          "title": "Best Response",
+          "type": "string"
+        },
+        "chosen": {
+          "title": "Chosen",
+          "type": "string"
+        },
+        "claim_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Claim Id"
+        },
+        "opponent_chosen": {
+          "title": "Opponent Chosen",
+          "type": "string"
+        },
+        "regret_xpts": {
+          "description": "xPts(best response) - xPts(chosen) on the true matrix; >= 0.",
+          "title": "Regret Xpts",
+          "type": "number"
+        },
+        "team": {
+          "pattern": "^[A-Z]{3}$",
+          "title": "Team",
+          "type": "string"
+        }
+      },
+      "required": [
+        "team",
+        "chosen",
+        "opponent_chosen",
+        "best_response",
+        "regret_xpts",
+        "claim_id"
+      ],
+      "title": "Regret",
+      "type": "object"
+    },
+    "RevealedChoice": {
+      "additionalProperties": false,
+      "properties": {
+        "option_id": {
+          "title": "Option Id",
+          "type": "string"
+        },
+        "rule": {
+          "enum": [
+            "safe_pick",
+            "best_guess",
+            "gamble"
+          ],
+          "title": "Rule",
+          "type": "string"
+        },
+        "salt": {
+          "minLength": 16,
+          "title": "Salt",
+          "type": "string"
+        },
+        "team": {
+          "pattern": "^[A-Z]{3}$",
+          "title": "Team",
+          "type": "string"
+        }
+      },
+      "required": [
+        "team",
+        "option_id",
+        "salt",
+        "rule"
+      ],
+      "title": "RevealedChoice",
+      "type": "object"
+    },
+    "SealedChoice": {
+      "additionalProperties": false,
+      "description": "Commit only: the option and salt stay hidden until the reveal (see contracts.sealing).",
+      "properties": {
+        "sealed_at": {
+          "title": "Sealed At",
+          "type": "string"
+        },
+        "sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Sha256",
+          "type": "string"
+        },
+        "team": {
+          "pattern": "^[A-Z]{3}$",
+          "title": "Team",
+          "type": "string"
+        }
+      },
+      "required": [
+        "team",
+        "sealed_at",
+        "sha256"
+      ],
+      "title": "SealedChoice",
+      "type": "object"
+    },
+    "Sub": {
+      "additionalProperties": false,
+      "properties": {
+        "in": {
+          "title": "In",
+          "type": "string"
+        },
+        "out": {
+          "title": "Out",
+          "type": "string"
+        },
+        "window": {
+          "description": "'HT' or a minute window like '60-65'.",
+          "pattern": "^(HT|\\d{1,2}-\\d{1,2})$",
+          "title": "Window",
+          "type": "string"
+        }
+      },
+      "required": [
+        "window",
+        "out",
+        "in"
+      ],
+      "title": "Sub",
+      "type": "object"
+    },
+    "TeamDuelPrivate": {
+      "additionalProperties": false,
+      "properties": {
+        "believed_matrix": {
+          "$ref": "#/$defs/Matrix"
+        },
+        "choice": {
+          "$ref": "#/$defs/SealedChoice"
+        },
+        "opponent_estimate": {
+          "$ref": "#/$defs/OpponentOptionsEstimate"
+        },
+        "options": {
+          "description": "options[0] is Stay the course.",
+          "items": {
+            "$ref": "#/$defs/Option"
+          },
+          "maxItems": 3,
+          "minItems": 2,
+          "title": "Options",
+          "type": "array"
+        },
+        "team": {
+          "pattern": "^[A-Z]{3}$",
+          "title": "Team",
+          "type": "string"
+        }
+      },
+      "required": [
+        "team",
+        "options",
+        "opponent_estimate",
+        "believed_matrix",
+        "choice"
+      ],
+      "title": "TeamDuelPrivate",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "broadcast": {
+      "$ref": "#/$defs/DuelBroadcast"
+    },
+    "illustrative": {
+      "default": false,
+      "title": "Illustrative",
+      "type": "boolean"
+    },
+    "match_id": {
+      "title": "Match Id",
+      "type": "string"
+    },
+    "minute": {
+      "default": 45,
+      "title": "Minute",
+      "type": "integer"
+    },
+    "private": {
+      "patternProperties": {
+        "^[A-Z]{3}$": {
+          "$ref": "#/$defs/TeamDuelPrivate"
+        }
+      },
+      "title": "Private",
+      "type": "object"
+    }
+  },
+  "required": [
+    "match_id",
+    "minute",
+    "private",
+    "broadcast",
+    "illustrative"
+  ],
+  "title": "Duel",
+  "type": "object"
+}

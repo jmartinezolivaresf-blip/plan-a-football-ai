@@ -1,0 +1,130 @@
+{
+  "$defs": {
+    "HiddenTrait": {
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "enum": [
+            "fb_low_press_resistance",
+            "cb_low_pace",
+            "back_post_weak",
+            "gk_short_bias",
+            "late_fade",
+            "weak_channel"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "player_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Player Id"
+        },
+        "side": {
+          "anyOf": [
+            {
+              "enum": [
+                "left",
+                "right"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Side"
+        },
+        "strength": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Strength",
+          "type": "number"
+        }
+      },
+      "required": [
+        "kind",
+        "player_id",
+        "side",
+        "strength"
+      ],
+      "title": "HiddenTrait",
+      "type": "object"
+    },
+    "TeamTruth": {
+      "additionalProperties": false,
+      "properties": {
+        "archetype": {
+          "enum": [
+            "pressing",
+            "possession",
+            "direct",
+            "low_block"
+          ],
+          "title": "Archetype",
+          "type": "string"
+        },
+        "split": {
+          "enum": [
+            "dev",
+            "test"
+          ],
+          "title": "Split",
+          "type": "string"
+        },
+        "team": {
+          "pattern": "^[A-Z]{3}$",
+          "title": "Team",
+          "type": "string"
+        },
+        "traits": {
+          "items": {
+            "$ref": "#/$defs/HiddenTrait"
+          },
+          "maxItems": 4,
+          "minItems": 1,
+          "title": "Traits",
+          "type": "array"
+        }
+      },
+      "required": [
+        "team",
+        "archetype",
+        "split",
+        "traits"
+      ],
+      "title": "TeamTruth",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "season_id": {
+      "title": "Season Id",
+      "type": "string"
+    },
+    "teams": {
+      "patternProperties": {
+        "^[A-Z]{3}$": {
+          "$ref": "#/$defs/TeamTruth"
+        }
+      },
+      "title": "Teams",
+      "type": "object"
+    }
+  },
+  "required": [
+    "season_id",
+    "teams"
+  ],
+  "title": "Truth",
+  "type": "object"
+}

@@ -1,0 +1,47 @@
+{
+ "tool": "get_claim",
+ "scope": "broadcast",
+ "args": {
+  "claim_id": "c201"
+ },
+ "response": {
+  "claim_id": "c201",
+  "type": "observed_adaptation",
+  "team": "HAR",
+  "player_id": null,
+  "metric": "goal_kick_long_share",
+  "value": 0.8,
+  "unit": null,
+  "league_ref": null,
+  "n": 5,
+  "interval_low": null,
+  "interval_high": null,
+  "target": null,
+  "minute": 27,
+  "label": "before 27': 0% (n=14)",
+  "evidence": [
+   "e0007",
+   "e0038",
+   "e0052",
+   "e0065",
+   "e0075",
+   "e0096",
+   "e0108",
+   "e0117",
+   "e0132",
+   "e0146",
+   "e0155",
+   "e0169",
+   "e0185",
+   "e0193",
+   "e0210",
+   "e0227",
+   "e0251",
+   "e0273",
+   "e0299"
+  ],
+  "status": "sufficient",
+  "illustrative": true
+ },
+ "illustrative": true
+}

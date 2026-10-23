@@ -1,0 +1,2356 @@
+{
+  "$defs": {
+    "AttackDirection": {
+      "additionalProperties": false,
+      "properties": {
+        "period": {
+          "enum": [
+            1,
+            2
+          ],
+          "title": "Period",
+          "type": "integer"
+        },
+        "positive_x": {
+          "description": "Team attacking towards x = 105 in this period.",
+          "pattern": "^[A-Z]{3}$",
+          "title": "Positive X",
+          "type": "string"
+        }
+      },
+      "required": [
+        "period",
+        "positive_x"
+      ],
+      "title": "AttackDirection",
+      "type": "object"
+    },
+    "Attributes": {
+      "additionalProperties": false,
+      "properties": {
+        "aerial": {
+          "maximum": 100,
+          "minimum": 0,
+          "title": "Aerial",
+          "type": "integer"
+        },
+        "finishing": {
+          "maximum": 100,
+          "minimum": 0,
+          "title": "Finishing",
+          "type": "integer"
+        },
+        "pace": {
+          "maximum": 100,
+          "minimum": 0,
+          "title": "Pace",
+          "type": "integer"
+        },
+        "passing": {
+          "maximum": 100,
+          "minimum": 0,
+          "title": "Passing",
+          "type": "integer"
+        },
+        "press_resistance": {
+          "maximum": 100,
+          "minimum": 0,
+          "title": "Press Resistance",
+          "type": "integer"
+        },
+        "stamina": {
+          "maximum": 100,
+          "minimum": 0,
+          "title": "Stamina",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "pace",
+        "passing",
+        "stamina",
+        "press_resistance",
+        "aerial",
+        "finishing"
+      ],
+      "title": "Attributes",
+      "type": "object"
+    },
+    "Cell": {
+      "additionalProperties": false,
+      "properties": {
+        "ci90": {
+          "patternProperties": {
+            "^[A-Z]{3}$": {
+              "maxItems": 2,
+              "minItems": 2,
+              "prefixItems": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "number"
+                }
+              ],
+              "type": "array"
+            }
+          },
+          "title": "Ci90",
+          "type": "object"
+        },
+        "claim_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Claim Id"
+        },
+        "xpts": {
+          "patternProperties": {
+            "^[A-Z]{3}$": {
+              "type": "number"
+            }
+          },
+          "title": "Xpts",
+          "type": "object"
+        }
+      },
+      "required": [
+        "xpts",
+        "ci90",
+        "claim_id"
+      ],
+      "title": "Cell",
+      "type": "object"
+    },
+    "Claim": {
+      "additionalProperties": false,
+      "properties": {
+        "claim_id": {
+          "pattern": "^c[\\w-]+$",
+          "title": "Claim Id",
+          "type": "string"
+        },
+        "evidence": {
+          "description": "event_ids / match refs that support it.",
+          "items": {
+            "type": "string"
+          },
+          "title": "Evidence",
+          "type": "array"
+        },
+        "illustrative": {
+          "default": false,
+          "description": "True for hand-written fixture data (not simulated).",
+          "title": "Illustrative",
+          "type": "boolean"
+        },
+        "interval_high": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Interval High"
+        },
+        "interval_low": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Interval Low"
+        },
+        "label": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Label"
+        },
+        "league_ref": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "League Ref"
+        },
+        "metric": {
+          "title": "Metric",
+          "type": "string"
+        },
+        "minute": {
+          "anyOf": [
+            {
+              "maximum": 130,
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Minute"
+        },
+        "n": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "N"
+        },
+        "player_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Player Id"
+        },
+        "status": {
+          "default": "sufficient",
+          "enum": [
+            "sufficient",
+            "insufficient"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "target": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Target"
+        },
+        "team": {
+          "anyOf": [
+            {
+              "pattern": "^[A-Z]{3}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Team"
+        },
+        "type": {
+          "enum": [
+            "observed_tendency",
+            "observed_adaptation",
+            "observed_mechanism",
+            "sim_valuation",
+            "sim_matrix_cell",
+            "opponent_estimate",
+            "regret",
+            "kpi_status"
+          ],
+          "title": "Type",
+          "type": "string"
+        },
+        "unit": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Unit"
+        },
+        "value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "integer"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "title": "Value"
+        }
+      },
+      "required": [
+        "claim_id",
+        "type",
+        "team",
+        "player_id",
+        "metric",
+        "value",
+        "unit",
+        "league_ref",
+        "n",
+        "interval_low",
+        "interval_high",
+        "target",
+        "minute",
+        "label",
+        "evidence",
+        "status",
+        "illustrative"
+      ],
+      "title": "Claim",
+      "type": "object"
+    },
+    "Cue": {
+      "additionalProperties": false,
+      "properties": {
+        "claims": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Claims",
+          "type": "array"
+        },
+        "cue_id": {
+          "title": "Cue Id",
+          "type": "string"
+        },
+        "fields": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Fields",
+          "type": "object"
+        },
+        "mode": {
+          "items": {
+            "enum": [
+              "casual",
+              "analyst"
+            ],
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Mode",
+          "type": "array"
+        },
+        "priority": {
+          "maximum": 3,
+          "minimum": 1,
+          "title": "Priority",
+          "type": "integer"
+        },
+        "t_match": {
+          "pattern": "^\\d{1,3}:[0-5]\\d$",
+          "title": "T Match",
+          "type": "string"
+        },
+        "team": {
+          "anyOf": [
+            {
+              "pattern": "^[A-Z]{3}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Team"
+        },
+        "template": {
+          "enum": [
+            "plan_card",
+            "plan_sealed",
+            "plan_tracker_lt",
+            "plan_alert",
+            "adaptation_detected",
+            "plan_b_fired",
+            "duel_rooms",
+            "duel_sealed",
+            "duel_reveal",
+            "duel_matrix",
+            "plan_scorecard",
+            "bench_regret",
+            "option_not_taken"
+          ],
+          "title": "Template",
+          "type": "string"
+        },
+        "text": {
+          "$ref": "#/$defs/I18nText"
+        },
+        "ttl_s": {
+          "maximum": 120,
+          "minimum": 1,
+          "title": "Ttl S",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "cue_id",
+        "t_match",
+        "template",
+        "priority",
+        "ttl_s",
+        "team",
+        "fields",
+        "text",
+        "mode",
+        "claims"
+      ],
+      "title": "Cue",
+      "type": "object"
+    },
+    "Duel": {
+      "additionalProperties": false,
+      "properties": {
+        "broadcast": {
+          "$ref": "#/$defs/DuelBroadcast"
+        },
+        "illustrative": {
+          "default": false,
+          "title": "Illustrative",
+          "type": "boolean"
+        },
+        "match_id": {
+          "title": "Match Id",
+          "type": "string"
+        },
+        "minute": {
+          "default": 45,
+          "title": "Minute",
+          "type": "integer"
+        },
+        "private": {
+          "patternProperties": {
+            "^[A-Z]{3}$": {
+              "$ref": "#/$defs/TeamDuelPrivate"
+            }
+          },
+          "title": "Private",
+          "type": "object"
+        }
+      },
+      "required": [
+        "match_id",
+        "minute",
+        "private",
+        "broadcast",
+        "illustrative"
+      ],
+      "title": "Duel",
+      "type": "object"
+    },
+    "DuelBroadcast": {
+      "additionalProperties": false,
+      "properties": {
+        "regret": {
+          "patternProperties": {
+            "^[A-Z]{3}$": {
+              "$ref": "#/$defs/Regret"
+            }
+          },
+          "title": "Regret",
+          "type": "object"
+        },
+        "revealed": {
+          "patternProperties": {
+            "^[A-Z]{3}$": {
+              "$ref": "#/$defs/RevealedChoice"
+            }
+          },
+          "title": "Revealed",
+          "type": "object"
+        },
+        "true_matrix": {
+          "$ref": "#/$defs/Matrix"
+        }
+      },
+      "required": [
+        "revealed",
+        "true_matrix",
+        "regret"
+      ],
+      "title": "DuelBroadcast",
+      "type": "object"
+    },
+    "EstimatedOption": {
+      "additionalProperties": false,
+      "properties": {
+        "option": {
+          "$ref": "#/$defs/Option"
+        },
+        "probability": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Probability",
+          "type": "number"
+        }
+      },
+      "required": [
+        "option",
+        "probability"
+      ],
+      "title": "EstimatedOption",
+      "type": "object"
+    },
+    "Event": {
+      "additionalProperties": false,
+      "properties": {
+        "body_part": {
+          "anyOf": [
+            {
+              "enum": [
+                "right_foot",
+                "left_foot",
+                "head",
+                "other"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Body Part"
+        },
+        "end_x": {
+          "anyOf": [
+            {
+              "maximum": 105.0,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "End X"
+        },
+        "end_y": {
+          "anyOf": [
+            {
+              "maximum": 68.0,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "End Y"
+        },
+        "event_id": {
+          "title": "Event Id",
+          "type": "string"
+        },
+        "match_id": {
+          "title": "Match Id",
+          "type": "string"
+        },
+        "minute": {
+          "maximum": 130,
+          "minimum": 0,
+          "title": "Minute",
+          "type": "integer"
+        },
+        "outcome": {
+          "anyOf": [
+            {
+              "enum": [
+                "success",
+                "fail",
+                "goal",
+                "saved",
+                "off_target",
+                "blocked",
+                "won",
+                "lost",
+                "first_contact_won",
+                "first_contact_lost"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Outcome"
+        },
+        "period": {
+          "enum": [
+            1,
+            2
+          ],
+          "title": "Period",
+          "type": "integer"
+        },
+        "player_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Player Id"
+        },
+        "possession_id": {
+          "minimum": 0,
+          "title": "Possession Id",
+          "type": "integer"
+        },
+        "receiver_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Receiver Id"
+        },
+        "set_piece_ref": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Links shots/goals to the corner that created them.",
+          "title": "Set Piece Ref"
+        },
+        "sub_in": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Only for type == 'sub'.",
+          "title": "Sub In"
+        },
+        "sub_out": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Only for type == 'sub'.",
+          "title": "Sub Out"
+        },
+        "t": {
+          "description": "Match clock in seconds since kick-off (second half starts at 2700).",
+          "minimum": 0,
+          "title": "T",
+          "type": "number"
+        },
+        "team": {
+          "pattern": "^[A-Z]{3}$",
+          "title": "Team",
+          "type": "string"
+        },
+        "type": {
+          "enum": [
+            "pass",
+            "long_ball",
+            "cross",
+            "carry",
+            "shot",
+            "goal",
+            "pressure",
+            "tackle",
+            "interception",
+            "clearance",
+            "foul",
+            "corner",
+            "goal_kick",
+            "throw_in",
+            "kick_off",
+            "sub",
+            "possession_change",
+            "recovery"
+          ],
+          "title": "Type",
+          "type": "string"
+        },
+        "under_pressure": {
+          "default": false,
+          "title": "Under Pressure",
+          "type": "boolean"
+        },
+        "x": {
+          "maximum": 105.0,
+          "minimum": 0,
+          "title": "X",
+          "type": "number"
+        },
+        "y": {
+          "maximum": 68.0,
+          "minimum": 0,
+          "title": "Y",
+          "type": "number"
+        },
+        "zone": {
+          "description": "Absolute zone = band * 3 + lane (see contracts.common).",
+          "maximum": 17,
+          "minimum": 0,
+          "title": "Zone",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "event_id",
+        "match_id",
+        "t",
+        "period",
+        "minute",
+        "possession_id",
+        "type",
+        "team",
+        "player_id",
+        "zone",
+        "x",
+        "y",
+        "end_x",
+        "end_y",
+        "receiver_id",
+        "outcome",
+        "under_pressure",
+        "body_part",
+        "set_piece_ref",
+        "sub_in",
+        "sub_out"
+      ],
+      "title": "Event",
+      "type": "object"
+    },
+    "I18nText": {
+      "additionalProperties": false,
+      "properties": {
+        "en": {
+          "title": "En",
+          "type": "string"
+        },
+        "es": {
+          "title": "Es",
+          "type": "string"
+        }
+      },
+      "required": [
+        "en",
+        "es"
+      ],
+      "title": "I18nText",
+      "type": "object"
+    },
+    "Kpi": {
+      "additionalProperties": false,
+      "properties": {
+        "by_minute": {
+          "default": 90,
+          "maximum": 90,
+          "minimum": 1,
+          "title": "By Minute",
+          "type": "integer"
+        },
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "metric": {
+          "enum": [
+            "high_turnovers",
+            "final_third_entries_share",
+            "set_piece_xg",
+            "balls_in_behind_conceded"
+          ],
+          "title": "Metric",
+          "type": "string"
+        },
+        "params": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Params",
+          "type": "object"
+        },
+        "target": {
+          "pattern": "^(>=|<=|>|<)\\d+(\\.\\d+)?$",
+          "title": "Target",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "metric",
+        "params",
+        "target",
+        "by_minute"
+      ],
+      "title": "Kpi",
+      "type": "object"
+    },
+    "KpiStatus": {
+      "additionalProperties": false,
+      "properties": {
+        "band_high": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Band High"
+        },
+        "band_low": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Band Low"
+        },
+        "claim_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Claim Id"
+        },
+        "expected": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Mean of pre-match sims at this minute.",
+          "title": "Expected"
+        },
+        "kpi_id": {
+          "title": "Kpi Id",
+          "type": "string"
+        },
+        "n": {
+          "minimum": 0,
+          "title": "N",
+          "type": "integer"
+        },
+        "plan_id": {
+          "title": "Plan Id",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "on_track",
+            "at_risk",
+            "failing",
+            "insufficient_evidence"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "team": {
+          "pattern": "^[A-Z]{3}$",
+          "title": "Team",
+          "type": "string"
+        },
+        "value": {
+          "title": "Value",
+          "type": "number"
+        }
+      },
+      "required": [
+        "plan_id",
+        "kpi_id",
+        "team",
+        "value",
+        "expected",
+        "band_low",
+        "band_high",
+        "n",
+        "status",
+        "claim_id"
+      ],
+      "title": "KpiStatus",
+      "type": "object"
+    },
+    "LeverChanges": {
+      "additionalProperties": false,
+      "description": "Partial levers: only the fields an option or a Plan B rule changes.",
+      "properties": {
+        "attack_channel": {
+          "anyOf": [
+            {
+              "enum": [
+                "left",
+                "center",
+                "right",
+                "balanced"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Attack Channel"
+        },
+        "build_up": {
+          "anyOf": [
+            {
+              "enum": [
+                "short",
+                "mixed",
+                "direct"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Build Up"
+        },
+        "corner_delivery": {
+          "anyOf": [
+            {
+              "enum": [
+                "near_post",
+                "far_post",
+                "short"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Corner Delivery"
+        },
+        "press_height": {
+          "anyOf": [
+            {
+              "enum": [
+                "high",
+                "mid",
+                "low"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Press Height"
+        },
+        "press_target": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Press Target"
+        }
+      },
+      "required": [
+        "press_height",
+        "press_target",
+        "build_up",
+        "attack_channel",
+        "corner_delivery"
+      ],
+      "title": "LeverChanges",
+      "type": "object"
+    },
+    "Levers": {
+      "additionalProperties": false,
+      "properties": {
+        "attack_channel": {
+          "default": "balanced",
+          "enum": [
+            "left",
+            "center",
+            "right",
+            "balanced"
+          ],
+          "title": "Attack Channel",
+          "type": "string"
+        },
+        "build_up": {
+          "default": "mixed",
+          "enum": [
+            "short",
+            "mixed",
+            "direct"
+          ],
+          "title": "Build Up",
+          "type": "string"
+        },
+        "corner_delivery": {
+          "default": "near_post",
+          "enum": [
+            "near_post",
+            "far_post",
+            "short"
+          ],
+          "title": "Corner Delivery",
+          "type": "string"
+        },
+        "press_height": {
+          "default": "mid",
+          "enum": [
+            "high",
+            "mid",
+            "low"
+          ],
+          "title": "Press Height",
+          "type": "string"
+        },
+        "press_target": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Opponent player_id, or null for none.",
+          "title": "Press Target"
+        }
+      },
+      "required": [
+        "press_height",
+        "press_target",
+        "build_up",
+        "attack_channel",
+        "corner_delivery"
+      ],
+      "title": "Levers",
+      "type": "object"
+    },
+    "MatchMeta": {
+      "additionalProperties": false,
+      "properties": {
+        "attack": {
+          "items": {
+            "$ref": "#/$defs/AttackDirection"
+          },
+          "maxItems": 2,
+          "minItems": 2,
+          "title": "Attack",
+          "type": "array"
+        },
+        "away": {
+          "pattern": "^[A-Z]{3}$",
+          "title": "Away",
+          "type": "string"
+        },
+        "competition": {
+          "default": "Synthetic League (fictional)",
+          "title": "Competition",
+          "type": "string"
+        },
+        "home": {
+          "pattern": "^[A-Z]{3}$",
+          "title": "Home",
+          "type": "string"
+        },
+        "kickoff_label": {
+          "title": "Kickoff Label",
+          "type": "string"
+        },
+        "match_id": {
+          "title": "Match Id",
+          "type": "string"
+        },
+        "precomputed": {
+          "default": true,
+          "description": "The demo bundle is precomputed; the UI must say so.",
+          "title": "Precomputed",
+          "type": "boolean"
+        },
+        "synthetic": {
+          "const": true,
+          "default": true,
+          "title": "Synthetic",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "match_id",
+        "competition",
+        "home",
+        "away",
+        "kickoff_label",
+        "attack",
+        "synthetic",
+        "precomputed"
+      ],
+      "title": "MatchMeta",
+      "type": "object"
+    },
+    "Matrix": {
+      "additionalProperties": false,
+      "properties": {
+        "R": {
+          "minimum": 1,
+          "title": "R",
+          "type": "integer"
+        },
+        "believer": {
+          "anyOf": [
+            {
+              "pattern": "^[A-Z]{3}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Owner of a believed matrix; null for true.",
+          "title": "Believer"
+        },
+        "cells": {
+          "items": {
+            "items": {
+              "$ref": "#/$defs/Cell"
+            },
+            "type": "array"
+          },
+          "title": "Cells",
+          "type": "array"
+        },
+        "col_probs": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Believed matrices: the believer's probabilities over the opponent options.",
+          "title": "Col Probs"
+        },
+        "col_team": {
+          "pattern": "^[A-Z]{3}$",
+          "title": "Col Team",
+          "type": "string"
+        },
+        "cols": {
+          "description": "Column option_ids; cols[0] is Stay.",
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 3,
+          "minItems": 2,
+          "title": "Cols",
+          "type": "array"
+        },
+        "illustrative": {
+          "default": false,
+          "title": "Illustrative",
+          "type": "boolean"
+        },
+        "kind": {
+          "enum": [
+            "believed",
+            "true"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "match_id": {
+          "title": "Match Id",
+          "type": "string"
+        },
+        "matrix_id": {
+          "title": "Matrix Id",
+          "type": "string"
+        },
+        "readings": {
+          "patternProperties": {
+            "^[A-Z]{3}$": {
+              "$ref": "#/$defs/MatrixReading"
+            }
+          },
+          "title": "Readings",
+          "type": "object"
+        },
+        "row_team": {
+          "pattern": "^[A-Z]{3}$",
+          "title": "Row Team",
+          "type": "string"
+        },
+        "rows": {
+          "description": "Row option_ids; rows[0] is Stay.",
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 3,
+          "minItems": 2,
+          "title": "Rows",
+          "type": "array"
+        },
+        "seed": {
+          "title": "Seed",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "matrix_id",
+        "match_id",
+        "kind",
+        "believer",
+        "row_team",
+        "col_team",
+        "rows",
+        "cols",
+        "col_probs",
+        "cells",
+        "R",
+        "seed",
+        "readings",
+        "illustrative"
+      ],
+      "title": "Matrix",
+      "type": "object"
+    },
+    "MatrixReading": {
+      "additionalProperties": false,
+      "description": "How one team reads the matrix (computed in code, see engine.duel).",
+      "properties": {
+        "best_guess": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Only when column probabilities are known.",
+          "title": "Best Guess"
+        },
+        "best_response": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Opponent option_id -> this team's best option_id.",
+          "title": "Best Response",
+          "type": "object"
+        },
+        "dominant": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Dominant"
+        },
+        "gamble": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Gamble"
+        },
+        "safe_pick": {
+          "title": "Safe Pick",
+          "type": "string"
+        },
+        "team": {
+          "pattern": "^[A-Z]{3}$",
+          "title": "Team",
+          "type": "string"
+        }
+      },
+      "required": [
+        "team",
+        "best_response",
+        "safe_pick",
+        "best_guess",
+        "gamble",
+        "dominant"
+      ],
+      "title": "MatrixReading",
+      "type": "object"
+    },
+    "OpponentOptionsEstimate": {
+      "additionalProperties": false,
+      "properties": {
+        "claims": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Claims",
+          "type": "array"
+        },
+        "estimator": {
+          "pattern": "^[A-Z]{3}$",
+          "title": "Estimator",
+          "type": "string"
+        },
+        "opponent": {
+          "pattern": "^[A-Z]{3}$",
+          "title": "Opponent",
+          "type": "string"
+        },
+        "options": {
+          "items": {
+            "$ref": "#/$defs/EstimatedOption"
+          },
+          "maxItems": 3,
+          "minItems": 2,
+          "title": "Options",
+          "type": "array"
+        }
+      },
+      "required": [
+        "estimator",
+        "opponent",
+        "options",
+        "claims"
+      ],
+      "title": "OpponentOptionsEstimate",
+      "type": "object"
+    },
+    "Option": {
+      "additionalProperties": false,
+      "properties": {
+        "estimated": {
+          "default": false,
+          "description": "True when this is an analyst's guess of the OPPONENT.",
+          "title": "Estimated",
+          "type": "boolean"
+        },
+        "evidence": {
+          "description": "claim_ids that justify the option.",
+          "items": {
+            "type": "string"
+          },
+          "title": "Evidence",
+          "type": "array"
+        },
+        "intent": {
+          "enum": [
+            "stay_the_course",
+            "press_higher",
+            "drop_block",
+            "go_direct",
+            "short_build_up",
+            "attacking_subs",
+            "protect_lead",
+            "target_weak_side"
+          ],
+          "title": "Intent",
+          "type": "string"
+        },
+        "label": {
+          "$ref": "#/$defs/I18nText"
+        },
+        "lever_changes": {
+          "$ref": "#/$defs/LeverChanges"
+        },
+        "option_id": {
+          "title": "Option Id",
+          "type": "string"
+        },
+        "subs": {
+          "items": {
+            "$ref": "#/$defs/Sub"
+          },
+          "maxItems": 3,
+          "title": "Subs",
+          "type": "array"
+        },
+        "team": {
+          "pattern": "^[A-Z]{3}$",
+          "title": "Team",
+          "type": "string"
+        }
+      },
+      "required": [
+        "option_id",
+        "team",
+        "label",
+        "intent",
+        "lever_changes",
+        "subs",
+        "evidence",
+        "estimated"
+      ],
+      "title": "Option",
+      "type": "object"
+    },
+    "Plan": {
+      "additionalProperties": false,
+      "properties": {
+        "kpis": {
+          "items": {
+            "$ref": "#/$defs/Kpi"
+          },
+          "maxItems": 6,
+          "minItems": 1,
+          "title": "Kpis",
+          "type": "array"
+        },
+        "lever_evidence": {
+          "additionalProperties": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "description": "Lever name -> claim_ids. Every non-default lever needs one.",
+          "title": "Lever Evidence",
+          "type": "object"
+        },
+        "levers": {
+          "$ref": "#/$defs/Levers"
+        },
+        "name": {
+          "$ref": "#/$defs/I18nText"
+        },
+        "opponent": {
+          "pattern": "^[A-Z]{3}$",
+          "title": "Opponent",
+          "type": "string"
+        },
+        "plan_b": {
+          "items": {
+            "$ref": "#/$defs/PlanBRule"
+          },
+          "title": "Plan B",
+          "type": "array"
+        },
+        "plan_id": {
+          "title": "Plan Id",
+          "type": "string"
+        },
+        "sealed": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Seal"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "subs_plan": {
+          "items": {
+            "$ref": "#/$defs/Sub"
+          },
+          "maxItems": 5,
+          "title": "Subs Plan",
+          "type": "array"
+        },
+        "team": {
+          "pattern": "^[A-Z]{3}$",
+          "title": "Team",
+          "type": "string"
+        },
+        "valuation": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "claim_id of the sim_valuation claim.",
+          "title": "Valuation"
+        }
+      },
+      "required": [
+        "plan_id",
+        "team",
+        "opponent",
+        "name",
+        "levers",
+        "lever_evidence",
+        "kpis",
+        "plan_b",
+        "subs_plan",
+        "valuation",
+        "sealed"
+      ],
+      "title": "Plan",
+      "type": "object"
+    },
+    "PlanBAction": {
+      "additionalProperties": false,
+      "properties": {
+        "levers": {
+          "$ref": "#/$defs/LeverChanges"
+        },
+        "subs": {
+          "items": {
+            "$ref": "#/$defs/Sub"
+          },
+          "title": "Subs",
+          "type": "array"
+        }
+      },
+      "required": [
+        "levers",
+        "subs"
+      ],
+      "title": "PlanBAction",
+      "type": "object"
+    },
+    "PlanBCondition": {
+      "additionalProperties": false,
+      "properties": {
+        "after_minute": {
+          "anyOf": [
+            {
+              "maximum": 90,
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "After Minute"
+        },
+        "kpi": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Kpi"
+        },
+        "score_diff": {
+          "anyOf": [
+            {
+              "pattern": "^(>=|<=|>|<|==)-?\\d+$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Score Diff"
+        },
+        "status": {
+          "anyOf": [
+            {
+              "enum": [
+                "on_track",
+                "at_risk",
+                "failing",
+                "insufficient_evidence"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Status"
+        }
+      },
+      "required": [
+        "kpi",
+        "status",
+        "after_minute",
+        "score_diff"
+      ],
+      "title": "PlanBCondition",
+      "type": "object"
+    },
+    "PlanBRule": {
+      "additionalProperties": false,
+      "properties": {
+        "if": {
+          "$ref": "#/$defs/PlanBCondition"
+        },
+        "then": {
+          "$ref": "#/$defs/PlanBAction"
+        }
+      },
+      "required": [
+        "if",
+        "then"
+      ],
+      "title": "PlanBRule",
+      "type": "object"
+    },
+    "Player": {
+      "additionalProperties": false,
+      "properties": {
+        "attributes": {
+          "$ref": "#/$defs/Attributes"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "player_id": {
+          "pattern": "^[A-Z]{3}-\\d{1,2}$",
+          "title": "Player Id",
+          "type": "string"
+        },
+        "position": {
+          "enum": [
+            "GK",
+            "RB",
+            "CB",
+            "LB",
+            "DM",
+            "CM",
+            "AM",
+            "RW",
+            "LW",
+            "ST"
+          ],
+          "title": "Position",
+          "type": "string"
+        },
+        "shirt": {
+          "maximum": 99,
+          "minimum": 1,
+          "title": "Shirt",
+          "type": "integer"
+        },
+        "starter": {
+          "title": "Starter",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "player_id",
+        "name",
+        "shirt",
+        "position",
+        "starter",
+        "attributes"
+      ],
+      "title": "Player",
+      "type": "object"
+    },
+    "Regret": {
+      "additionalProperties": false,
+      "properties": {
+        "best_response": {
+          "title": "Best Response",
+          "type": "string"
+        },
+        "chosen": {
+          "title": "Chosen",
+          "type": "string"
+        },
+        "claim_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Claim Id"
+        },
+        "opponent_chosen": {
+          "title": "Opponent Chosen",
+          "type": "string"
+        },
+        "regret_xpts": {
+          "description": "xPts(best response) - xPts(chosen) on the true matrix; >= 0.",
+          "title": "Regret Xpts",
+          "type": "number"
+        },
+        "team": {
+          "pattern": "^[A-Z]{3}$",
+          "title": "Team",
+          "type": "string"
+        }
+      },
+      "required": [
+        "team",
+        "chosen",
+        "opponent_chosen",
+        "best_response",
+        "regret_xpts",
+        "claim_id"
+      ],
+      "title": "Regret",
+      "type": "object"
+    },
+    "RenderFrame": {
+      "additionalProperties": false,
+      "description": "Visual layer only (ball-anchored shapes). No metric is computed from these positions.",
+      "properties": {
+        "ball": {
+          "maxItems": 2,
+          "minItems": 2,
+          "prefixItems": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "title": "Ball",
+          "type": "array"
+        },
+        "players": {
+          "additionalProperties": {
+            "maxItems": 2,
+            "minItems": 2,
+            "prefixItems": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "type": "array"
+          },
+          "title": "Players",
+          "type": "object"
+        },
+        "t": {
+          "minimum": 0,
+          "title": "T",
+          "type": "number"
+        }
+      },
+      "required": [
+        "t",
+        "ball",
+        "players"
+      ],
+      "title": "RenderFrame",
+      "type": "object"
+    },
+    "RevealedChoice": {
+      "additionalProperties": false,
+      "properties": {
+        "option_id": {
+          "title": "Option Id",
+          "type": "string"
+        },
+        "rule": {
+          "enum": [
+            "safe_pick",
+            "best_guess",
+            "gamble"
+          ],
+          "title": "Rule",
+          "type": "string"
+        },
+        "salt": {
+          "minLength": 16,
+          "title": "Salt",
+          "type": "string"
+        },
+        "team": {
+          "pattern": "^[A-Z]{3}$",
+          "title": "Team",
+          "type": "string"
+        }
+      },
+      "required": [
+        "team",
+        "option_id",
+        "salt",
+        "rule"
+      ],
+      "title": "RevealedChoice",
+      "type": "object"
+    },
+    "Seal": {
+      "additionalProperties": false,
+      "description": "Commit of the canonical plan JSON (everything except `sealed`). See contracts.sealing.",
+      "properties": {
+        "at": {
+          "title": "At",
+          "type": "string"
+        },
+        "sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Sha256",
+          "type": "string"
+        }
+      },
+      "required": [
+        "at",
+        "sha256"
+      ],
+      "title": "Seal",
+      "type": "object"
+    },
+    "SealedChoice": {
+      "additionalProperties": false,
+      "description": "Commit only: the option and salt stay hidden until the reveal (see contracts.sealing).",
+      "properties": {
+        "sealed_at": {
+          "title": "Sealed At",
+          "type": "string"
+        },
+        "sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Sha256",
+          "type": "string"
+        },
+        "team": {
+          "pattern": "^[A-Z]{3}$",
+          "title": "Team",
+          "type": "string"
+        }
+      },
+      "required": [
+        "team",
+        "sealed_at",
+        "sha256"
+      ],
+      "title": "SealedChoice",
+      "type": "object"
+    },
+    "Snapshot": {
+      "additionalProperties": false,
+      "properties": {
+        "active_levers": {
+          "patternProperties": {
+            "^[A-Z]{3}$": {
+              "$ref": "#/$defs/Levers"
+            }
+          },
+          "title": "Active Levers",
+          "type": "object"
+        },
+        "condition_est": {
+          "additionalProperties": {
+            "type": "number"
+          },
+          "description": "player_id -> 0..1 (estimate).",
+          "title": "Condition Est",
+          "type": "object"
+        },
+        "kpis": {
+          "items": {
+            "$ref": "#/$defs/KpiStatus"
+          },
+          "title": "Kpis",
+          "type": "array"
+        },
+        "match_id": {
+          "title": "Match Id",
+          "type": "string"
+        },
+        "minute": {
+          "maximum": 130,
+          "minimum": 0,
+          "title": "Minute",
+          "type": "integer"
+        },
+        "on_pitch": {
+          "patternProperties": {
+            "^[A-Z]{3}$": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          },
+          "title": "On Pitch",
+          "type": "object"
+        },
+        "period": {
+          "enum": [
+            1,
+            2
+          ],
+          "title": "Period",
+          "type": "integer"
+        },
+        "score": {
+          "patternProperties": {
+            "^[A-Z]{3}$": {
+              "type": "integer"
+            }
+          },
+          "title": "Score",
+          "type": "object"
+        },
+        "sub_windows_used": {
+          "patternProperties": {
+            "^[A-Z]{3}$": {
+              "type": "integer"
+            }
+          },
+          "title": "Sub Windows Used",
+          "type": "object"
+        },
+        "subs_used": {
+          "patternProperties": {
+            "^[A-Z]{3}$": {
+              "type": "integer"
+            }
+          },
+          "title": "Subs Used",
+          "type": "object"
+        }
+      },
+      "required": [
+        "match_id",
+        "minute",
+        "period",
+        "score",
+        "subs_used",
+        "sub_windows_used",
+        "on_pitch",
+        "condition_est",
+        "active_levers",
+        "kpis"
+      ],
+      "title": "Snapshot",
+      "type": "object"
+    },
+    "Squad": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "players": {
+          "items": {
+            "$ref": "#/$defs/Player"
+          },
+          "minItems": 11,
+          "title": "Players",
+          "type": "array"
+        },
+        "short_name": {
+          "title": "Short Name",
+          "type": "string"
+        },
+        "team": {
+          "pattern": "^[A-Z]{3}$",
+          "title": "Team",
+          "type": "string"
+        }
+      },
+      "required": [
+        "team",
+        "name",
+        "short_name",
+        "players"
+      ],
+      "title": "Squad",
+      "type": "object"
+    },
+    "Squads": {
+      "additionalProperties": false,
+      "properties": {
+        "teams": {
+          "patternProperties": {
+            "^[A-Z]{3}$": {
+              "$ref": "#/$defs/Squad"
+            }
+          },
+          "title": "Teams",
+          "type": "object"
+        }
+      },
+      "required": [
+        "teams"
+      ],
+      "title": "Squads",
+      "type": "object"
+    },
+    "Sub": {
+      "additionalProperties": false,
+      "properties": {
+        "in": {
+          "title": "In",
+          "type": "string"
+        },
+        "out": {
+          "title": "Out",
+          "type": "string"
+        },
+        "window": {
+          "description": "'HT' or a minute window like '60-65'.",
+          "pattern": "^(HT|\\d{1,2}-\\d{1,2})$",
+          "title": "Window",
+          "type": "string"
+        }
+      },
+      "required": [
+        "window",
+        "out",
+        "in"
+      ],
+      "title": "Sub",
+      "type": "object"
+    },
+    "TeamDuelPrivate": {
+      "additionalProperties": false,
+      "properties": {
+        "believed_matrix": {
+          "$ref": "#/$defs/Matrix"
+        },
+        "choice": {
+          "$ref": "#/$defs/SealedChoice"
+        },
+        "opponent_estimate": {
+          "$ref": "#/$defs/OpponentOptionsEstimate"
+        },
+        "options": {
+          "description": "options[0] is Stay the course.",
+          "items": {
+            "$ref": "#/$defs/Option"
+          },
+          "maxItems": 3,
+          "minItems": 2,
+          "title": "Options",
+          "type": "array"
+        },
+        "team": {
+          "pattern": "^[A-Z]{3}$",
+          "title": "Team",
+          "type": "string"
+        }
+      },
+      "required": [
+        "team",
+        "options",
+        "opponent_estimate",
+        "believed_matrix",
+        "choice"
+      ],
+      "title": "TeamDuelPrivate",
+      "type": "object"
+    },
+    "TraceStep": {
+      "additionalProperties": false,
+      "properties": {
+        "agent": {
+          "enum": [
+            "analyst",
+            "manager",
+            "director",
+            "chronicler",
+            "localizer",
+            "validator"
+          ],
+          "title": "Agent",
+          "type": "string"
+        },
+        "args": {
+          "additionalProperties": true,
+          "title": "Args",
+          "type": "object"
+        },
+        "duration_ms": {
+          "minimum": 0,
+          "title": "Duration Ms",
+          "type": "integer"
+        },
+        "message": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Message"
+        },
+        "result_claims": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Result Claims",
+          "type": "array"
+        },
+        "scope": {
+          "pattern": "^([A-Z]{3}|broadcast)$",
+          "title": "Scope",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "ok",
+            "rejected",
+            "retried",
+            "fallback"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "step": {
+          "minimum": 0,
+          "title": "Step",
+          "type": "integer"
+        },
+        "tool": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Tool"
+        },
+        "trace_id": {
+          "title": "Trace Id",
+          "type": "string"
+        },
+        "workflow": {
+          "enum": [
+            "prematch",
+            "live",
+            "duel",
+            "final"
+          ],
+          "title": "Workflow",
+          "type": "string"
+        }
+      },
+      "required": [
+        "trace_id",
+        "workflow",
+        "agent",
+        "scope",
+        "step",
+        "tool",
+        "args",
+        "result_claims",
+        "duration_ms",
+        "status",
+        "message"
+      ],
+      "title": "TraceStep",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "claims": {
+      "items": {
+        "$ref": "#/$defs/Claim"
+      },
+      "title": "Claims",
+      "type": "array"
+    },
+    "cues": {
+      "items": {
+        "$ref": "#/$defs/Cue"
+      },
+      "title": "Cues",
+      "type": "array"
+    },
+    "duel": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/Duel"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "eval": {
+      "additionalProperties": true,
+      "description": "Aggregated E1..E8 results for the panel.",
+      "title": "Eval",
+      "type": "object"
+    },
+    "events": {
+      "items": {
+        "$ref": "#/$defs/Event"
+      },
+      "title": "Events",
+      "type": "array"
+    },
+    "illustrative": {
+      "default": false,
+      "description": "True for fixture bundles (hand-made, not simulated).",
+      "title": "Illustrative",
+      "type": "boolean"
+    },
+    "meta": {
+      "$ref": "#/$defs/MatchMeta"
+    },
+    "plans": {
+      "patternProperties": {
+        "^[A-Z]{3}$": {
+          "$ref": "#/$defs/Plan"
+        }
+      },
+      "title": "Plans",
+      "type": "object"
+    },
+    "render_frames": {
+      "items": {
+        "$ref": "#/$defs/RenderFrame"
+      },
+      "title": "Render Frames",
+      "type": "array"
+    },
+    "schema_version": {
+      "default": "0.1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "snapshots": {
+      "items": {
+        "$ref": "#/$defs/Snapshot"
+      },
+      "title": "Snapshots",
+      "type": "array"
+    },
+    "squads": {
+      "$ref": "#/$defs/Squads"
+    },
+    "traces": {
+      "items": {
+        "$ref": "#/$defs/TraceStep"
+      },
+      "title": "Traces",
+      "type": "array"
+    }
+  },
+  "required": [
+    "schema_version",
+    "meta",
+    "squads",
+    "events",
+    "snapshots",
+    "render_frames",
+    "plans",
+    "duel",
+    "claims",
+    "cues",
+    "traces",
+    "eval",
+    "illustrative"
+  ],
+  "title": "MatchBundle",
+  "type": "object"
+}

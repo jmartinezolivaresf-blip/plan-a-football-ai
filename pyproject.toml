@@ -1,0 +1,46 @@
+[project]
+name = "plan-a"
+version = "0.1.0"
+description = "Plan A: The Battle of the Benches. Multi-agent match intelligence on synthetic football data."
+readme = "README.md"
+requires-python = ">=3.12,<3.13"
+license = { text = "MIT" }
+dependencies = [
+    "pydantic>=2.7,<3",
+    "numpy>=2.0,<3",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8",
+    "jsonschema>=4.22",
+    "ruff>=0.6",
+]
+# Person B (H1). Latest releases on PyPI as of 2026-10-23; not installed by `make setup` yet.
+agents = [
+    "agent-framework==1.23.0",
+    "mcp==2.3.0",
+    "azure-ai-projects==2.9.0",
+    "azure-identity==1.26.0",
+]
+
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["contracts*", "fixtures*", "sim*", "engine*", "eval*", "mcp_server*", "agents*"]
+
+[tool.setuptools.package-data]
+contracts = ["schemas/*.json", "schemas/eval_only/*.json"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.ruff]
+line-length = 120
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]

@@ -1,0 +1,211 @@
+{
+  "$defs": {
+    "I18nText": {
+      "additionalProperties": false,
+      "properties": {
+        "en": {
+          "title": "En",
+          "type": "string"
+        },
+        "es": {
+          "title": "Es",
+          "type": "string"
+        }
+      },
+      "required": [
+        "en",
+        "es"
+      ],
+      "title": "I18nText",
+      "type": "object"
+    },
+    "LeverChanges": {
+      "additionalProperties": false,
+      "description": "Partial levers: only the fields an option or a Plan B rule changes.",
+      "properties": {
+        "attack_channel": {
+          "anyOf": [
+            {
+              "enum": [
+                "left",
+                "center",
+                "right",
+                "balanced"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Attack Channel"
+        },
+        "build_up": {
+          "anyOf": [
+            {
+              "enum": [
+                "short",
+                "mixed",
+                "direct"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Build Up"
+        },
+        "corner_delivery": {
+          "anyOf": [
+            {
+              "enum": [
+                "near_post",
+                "far_post",
+                "short"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Corner Delivery"
+        },
+        "press_height": {
+          "anyOf": [
+            {
+              "enum": [
+                "high",
+                "mid",
+                "low"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Press Height"
+        },
+        "press_target": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Press Target"
+        }
+      },
+      "required": [
+        "press_height",
+        "press_target",
+        "build_up",
+        "attack_channel",
+        "corner_delivery"
+      ],
+      "title": "LeverChanges",
+      "type": "object"
+    },
+    "Sub": {
+      "additionalProperties": false,
+      "properties": {
+        "in": {
+          "title": "In",
+          "type": "string"
+        },
+        "out": {
+          "title": "Out",
+          "type": "string"
+        },
+        "window": {
+          "description": "'HT' or a minute window like '60-65'.",
+          "pattern": "^(HT|\\d{1,2}-\\d{1,2})$",
+          "title": "Window",
+          "type": "string"
+        }
+      },
+      "required": [
+        "window",
+        "out",
+        "in"
+      ],
+      "title": "Sub",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "estimated": {
+      "default": false,
+      "description": "True when this is an analyst's guess of the OPPONENT.",
+      "title": "Estimated",
+      "type": "boolean"
+    },
+    "evidence": {
+      "description": "claim_ids that justify the option.",
+      "items": {
+        "type": "string"
+      },
+      "title": "Evidence",
+      "type": "array"
+    },
+    "intent": {
+      "enum": [
+        "stay_the_course",
+        "press_higher",
+        "drop_block",
+        "go_direct",
+        "short_build_up",
+        "attacking_subs",
+        "protect_lead",
+        "target_weak_side"
+      ],
+      "title": "Intent",
+      "type": "string"
+    },
+    "label": {
+      "$ref": "#/$defs/I18nText"
+    },
+    "lever_changes": {
+      "$ref": "#/$defs/LeverChanges"
+    },
+    "option_id": {
+      "title": "Option Id",
+      "type": "string"
+    },
+    "subs": {
+      "items": {
+        "$ref": "#/$defs/Sub"
+      },
+      "maxItems": 3,
+      "title": "Subs",
+      "type": "array"
+    },
+    "team": {
+      "pattern": "^[A-Z]{3}$",
+      "title": "Team",
+      "type": "string"
+    }
+  },
+  "required": [
+    "option_id",
+    "team",
+    "label",
+    "intent",
+    "lever_changes",
+    "subs",
+    "evidence",
+    "estimated"
+  ],
+  "title": "Option",
+  "type": "object"
+}

@@ -1,0 +1,159 @@
+{
+  "$defs": {
+    "Attributes": {
+      "additionalProperties": false,
+      "properties": {
+        "aerial": {
+          "maximum": 100,
+          "minimum": 0,
+          "title": "Aerial",
+          "type": "integer"
+        },
+        "finishing": {
+          "maximum": 100,
+          "minimum": 0,
+          "title": "Finishing",
+          "type": "integer"
+        },
+        "pace": {
+          "maximum": 100,
+          "minimum": 0,
+          "title": "Pace",
+          "type": "integer"
+        },
+        "passing": {
+          "maximum": 100,
+          "minimum": 0,
+          "title": "Passing",
+          "type": "integer"
+        },
+        "press_resistance": {
+          "maximum": 100,
+          "minimum": 0,
+          "title": "Press Resistance",
+          "type": "integer"
+        },
+        "stamina": {
+          "maximum": 100,
+          "minimum": 0,
+          "title": "Stamina",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "pace",
+        "passing",
+        "stamina",
+        "press_resistance",
+        "aerial",
+        "finishing"
+      ],
+      "title": "Attributes",
+      "type": "object"
+    },
+    "Player": {
+      "additionalProperties": false,
+      "properties": {
+        "attributes": {
+          "$ref": "#/$defs/Attributes"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "player_id": {
+          "pattern": "^[A-Z]{3}-\\d{1,2}$",
+          "title": "Player Id",
+          "type": "string"
+        },
+        "position": {
+          "enum": [
+            "GK",
+            "RB",
+            "CB",
+            "LB",
+            "DM",
+            "CM",
+            "AM",
+            "RW",
+            "LW",
+            "ST"
+          ],
+          "title": "Position",
+          "type": "string"
+        },
+        "shirt": {
+          "maximum": 99,
+          "minimum": 1,
+          "title": "Shirt",
+          "type": "integer"
+        },
+        "starter": {
+          "title": "Starter",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "player_id",
+        "name",
+        "shirt",
+        "position",
+        "starter",
+        "attributes"
+      ],
+      "title": "Player",
+      "type": "object"
+    },
+    "Squad": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "players": {
+          "items": {
+            "$ref": "#/$defs/Player"
+          },
+          "minItems": 11,
+          "title": "Players",
+          "type": "array"
+        },
+        "short_name": {
+          "title": "Short Name",
+          "type": "string"
+        },
+        "team": {
+          "pattern": "^[A-Z]{3}$",
+          "title": "Team",
+          "type": "string"
+        }
+      },
+      "required": [
+        "team",
+        "name",
+        "short_name",
+        "players"
+      ],
+      "title": "Squad",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "teams": {
+      "patternProperties": {
+        "^[A-Z]{3}$": {
+          "$ref": "#/$defs/Squad"
+        }
+      },
+      "title": "Teams",
+      "type": "object"
+    }
+  },
+  "required": [
+    "teams"
+  ],
+  "title": "Squads",
+  "type": "object"
+}

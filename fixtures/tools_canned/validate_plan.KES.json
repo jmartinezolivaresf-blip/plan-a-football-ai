@@ -1,0 +1,14 @@
+{
+ "tool": "validate_plan",
+ "scope": "KES",
+ "args": {
+  "option_id": "KES-HT-C"
+ },
+ "response": {
+  "ok": false,
+  "errors": [
+   "KES-14 is not on the pitch (bench player cannot be subbed off)"
+  ]
+ },
+ "illustrative": true
+}

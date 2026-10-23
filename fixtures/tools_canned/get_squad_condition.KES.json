@@ -1,0 +1,300 @@
+{
+ "tool": "get_squad_condition",
+ "scope": "KES",
+ "args": {
+  "minute": 45
+ },
+ "response": {
+  "squad": {
+   "team": "KES",
+   "name": "Kestrel Athletic",
+   "short_name": "Kestrel",
+   "players": [
+    {
+     "player_id": "KES-1",
+     "name": "Aldous Venn",
+     "shirt": 1,
+     "position": "GK",
+     "starter": true,
+     "attributes": {
+      "pace": 68,
+      "passing": 70,
+      "stamina": 76,
+      "press_resistance": 63,
+      "aerial": 74,
+      "finishing": 42
+     }
+    },
+    {
+     "player_id": "KES-2",
+     "name": "Rory Tamsin",
+     "shirt": 2,
+     "position": "RB",
+     "starter": true,
+     "attributes": {
+      "pace": 80,
+      "passing": 71,
+      "stamina": 67,
+      "press_resistance": 63,
+      "aerial": 64,
+      "finishing": 46
+     }
+    },
+    {
+     "player_id": "KES-3",
+     "name": "Ezra Halloway",
+     "shirt": 3,
+     "position": "CB",
+     "starter": true,
+     "attributes": {
+      "pace": 58,
+      "passing": 58,
+      "stamina": 63,
+      "press_resistance": 72,
+      "aerial": 82,
+      "finishing": 42
+     }
+    },
+    {
+     "player_id": "KES-4",
+     "name": "Milo Quarrie",
+     "shirt": 4,
+     "position": "CB",
+     "starter": true,
+     "attributes": {
+      "pace": 54,
+      "passing": 72,
+      "stamina": 64,
+      "press_resistance": 61,
+      "aerial": 69,
+      "finishing": 43
+     }
+    },
+    {
+     "player_id": "KES-5",
+     "name": "Theo Brannock",
+     "shirt": 5,
+     "position": "LB",
+     "starter": true,
+     "attributes": {
+      "pace": 71,
+      "passing": 56,
+      "stamina": 76,
+      "press_resistance": 70,
+      "aerial": 64,
+      "finishing": 43
+     }
+    },
+    {
+     "player_id": "KES-6",
+     "name": "Jasper Lund",
+     "shirt": 6,
+     "position": "DM",
+     "starter": true,
+     "attributes": {
+      "pace": 70,
+      "passing": 73,
+      "stamina": 71,
+      "press_resistance": 75,
+      "aerial": 50,
+      "finishing": 39
+     }
+    },
+    {
+     "player_id": "KES-7",
+     "name": "Callum Reave",
+     "shirt": 7,
+     "position": "CM",
+     "starter": true,
+     "attributes": {
+      "pace": 68,
+      "passing": 74,
+      "stamina": 75,
+      "press_resistance": 62,
+      "aerial": 58,
+      "finishing": 47
+     }
+    },
+    {
+     "player_id": "KES-8",
+     "name": "Ilan Mercer",
+     "shirt": 8,
+     "position": "CM",
+     "starter": true,
+     "attributes": {
+      "pace": 61,
+      "passing": 82,
+      "stamina": 71,
+      "press_resistance": 60,
+      "aerial": 52,
+      "finishing": 40
+     }
+    },
+    {
+     "player_id": "KES-9",
+     "name": "Dorian Faulk",
+     "shirt": 9,
+     "position": "RW",
+     "starter": true,
+     "attributes": {
+      "pace": 76,
+      "passing": 59,
+      "stamina": 71,
+      "press_resistance": 72,
+      "aerial": 52,
+      "finishing": 68
+     }
+    },
+    {
+     "player_id": "KES-10",
+     "name": "Silas Okoro",
+     "shirt": 10,
+     "position": "ST",
+     "starter": true,
+     "attributes": {
+      "pace": 64,
+      "passing": 62,
+      "stamina": 68,
+      "press_resistance": 61,
+      "aerial": 83,
+      "finishing": 80
+     }
+    },
+    {
+     "player_id": "KES-11",
+     "name": "Wren Castell",
+     "shirt": 11,
+     "position": "LW",
+     "starter": true,
+     "attributes": {
+      "pace": 76,
+      "passing": 69,
+      "stamina": 64,
+      "press_resistance": 66,
+      "aerial": 58,
+      "finishing": 78
+     }
+    },
+    {
+     "player_id": "KES-12",
+     "name": "Bram Ellery",
+     "shirt": 12,
+     "position": "GK",
+     "starter": false,
+     "attributes": {
+      "pace": 56,
+      "passing": 65,
+      "stamina": 72,
+      "press_resistance": 47,
+      "aerial": 81,
+      "finishing": 40
+     }
+    },
+    {
+     "player_id": "KES-13",
+     "name": "Otis Harrow",
+     "shirt": 13,
+     "position": "CB",
+     "starter": false,
+     "attributes": {
+      "pace": 58,
+      "passing": 63,
+      "stamina": 65,
+      "press_resistance": 60,
+      "aerial": 69,
+      "finishing": 51
+     }
+    },
+    {
+     "player_id": "KES-14",
+     "name": "Lev Dunmore",
+     "shirt": 14,
+     "position": "LB",
+     "starter": false,
+     "attributes": {
+      "pace": 79,
+      "passing": 61,
+      "stamina": 68,
+      "press_resistance": 74,
+      "aerial": 66,
+      "finishing": 43
+     }
+    },
+    {
+     "player_id": "KES-15",
+     "name": "Fenn Asquith",
+     "shirt": 15,
+     "position": "CM",
+     "starter": false,
+     "attributes": {
+      "pace": 58,
+      "passing": 79,
+      "stamina": 74,
+      "press_resistance": 63,
+      "aerial": 62,
+      "finishing": 50
+     }
+    },
+    {
+     "player_id": "KES-16",
+     "name": "Rafe Selden",
+     "shirt": 16,
+     "position": "RW",
+     "starter": false,
+     "attributes": {
+      "pace": 70,
+      "passing": 56,
+      "stamina": 70,
+      "press_resistance": 69,
+      "aerial": 50,
+      "finishing": 74
+     }
+    },
+    {
+     "player_id": "KES-17",
+     "name": "Kit Morrow",
+     "shirt": 17,
+     "position": "LW",
+     "starter": false,
+     "attributes": {
+      "pace": 69,
+      "passing": 68,
+      "stamina": 65,
+      "press_resistance": 61,
+      "aerial": 54,
+      "finishing": 74
+     }
+    },
+    {
+     "player_id": "KES-18",
+     "name": "Ansel Prior",
+     "shirt": 18,
+     "position": "ST",
+     "starter": false,
+     "attributes": {
+      "pace": 78,
+      "passing": 64,
+      "stamina": 62,
+      "press_resistance": 70,
+      "aerial": 77,
+      "finishing": 80
+     }
+    }
+   ]
+  },
+  "condition_est": {
+   "KES-1": 0.843,
+   "KES-2": 0.843,
+   "KES-3": 0.843,
+   "KES-4": 0.843,
+   "KES-5": 0.843,
+   "KES-6": 0.843,
+   "KES-7": 0.843,
+   "KES-8": 0.843,
+   "KES-9": 0.843,
+   "KES-10": 0.843,
+   "KES-11": 0.843
+  }
+ },
+ "illustrative": true
+}

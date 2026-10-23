@@ -1,0 +1,326 @@
+{
+ "plans": {
+  "KES": {
+   "plan_id": "KES-A",
+   "team": "KES",
+   "opponent": "HAR",
+   "name": {
+    "en": "Squeeze the left-back",
+    "es": "Asfixiar a su lateral izquierdo"
+   },
+   "levers": {
+    "press_height": "high",
+    "press_target": "HAR-5",
+    "build_up": "mixed",
+    "attack_channel": "right",
+    "corner_delivery": "far_post"
+   },
+   "lever_evidence": {
+    "press_height": [
+     "c_sc_01"
+    ],
+    "press_target": [
+     "c_sc_03"
+    ],
+    "attack_channel": [
+     "c_sc_05"
+    ],
+    "corner_delivery": [
+     "c_sp_02"
+    ]
+   },
+   "kpis": [
+    {
+     "id": "k1",
+     "metric": "high_turnovers",
+     "params": {},
+     "target": ">=6",
+     "by_minute": 45
+    },
+    {
+     "id": "k2",
+     "metric": "final_third_entries_share",
+     "params": {
+      "channel": "right"
+     },
+     "target": ">=0.40",
+     "by_minute": 90
+    },
+    {
+     "id": "k3",
+     "metric": "set_piece_xg",
+     "params": {},
+     "target": ">=0.30",
+     "by_minute": 90
+    }
+   ],
+   "plan_b": [
+    {
+     "if": {
+      "kpi": "k1",
+      "status": "failing",
+      "after_minute": 30,
+      "score_diff": null
+     },
+     "then": {
+      "levers": {
+       "press_height": "mid",
+       "press_target": null,
+       "build_up": null,
+       "attack_channel": null,
+       "corner_delivery": null
+      },
+      "subs": []
+     }
+    }
+   ],
+   "subs_plan": [
+    {
+     "window": "60-65",
+     "out": "KES-11",
+     "in": "KES-17"
+    }
+   ],
+   "valuation": "c_sim_21",
+   "sealed": {
+    "at": "14:58:03",
+    "sha256": "500b68697bf50b20a41652c1fa06fcb0dbd26bfd25cccb3fb8fadf58d383ee18"
+   }
+  },
+  "HAR": {
+   "plan_id": "HAR-A",
+   "team": "HAR",
+   "opponent": "KES",
+   "name": {
+    "en": "Go over the press",
+    "es": "Saltar la presión"
+   },
+   "levers": {
+    "press_height": "mid",
+    "press_target": null,
+    "build_up": "short",
+    "attack_channel": "center",
+    "corner_delivery": "near_post"
+   },
+   "lever_evidence": {
+    "build_up": [
+     "c_sc_11"
+    ],
+    "attack_channel": [
+     "c_sc_12"
+    ]
+   },
+   "kpis": [
+    {
+     "id": "h1",
+     "metric": "final_third_entries_share",
+     "params": {
+      "channel": "center"
+     },
+     "target": ">=0.35",
+     "by_minute": 90
+    },
+    {
+     "id": "h2",
+     "metric": "balls_in_behind_conceded",
+     "params": {},
+     "target": "<=3",
+     "by_minute": 90
+    }
+   ],
+   "plan_b": [
+    {
+     "if": {
+      "kpi": "h1",
+      "status": "failing",
+      "after_minute": 25,
+      "score_diff": null
+     },
+     "then": {
+      "levers": {
+       "press_height": null,
+       "press_target": null,
+       "build_up": "direct",
+       "attack_channel": null,
+       "corner_delivery": null
+      },
+      "subs": []
+     }
+    }
+   ],
+   "subs_plan": [],
+   "valuation": "c_sim_22",
+   "sealed": {
+    "at": "14:58:03",
+    "sha256": "e1baad0598dc149e429ace6e9d0100c2e417f552f826a77ab6f0bd2c6aecdc18"
+   }
+  }
+ },
+ "claims": [
+  {
+   "claim_id": "c_sc_01",
+   "type": "observed_tendency",
+   "team": "HAR",
+   "player_id": null,
+   "metric": "goal_kick_short_share",
+   "value": 0.78,
+   "unit": null,
+   "league_ref": 0.55,
+   "n": 64,
+   "interval_low": null,
+   "interval_high": null,
+   "target": null,
+   "minute": null,
+   "label": null,
+   "evidence": [
+    "season:HAR:goal_kicks"
+   ],
+   "status": "sufficient",
+   "illustrative": true
+  },
+  {
+   "claim_id": "c_sc_03",
+   "type": "observed_tendency",
+   "team": "HAR",
+   "player_id": "HAR-5",
+   "metric": "losses_per_100_pressured_receptions",
+   "value": 31.7,
+   "unit": null,
+   "league_ref": 15.2,
+   "n": 41,
+   "interval_low": null,
+   "interval_high": null,
+   "target": null,
+   "minute": null,
+   "label": null,
+   "evidence": [
+    "season:HAR-5:pressured_receptions"
+   ],
+   "status": "sufficient",
+   "illustrative": true
+  },
+  {
+   "claim_id": "c_sc_05",
+   "type": "observed_tendency",
+   "team": "HAR",
+   "player_id": null,
+   "metric": "crosses_conceded_share",
+   "value": 0.46,
+   "unit": null,
+   "league_ref": 0.33,
+   "n": 88,
+   "interval_low": null,
+   "interval_high": null,
+   "target": null,
+   "minute": null,
+   "label": "left channel",
+   "evidence": [
+    "season:HAR:crosses_conceded"
+   ],
+   "status": "sufficient",
+   "illustrative": true
+  },
+  {
+   "claim_id": "c_sp_02",
+   "type": "observed_tendency",
+   "team": "HAR",
+   "player_id": null,
+   "metric": "first_contact_conceded_share",
+   "value": 0.58,
+   "unit": null,
+   "league_ref": 0.41,
+   "n": 19,
+   "interval_low": null,
+   "interval_high": null,
+   "target": null,
+   "minute": null,
+   "label": "back post",
+   "evidence": [
+    "season:HAR:corners_conceded"
+   ],
+   "status": "sufficient",
+   "illustrative": true
+  },
+  {
+   "claim_id": "c_sc_11",
+   "type": "observed_tendency",
+   "team": "KES",
+   "player_id": null,
+   "metric": "high_turnovers_conceded_per_match",
+   "value": 9.1,
+   "unit": null,
+   "league_ref": 11.4,
+   "n": 8,
+   "interval_low": null,
+   "interval_high": null,
+   "target": null,
+   "minute": null,
+   "label": null,
+   "evidence": [
+    "season:KES:press"
+   ],
+   "status": "sufficient",
+   "illustrative": true
+  },
+  {
+   "claim_id": "c_sc_12",
+   "type": "observed_tendency",
+   "team": "KES",
+   "player_id": null,
+   "metric": "central_entries_conceded_share",
+   "value": 0.41,
+   "unit": null,
+   "league_ref": 0.36,
+   "n": 96,
+   "interval_low": null,
+   "interval_high": null,
+   "target": null,
+   "minute": null,
+   "label": null,
+   "evidence": [
+    "season:KES:entries_conceded"
+   ],
+   "status": "sufficient",
+   "illustrative": true
+  },
+  {
+   "claim_id": "c_sim_21",
+   "type": "sim_valuation",
+   "team": "KES",
+   "player_id": null,
+   "metric": "delta_xpts_vs_default_plan",
+   "value": 0.21,
+   "unit": null,
+   "league_ref": null,
+   "n": 500,
+   "interval_low": 0.13,
+   "interval_high": 0.29,
+   "target": null,
+   "minute": null,
+   "label": null,
+   "evidence": [],
+   "status": "sufficient",
+   "illustrative": true
+  },
+  {
+   "claim_id": "c_sim_22",
+   "type": "sim_valuation",
+   "team": "HAR",
+   "player_id": null,
+   "metric": "delta_xpts_vs_default_plan",
+   "value": 0.09,
+   "unit": null,
+   "league_ref": null,
+   "n": 500,
+   "interval_low": 0.01,
+   "interval_high": 0.17,
+   "target": null,
+   "minute": null,
+   "label": null,
+   "evidence": [],
+   "status": "sufficient",
+   "illustrative": true
+  }
+ ],
+ "illustrative": true
+}

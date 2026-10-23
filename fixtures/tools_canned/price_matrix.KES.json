@@ -1,0 +1,210 @@
+{
+ "tool": "price_matrix",
+ "scope": "KES",
+ "args": {
+  "match_id": "m-demo-001",
+  "R": 300
+ },
+ "response": {
+  "matrix_id": "mx-believed-KES",
+  "match_id": "m-demo-001",
+  "kind": "believed",
+  "believer": "KES",
+  "row_team": "KES",
+  "col_team": "HAR",
+  "rows": [
+   "KES-HT-A",
+   "KES-HT-B",
+   "KES-HT-C"
+  ],
+  "cols": [
+   "KES-EST-HAR-1",
+   "KES-EST-HAR-2",
+   "KES-EST-HAR-3"
+  ],
+  "col_probs": [
+   0.5,
+   0.15,
+   0.35
+  ],
+  "cells": [
+   [
+    {
+     "xpts": {
+      "KES": 0.81,
+      "HAR": 1.99
+     },
+     "ci90": {
+      "KES": [
+       0.76,
+       0.86
+      ],
+      "HAR": [
+       1.94,
+       2.04
+      ]
+     },
+     "claim_id": "cm_mx-believed-KES_00"
+    },
+    {
+     "xpts": {
+      "KES": 0.91,
+      "HAR": 1.89
+     },
+     "ci90": {
+      "KES": [
+       0.86,
+       0.96
+      ],
+      "HAR": [
+       1.84,
+       1.94
+      ]
+     },
+     "claim_id": "cm_mx-believed-KES_01"
+    },
+    {
+     "xpts": {
+      "KES": 0.78,
+      "HAR": 2.02
+     },
+     "ci90": {
+      "KES": [
+       0.73,
+       0.83
+      ],
+      "HAR": [
+       1.97,
+       2.07
+      ]
+     },
+     "claim_id": "cm_mx-believed-KES_02"
+    }
+   ],
+   [
+    {
+     "xpts": {
+      "KES": 0.93,
+      "HAR": 1.87
+     },
+     "ci90": {
+      "KES": [
+       0.88,
+       0.98
+      ],
+      "HAR": [
+       1.82,
+       1.92
+      ]
+     },
+     "claim_id": "cm_mx-believed-KES_10"
+    },
+    {
+     "xpts": {
+      "KES": 0.85,
+      "HAR": 1.95
+     },
+     "ci90": {
+      "KES": [
+       0.8,
+       0.9
+      ],
+      "HAR": [
+       1.9,
+       2.0
+      ]
+     },
+     "claim_id": "cm_mx-believed-KES_11"
+    },
+    {
+     "xpts": {
+      "KES": 0.86,
+      "HAR": 1.94
+     },
+     "ci90": {
+      "KES": [
+       0.81,
+       0.91
+      ],
+      "HAR": [
+       1.89,
+       1.99
+      ]
+     },
+     "claim_id": "cm_mx-believed-KES_12"
+    }
+   ],
+   [
+    {
+     "xpts": {
+      "KES": 0.77,
+      "HAR": 2.03
+     },
+     "ci90": {
+      "KES": [
+       0.72,
+       0.82
+      ],
+      "HAR": [
+       1.98,
+       2.08
+      ]
+     },
+     "claim_id": "cm_mx-believed-KES_20"
+    },
+    {
+     "xpts": {
+      "KES": 0.87,
+      "HAR": 1.93
+     },
+     "ci90": {
+      "KES": [
+       0.82,
+       0.92
+      ],
+      "HAR": [
+       1.88,
+       1.98
+      ]
+     },
+     "claim_id": "cm_mx-believed-KES_21"
+    },
+    {
+     "xpts": {
+      "KES": 0.89,
+      "HAR": 1.91
+     },
+     "ci90": {
+      "KES": [
+       0.84,
+       0.94
+      ],
+      "HAR": [
+       1.86,
+       1.96
+      ]
+     },
+     "claim_id": "cm_mx-believed-KES_22"
+    }
+   ]
+  ],
+  "R": 300,
+  "seed": 4501,
+  "readings": {
+   "KES": {
+    "team": "KES",
+    "best_response": {
+     "KES-EST-HAR-1": "KES-HT-B",
+     "KES-EST-HAR-2": "KES-HT-A",
+     "KES-EST-HAR-3": "KES-HT-C"
+    },
+    "safe_pick": "KES-HT-B",
+    "best_guess": "KES-HT-B",
+    "gamble": "KES-HT-A",
+    "dominant": null
+   }
+  },
+  "illustrative": true
+ },
+ "illustrative": true
+}

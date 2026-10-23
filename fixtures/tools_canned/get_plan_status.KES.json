@@ -1,0 +1,30 @@
+{
+ "tool": "get_plan_status",
+ "scope": "KES",
+ "args": {
+  "match_id": "m-demo-001",
+  "minute": 36
+ },
+ "response": [
+  {
+   "claim_id": "c_kpi_k1_36",
+   "type": "kpi_status",
+   "team": "KES",
+   "player_id": null,
+   "metric": "high_turnovers",
+   "value": 4.0,
+   "unit": null,
+   "league_ref": null,
+   "n": 21,
+   "interval_low": null,
+   "interval_high": null,
+   "target": ">=6 by HT",
+   "minute": 36,
+   "label": "at_risk",
+   "evidence": [],
+   "status": "sufficient",
+   "illustrative": true
+  }
+ ],
+ "illustrative": true
+}

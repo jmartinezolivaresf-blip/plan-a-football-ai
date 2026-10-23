@@ -1,0 +1,486 @@
+{
+  "$defs": {
+    "I18nText": {
+      "additionalProperties": false,
+      "properties": {
+        "en": {
+          "title": "En",
+          "type": "string"
+        },
+        "es": {
+          "title": "Es",
+          "type": "string"
+        }
+      },
+      "required": [
+        "en",
+        "es"
+      ],
+      "title": "I18nText",
+      "type": "object"
+    },
+    "Kpi": {
+      "additionalProperties": false,
+      "properties": {
+        "by_minute": {
+          "default": 90,
+          "maximum": 90,
+          "minimum": 1,
+          "title": "By Minute",
+          "type": "integer"
+        },
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "metric": {
+          "enum": [
+            "high_turnovers",
+            "final_third_entries_share",
+            "set_piece_xg",
+            "balls_in_behind_conceded"
+          ],
+          "title": "Metric",
+          "type": "string"
+        },
+        "params": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Params",
+          "type": "object"
+        },
+        "target": {
+          "pattern": "^(>=|<=|>|<)\\d+(\\.\\d+)?$",
+          "title": "Target",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "metric",
+        "params",
+        "target",
+        "by_minute"
+      ],
+      "title": "Kpi",
+      "type": "object"
+    },
+    "LeverChanges": {
+      "additionalProperties": false,
+      "description": "Partial levers: only the fields an option or a Plan B rule changes.",
+      "properties": {
+        "attack_channel": {
+          "anyOf": [
+            {
+              "enum": [
+                "left",
+                "center",
+                "right",
+                "balanced"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Attack Channel"
+        },
+        "build_up": {
+          "anyOf": [
+            {
+              "enum": [
+                "short",
+                "mixed",
+                "direct"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Build Up"
+        },
+        "corner_delivery": {
+          "anyOf": [
+            {
+              "enum": [
+                "near_post",
+                "far_post",
+                "short"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Corner Delivery"
+        },
+        "press_height": {
+          "anyOf": [
+            {
+              "enum": [
+                "high",
+                "mid",
+                "low"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Press Height"
+        },
+        "press_target": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Press Target"
+        }
+      },
+      "required": [
+        "press_height",
+        "press_target",
+        "build_up",
+        "attack_channel",
+        "corner_delivery"
+      ],
+      "title": "LeverChanges",
+      "type": "object"
+    },
+    "Levers": {
+      "additionalProperties": false,
+      "properties": {
+        "attack_channel": {
+          "default": "balanced",
+          "enum": [
+            "left",
+            "center",
+            "right",
+            "balanced"
+          ],
+          "title": "Attack Channel",
+          "type": "string"
+        },
+        "build_up": {
+          "default": "mixed",
+          "enum": [
+            "short",
+            "mixed",
+            "direct"
+          ],
+          "title": "Build Up",
+          "type": "string"
+        },
+        "corner_delivery": {
+          "default": "near_post",
+          "enum": [
+            "near_post",
+            "far_post",
+            "short"
+          ],
+          "title": "Corner Delivery",
+          "type": "string"
+        },
+        "press_height": {
+          "default": "mid",
+          "enum": [
+            "high",
+            "mid",
+            "low"
+          ],
+          "title": "Press Height",
+          "type": "string"
+        },
+        "press_target": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Opponent player_id, or null for none.",
+          "title": "Press Target"
+        }
+      },
+      "required": [
+        "press_height",
+        "press_target",
+        "build_up",
+        "attack_channel",
+        "corner_delivery"
+      ],
+      "title": "Levers",
+      "type": "object"
+    },
+    "PlanBAction": {
+      "additionalProperties": false,
+      "properties": {
+        "levers": {
+          "$ref": "#/$defs/LeverChanges"
+        },
+        "subs": {
+          "items": {
+            "$ref": "#/$defs/Sub"
+          },
+          "title": "Subs",
+          "type": "array"
+        }
+      },
+      "required": [
+        "levers",
+        "subs"
+      ],
+      "title": "PlanBAction",
+      "type": "object"
+    },
+    "PlanBCondition": {
+      "additionalProperties": false,
+      "properties": {
+        "after_minute": {
+          "anyOf": [
+            {
+              "maximum": 90,
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "After Minute"
+        },
+        "kpi": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Kpi"
+        },
+        "score_diff": {
+          "anyOf": [
+            {
+              "pattern": "^(>=|<=|>|<|==)-?\\d+$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Score Diff"
+        },
+        "status": {
+          "anyOf": [
+            {
+              "enum": [
+                "on_track",
+                "at_risk",
+                "failing",
+                "insufficient_evidence"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Status"
+        }
+      },
+      "required": [
+        "kpi",
+        "status",
+        "after_minute",
+        "score_diff"
+      ],
+      "title": "PlanBCondition",
+      "type": "object"
+    },
+    "PlanBRule": {
+      "additionalProperties": false,
+      "properties": {
+        "if": {
+          "$ref": "#/$defs/PlanBCondition"
+        },
+        "then": {
+          "$ref": "#/$defs/PlanBAction"
+        }
+      },
+      "required": [
+        "if",
+        "then"
+      ],
+      "title": "PlanBRule",
+      "type": "object"
+    },
+    "Seal": {
+      "additionalProperties": false,
+      "description": "Commit of the canonical plan JSON (everything except `sealed`). See contracts.sealing.",
+      "properties": {
+        "at": {
+          "title": "At",
+          "type": "string"
+        },
+        "sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Sha256",
+          "type": "string"
+        }
+      },
+      "required": [
+        "at",
+        "sha256"
+      ],
+      "title": "Seal",
+      "type": "object"
+    },
+    "Sub": {
+      "additionalProperties": false,
+      "properties": {
+        "in": {
+          "title": "In",
+          "type": "string"
+        },
+        "out": {
+          "title": "Out",
+          "type": "string"
+        },
+        "window": {
+          "description": "'HT' or a minute window like '60-65'.",
+          "pattern": "^(HT|\\d{1,2}-\\d{1,2})$",
+          "title": "Window",
+          "type": "string"
+        }
+      },
+      "required": [
+        "window",
+        "out",
+        "in"
+      ],
+      "title": "Sub",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "kpis": {
+      "items": {
+        "$ref": "#/$defs/Kpi"
+      },
+      "maxItems": 6,
+      "minItems": 1,
+      "title": "Kpis",
+      "type": "array"
+    },
+    "lever_evidence": {
+      "additionalProperties": {
+        "items": {
+          "type": "string"
+        },
+        "type": "array"
+      },
+      "description": "Lever name -> claim_ids. Every non-default lever needs one.",
+      "title": "Lever Evidence",
+      "type": "object"
+    },
+    "levers": {
+      "$ref": "#/$defs/Levers"
+    },
+    "name": {
+      "$ref": "#/$defs/I18nText"
+    },
+    "opponent": {
+      "pattern": "^[A-Z]{3}$",
+      "title": "Opponent",
+      "type": "string"
+    },
+    "plan_b": {
+      "items": {
+        "$ref": "#/$defs/PlanBRule"
+      },
+      "title": "Plan B",
+      "type": "array"
+    },
+    "plan_id": {
+      "title": "Plan Id",
+      "type": "string"
+    },
+    "sealed": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/Seal"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "subs_plan": {
+      "items": {
+        "$ref": "#/$defs/Sub"
+      },
+      "maxItems": 5,
+      "title": "Subs Plan",
+      "type": "array"
+    },
+    "team": {
+      "pattern": "^[A-Z]{3}$",
+      "title": "Team",
+      "type": "string"
+    },
+    "valuation": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "claim_id of the sim_valuation claim.",
+      "title": "Valuation"
+    }
+  },
+  "required": [
+    "plan_id",
+    "team",
+    "opponent",
+    "name",
+    "levers",
+    "lever_evidence",
+    "kpis",
+    "plan_b",
+    "subs_plan",
+    "valuation",
+    "sealed"
+  ],
+  "title": "Plan",
+  "type": "object"
+}

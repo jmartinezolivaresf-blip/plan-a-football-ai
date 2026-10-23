@@ -1,0 +1,53 @@
+{
+ "tool": "get_team_tendencies",
+ "scope": "KES",
+ "args": {
+  "team": "HAR",
+  "aspect": "build_up"
+ },
+ "response": [
+  {
+   "claim_id": "c_sc_01",
+   "type": "observed_tendency",
+   "team": "HAR",
+   "player_id": null,
+   "metric": "goal_kick_short_share",
+   "value": 0.78,
+   "unit": null,
+   "league_ref": 0.55,
+   "n": 64,
+   "interval_low": null,
+   "interval_high": null,
+   "target": null,
+   "minute": null,
+   "label": null,
+   "evidence": [
+    "season:HAR:goal_kicks"
+   ],
+   "status": "sufficient",
+   "illustrative": true
+  },
+  {
+   "claim_id": "c_sc_05",
+   "type": "observed_tendency",
+   "team": "HAR",
+   "player_id": null,
+   "metric": "crosses_conceded_share",
+   "value": 0.46,
+   "unit": null,
+   "league_ref": 0.33,
+   "n": 88,
+   "interval_low": null,
+   "interval_high": null,
+   "target": null,
+   "minute": null,
+   "label": "left channel",
+   "evidence": [
+    "season:HAR:crosses_conceded"
+   ],
+   "status": "sufficient",
+   "illustrative": true
+  }
+ ],
+ "illustrative": true
+}

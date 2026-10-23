@@ -1,0 +1,108 @@
+{
+ "tool": "get_match_state",
+ "scope": "broadcast",
+ "args": {
+  "match_id": "m-demo-001",
+  "minute": 45
+ },
+ "response": {
+  "match_id": "m-demo-001",
+  "minute": 45,
+  "period": 1,
+  "score": {
+   "KES": 0,
+   "HAR": 1
+  },
+  "subs_used": {
+   "KES": 0,
+   "HAR": 0
+  },
+  "sub_windows_used": {
+   "KES": 0,
+   "HAR": 0
+  },
+  "on_pitch": {
+   "KES": [
+    "KES-1",
+    "KES-2",
+    "KES-3",
+    "KES-4",
+    "KES-5",
+    "KES-6",
+    "KES-7",
+    "KES-8",
+    "KES-9",
+    "KES-10",
+    "KES-11"
+   ],
+   "HAR": [
+    "HAR-1",
+    "HAR-2",
+    "HAR-3",
+    "HAR-4",
+    "HAR-5",
+    "HAR-6",
+    "HAR-7",
+    "HAR-8",
+    "HAR-9",
+    "HAR-10",
+    "HAR-11"
+   ]
+  },
+  "condition_est": {
+   "KES-1": 0.843,
+   "KES-2": 0.843,
+   "KES-3": 0.843,
+   "KES-4": 0.843,
+   "KES-5": 0.843,
+   "KES-6": 0.843,
+   "KES-7": 0.843,
+   "KES-8": 0.843,
+   "KES-9": 0.843,
+   "KES-10": 0.843,
+   "KES-11": 0.843,
+   "HAR-1": 0.887,
+   "HAR-2": 0.887,
+   "HAR-3": 0.887,
+   "HAR-4": 0.887,
+   "HAR-5": 0.887,
+   "HAR-6": 0.887,
+   "HAR-7": 0.887,
+   "HAR-8": 0.887,
+   "HAR-9": 0.887,
+   "HAR-10": 0.887,
+   "HAR-11": 0.887
+  },
+  "active_levers": {
+   "KES": {
+    "press_height": "high",
+    "press_target": "HAR-5",
+    "build_up": "mixed",
+    "attack_channel": "right",
+    "corner_delivery": "far_post"
+   },
+   "HAR": {
+    "press_height": "mid",
+    "press_target": null,
+    "build_up": "direct",
+    "attack_channel": "center",
+    "corner_delivery": "near_post"
+   }
+  },
+  "kpis": [
+   {
+    "plan_id": "KES-A",
+    "kpi_id": "k1",
+    "team": "KES",
+    "value": 4.0,
+    "expected": 6.0,
+    "band_low": 4.5,
+    "band_high": 7.5,
+    "n": 23,
+    "status": "at_risk",
+    "claim_id": null
+   }
+  ]
+ },
+ "illustrative": true
+}

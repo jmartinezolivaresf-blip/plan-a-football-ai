@@ -1,0 +1,14 @@
+{
+ "tool": "seal_choice",
+ "scope": "KES",
+ "args": {
+  "match_id": "m-demo-001",
+  "option_id": "KES-HT-B"
+ },
+ "response": {
+  "team": "KES",
+  "sealed_at": "15:47:10",
+  "sha256": "4b976708451faa9588600eb2bfc5547f510c167fc2c715191ba77428e9d309c1"
+ },
+ "illustrative": true
+}

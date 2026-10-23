@@ -1,0 +1,107 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "agent": {
+      "enum": [
+        "analyst",
+        "manager",
+        "director",
+        "chronicler",
+        "localizer",
+        "validator"
+      ],
+      "title": "Agent",
+      "type": "string"
+    },
+    "args": {
+      "additionalProperties": true,
+      "title": "Args",
+      "type": "object"
+    },
+    "duration_ms": {
+      "minimum": 0,
+      "title": "Duration Ms",
+      "type": "integer"
+    },
+    "message": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Message"
+    },
+    "result_claims": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Result Claims",
+      "type": "array"
+    },
+    "scope": {
+      "pattern": "^([A-Z]{3}|broadcast)$",
+      "title": "Scope",
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "ok",
+        "rejected",
+        "retried",
+        "fallback"
+      ],
+      "title": "Status",
+      "type": "string"
+    },
+    "step": {
+      "minimum": 0,
+      "title": "Step",
+      "type": "integer"
+    },
+    "tool": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Tool"
+    },
+    "trace_id": {
+      "title": "Trace Id",
+      "type": "string"
+    },
+    "workflow": {
+      "enum": [
+        "prematch",
+        "live",
+        "duel",
+        "final"
+      ],
+      "title": "Workflow",
+      "type": "string"
+    }
+  },
+  "required": [
+    "trace_id",
+    "workflow",
+    "agent",
+    "scope",
+    "step",
+    "tool",
+    "args",
+    "result_claims",
+    "duration_ms",
+    "status",
+    "message"
+  ],
+  "title": "TraceStep",
+  "type": "object"
+}

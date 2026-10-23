@@ -1,0 +1,33 @@
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+
+# Secrets and credentials (never commit)
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.pfx
+*.p12
+*.publishsettings
+local.settings.json
+.azure/
+secrets/
+
+# Generated data (the demo bundle is committed explicitly when frozen)
+data/*
+!data/.gitkeep
+
+# Node / web build output
+node_modules/
+dist/
+
+# OS / editors
+.DS_Store
+.vscode/
+.idea/

@@ -1,0 +1,249 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "body_part": {
+      "anyOf": [
+        {
+          "enum": [
+            "right_foot",
+            "left_foot",
+            "head",
+            "other"
+          ],
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Body Part"
+    },
+    "end_x": {
+      "anyOf": [
+        {
+          "maximum": 105.0,
+          "minimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "End X"
+    },
+    "end_y": {
+      "anyOf": [
+        {
+          "maximum": 68.0,
+          "minimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "End Y"
+    },
+    "event_id": {
+      "title": "Event Id",
+      "type": "string"
+    },
+    "match_id": {
+      "title": "Match Id",
+      "type": "string"
+    },
+    "minute": {
+      "maximum": 130,
+      "minimum": 0,
+      "title": "Minute",
+      "type": "integer"
+    },
+    "outcome": {
+      "anyOf": [
+        {
+          "enum": [
+            "success",
+            "fail",
+            "goal",
+            "saved",
+            "off_target",
+            "blocked",
+            "won",
+            "lost",
+            "first_contact_won",
+            "first_contact_lost"
+          ],
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Outcome"
+    },
+    "period": {
+      "enum": [
+        1,
+        2
+      ],
+      "title": "Period",
+      "type": "integer"
+    },
+    "player_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Player Id"
+    },
+    "possession_id": {
+      "minimum": 0,
+      "title": "Possession Id",
+      "type": "integer"
+    },
+    "receiver_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Receiver Id"
+    },
+    "set_piece_ref": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Links shots/goals to the corner that created them.",
+      "title": "Set Piece Ref"
+    },
+    "sub_in": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Only for type == 'sub'.",
+      "title": "Sub In"
+    },
+    "sub_out": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Only for type == 'sub'.",
+      "title": "Sub Out"
+    },
+    "t": {
+      "description": "Match clock in seconds since kick-off (second half starts at 2700).",
+      "minimum": 0,
+      "title": "T",
+      "type": "number"
+    },
+    "team": {
+      "pattern": "^[A-Z]{3}$",
+      "title": "Team",
+      "type": "string"
+    },
+    "type": {
+      "enum": [
+        "pass",
+        "long_ball",
+        "cross",
+        "carry",
+        "shot",
+        "goal",
+        "pressure",
+        "tackle",
+        "interception",
+        "clearance",
+        "foul",
+        "corner",
+        "goal_kick",
+        "throw_in",
+        "kick_off",
+        "sub",
+        "possession_change",
+        "recovery"
+      ],
+      "title": "Type",
+      "type": "string"
+    },
+    "under_pressure": {
+      "default": false,
+      "title": "Under Pressure",
+      "type": "boolean"
+    },
+    "x": {
+      "maximum": 105.0,
+      "minimum": 0,
+      "title": "X",
+      "type": "number"
+    },
+    "y": {
+      "maximum": 68.0,
+      "minimum": 0,
+      "title": "Y",
+      "type": "number"
+    },
+    "zone": {
+      "description": "Absolute zone = band * 3 + lane (see contracts.common).",
+      "maximum": 17,
+      "minimum": 0,
+      "title": "Zone",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "event_id",
+    "match_id",
+    "t",
+    "period",
+    "minute",
+    "possession_id",
+    "type",
+    "team",
+    "player_id",
+    "zone",
+    "x",
+    "y",
+    "end_x",
+    "end_y",
+    "receiver_id",
+    "outcome",
+    "under_pressure",
+    "body_part",
+    "set_piece_ref",
+    "sub_in",
+    "sub_out"
+  ],
+  "title": "Event",
+  "type": "object"
+}

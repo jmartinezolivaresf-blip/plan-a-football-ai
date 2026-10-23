@@ -1,0 +1,251 @@
+{
+ "tool": "get_true_matrix",
+ "scope": "broadcast",
+ "args": {
+  "match_id": "m-demo-001"
+ },
+ "response": {
+  "revealed": {
+   "KES": {
+    "team": "KES",
+    "option_id": "KES-HT-B",
+    "salt": "a3f1c09e5b7d2468a3f1c09e5b7d2468",
+    "rule": "safe_pick"
+   },
+   "HAR": {
+    "team": "HAR",
+    "option_id": "HAR-HT-Z",
+    "salt": "9c2e7b4a1d6f38059c2e7b4a1d6f3805",
+    "rule": "best_guess"
+   }
+  },
+  "true_matrix": {
+   "matrix_id": "mx-true",
+   "match_id": "m-demo-001",
+   "kind": "true",
+   "believer": null,
+   "row_team": "KES",
+   "col_team": "HAR",
+   "rows": [
+    "KES-HT-A",
+    "KES-HT-B",
+    "KES-HT-C"
+   ],
+   "cols": [
+    "HAR-HT-X",
+    "HAR-HT-Y",
+    "HAR-HT-Z"
+   ],
+   "col_probs": null,
+   "cells": [
+    [
+     {
+      "xpts": {
+       "KES": 0.8,
+       "HAR": 2.0
+      },
+      "ci90": {
+       "KES": [
+        0.75,
+        0.85
+       ],
+       "HAR": [
+        1.95,
+        2.05
+       ]
+      },
+      "claim_id": "cm_mx-true_00"
+     },
+     {
+      "xpts": {
+       "KES": 0.92,
+       "HAR": 1.88
+      },
+      "ci90": {
+       "KES": [
+        0.87,
+        0.97
+       ],
+       "HAR": [
+        1.83,
+        1.93
+       ]
+      },
+      "claim_id": "cm_mx-true_01"
+     },
+     {
+      "xpts": {
+       "KES": 0.77,
+       "HAR": 2.03
+      },
+      "ci90": {
+       "KES": [
+        0.72,
+        0.82
+       ],
+       "HAR": [
+        1.98,
+        2.08
+       ]
+      },
+      "claim_id": "cm_mx-true_02"
+     }
+    ],
+    [
+     {
+      "xpts": {
+       "KES": 0.94,
+       "HAR": 1.86
+      },
+      "ci90": {
+       "KES": [
+        0.89,
+        0.99
+       ],
+       "HAR": [
+        1.81,
+        1.91
+       ]
+      },
+      "claim_id": "cm_mx-true_10"
+     },
+     {
+      "xpts": {
+       "KES": 0.84,
+       "HAR": 1.96
+      },
+      "ci90": {
+       "KES": [
+        0.79,
+        0.89
+       ],
+       "HAR": [
+        1.91,
+        2.01
+       ]
+      },
+      "claim_id": "cm_mx-true_11"
+     },
+     {
+      "xpts": {
+       "KES": 0.85,
+       "HAR": 1.95
+      },
+      "ci90": {
+       "KES": [
+        0.8,
+        0.9
+       ],
+       "HAR": [
+        1.9,
+        2.0
+       ]
+      },
+      "claim_id": "cm_mx-true_12"
+     }
+    ],
+    [
+     {
+      "xpts": {
+       "KES": 0.76,
+       "HAR": 2.04
+      },
+      "ci90": {
+       "KES": [
+        0.71,
+        0.81
+       ],
+       "HAR": [
+        1.99,
+        2.09
+       ]
+      },
+      "claim_id": "cm_mx-true_20"
+     },
+     {
+      "xpts": {
+       "KES": 0.88,
+       "HAR": 1.92
+      },
+      "ci90": {
+       "KES": [
+        0.83,
+        0.93
+       ],
+       "HAR": [
+        1.87,
+        1.97
+       ]
+      },
+      "claim_id": "cm_mx-true_21"
+     },
+     {
+      "xpts": {
+       "KES": 0.9,
+       "HAR": 1.9
+      },
+      "ci90": {
+       "KES": [
+        0.85,
+        0.95
+       ],
+       "HAR": [
+        1.85,
+        1.95
+       ]
+      },
+      "claim_id": "cm_mx-true_22"
+     }
+    ]
+   ],
+   "R": 500,
+   "seed": 4501,
+   "readings": {
+    "KES": {
+     "team": "KES",
+     "best_response": {
+      "HAR-HT-X": "KES-HT-B",
+      "HAR-HT-Y": "KES-HT-A",
+      "HAR-HT-Z": "KES-HT-C"
+     },
+     "safe_pick": "KES-HT-B",
+     "best_guess": null,
+     "gamble": "KES-HT-A",
+     "dominant": null
+    },
+    "HAR": {
+     "team": "HAR",
+     "best_response": {
+      "KES-HT-A": "HAR-HT-Z",
+      "KES-HT-B": "HAR-HT-Y",
+      "KES-HT-C": "HAR-HT-X"
+     },
+     "safe_pick": "HAR-HT-Z",
+     "best_guess": null,
+     "gamble": "HAR-HT-X",
+     "dominant": null
+    }
+   },
+   "illustrative": true
+  },
+  "regret": {
+   "KES": {
+    "team": "KES",
+    "chosen": "KES-HT-B",
+    "opponent_chosen": "HAR-HT-Z",
+    "best_response": "KES-HT-C",
+    "regret_xpts": 0.05,
+    "claim_id": "c_rg_KES"
+   },
+   "HAR": {
+    "team": "HAR",
+    "chosen": "HAR-HT-Z",
+    "opponent_chosen": "KES-HT-B",
+    "best_response": "HAR-HT-Y",
+    "regret_xpts": 0.01,
+    "claim_id": "c_rg_HAR"
+   }
+  }
+ },
+ "illustrative": true
+}

@@ -1,0 +1,31 @@
+{
+ "tool": "get_set_piece_profile",
+ "scope": "KES",
+ "args": {
+  "team": "HAR"
+ },
+ "response": [
+  {
+   "claim_id": "c_sp_02",
+   "type": "observed_tendency",
+   "team": "HAR",
+   "player_id": null,
+   "metric": "first_contact_conceded_share",
+   "value": 0.58,
+   "unit": null,
+   "league_ref": 0.41,
+   "n": 19,
+   "interval_low": null,
+   "interval_high": null,
+   "target": null,
+   "minute": null,
+   "label": "back post",
+   "evidence": [
+    "season:HAR:corners_conceded"
+   ],
+   "status": "sufficient",
+   "illustrative": true
+  }
+ ],
+ "illustrative": true
+}

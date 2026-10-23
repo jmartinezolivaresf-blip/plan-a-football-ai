@@ -1,0 +1,122 @@
+{
+  "$defs": {
+    "I18nText": {
+      "additionalProperties": false,
+      "properties": {
+        "en": {
+          "title": "En",
+          "type": "string"
+        },
+        "es": {
+          "title": "Es",
+          "type": "string"
+        }
+      },
+      "required": [
+        "en",
+        "es"
+      ],
+      "title": "I18nText",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "claims": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Claims",
+      "type": "array"
+    },
+    "cue_id": {
+      "title": "Cue Id",
+      "type": "string"
+    },
+    "fields": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "title": "Fields",
+      "type": "object"
+    },
+    "mode": {
+      "items": {
+        "enum": [
+          "casual",
+          "analyst"
+        ],
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Mode",
+      "type": "array"
+    },
+    "priority": {
+      "maximum": 3,
+      "minimum": 1,
+      "title": "Priority",
+      "type": "integer"
+    },
+    "t_match": {
+      "pattern": "^\\d{1,3}:[0-5]\\d$",
+      "title": "T Match",
+      "type": "string"
+    },
+    "team": {
+      "anyOf": [
+        {
+          "pattern": "^[A-Z]{3}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Team"
+    },
+    "template": {
+      "enum": [
+        "plan_card",
+        "plan_sealed",
+        "plan_tracker_lt",
+        "plan_alert",
+        "adaptation_detected",
+        "plan_b_fired",
+        "duel_rooms",
+        "duel_sealed",
+        "duel_reveal",
+        "duel_matrix",
+        "plan_scorecard",
+        "bench_regret",
+        "option_not_taken"
+      ],
+      "title": "Template",
+      "type": "string"
+    },
+    "text": {
+      "$ref": "#/$defs/I18nText"
+    },
+    "ttl_s": {
+      "maximum": 120,
+      "minimum": 1,
+      "title": "Ttl S",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "cue_id",
+    "t_match",
+    "template",
+    "priority",
+    "ttl_s",
+    "team",
+    "fields",
+    "text",
+    "mode",
+    "claims"
+  ],
+  "title": "Cue",
+  "type": "object"
+}

@@ -1,0 +1,42 @@
+{
+ "tool": "list_matches",
+ "scope": "KES",
+ "args": {
+  "team": "HAR"
+ },
+ "response": [
+  {
+   "match_id": "s-fixture-01",
+   "opponent": "XXX"
+  },
+  {
+   "match_id": "s-fixture-02",
+   "opponent": "XXX"
+  },
+  {
+   "match_id": "s-fixture-03",
+   "opponent": "XXX"
+  },
+  {
+   "match_id": "s-fixture-04",
+   "opponent": "XXX"
+  },
+  {
+   "match_id": "s-fixture-05",
+   "opponent": "XXX"
+  },
+  {
+   "match_id": "s-fixture-06",
+   "opponent": "XXX"
+  },
+  {
+   "match_id": "s-fixture-07",
+   "opponent": "XXX"
+  },
+  {
+   "match_id": "s-fixture-08",
+   "opponent": "XXX"
+  }
+ ],
+ "illustrative": true
+}

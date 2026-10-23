@@ -1,0 +1,83 @@
+{
+ "tool": "estimate_opponent_options",
+ "scope": "HAR",
+ "args": {
+  "match_id": "m-demo-001"
+ },
+ "response": {
+  "estimator": "HAR",
+  "opponent": "KES",
+  "options": [
+   {
+    "option": {
+     "option_id": "HAR-EST-KES-1",
+     "team": "KES",
+     "label": {
+      "en": "They keep pressing high",
+      "es": "Siguen presionando arriba"
+     },
+     "intent": "stay_the_course",
+     "lever_changes": {
+      "press_height": null,
+      "press_target": null,
+      "build_up": null,
+      "attack_channel": null,
+      "corner_delivery": null
+     },
+     "subs": [],
+     "evidence": [],
+     "estimated": true
+    },
+    "probability": 0.55
+   },
+   {
+    "option": {
+     "option_id": "HAR-EST-KES-2",
+     "team": "KES",
+     "label": {
+      "en": "They drop into a mid block",
+      "es": "Bajan a bloque medio"
+     },
+     "intent": "drop_block",
+     "lever_changes": {
+      "press_height": "mid",
+      "press_target": null,
+      "build_up": null,
+      "attack_channel": null,
+      "corner_delivery": null
+     },
+     "subs": [],
+     "evidence": [],
+     "estimated": true
+    },
+    "probability": 0.3
+   },
+   {
+    "option": {
+     "option_id": "HAR-EST-KES-3",
+     "team": "KES",
+     "label": {
+      "en": "They throw on attackers",
+      "es": "Meten atacantes"
+     },
+     "intent": "attacking_subs",
+     "lever_changes": {
+      "press_height": null,
+      "press_target": null,
+      "build_up": null,
+      "attack_channel": "balanced",
+      "corner_delivery": null
+     },
+     "subs": [],
+     "evidence": [],
+     "estimated": true
+    },
+    "probability": 0.15
+   }
+  ],
+  "claims": [
+   "c_est_HAR"
+  ]
+ },
+ "illustrative": true
+}

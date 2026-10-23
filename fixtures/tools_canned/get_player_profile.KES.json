@@ -1,0 +1,31 @@
+{
+ "tool": "get_player_profile",
+ "scope": "KES",
+ "args": {
+  "player_id": "HAR-5"
+ },
+ "response": [
+  {
+   "claim_id": "c_sc_03",
+   "type": "observed_tendency",
+   "team": "HAR",
+   "player_id": "HAR-5",
+   "metric": "losses_per_100_pressured_receptions",
+   "value": 31.7,
+   "unit": null,
+   "league_ref": 15.2,
+   "n": 41,
+   "interval_low": null,
+   "interval_high": null,
+   "target": null,
+   "minute": null,
+   "label": null,
+   "evidence": [
+    "season:HAR-5:pressured_receptions"
+   ],
+   "status": "sufficient",
+   "illustrative": true
+  }
+ ],
+ "illustrative": true
+}

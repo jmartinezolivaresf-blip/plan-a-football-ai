@@ -1,0 +1,256 @@
+{
+  "$defs": {
+    "Cell": {
+      "additionalProperties": false,
+      "properties": {
+        "ci90": {
+          "patternProperties": {
+            "^[A-Z]{3}$": {
+              "maxItems": 2,
+              "minItems": 2,
+              "prefixItems": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "number"
+                }
+              ],
+              "type": "array"
+            }
+          },
+          "title": "Ci90",
+          "type": "object"
+        },
+        "claim_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Claim Id"
+        },
+        "xpts": {
+          "patternProperties": {
+            "^[A-Z]{3}$": {
+              "type": "number"
+            }
+          },
+          "title": "Xpts",
+          "type": "object"
+        }
+      },
+      "required": [
+        "xpts",
+        "ci90",
+        "claim_id"
+      ],
+      "title": "Cell",
+      "type": "object"
+    },
+    "MatrixReading": {
+      "additionalProperties": false,
+      "description": "How one team reads the matrix (computed in code, see engine.duel).",
+      "properties": {
+        "best_guess": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Only when column probabilities are known.",
+          "title": "Best Guess"
+        },
+        "best_response": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Opponent option_id -> this team's best option_id.",
+          "title": "Best Response",
+          "type": "object"
+        },
+        "dominant": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Dominant"
+        },
+        "gamble": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Gamble"
+        },
+        "safe_pick": {
+          "title": "Safe Pick",
+          "type": "string"
+        },
+        "team": {
+          "pattern": "^[A-Z]{3}$",
+          "title": "Team",
+          "type": "string"
+        }
+      },
+      "required": [
+        "team",
+        "best_response",
+        "safe_pick",
+        "best_guess",
+        "gamble",
+        "dominant"
+      ],
+      "title": "MatrixReading",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "R": {
+      "minimum": 1,
+      "title": "R",
+      "type": "integer"
+    },
+    "believer": {
+      "anyOf": [
+        {
+          "pattern": "^[A-Z]{3}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Owner of a believed matrix; null for true.",
+      "title": "Believer"
+    },
+    "cells": {
+      "items": {
+        "items": {
+          "$ref": "#/$defs/Cell"
+        },
+        "type": "array"
+      },
+      "title": "Cells",
+      "type": "array"
+    },
+    "col_probs": {
+      "anyOf": [
+        {
+          "items": {
+            "type": "number"
+          },
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Believed matrices: the believer's probabilities over the opponent options.",
+      "title": "Col Probs"
+    },
+    "col_team": {
+      "pattern": "^[A-Z]{3}$",
+      "title": "Col Team",
+      "type": "string"
+    },
+    "cols": {
+      "description": "Column option_ids; cols[0] is Stay.",
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 3,
+      "minItems": 2,
+      "title": "Cols",
+      "type": "array"
+    },
+    "illustrative": {
+      "default": false,
+      "title": "Illustrative",
+      "type": "boolean"
+    },
+    "kind": {
+      "enum": [
+        "believed",
+        "true"
+      ],
+      "title": "Kind",
+      "type": "string"
+    },
+    "match_id": {
+      "title": "Match Id",
+      "type": "string"
+    },
+    "matrix_id": {
+      "title": "Matrix Id",
+      "type": "string"
+    },
+    "readings": {
+      "patternProperties": {
+        "^[A-Z]{3}$": {
+          "$ref": "#/$defs/MatrixReading"
+        }
+      },
+      "title": "Readings",
+      "type": "object"
+    },
+    "row_team": {
+      "pattern": "^[A-Z]{3}$",
+      "title": "Row Team",
+      "type": "string"
+    },
+    "rows": {
+      "description": "Row option_ids; rows[0] is Stay.",
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 3,
+      "minItems": 2,
+      "title": "Rows",
+      "type": "array"
+    },
+    "seed": {
+      "title": "Seed",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "matrix_id",
+    "match_id",
+    "kind",
+    "believer",
+    "row_team",
+    "col_team",
+    "rows",
+    "cols",
+    "col_probs",
+    "cells",
+    "R",
+    "seed",
+    "readings",
+    "illustrative"
+  ],
+  "title": "Matrix",
+  "type": "object"
+}

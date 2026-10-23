@@ -1,0 +1,30 @@
+{
+ "tool": "simulate_plan",
+ "scope": "KES",
+ "args": {
+  "plan_id": "KES-A",
+  "R": 500
+ },
+ "response": [
+  {
+   "claim_id": "c_sim_21",
+   "type": "sim_valuation",
+   "team": "KES",
+   "player_id": null,
+   "metric": "delta_xpts_vs_default_plan",
+   "value": 0.21,
+   "unit": null,
+   "league_ref": null,
+   "n": 500,
+   "interval_low": 0.13,
+   "interval_high": 0.29,
+   "target": null,
+   "minute": null,
+   "label": null,
+   "evidence": [],
+   "status": "sufficient",
+   "illustrative": true
+  }
+ ],
+ "illustrative": true
+}

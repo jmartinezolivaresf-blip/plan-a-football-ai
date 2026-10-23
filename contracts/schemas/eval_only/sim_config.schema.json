@@ -1,0 +1,36 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "archetype_ranges": {
+      "additionalProperties": {
+        "additionalProperties": true,
+        "type": "object"
+      },
+      "title": "Archetype Ranges",
+      "type": "object"
+    },
+    "coefficients": {
+      "additionalProperties": {
+        "type": "number"
+      },
+      "title": "Coefficients",
+      "type": "object"
+    },
+    "season_id": {
+      "title": "Season Id",
+      "type": "string"
+    },
+    "seed": {
+      "title": "Seed",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "season_id",
+    "seed",
+    "coefficients",
+    "archetype_ranges"
+  ],
+  "title": "SimConfig",
+  "type": "object"
+}

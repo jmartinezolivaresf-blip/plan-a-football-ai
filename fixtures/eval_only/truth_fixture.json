@@ -1,0 +1,55 @@
+{
+ "season_id": "s-fixture",
+ "teams": {
+  "HAR": {
+   "team": "HAR",
+   "archetype": "possession",
+   "split": "test",
+   "traits": [
+    {
+     "kind": "fb_low_press_resistance",
+     "player_id": "HAR-5",
+     "side": null,
+     "strength": 0.7
+    },
+    {
+     "kind": "back_post_weak",
+     "player_id": null,
+     "side": null,
+     "strength": 0.6
+    },
+    {
+     "kind": "gk_short_bias",
+     "player_id": null,
+     "side": null,
+     "strength": 0.5
+    }
+   ]
+  },
+  "KES": {
+   "team": "KES",
+   "archetype": "pressing",
+   "split": "dev",
+   "traits": [
+    {
+     "kind": "late_fade",
+     "player_id": null,
+     "side": null,
+     "strength": 0.4
+    },
+    {
+     "kind": "cb_low_pace",
+     "player_id": "KES-4",
+     "side": null,
+     "strength": 0.5
+    },
+    {
+     "kind": "weak_channel",
+     "player_id": null,
+     "side": "left",
+     "strength": 0.3
+    }
+   ]
+  }
+ }
+}

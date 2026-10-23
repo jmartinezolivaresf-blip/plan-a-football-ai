@@ -1,0 +1,270 @@
+{
+  "$defs": {
+    "KpiStatus": {
+      "additionalProperties": false,
+      "properties": {
+        "band_high": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Band High"
+        },
+        "band_low": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Band Low"
+        },
+        "claim_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Claim Id"
+        },
+        "expected": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Mean of pre-match sims at this minute.",
+          "title": "Expected"
+        },
+        "kpi_id": {
+          "title": "Kpi Id",
+          "type": "string"
+        },
+        "n": {
+          "minimum": 0,
+          "title": "N",
+          "type": "integer"
+        },
+        "plan_id": {
+          "title": "Plan Id",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "on_track",
+            "at_risk",
+            "failing",
+            "insufficient_evidence"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "team": {
+          "pattern": "^[A-Z]{3}$",
+          "title": "Team",
+          "type": "string"
+        },
+        "value": {
+          "title": "Value",
+          "type": "number"
+        }
+      },
+      "required": [
+        "plan_id",
+        "kpi_id",
+        "team",
+        "value",
+        "expected",
+        "band_low",
+        "band_high",
+        "n",
+        "status",
+        "claim_id"
+      ],
+      "title": "KpiStatus",
+      "type": "object"
+    },
+    "Levers": {
+      "additionalProperties": false,
+      "properties": {
+        "attack_channel": {
+          "default": "balanced",
+          "enum": [
+            "left",
+            "center",
+            "right",
+            "balanced"
+          ],
+          "title": "Attack Channel",
+          "type": "string"
+        },
+        "build_up": {
+          "default": "mixed",
+          "enum": [
+            "short",
+            "mixed",
+            "direct"
+          ],
+          "title": "Build Up",
+          "type": "string"
+        },
+        "corner_delivery": {
+          "default": "near_post",
+          "enum": [
+            "near_post",
+            "far_post",
+            "short"
+          ],
+          "title": "Corner Delivery",
+          "type": "string"
+        },
+        "press_height": {
+          "default": "mid",
+          "enum": [
+            "high",
+            "mid",
+            "low"
+          ],
+          "title": "Press Height",
+          "type": "string"
+        },
+        "press_target": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Opponent player_id, or null for none.",
+          "title": "Press Target"
+        }
+      },
+      "required": [
+        "press_height",
+        "press_target",
+        "build_up",
+        "attack_channel",
+        "corner_delivery"
+      ],
+      "title": "Levers",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "active_levers": {
+      "patternProperties": {
+        "^[A-Z]{3}$": {
+          "$ref": "#/$defs/Levers"
+        }
+      },
+      "title": "Active Levers",
+      "type": "object"
+    },
+    "condition_est": {
+      "additionalProperties": {
+        "type": "number"
+      },
+      "description": "player_id -> 0..1 (estimate).",
+      "title": "Condition Est",
+      "type": "object"
+    },
+    "kpis": {
+      "items": {
+        "$ref": "#/$defs/KpiStatus"
+      },
+      "title": "Kpis",
+      "type": "array"
+    },
+    "match_id": {
+      "title": "Match Id",
+      "type": "string"
+    },
+    "minute": {
+      "maximum": 130,
+      "minimum": 0,
+      "title": "Minute",
+      "type": "integer"
+    },
+    "on_pitch": {
+      "patternProperties": {
+        "^[A-Z]{3}$": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "title": "On Pitch",
+      "type": "object"
+    },
+    "period": {
+      "enum": [
+        1,
+        2
+      ],
+      "title": "Period",
+      "type": "integer"
+    },
+    "score": {
+      "patternProperties": {
+        "^[A-Z]{3}$": {
+          "type": "integer"
+        }
+      },
+      "title": "Score",
+      "type": "object"
+    },
+    "sub_windows_used": {
+      "patternProperties": {
+        "^[A-Z]{3}$": {
+          "type": "integer"
+        }
+      },
+      "title": "Sub Windows Used",
+      "type": "object"
+    },
+    "subs_used": {
+      "patternProperties": {
+        "^[A-Z]{3}$": {
+          "type": "integer"
+        }
+      },
+      "title": "Subs Used",
+      "type": "object"
+    }
+  },
+  "required": [
+    "match_id",
+    "minute",
+    "period",
+    "score",
+    "subs_used",
+    "sub_windows_used",
+    "on_pitch",
+    "condition_est",
+    "active_levers",
+    "kpis"
+  ],
+  "title": "Snapshot",
+  "type": "object"
+}

@@ -1,0 +1,1550 @@
+{
+ "duel": {
+  "match_id": "m-demo-001",
+  "minute": 45,
+  "private": {
+   "KES": {
+    "team": "KES",
+    "options": [
+     {
+      "option_id": "KES-HT-A",
+      "team": "KES",
+      "label": {
+       "en": "Stay the course",
+       "es": "Mantener el plan"
+      },
+      "intent": "stay_the_course",
+      "lever_changes": {
+       "press_height": null,
+       "press_target": null,
+       "build_up": null,
+       "attack_channel": null,
+       "corner_delivery": null
+      },
+      "subs": [],
+      "evidence": [],
+      "estimated": false
+     },
+     {
+      "option_id": "KES-HT-B",
+      "team": "KES",
+      "label": {
+       "en": "Mid block + back post corners",
+       "es": "Bloque medio + córners al segundo palo"
+      },
+      "intent": "drop_block",
+      "lever_changes": {
+       "press_height": "mid",
+       "press_target": null,
+       "build_up": null,
+       "attack_channel": null,
+       "corner_delivery": null
+      },
+      "subs": [],
+      "evidence": [
+       "c201",
+       "c_sp_02"
+      ],
+      "estimated": false
+     },
+     {
+      "option_id": "KES-HT-C",
+      "team": "KES",
+      "label": {
+       "en": "Double attacking change",
+       "es": "Doble cambio ofensivo"
+      },
+      "intent": "attacking_subs",
+      "lever_changes": {
+       "press_height": null,
+       "press_target": null,
+       "build_up": null,
+       "attack_channel": "balanced",
+       "corner_delivery": null
+      },
+      "subs": [
+       {
+        "window": "HT",
+        "out": "KES-11",
+        "in": "KES-17"
+       },
+       {
+        "window": "HT",
+        "out": "KES-8",
+        "in": "KES-16"
+       }
+      ],
+      "evidence": [
+       "c_kpi_k1_45"
+      ],
+      "estimated": false
+     }
+    ],
+    "opponent_estimate": {
+     "estimator": "KES",
+     "opponent": "HAR",
+     "options": [
+      {
+       "option": {
+        "option_id": "KES-EST-HAR-1",
+        "team": "HAR",
+        "label": {
+         "en": "They keep going long",
+         "es": "Siguen en largo"
+        },
+        "intent": "stay_the_course",
+        "lever_changes": {
+         "press_height": null,
+         "press_target": null,
+         "build_up": null,
+         "attack_channel": null,
+         "corner_delivery": null
+        },
+        "subs": [],
+        "evidence": [],
+        "estimated": true
+       },
+       "probability": 0.5
+      },
+      {
+       "option": {
+        "option_id": "KES-EST-HAR-2",
+        "team": "HAR",
+        "label": {
+         "en": "They go back to short",
+         "es": "Vuelven al corto"
+        },
+        "intent": "short_build_up",
+        "lever_changes": {
+         "press_height": null,
+         "press_target": null,
+         "build_up": "short",
+         "attack_channel": null,
+         "corner_delivery": null
+        },
+        "subs": [],
+        "evidence": [],
+        "estimated": true
+       },
+       "probability": 0.15
+      },
+      {
+       "option": {
+        "option_id": "KES-EST-HAR-3",
+        "team": "HAR",
+        "label": {
+         "en": "They sit deep",
+         "es": "Se encierran"
+        },
+        "intent": "protect_lead",
+        "lever_changes": {
+         "press_height": "low",
+         "press_target": null,
+         "build_up": null,
+         "attack_channel": null,
+         "corner_delivery": null
+        },
+        "subs": [],
+        "evidence": [],
+        "estimated": true
+       },
+       "probability": 0.35
+      }
+     ],
+     "claims": [
+      "c_est_KES"
+     ]
+    },
+    "believed_matrix": {
+     "matrix_id": "mx-believed-KES",
+     "match_id": "m-demo-001",
+     "kind": "believed",
+     "believer": "KES",
+     "row_team": "KES",
+     "col_team": "HAR",
+     "rows": [
+      "KES-HT-A",
+      "KES-HT-B",
+      "KES-HT-C"
+     ],
+     "cols": [
+      "KES-EST-HAR-1",
+      "KES-EST-HAR-2",
+      "KES-EST-HAR-3"
+     ],
+     "col_probs": [
+      0.5,
+      0.15,
+      0.35
+     ],
+     "cells": [
+      [
+       {
+        "xpts": {
+         "KES": 0.81,
+         "HAR": 1.99
+        },
+        "ci90": {
+         "KES": [
+          0.76,
+          0.86
+         ],
+         "HAR": [
+          1.94,
+          2.04
+         ]
+        },
+        "claim_id": "cm_mx-believed-KES_00"
+       },
+       {
+        "xpts": {
+         "KES": 0.91,
+         "HAR": 1.89
+        },
+        "ci90": {
+         "KES": [
+          0.86,
+          0.96
+         ],
+         "HAR": [
+          1.84,
+          1.94
+         ]
+        },
+        "claim_id": "cm_mx-believed-KES_01"
+       },
+       {
+        "xpts": {
+         "KES": 0.78,
+         "HAR": 2.02
+        },
+        "ci90": {
+         "KES": [
+          0.73,
+          0.83
+         ],
+         "HAR": [
+          1.97,
+          2.07
+         ]
+        },
+        "claim_id": "cm_mx-believed-KES_02"
+       }
+      ],
+      [
+       {
+        "xpts": {
+         "KES": 0.93,
+         "HAR": 1.87
+        },
+        "ci90": {
+         "KES": [
+          0.88,
+          0.98
+         ],
+         "HAR": [
+          1.82,
+          1.92
+         ]
+        },
+        "claim_id": "cm_mx-believed-KES_10"
+       },
+       {
+        "xpts": {
+         "KES": 0.85,
+         "HAR": 1.95
+        },
+        "ci90": {
+         "KES": [
+          0.8,
+          0.9
+         ],
+         "HAR": [
+          1.9,
+          2.0
+         ]
+        },
+        "claim_id": "cm_mx-believed-KES_11"
+       },
+       {
+        "xpts": {
+         "KES": 0.86,
+         "HAR": 1.94
+        },
+        "ci90": {
+         "KES": [
+          0.81,
+          0.91
+         ],
+         "HAR": [
+          1.89,
+          1.99
+         ]
+        },
+        "claim_id": "cm_mx-believed-KES_12"
+       }
+      ],
+      [
+       {
+        "xpts": {
+         "KES": 0.77,
+         "HAR": 2.03
+        },
+        "ci90": {
+         "KES": [
+          0.72,
+          0.82
+         ],
+         "HAR": [
+          1.98,
+          2.08
+         ]
+        },
+        "claim_id": "cm_mx-believed-KES_20"
+       },
+       {
+        "xpts": {
+         "KES": 0.87,
+         "HAR": 1.93
+        },
+        "ci90": {
+         "KES": [
+          0.82,
+          0.92
+         ],
+         "HAR": [
+          1.88,
+          1.98
+         ]
+        },
+        "claim_id": "cm_mx-believed-KES_21"
+       },
+       {
+        "xpts": {
+         "KES": 0.89,
+         "HAR": 1.91
+        },
+        "ci90": {
+         "KES": [
+          0.84,
+          0.94
+         ],
+         "HAR": [
+          1.86,
+          1.96
+         ]
+        },
+        "claim_id": "cm_mx-believed-KES_22"
+       }
+      ]
+     ],
+     "R": 300,
+     "seed": 4501,
+     "readings": {
+      "KES": {
+       "team": "KES",
+       "best_response": {
+        "KES-EST-HAR-1": "KES-HT-B",
+        "KES-EST-HAR-2": "KES-HT-A",
+        "KES-EST-HAR-3": "KES-HT-C"
+       },
+       "safe_pick": "KES-HT-B",
+       "best_guess": "KES-HT-B",
+       "gamble": "KES-HT-A",
+       "dominant": null
+      }
+     },
+     "illustrative": true
+    },
+    "choice": {
+     "team": "KES",
+     "sealed_at": "15:47:10",
+     "sha256": "4b976708451faa9588600eb2bfc5547f510c167fc2c715191ba77428e9d309c1"
+    }
+   },
+   "HAR": {
+    "team": "HAR",
+    "options": [
+     {
+      "option_id": "HAR-HT-X",
+      "team": "HAR",
+      "label": {
+       "en": "Stay the course (keep going long)",
+       "es": "Mantener el plan (seguir en largo)"
+      },
+      "intent": "stay_the_course",
+      "lever_changes": {
+       "press_height": null,
+       "press_target": null,
+       "build_up": null,
+       "attack_channel": null,
+       "corner_delivery": null
+      },
+      "subs": [],
+      "evidence": [],
+      "estimated": false
+     },
+     {
+      "option_id": "HAR-HT-Y",
+      "team": "HAR",
+      "label": {
+       "en": "Back to short build-up",
+       "es": "Volver a salir en corto"
+      },
+      "intent": "short_build_up",
+      "lever_changes": {
+       "press_height": null,
+       "press_target": null,
+       "build_up": "short",
+       "attack_channel": null,
+       "corner_delivery": null
+      },
+      "subs": [],
+      "evidence": [],
+      "estimated": false
+     },
+     {
+      "option_id": "HAR-HT-Z",
+      "team": "HAR",
+      "label": {
+       "en": "Low block to protect the lead",
+       "es": "Bloque bajo para proteger el 1-0"
+      },
+      "intent": "protect_lead",
+      "lever_changes": {
+       "press_height": "low",
+       "press_target": null,
+       "build_up": null,
+       "attack_channel": null,
+       "corner_delivery": null
+      },
+      "subs": [],
+      "evidence": [],
+      "estimated": false
+     }
+    ],
+    "opponent_estimate": {
+     "estimator": "HAR",
+     "opponent": "KES",
+     "options": [
+      {
+       "option": {
+        "option_id": "HAR-EST-KES-1",
+        "team": "KES",
+        "label": {
+         "en": "They keep pressing high",
+         "es": "Siguen presionando arriba"
+        },
+        "intent": "stay_the_course",
+        "lever_changes": {
+         "press_height": null,
+         "press_target": null,
+         "build_up": null,
+         "attack_channel": null,
+         "corner_delivery": null
+        },
+        "subs": [],
+        "evidence": [],
+        "estimated": true
+       },
+       "probability": 0.55
+      },
+      {
+       "option": {
+        "option_id": "HAR-EST-KES-2",
+        "team": "KES",
+        "label": {
+         "en": "They drop into a mid block",
+         "es": "Bajan a bloque medio"
+        },
+        "intent": "drop_block",
+        "lever_changes": {
+         "press_height": "mid",
+         "press_target": null,
+         "build_up": null,
+         "attack_channel": null,
+         "corner_delivery": null
+        },
+        "subs": [],
+        "evidence": [],
+        "estimated": true
+       },
+       "probability": 0.3
+      },
+      {
+       "option": {
+        "option_id": "HAR-EST-KES-3",
+        "team": "KES",
+        "label": {
+         "en": "They throw on attackers",
+         "es": "Meten atacantes"
+        },
+        "intent": "attacking_subs",
+        "lever_changes": {
+         "press_height": null,
+         "press_target": null,
+         "build_up": null,
+         "attack_channel": "balanced",
+         "corner_delivery": null
+        },
+        "subs": [],
+        "evidence": [],
+        "estimated": true
+       },
+       "probability": 0.15
+      }
+     ],
+     "claims": [
+      "c_est_HAR"
+     ]
+    },
+    "believed_matrix": {
+     "matrix_id": "mx-believed-HAR",
+     "match_id": "m-demo-001",
+     "kind": "believed",
+     "believer": "HAR",
+     "row_team": "HAR",
+     "col_team": "KES",
+     "rows": [
+      "HAR-HT-X",
+      "HAR-HT-Y",
+      "HAR-HT-Z"
+     ],
+     "cols": [
+      "HAR-EST-KES-1",
+      "HAR-EST-KES-2",
+      "HAR-EST-KES-3"
+     ],
+     "col_probs": [
+      0.55,
+      0.3,
+      0.15
+     ],
+     "cells": [
+      [
+       {
+        "xpts": {
+         "KES": 0.8,
+         "HAR": 2.0
+        },
+        "ci90": {
+         "KES": [
+          0.75,
+          0.85
+         ],
+         "HAR": [
+          1.95,
+          2.05
+         ]
+        },
+        "claim_id": "cm_mx-believed-HAR_00"
+       },
+       {
+        "xpts": {
+         "KES": 0.95,
+         "HAR": 1.85
+        },
+        "ci90": {
+         "KES": [
+          0.9,
+          1.0
+         ],
+         "HAR": [
+          1.8,
+          1.9
+         ]
+        },
+        "claim_id": "cm_mx-believed-HAR_01"
+       },
+       {
+        "xpts": {
+         "KES": 0.77,
+         "HAR": 2.03
+        },
+        "ci90": {
+         "KES": [
+          0.72,
+          0.82
+         ],
+         "HAR": [
+          1.98,
+          2.08
+         ]
+        },
+        "claim_id": "cm_mx-believed-HAR_02"
+       }
+      ],
+      [
+       {
+        "xpts": {
+         "KES": 0.91,
+         "HAR": 1.89
+        },
+        "ci90": {
+         "KES": [
+          0.86,
+          0.96
+         ],
+         "HAR": [
+          1.84,
+          1.94
+         ]
+        },
+        "claim_id": "cm_mx-believed-HAR_10"
+       },
+       {
+        "xpts": {
+         "KES": 0.85,
+         "HAR": 1.95
+        },
+        "ci90": {
+         "KES": [
+          0.8,
+          0.9
+         ],
+         "HAR": [
+          1.9,
+          2.0
+         ]
+        },
+        "claim_id": "cm_mx-believed-HAR_11"
+       },
+       {
+        "xpts": {
+         "KES": 0.87,
+         "HAR": 1.93
+        },
+        "ci90": {
+         "KES": [
+          0.82,
+          0.92
+         ],
+         "HAR": [
+          1.88,
+          1.98
+         ]
+        },
+        "claim_id": "cm_mx-believed-HAR_12"
+       }
+      ],
+      [
+       {
+        "xpts": {
+         "KES": 0.78,
+         "HAR": 2.02
+        },
+        "ci90": {
+         "KES": [
+          0.73,
+          0.83
+         ],
+         "HAR": [
+          1.97,
+          2.07
+         ]
+        },
+        "claim_id": "cm_mx-believed-HAR_20"
+       },
+       {
+        "xpts": {
+         "KES": 0.86,
+         "HAR": 1.94
+        },
+        "ci90": {
+         "KES": [
+          0.81,
+          0.91
+         ],
+         "HAR": [
+          1.89,
+          1.99
+         ]
+        },
+        "claim_id": "cm_mx-believed-HAR_21"
+       },
+       {
+        "xpts": {
+         "KES": 0.89,
+         "HAR": 1.91
+        },
+        "ci90": {
+         "KES": [
+          0.84,
+          0.94
+         ],
+         "HAR": [
+          1.86,
+          1.96
+         ]
+        },
+        "claim_id": "cm_mx-believed-HAR_22"
+       }
+      ]
+     ],
+     "R": 300,
+     "seed": 4501,
+     "readings": {
+      "HAR": {
+       "team": "HAR",
+       "best_response": {
+        "HAR-EST-KES-1": "HAR-HT-Z",
+        "HAR-EST-KES-2": "HAR-HT-Y",
+        "HAR-EST-KES-3": "HAR-HT-X"
+       },
+       "safe_pick": "HAR-HT-Z",
+       "best_guess": "HAR-HT-Z",
+       "gamble": "HAR-HT-X",
+       "dominant": null
+      }
+     },
+     "illustrative": true
+    },
+    "choice": {
+     "team": "HAR",
+     "sealed_at": "15:47:10",
+     "sha256": "ae5cd4b40728fa71dc50c43f4aa1f4f93e263bd0fbe53390822dd38467a62857"
+    }
+   }
+  },
+  "broadcast": {
+   "revealed": {
+    "KES": {
+     "team": "KES",
+     "option_id": "KES-HT-B",
+     "salt": "a3f1c09e5b7d2468a3f1c09e5b7d2468",
+     "rule": "safe_pick"
+    },
+    "HAR": {
+     "team": "HAR",
+     "option_id": "HAR-HT-Z",
+     "salt": "9c2e7b4a1d6f38059c2e7b4a1d6f3805",
+     "rule": "best_guess"
+    }
+   },
+   "true_matrix": {
+    "matrix_id": "mx-true",
+    "match_id": "m-demo-001",
+    "kind": "true",
+    "believer": null,
+    "row_team": "KES",
+    "col_team": "HAR",
+    "rows": [
+     "KES-HT-A",
+     "KES-HT-B",
+     "KES-HT-C"
+    ],
+    "cols": [
+     "HAR-HT-X",
+     "HAR-HT-Y",
+     "HAR-HT-Z"
+    ],
+    "col_probs": null,
+    "cells": [
+     [
+      {
+       "xpts": {
+        "KES": 0.8,
+        "HAR": 2.0
+       },
+       "ci90": {
+        "KES": [
+         0.75,
+         0.85
+        ],
+        "HAR": [
+         1.95,
+         2.05
+        ]
+       },
+       "claim_id": "cm_mx-true_00"
+      },
+      {
+       "xpts": {
+        "KES": 0.92,
+        "HAR": 1.88
+       },
+       "ci90": {
+        "KES": [
+         0.87,
+         0.97
+        ],
+        "HAR": [
+         1.83,
+         1.93
+        ]
+       },
+       "claim_id": "cm_mx-true_01"
+      },
+      {
+       "xpts": {
+        "KES": 0.77,
+        "HAR": 2.03
+       },
+       "ci90": {
+        "KES": [
+         0.72,
+         0.82
+        ],
+        "HAR": [
+         1.98,
+         2.08
+        ]
+       },
+       "claim_id": "cm_mx-true_02"
+      }
+     ],
+     [
+      {
+       "xpts": {
+        "KES": 0.94,
+        "HAR": 1.86
+       },
+       "ci90": {
+        "KES": [
+         0.89,
+         0.99
+        ],
+        "HAR": [
+         1.81,
+         1.91
+        ]
+       },
+       "claim_id": "cm_mx-true_10"
+      },
+      {
+       "xpts": {
+        "KES": 0.84,
+        "HAR": 1.96
+       },
+       "ci90": {
+        "KES": [
+         0.79,
+         0.89
+        ],
+        "HAR": [
+         1.91,
+         2.01
+        ]
+       },
+       "claim_id": "cm_mx-true_11"
+      },
+      {
+       "xpts": {
+        "KES": 0.85,
+        "HAR": 1.95
+       },
+       "ci90": {
+        "KES": [
+         0.8,
+         0.9
+        ],
+        "HAR": [
+         1.9,
+         2.0
+        ]
+       },
+       "claim_id": "cm_mx-true_12"
+      }
+     ],
+     [
+      {
+       "xpts": {
+        "KES": 0.76,
+        "HAR": 2.04
+       },
+       "ci90": {
+        "KES": [
+         0.71,
+         0.81
+        ],
+        "HAR": [
+         1.99,
+         2.09
+        ]
+       },
+       "claim_id": "cm_mx-true_20"
+      },
+      {
+       "xpts": {
+        "KES": 0.88,
+        "HAR": 1.92
+       },
+       "ci90": {
+        "KES": [
+         0.83,
+         0.93
+        ],
+        "HAR": [
+         1.87,
+         1.97
+        ]
+       },
+       "claim_id": "cm_mx-true_21"
+      },
+      {
+       "xpts": {
+        "KES": 0.9,
+        "HAR": 1.9
+       },
+       "ci90": {
+        "KES": [
+         0.85,
+         0.95
+        ],
+        "HAR": [
+         1.85,
+         1.95
+        ]
+       },
+       "claim_id": "cm_mx-true_22"
+      }
+     ]
+    ],
+    "R": 500,
+    "seed": 4501,
+    "readings": {
+     "KES": {
+      "team": "KES",
+      "best_response": {
+       "HAR-HT-X": "KES-HT-B",
+       "HAR-HT-Y": "KES-HT-A",
+       "HAR-HT-Z": "KES-HT-C"
+      },
+      "safe_pick": "KES-HT-B",
+      "best_guess": null,
+      "gamble": "KES-HT-A",
+      "dominant": null
+     },
+     "HAR": {
+      "team": "HAR",
+      "best_response": {
+       "KES-HT-A": "HAR-HT-Z",
+       "KES-HT-B": "HAR-HT-Y",
+       "KES-HT-C": "HAR-HT-X"
+      },
+      "safe_pick": "HAR-HT-Z",
+      "best_guess": null,
+      "gamble": "HAR-HT-X",
+      "dominant": null
+     }
+    },
+    "illustrative": true
+   },
+   "regret": {
+    "KES": {
+     "team": "KES",
+     "chosen": "KES-HT-B",
+     "opponent_chosen": "HAR-HT-Z",
+     "best_response": "KES-HT-C",
+     "regret_xpts": 0.05,
+     "claim_id": "c_rg_KES"
+    },
+    "HAR": {
+     "team": "HAR",
+     "chosen": "HAR-HT-Z",
+     "opponent_chosen": "KES-HT-B",
+     "best_response": "HAR-HT-Y",
+     "regret_xpts": 0.01,
+     "claim_id": "c_rg_HAR"
+    }
+   }
+  },
+  "illustrative": true
+ },
+ "claims": [
+  {
+   "claim_id": "cm_mx-believed-KES_00",
+   "type": "sim_matrix_cell",
+   "team": "KES",
+   "player_id": null,
+   "metric": "xpts_delta_vs_stay_stay",
+   "value": 0.01,
+   "unit": null,
+   "league_ref": null,
+   "n": 300,
+   "interval_low": -0.04,
+   "interval_high": 0.06,
+   "target": null,
+   "minute": null,
+   "label": "KES-HT-A x KES-EST-HAR-1",
+   "evidence": [],
+   "status": "sufficient",
+   "illustrative": true
+  },
+  {
+   "claim_id": "cm_mx-believed-KES_01",
+   "type": "sim_matrix_cell",
+   "team": "KES",
+   "player_id": null,
+   "metric": "xpts_delta_vs_stay_stay",
+   "value": 0.11,
+   "unit": null,
+   "league_ref": null,
+   "n": 300,
+   "interval_low": 0.06,
+   "interval_high": 0.16,
+   "target": null,
+   "minute": null,
+   "label": "KES-HT-A x KES-EST-HAR-2",
+   "evidence": [],
+   "status": "sufficient",
+   "illustrative": true
+  },
+  {
+   "claim_id": "cm_mx-believed-KES_02",
+   "type": "sim_matrix_cell",
+   "team": "KES",
+   "player_id": null,
+   "metric": "xpts_delta_vs_stay_stay",
+   "value": -0.02,
+   "unit": null,
+   "league_ref": null,
+   "n": 300,
+   "interval_low": -0.07,
+   "interval_high": 0.03,
+   "target": null,
+   "minute": null,
+   "label": "KES-HT-A x KES-EST-HAR-3",
+   "evidence": [],
+   "status": "sufficient",
+   "illustrative": true
+  },
+  {
+   "claim_id": "cm_mx-believed-KES_10",
+   "type": "sim_matrix_cell",
+   "team": "KES",
+   "player_id": null,
+   "metric": "xpts_delta_vs_stay_stay",
+   "value": 0.13,
+   "unit": null,
+   "league_ref": null,
+   "n": 300,
+   "interval_low": 0.08,
+   "interval_high": 0.18,
+   "target": null,
+   "minute": null,
+   "label": "KES-HT-B x KES-EST-HAR-1",
+   "evidence": [],
+   "status": "sufficient",
+   "illustrative": true
+  },
+  {
+   "claim_id": "cm_mx-believed-KES_11",
+   "type": "sim_matrix_cell",
+   "team": "KES",
+   "player_id": null,
+   "metric": "xpts_delta_vs_stay_stay",
+   "value": 0.05,
+   "unit": null,
+   "league_ref": null,
+   "n": 300,
+   "interval_low": 0.0,
+   "interval_high": 0.1,
+   "target": null,
+   "minute": null,
+   "label": "KES-HT-B x KES-EST-HAR-2",
+   "evidence": [],
+   "status": "sufficient",
+   "illustrative": true
+  },
+  {
+   "claim_id": "cm_mx-believed-KES_12",
+   "type": "sim_matrix_cell",
+   "team": "KES",
+   "player_id": null,
+   "metric": "xpts_delta_vs_stay_stay",
+   "value": 0.06,
+   "unit": null,
+   "league_ref": null,
+   "n": 300,
+   "interval_low": 0.01,
+   "interval_high": 0.11,
+   "target": null,
+   "minute": null,
+   "label": "KES-HT-B x KES-EST-HAR-3",
+   "evidence": [],
+   "status": "sufficient",
+   "illustrative": true
+  },
+  {
+   "claim_id": "cm_mx-believed-KES_20",
+   "type": "sim_matrix_cell",
+   "team": "KES",
+   "player_id": null,
+   "metric": "xpts_delta_vs_stay_stay",
+   "value": -0.03,
+   "unit": null,
+   "league_ref": null,
+   "n": 300,
+   "interval_low": -0.08,
+   "interval_high": 0.02,
+   "target": null,
+   "minute": null,
+   "label": "KES-HT-C x KES-EST-HAR-1",
+   "evidence": [],
+   "status": "sufficient",
+   "illustrative": true
+  },
+  {
+   "claim_id": "cm_mx-believed-KES_21",
+   "type": "sim_matrix_cell",
+   "team": "KES",
+   "player_id": null,
+   "metric": "xpts_delta_vs_stay_stay",
+   "value": 0.07,
+   "unit": null,
+   "league_ref": null,
+   "n": 300,
+   "interval_low": 0.02,
+   "interval_high": 0.12,
+   "target": null,
+   "minute": null,
+   "label": "KES-HT-C x KES-EST-HAR-2",
+   "evidence": [],
+   "status": "sufficient",
+   "illustrative": true
+  },
+  {
+   "claim_id": "cm_mx-believed-KES_22",
+   "type": "sim_matrix_cell",
+   "team": "KES",
+   "player_id": null,
+   "metric": "xpts_delta_vs_stay_stay",
+   "value": 0.09,
+   "unit": null,
+   "league_ref": null,
+   "n": 300,
+   "interval_low": 0.04,
+   "interval_high": 0.14,
+   "target": null,
+   "minute": null,
+   "label": "KES-HT-C x KES-EST-HAR-3",
+   "evidence": [],
+   "status": "sufficient",
+   "illustrative": true
+  },
+  {
+   "claim_id": "cm_mx-believed-HAR_00",
+   "type": "sim_matrix_cell",
+   "team": "KES",
+   "player_id": null,
+   "metric": "xpts_delta_vs_stay_stay",
+   "value": 0.0,
+   "unit": null,
+   "league_ref": null,
+   "n": 300,
+   "interval_low": -0.05,
+   "interval_high": 0.05,
+   "target": null,
+   "minute": null,
+   "label": "HAR-EST-KES-1 x HAR-HT-X",
+   "evidence": [],
+   "status": "sufficient",
+   "illustrative": true
+  },
+  {
+   "claim_id": "cm_mx-believed-HAR_01",
+   "type": "sim_matrix_cell",
+   "team": "KES",
+   "player_id": null,
+   "metric": "xpts_delta_vs_stay_stay",
+   "value": 0.15,
+   "unit": null,
+   "league_ref": null,
+   "n": 300,
+   "interval_low": 0.1,
+   "interval_high": 0.2,
+   "target": null,
+   "minute": null,
+   "label": "HAR-EST-KES-2 x HAR-HT-X",
+   "evidence": [],
+   "status": "sufficient",
+   "illustrative": true
+  },
+  {
+   "claim_id": "cm_mx-believed-HAR_02",
+   "type": "sim_matrix_cell",
+   "team": "KES",
+   "player_id": null,
+   "metric": "xpts_delta_vs_stay_stay",
+   "value": -0.03,
+   "unit": null,
+   "league_ref": null,
+   "n": 300,
+   "interval_low": -0.08,
+   "interval_high": 0.02,
+   "target": null,
+   "minute": null,
+   "label": "HAR-EST-KES-3 x HAR-HT-X",
+   "evidence": [],
+   "status": "sufficient",
+   "illustrative": true
+  },
+  {
+   "claim_id": "cm_mx-believed-HAR_10",
+   "type": "sim_matrix_cell",
+   "team": "KES",
+   "player_id": null,
+   "metric": "xpts_delta_vs_stay_stay",
+   "value": 0.11,
+   "unit": null,
+   "league_ref": null,
+   "n": 300,
+   "interval_low": 0.06,
+   "interval_high": 0.16,
+   "target": null,
+   "minute": null,
+   "label": "HAR-EST-KES-1 x HAR-HT-Y",
+   "evidence": [],
+   "status": "sufficient",
+   "illustrative": true
+  },
+  {
+   "claim_id": "cm_mx-believed-HAR_11",
+   "type": "sim_matrix_cell",
+   "team": "KES",
+   "player_id": null,
+   "metric": "xpts_delta_vs_stay_stay",
+   "value": 0.05,
+   "unit": null,
+   "league_ref": null,
+   "n": 300,
+   "interval_low": 0.0,
+   "interval_high": 0.1,
+   "target": null,
+   "minute": null,
+   "label": "HAR-EST-KES-2 x HAR-HT-Y",
+   "evidence": [],
+   "status": "sufficient",
+   "illustrative": true
+  },
+  {
+   "claim_id": "cm_mx-believed-HAR_12",
+   "type": "sim_matrix_cell",
+   "team": "KES",
+   "player_id": null,
+   "metric": "xpts_delta_vs_stay_stay",
+   "value": 0.07,
+   "unit": null,
+   "league_ref": null,
+   "n": 300,
+   "interval_low": 0.02,
+   "interval_high": 0.12,
+   "target": null,
+   "minute": null,
+   "label": "HAR-EST-KES-3 x HAR-HT-Y",
+   "evidence": [],
+   "status": "sufficient",
+   "illustrative": true
+  },
+  {
+   "claim_id": "cm_mx-believed-HAR_20",
+   "type": "sim_matrix_cell",
+   "team": "KES",
+   "player_id": null,
+   "metric": "xpts_delta_vs_stay_stay",
+   "value": -0.02,
+   "unit": null,
+   "league_ref": null,
+   "n": 300,
+   "interval_low": -0.07,
+   "interval_high": 0.03,
+   "target": null,
+   "minute": null,
+   "label": "HAR-EST-KES-1 x HAR-HT-Z",
+   "evidence": [],
+   "status": "sufficient",
+   "illustrative": true
+  },
+  {
+   "claim_id": "cm_mx-believed-HAR_21",
+   "type": "sim_matrix_cell",
+   "team": "KES",
+   "player_id": null,
+   "metric": "xpts_delta_vs_stay_stay",
+   "value": 0.06,
+   "unit": null,
+   "league_ref": null,
+   "n": 300,
+   "interval_low": 0.01,
+   "interval_high": 0.11,
+   "target": null,
+   "minute": null,
+   "label": "HAR-EST-KES-2 x HAR-HT-Z",
+   "evidence": [],
+   "status": "sufficient",
+   "illustrative": true
+  },
+  {
+   "claim_id": "cm_mx-believed-HAR_22",
+   "type": "sim_matrix_cell",
+   "team": "KES",
+   "player_id": null,
+   "metric": "xpts_delta_vs_stay_stay",
+   "value": 0.09,
+   "unit": null,
+   "league_ref": null,
+   "n": 300,
+   "interval_low": 0.04,
+   "interval_high": 0.14,
+   "target": null,
+   "minute": null,
+   "label": "HAR-EST-KES-3 x HAR-HT-Z",
+   "evidence": [],
+   "status": "sufficient",
+   "illustrative": true
+  },
+  {
+   "claim_id": "cm_mx-true_00",
+   "type": "sim_matrix_cell",
+   "team": "KES",
+   "player_id": null,
+   "metric": "xpts_delta_vs_stay_stay",
+   "value": 0.0,
+   "unit": null,
+   "league_ref": null,
+   "n": 500,
+   "interval_low": -0.05,
+   "interval_high": 0.05,
+   "target": null,
+   "minute": null,
+   "label": "KES-HT-A x HAR-HT-X",
+   "evidence": [],
+   "status": "sufficient",
+   "illustrative": true
+  },
+  {
+   "claim_id": "cm_mx-true_01",
+   "type": "sim_matrix_cell",
+   "team": "KES",
+   "player_id": null,
+   "metric": "xpts_delta_vs_stay_stay",
+   "value": 0.12,
+   "unit": null,
+   "league_ref": null,
+   "n": 500,
+   "interval_low": 0.07,
+   "interval_high": 0.17,
+   "target": null,
+   "minute": null,
+   "label": "KES-HT-A x HAR-HT-Y",
+   "evidence": [],
+   "status": "sufficient",
+   "illustrative": true
+  },
+  {
+   "claim_id": "cm_mx-true_02",
+   "type": "sim_matrix_cell",
+   "team": "KES",
+   "player_id": null,
+   "metric": "xpts_delta_vs_stay_stay",
+   "value": -0.03,
+   "unit": null,
+   "league_ref": null,
+   "n": 500,
+   "interval_low": -0.08,
+   "interval_high": 0.02,
+   "target": null,
+   "minute": null,
+   "label": "KES-HT-A x HAR-HT-Z",
+   "evidence": [],
+   "status": "sufficient",
+   "illustrative": true
+  },
+  {
+   "claim_id": "cm_mx-true_10",
+   "type": "sim_matrix_cell",
+   "team": "KES",
+   "player_id": null,
+   "metric": "xpts_delta_vs_stay_stay",
+   "value": 0.14,
+   "unit": null,
+   "league_ref": null,
+   "n": 500,
+   "interval_low": 0.09,
+   "interval_high": 0.19,
+   "target": null,
+   "minute": null,
+   "label": "KES-HT-B x HAR-HT-X",
+   "evidence": [],
+   "status": "sufficient",
+   "illustrative": true
+  },
+  {
+   "claim_id": "cm_mx-true_11",
+   "type": "sim_matrix_cell",
+   "team": "KES",
+   "player_id": null,
+   "metric": "xpts_delta_vs_stay_stay",
+   "value": 0.04,
+   "unit": null,
+   "league_ref": null,
+   "n": 500,
+   "interval_low": -0.01,
+   "interval_high": 0.09,
+   "target": null,
+   "minute": null,
+   "label": "KES-HT-B x HAR-HT-Y",
+   "evidence": [],
+   "status": "sufficient",
+   "illustrative": true
+  },
+  {
+   "claim_id": "cm_mx-true_12",
+   "type": "sim_matrix_cell",
+   "team": "KES",
+   "player_id": null,
+   "metric": "xpts_delta_vs_stay_stay",
+   "value": 0.05,
+   "unit": null,
+   "league_ref": null,
+   "n": 500,
+   "interval_low": 0.0,
+   "interval_high": 0.1,
+   "target": null,
+   "minute": null,
+   "label": "KES-HT-B x HAR-HT-Z",
+   "evidence": [],
+   "status": "sufficient",
+   "illustrative": true
+  },
+  {
+   "claim_id": "cm_mx-true_20",
+   "type": "sim_matrix_cell",
+   "team": "KES",
+   "player_id": null,
+   "metric": "xpts_delta_vs_stay_stay",
+   "value": -0.04,
+   "unit": null,
+   "league_ref": null,
+   "n": 500,
+   "interval_low": -0.09,
+   "interval_high": 0.01,
+   "target": null,
+   "minute": null,
+   "label": "KES-HT-C x HAR-HT-X",
+   "evidence": [],
+   "status": "sufficient",
+   "illustrative": true
+  },
+  {
+   "claim_id": "cm_mx-true_21",
+   "type": "sim_matrix_cell",
+   "team": "KES",
+   "player_id": null,
+   "metric": "xpts_delta_vs_stay_stay",
+   "value": 0.08,
+   "unit": null,
+   "league_ref": null,
+   "n": 500,
+   "interval_low": 0.03,
+   "interval_high": 0.13,
+   "target": null,
+   "minute": null,
+   "label": "KES-HT-C x HAR-HT-Y",
+   "evidence": [],
+   "status": "sufficient",
+   "illustrative": true
+  },
+  {
+   "claim_id": "cm_mx-true_22",
+   "type": "sim_matrix_cell",
+   "team": "KES",
+   "player_id": null,
+   "metric": "xpts_delta_vs_stay_stay",
+   "value": 0.1,
+   "unit": null,
+   "league_ref": null,
+   "n": 500,
+   "interval_low": 0.05,
+   "interval_high": 0.15,
+   "target": null,
+   "minute": null,
+   "label": "KES-HT-C x HAR-HT-Z",
+   "evidence": [],
+   "status": "sufficient",
+   "illustrative": true
+  },
+  {
+   "claim_id": "c_est_KES",
+   "type": "opponent_estimate",
+   "team": "KES",
+   "player_id": null,
+   "metric": "opponent_option_probabilities",
+   "value": "They keep going long 50% / They go back to short 15% / They sit deep 35%",
+   "unit": null,
+   "league_ref": null,
+   "n": null,
+   "interval_low": null,
+   "interval_high": null,
+   "target": null,
+   "minute": null,
+   "label": null,
+   "evidence": [
+    "c201"
+   ],
+   "status": "sufficient",
+   "illustrative": true
+  },
+  {
+   "claim_id": "c_est_HAR",
+   "type": "opponent_estimate",
+   "team": "HAR",
+   "player_id": null,
+   "metric": "opponent_option_probabilities",
+   "value": "They keep pressing high 55% / They drop into a mid block 30% / They throw on attackers 15%",
+   "unit": null,
+   "league_ref": null,
+   "n": null,
+   "interval_low": null,
+   "interval_high": null,
+   "target": null,
+   "minute": null,
+   "label": null,
+   "evidence": [
+    "c_kpi_k1_45"
+   ],
+   "status": "sufficient",
+   "illustrative": true
+  },
+  {
+   "claim_id": "c_rg_KES",
+   "type": "regret",
+   "team": "KES",
+   "player_id": null,
+   "metric": "regret_xpts",
+   "value": 0.05,
+   "unit": null,
+   "league_ref": null,
+   "n": 500,
+   "interval_low": null,
+   "interval_high": null,
+   "target": null,
+   "minute": null,
+   "label": "best response KES-HT-C",
+   "evidence": [],
+   "status": "sufficient",
+   "illustrative": true
+  },
+  {
+   "claim_id": "c_rg_HAR",
+   "type": "regret",
+   "team": "HAR",
+   "player_id": null,
+   "metric": "regret_xpts",
+   "value": 0.01,
+   "unit": null,
+   "league_ref": null,
+   "n": 500,
+   "interval_low": null,
+   "interval_high": null,
+   "target": null,
+   "minute": null,
+   "label": "best response HAR-HT-Y",
+   "evidence": [],
+   "status": "sufficient",
+   "illustrative": true
+  }
+ ],
+ "illustrative": true
+}

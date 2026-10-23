@@ -1,0 +1,83 @@
+{
+ "tool": "estimate_opponent_options",
+ "scope": "KES",
+ "args": {
+  "match_id": "m-demo-001"
+ },
+ "response": {
+  "estimator": "KES",
+  "opponent": "HAR",
+  "options": [
+   {
+    "option": {
+     "option_id": "KES-EST-HAR-1",
+     "team": "HAR",
+     "label": {
+      "en": "They keep going long",
+      "es": "Siguen en largo"
+     },
+     "intent": "stay_the_course",
+     "lever_changes": {
+      "press_height": null,
+      "press_target": null,
+      "build_up": null,
+      "attack_channel": null,
+      "corner_delivery": null
+     },
+     "subs": [],
+     "evidence": [],
+     "estimated": true
+    },
+    "probability": 0.5
+   },
+   {
+    "option": {
+     "option_id": "KES-EST-HAR-2",
+     "team": "HAR",
+     "label": {
+      "en": "They go back to short",
+      "es": "Vuelven al corto"
+     },
+     "intent": "short_build_up",
+     "lever_changes": {
+      "press_height": null,
+      "press_target": null,
+      "build_up": "short",
+      "attack_channel": null,
+      "corner_delivery": null
+     },
+     "subs": [],
+     "evidence": [],
+     "estimated": true
+    },
+    "probability": 0.15
+   },
+   {
+    "option": {
+     "option_id": "KES-EST-HAR-3",
+     "team": "HAR",
+     "label": {
+      "en": "They sit deep",
+      "es": "Se encierran"
+     },
+     "intent": "protect_lead",
+     "lever_changes": {
+      "press_height": "low",
+      "press_target": null,
+      "build_up": null,
+      "attack_channel": null,
+      "corner_delivery": null
+     },
+     "subs": [],
+     "evidence": [],
+     "estimated": true
+    },
+    "probability": 0.35
+   }
+  ],
+  "claims": [
+   "c_est_KES"
+  ]
+ },
+ "illustrative": true
+}

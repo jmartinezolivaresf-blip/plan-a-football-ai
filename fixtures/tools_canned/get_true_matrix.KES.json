@@ -1,0 +1,12 @@
+{
+ "tool": "get_true_matrix",
+ "scope": "KES",
+ "args": {
+  "match_id": "m-demo-001"
+ },
+ "response": {
+  "error": "forbidden_scope",
+  "detail": "broadcast scope only"
+ },
+ "illustrative": true
+}

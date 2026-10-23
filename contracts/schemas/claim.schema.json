@@ -1,0 +1,210 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "claim_id": {
+      "pattern": "^c[\\w-]+$",
+      "title": "Claim Id",
+      "type": "string"
+    },
+    "evidence": {
+      "description": "event_ids / match refs that support it.",
+      "items": {
+        "type": "string"
+      },
+      "title": "Evidence",
+      "type": "array"
+    },
+    "illustrative": {
+      "default": false,
+      "description": "True for hand-written fixture data (not simulated).",
+      "title": "Illustrative",
+      "type": "boolean"
+    },
+    "interval_high": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Interval High"
+    },
+    "interval_low": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Interval Low"
+    },
+    "label": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Label"
+    },
+    "league_ref": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "League Ref"
+    },
+    "metric": {
+      "title": "Metric",
+      "type": "string"
+    },
+    "minute": {
+      "anyOf": [
+        {
+          "maximum": 130,
+          "minimum": 0,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Minute"
+    },
+    "n": {
+      "anyOf": [
+        {
+          "minimum": 0,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "N"
+    },
+    "player_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Player Id"
+    },
+    "status": {
+      "default": "sufficient",
+      "enum": [
+        "sufficient",
+        "insufficient"
+      ],
+      "title": "Status",
+      "type": "string"
+    },
+    "target": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Target"
+    },
+    "team": {
+      "anyOf": [
+        {
+          "pattern": "^[A-Z]{3}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Team"
+    },
+    "type": {
+      "enum": [
+        "observed_tendency",
+        "observed_adaptation",
+        "observed_mechanism",
+        "sim_valuation",
+        "sim_matrix_cell",
+        "opponent_estimate",
+        "regret",
+        "kpi_status"
+      ],
+      "title": "Type",
+      "type": "string"
+    },
+    "unit": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Unit"
+    },
+    "value": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "integer"
+        },
+        {
+          "type": "string"
+        }
+      ],
+      "title": "Value"
+    }
+  },
+  "required": [
+    "claim_id",
+    "type",
+    "team",
+    "player_id",
+    "metric",
+    "value",
+    "unit",
+    "league_ref",
+    "n",
+    "interval_low",
+    "interval_high",
+    "target",
+    "minute",
+    "label",
+    "evidence",
+    "status",
+    "illustrative"
+  ],
+  "title": "Claim",
+  "type": "object"
+}
