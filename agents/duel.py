@@ -167,7 +167,9 @@ class DuelBench:
         on = set(cond)
         squad = {p["player_id"]: p for p in state["squad"]["players"]}
         planned_in = {s.into for s in self.plan.subs_plan}
-        attackers_on = sorted([p for p in on if squad[p]["position"] in ATTACK_ROLES], key=lambda p: cond.get(p, 1.0))
+        # ties in condition break by player id, never by set order (which changes with PYTHONHASHSEED)
+        attackers_on = sorted((p for p in on if squad[p]["position"] in ATTACK_ROLES),
+                              key=lambda p: (cond.get(p, 1.0), p))
         bench = [p for p, d in squad.items() if p not in on and not d["starter"] and p not in planned_in
                  and d["position"] in ATTACK_ROLES]
         return {"team": self.team, "opponent": self.opp, "score_diff": diff, "kpis": kpis,

@@ -140,10 +140,16 @@ def _candidate(lev: dict, evid: dict, en: str, es: str) -> CandidateDraft:
                      "target": ">=0.40"})
     if lev.get("corner_delivery") == "far_post":
         kpis.append({"id": "k3", "metric": "set_piece_xg", "target": ">=0.30", "by_minute": 90})
-    if not kpis:
-        kpis.append({"id": "k4", "metric": "balls_in_behind_conceded", "target": "<=3", "by_minute": 90})
-    plan_b = []
+    # The Plan Tracker follows four KPIs: the ones tied to a lever first, then baseline ones whose targets sit near
+    # our simulator's season rates (per team-match: balls in behind median 16, high turnovers lower quartile 4).
+    have = {k["id"] for k in kpis}
+    kpis.append({"id": "k4", "metric": "balls_in_behind_conceded", "target": "<=14", "by_minute": 90})
     first_kpi = kpis[0]["id"]
+    if "k1" not in have:
+        kpis.append({"id": "k1", "metric": "high_turnovers", "target": ">=4", "by_minute": 90})
+    if "k3" not in have:
+        kpis.append({"id": "k3", "metric": "set_piece_xg", "target": ">=0.20", "by_minute": 90})
+    plan_b = []
     if lev.get("press_height") == "high":
         plan_b.append({"if": {"kpi": "k1", "status": "failing", "after_minute": 30},
                        "then": {"levers": {"press_height": "mid"}}})

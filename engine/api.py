@@ -44,6 +44,11 @@ from .tracker import PlanTracker, detect_adaptation
 from .valuation import default_plan, estimate_plan, matrix_from_outcomes, paired_ci, points
 
 
+def _tactics(plan: Plan) -> str:
+    """Everything in a plan that changes what the simulator does (KPIs too: Plan B rules can trigger on them)."""
+    return plan.model_dump_json(include={"levers", "plan_b", "subs_plan", "kpis"}, by_alias=True)
+
+
 @dataclass
 class Seeds:
     prematch: int = 101
@@ -167,8 +172,7 @@ class RealEngine:
 
     # ------------------------------------------------------------------ pre-match valuation
     def _sim_points(self, plans: dict[str, Plan], team: str, R: int, seed: int) -> tuple[np.ndarray, dict]:
-        key = team + "|" + "|".join(f"{t}:{p.levers.model_dump_json()}:{len(p.plan_b)}"
-                                    for t, p in sorted(plans.items()))
+        key = f"{team}|{R}|{seed}|" + "|".join(f"{t}:{_tactics(p)}" for t, p in sorted(plans.items()))
         if key not in self._value_cache:
             res = self.world_for(team).simulate(plans, self.match_squads(), seed=seed, R=R, home=self.home)
             opp = self.opponent(team)
@@ -184,7 +188,7 @@ class RealEngine:
         base, _ = self._sim_points({team: default_plan(plan), opp: opp_plan}, team, R, self.seeds.prematch)
         diff = cand - base
         lo, hi = paired_ci(diff, seed=self.seeds.prematch)
-        digest = hashlib.sha256(plan.levers.model_dump_json().encode()).hexdigest()[:8]
+        digest = hashlib.sha256((_tactics(plan) + _tactics(opp_plan)).encode()).hexdigest()[:8]
         return self._keep([Claim(claim_id=f"c_sim_{team}_{digest}", type="sim_valuation", team=team,
                                  metric="delta_xpts_vs_default_plan", value=round(float(diff.mean()), 3), n=R,
                                  interval_low=round(lo, 3), interval_high=round(hi, 3),
@@ -240,8 +244,17 @@ class RealEngine:
         return res.final_state
 
     def adaptation(self, team: str, minute: int) -> list[Claim]:
-        found = detect_adaptation(team, [e for e in self.events if e.minute <= minute], self.home)
+        """What the detector says at `minute`, using only events up to then."""
+        found = detect_adaptation(team, self.events, self.home, upto=minute)
         return self._keep(list(found)) if found else []
+
+    def first_adaptation(self, team: str, upto: int = 90) -> tuple[int, list[Claim]] | None:
+        """The first minute at which the online detector fires (what a live broadcast could have shown)."""
+        for minute in range(1, upto + 1):
+            found = detect_adaptation(team, self.events, self.home, upto=minute)
+            if found:
+                return minute, self._keep(list(found))
+        return None
 
     # ------------------------------------------------------------------ the duel
     def estimate_opponent_options(self, match_id: str, team: str) -> OpponentOptionsEstimate:
@@ -380,12 +393,22 @@ class RealEngine:
         self._keep(claims)
         revealed = {t: RevealedChoice(team=t, option_id=o, salt=s, rule=r) for t, (o, s, r) in self.sealed.items()}
         regret = {}
+        row_ids, col_ids = [o.option_id for o in rows], [o.option_id for o in cols]
         for team in (self.home, self.away):
             opp = self.opponent(team)
-            best, value = dm.regret(m, team, revealed[team].option_id, revealed[opp].option_id)
+            chosen, opp_chosen = revealed[team].option_id, revealed[opp].option_id
+            best, value = dm.regret(m, team, chosen, opp_chosen)
+            # paired 90% interval: same replicas (common random numbers) for the best response and the chosen option
+            if team == self.home:
+                a, b = (grid[row_ids.index(x)][col_ids.index(opp_chosen)] for x in (best, chosen))
+            else:
+                a, b = (grid[row_ids.index(opp_chosen)][col_ids.index(x)] for x in (best, chosen))
+            diff = points(a.goals[team], a.goals[opp]) - points(b.goals[team], b.goals[opp])
+            lo, hi = paired_ci(diff, seed=self.seeds.true)
             cid = f"c_rg_{team}"
             self._keep([Claim(claim_id=cid, type="regret", team=team, metric="regret_xpts", value=round(value, 3),
-                              n=self.R_true, label=f"best response {best}")])
+                              n=self.R_true, label=f"best response {best}", interval_low=round(lo, 3),
+                              interval_high=round(hi, 3))])
             regret[team] = Regret(team=team, chosen=revealed[team].option_id, opponent_chosen=revealed[opp].option_id,
                                   best_response=best, regret_xpts=round(value, 3), claim_id=cid)
         self.broadcast = DuelBroadcast(revealed=revealed, true_matrix=m, regret=regret)

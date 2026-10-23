@@ -65,8 +65,9 @@ class Director:
                      f"Los dos planes se sellaron antes del pitido inicial [{vals[0]}].", vals)
 
     # ------------------------------------------------------------------ live
-    def live(self, snapshots: list[Snapshot], events, plans: dict[str, Plan], adaptations: dict[str, list[Claim]],
-             upto: int) -> None:
+    def live(self, snapshots: list[Snapshot], events, plans: dict[str, Plan],
+             adaptations: dict[str, tuple[int, Claim, Claim] | None], upto: int) -> None:
+        """adaptations: per team, (minute the live detector fired, before claim, after claim) or None."""
         last_status: dict[tuple[str, str], str] = {}
         last_cue_minute: dict[str, int] = {}
         for s in snapshots:
@@ -90,16 +91,16 @@ class Director:
                          f"{self.names[k.team]} · {plans[k.team].name.es}: {KPI_ES[kpi.metric]} "
                          f"{STATUS_ES[k.status]}, {{{k.claim_id}.value}} con un objetivo de {{{k.claim_id}.target}}.",
                          [k.claim_id], kpi=k.kpi_id, status=k.status, value=f"{{{k.claim_id}.value}}")
-        for team, (before, after) in ((t, a) for t, a in adaptations.items() if a):
-            if after.minute is None or after.minute > upto:
+        for team, (detected, before, after) in ((t, a) for t, a in adaptations.items() if a):
+            if detected > upto:
                 continue
-            self.cue(f"q-{after.minute:03d}-adapt-{team}", mmss(after.minute, 30), "adaptation_detected", 1, 15, team,
+            self.cue(f"q-{detected:03d}-adapt-{team}", mmss(detected, 30), "adaptation_detected", 1, 15, team,
                      f"{self.names[team]} have changed how they build up ({after.label}): long balls from their own "
-                     f"half {{{after.claim_id}.value}} since minute {{{after.claim_id}.minute}}, from "
+                     f"half {{{after.claim_id}.value}} since about minute {{{after.claim_id}.minute}}, from "
                      f"{{{before.claim_id}.value}} before.",
                      f"{self.names[team]} han cambiado su salida de balón ({ES_ADAPT[after.label]}): balones largos "
-                     f"desde su campo {{{after.claim_id}.value}} desde el minuto {{{after.claim_id}.minute}}, antes "
-                     f"{{{before.claim_id}.value}}.",
+                     f"desde su campo {{{after.claim_id}.value}} desde el minuto {{{after.claim_id}.minute}} "
+                     f"aproximadamente, antes {{{before.claim_id}.value}}.",
                      [after.claim_id, before.claim_id])
         prev_levers = None
         for s in snapshots:
@@ -178,10 +179,20 @@ class Director:
                          f"{self.names[team]} read it right: no better answer existed in our simulator [{cid}].",
                          f"{self.names[team]} acertaron: no había mejor respuesta en nuestro simulador [{cid}].", [cid])
                 continue
+            # "likely range" is the paired 90% interval; written in words because digits must come from claims
+            ci = f"likely range {{{cid}.interval_low}} to {{{cid}.interval_high}}"
+            ci_es = f"rango probable de {{{cid}.interval_low}} a {{{cid}.interval_high}}"
+            if (self.claims[cid].interval_low or 0) <= 0:
+                self.cue(f"q-090-regret-{team}", "90:00", "bench_regret", 1, 20, team,
+                         f"{self.names[team]}'s call was within the simulator's noise of the best answer, "
+                         f"{label[rg.best_response].en}: {{{cid}.value}} xPts ({ci}).",
+                         f"La decisión de {self.names[team]} quedó dentro del ruido del simulador frente a la mejor "
+                         f"respuesta, {label[rg.best_response].es}: {{{cid}.value}} xPts ({ci_es}).", [cid])
+                continue
             self.cue(f"q-090-regret-{team}", "90:00", "bench_regret", 1, 20, team,
-                     f"{self.names[team]}'s call left {{{cid}.value}} xPts on the table: "
+                     f"{self.names[team]}'s call left {{{cid}.value}} xPts on the table ({ci}): "
                      f"{label[rg.best_response].en} was the best answer to what the other bench did.",
-                     f"La decisión de {self.names[team]} dejó {{{cid}.value}} xPts sobre la mesa: "
+                     f"La decisión de {self.names[team]} dejó {{{cid}.value}} xPts sobre la mesa ({ci_es}): "
                      f"{label[rg.best_response].es} era la mejor respuesta a lo que hizo el otro banquillo.", [cid])
             persp_home = team == home
             i = (m.rows if persp_home else m.cols).index(rg.best_response)

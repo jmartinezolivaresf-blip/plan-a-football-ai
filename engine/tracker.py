@@ -145,12 +145,15 @@ def _z(before: float, n1: int, after: float, n2: int) -> float:
     return abs(after - before) / se if se > 0 else (float("inf") if after != before else 0.0)
 
 
-def detect_adaptation(team: str, events: list[Event], home: str, min_side: int = ADAPT_MIN_SIDE,
+def detect_adaptation(team: str, events: list[Event], home: str, upto: int, min_side: int = ADAPT_MIN_SIDE,
                       min_change: float = ADAPT_MIN_CHANGE, min_z: float = ADAPT_MIN_Z) -> tuple[Claim, Claim] | None:
     """Regime change in how long a team builds up (share of long balls in its own half). Returns (before, after).
 
-    Scans every split point; a split counts only with >= min_side actions each side, a change >= min_change and a
-    two-proportion z >= min_z. The scan inflates false alarms, hence the strict z (see the calibration above)."""
+    Uses only events up to minute `upto` (the claim ids carry it, so a half-time reading and a later one never
+    overwrite each other). Scans every split point; a split counts only with >= min_side actions each side, a change
+    >= min_change and a two-proportion z >= min_z. The scan inflates false alarms, hence the strict z (see the
+    calibration above). The "after" claim's minute is the estimated change point, not the detection time."""
+    events = [e for e in events if e.minute <= upto]
     actions = build_up_actions(team, events, home)
     flags = [f for _, f in actions]
     n = len(flags)
@@ -170,9 +173,10 @@ def detect_adaptation(team: str, events: list[Event], home: str, min_side: int =
     label = "short to long" if after > before else "long to short"
     longs_before = [e.event_id for e, f in actions[:k] if f][-EVIDENCE_IDS:]
     longs_after = [e.event_id for e, f in actions[k:] if f == (1.0 if after > before else 0.0)][:EVIDENCE_IDS]
-    b = Claim(claim_id=f"c_ad_{team}_before", type="observed_tendency", team=team, metric="build_up_long_share",
+    metric = "build_up_long_share"
+    b = Claim(claim_id=f"c_ad_{team}_{upto:02d}_before", type="observed_tendency", team=team, metric=metric,
               value=round(before, 3), n=k, minute=actions[0][0].minute, label="before the change",
               evidence=longs_before)
-    a = Claim(claim_id=f"c_ad_{team}_after", type="observed_adaptation", team=team, metric="build_up_long_share",
+    a = Claim(claim_id=f"c_ad_{team}_{upto:02d}_after", type="observed_adaptation", team=team, metric=metric,
               value=round(after, 3), n=n - k, minute=first_after.minute, label=label, evidence=longs_after)
     return b, a
