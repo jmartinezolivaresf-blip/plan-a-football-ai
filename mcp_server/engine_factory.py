@@ -14,11 +14,11 @@ def get_engine(name: str | None = None) -> EngineAPI:
     if name == "mock":
         return MockEngine()
     if name == "real":
-        try:
-            from engine.api import RealEngine  # provided by person A at I1 (Saturday 13:00)
-        except ImportError as exc:
-            raise RuntimeError("ENGINE=real needs engine.api.RealEngine (person A, I1)") from exc
-        engine = RealEngine()
+        # Public season only (data/season/public.json): scouting and pre-match valuation. The real world (hidden
+        # truth) never enters this process; the demo match is played by the pipeline (D-034).
+        from pipeline.season_io import load_public_engine
+
+        engine = load_public_engine()
         if not isinstance(engine, EngineAPI):
             raise TypeError("engine.api.RealEngine does not implement contracts.engine_api.EngineAPI")
         return engine
