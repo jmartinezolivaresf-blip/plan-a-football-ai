@@ -34,7 +34,7 @@ from contracts.duel import EstimatedOption, OpponentOptionsEstimate
 from contracts.engine_api import NotReady, NotSealedYet
 from contracts.plan import OpponentPlanEstimate
 from contracts.refs import MatchRef, ValidationResult
-from contracts.sealing import choice_digest
+from contracts.sealing import choice_digest, new_salt
 from contracts.sim_types import MatchState
 
 from . import duel as dm
@@ -374,7 +374,9 @@ class RealEngine:
         self._option(team, option_id)
         if team in self.sealed:
             raise ValueError(f"{team} already sealed its choice")
-        salt = hashlib.sha256(f"{self.seeds.true}:{team}:{option_id}:salt".encode()).hexdigest()[:32]
+        # random, never derived from seeds: a salt anyone can recompute would let the other side brute-force the
+        # three options from the commit before the reveal (D-045)
+        salt = new_salt()
         self.sealed[team] = (option_id, salt, rule)
         return SealedChoice(team=team, sealed_at="half-time", sha256=choice_digest(self.match_id, team, option_id,
                                                                                   salt))

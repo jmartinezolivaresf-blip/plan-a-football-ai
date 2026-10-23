@@ -45,3 +45,14 @@ def test_detector_never_reads_past_its_cutoff():
     assert first > 35 and found[1].claim_id == f"c_ad_KES_{first:02d}_after"
     ids = {e.event_id for e in events if e.minute <= first}
     assert set(found[0].evidence + found[1].evidence) <= ids
+
+
+def test_threshold_is_the_committed_calibration_choice():
+    import json
+    from pathlib import Path
+
+    from engine.tracker import ADAPT_MIN_CHANGE, ADAPT_MIN_SIDE, ADAPT_MIN_Z
+    cal = json.loads((Path(__file__).resolve().parents[1] / "eval" / "results" / "adaptation_calibration.json")
+                     .read_text())
+    assert cal["chosen"]["min_z"] == ADAPT_MIN_Z and cal["chosen"]["min_change"] == ADAPT_MIN_CHANGE
+    assert cal["min_side"] == ADAPT_MIN_SIDE and cal["chosen"]["false_alarm_rate"] <= 0.05

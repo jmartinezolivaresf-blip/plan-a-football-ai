@@ -118,11 +118,13 @@ class PlanTracker:
         return current
 
 
-# Adaptation thresholds, calibrated on synthetic dev seasons 11-14 (eval/calibrate_adaptation.py): with these values
-# 1 of 192 unchanged team-matches raises an alarm and 48 of 48 injected build-up switches are found (D-038).
+# Adaptation thresholds for the ONLINE detector (re-tested every minute), calibrated on synthetic dev seasons 11-14
+# (eval/calibrate_adaptation.py, result in eval/results/adaptation_calibration.json): 7 of 192 unchanged team-matches
+# raise an alarm at some minute and 48 of 48 injected build-up switches are found, a median 6.5 minutes later
+# (D-038). A test keeps ADAPT_MIN_Z equal to the calibration's choice.
 ADAPT_MIN_SIDE = 20
 ADAPT_MIN_CHANGE = 0.2
-ADAPT_MIN_Z = 3.5
+ADAPT_MIN_Z = 4.0
 EVIDENCE_IDS = 12
 
 

@@ -1,0 +1,87 @@
+{
+  "procedure": "online: re-tested every minute on the events seen so far",
+  "null_team_matches": 192,
+  "switched_matches": 48,
+  "min_side": 20,
+  "seasons": {
+    "null": [
+      11,
+      12,
+      13,
+      14
+    ],
+    "power": [
+      11,
+      12
+    ]
+  },
+  "grid": [
+    {
+      "min_z": 3.0,
+      "min_change": 0.2,
+      "false_alarm_rate": 0.1823,
+      "power": 0.917,
+      "alarms_before_the_switch": 4,
+      "median_delay_min": 4.5,
+      "p90_delay_min": 12,
+      "median_change_minute_error": 2.0,
+      "p90_change_minute_error": 6
+    },
+    {
+      "min_z": 3.5,
+      "min_change": 0.2,
+      "false_alarm_rate": 0.099,
+      "power": 1.0,
+      "alarms_before_the_switch": 0,
+      "median_delay_min": 5.0,
+      "p90_delay_min": 17,
+      "median_change_minute_error": 2.0,
+      "p90_change_minute_error": 7
+    },
+    {
+      "min_z": 4.0,
+      "min_change": 0.2,
+      "false_alarm_rate": 0.0365,
+      "power": 1.0,
+      "alarms_before_the_switch": 0,
+      "median_delay_min": 6.5,
+      "p90_delay_min": 20,
+      "median_change_minute_error": 2.0,
+      "p90_change_minute_error": 7
+    },
+    {
+      "min_z": 4.5,
+      "min_change": 0.2,
+      "false_alarm_rate": 0.0156,
+      "power": 0.979,
+      "alarms_before_the_switch": 0,
+      "median_delay_min": 9,
+      "p90_delay_min": 30,
+      "median_change_minute_error": 1,
+      "p90_change_minute_error": 6
+    },
+    {
+      "min_z": 5.0,
+      "min_change": 0.2,
+      "false_alarm_rate": 0.0052,
+      "power": 0.896,
+      "alarms_before_the_switch": 0,
+      "median_delay_min": 10,
+      "p90_delay_min": 27,
+      "median_change_minute_error": 1,
+      "p90_change_minute_error": 6
+    }
+  ],
+  "chosen": {
+    "min_z": 4.0,
+    "min_change": 0.2,
+    "false_alarm_rate": 0.0365,
+    "power": 1.0,
+    "alarms_before_the_switch": 0,
+    "median_delay_min": 6.5,
+    "p90_delay_min": 20,
+    "median_change_minute_error": 2.0,
+    "p90_change_minute_error": 7
+  },
+  "rule": "smallest z with online false-alarm rate <= 5% per team-match at min_change 0.2"
+}
