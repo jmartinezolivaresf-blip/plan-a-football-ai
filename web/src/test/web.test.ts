@@ -188,3 +188,32 @@ describe("deep links", () => {
     expect(readParams("?tab=admin&mode=x")).toMatchObject({ tab: null, mode: null, reveal: false });
   });
 });
+
+describe("frozen demo bundle (simulated, not the fixture)", () => {
+  const demo: MatchBundle = JSON.parse(
+    readFileSync(new URL("../../public/match_bundle.json", import.meta.url), "utf8"),
+  );
+  const at = (search: string) => renderToString(createElement(Broadcast, { bundle: demo, link: readParams(search) }));
+
+  it("is simulated data with a duel, cues and an evaluation panel", () => {
+    expect(demo.illustrative).toBe(false);
+    expect(demo.duel).toBeTruthy();
+    expect(demo.cues.length).toBeGreaterThan(10);
+    expect((demo.eval as Record<string, unknown>).E1).toBeTruthy();
+  });
+  it("renders kick-off, the revealed half-time duel, full time and the analyst desk", () => {
+    expect(at("?t=0:00")).toContain("Plan Tracker");
+    const ht = at("?t=45:00&reveal=1&mode=analyst");
+    expect(ht).toContain("Half-time · The Duel");
+    expect(ht).toContain("Duel matrix");
+    expect(at("?t=90:00")).toContain("Whose plan won?");
+    const desk = at("?tab=desk&t=50:00&mode=analyst&lang=es");
+    expect(desk).toContain("Validation panel");
+    expect(desk).toContain("Agent trace");
+  });
+  it("never leaves an unfilled claim placeholder in a rendered cue", () => {
+    for (const t of ["?t=30:00", "?t=45:00&reveal=1", "?t=60:00&mode=analyst", "?t=90:00&lang=es"]) {
+      expect(at(t)).not.toMatch(/\{c[\w-]+\.\w+\}/);
+    }
+  });
+});
