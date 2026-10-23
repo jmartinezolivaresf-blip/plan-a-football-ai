@@ -126,3 +126,95 @@ in text; every other digit must come from a `{claim_id.field}` placeholder.
 
 **D-031 · Browser seal check.** The web app recomputes each plan's SHA-256 with Web Crypto over the same canonical
 JSON as `contracts/sealing.py` (plans contain no floats, so encodings match) and shows "Seal verified" only then.
+
+## H2, integration (2026-10-23)
+
+Branch `integration/h2` merges PR #1 (simulator) and PR #2 (MCP, agents, web) without touching `main`; the contract
+changes below need approval from both owners before it is merged.
+
+**D-032 · Explicit home team.** `sim.simulate(..., home=)` (and `start.home` for forks) names the home team; the
+first key of the `plans` dict is only a fallback. `RealEngine` always passes `home`.
+
+**D-033 · Three worlds, one simulator.** The engine never sees `contracts.eval_only`. It receives opaque handles:
+`public_world` (no hidden traits; pre-match plan trajectories and the Plan Tracker's expected curves),
+`belief_world(beliefs)` (a world built from what a bench's own scouting suspects, used for that bench's believed
+matrix) and `true_world` (hidden truth; used only to play the demo match and the broadcast true matrix after both
+seals). Only `pipeline/` constructs `true_world`.
+
+**D-034 · `ENGINE=real` serves the public season only.** `mcp_server/engine_factory.py` loads
+`data/season/public.json`; the truth file lives in `data/season/eval_only/` and the MCP server has no path to it, so
+`get_true_matrix` answers `not_sealed_yet` until a pipeline-run match has both seals.
+
+**D-035 · Contract additions.** `NotSealedYet`/`NotReady` moved into `contracts.engine_api` (mock and real engine
+raise the same types); `seal_choice(..., rule)` records which matrix reading justified the choice; `ToolError` adds
+`not_ready`; cues add `goal_flash`; `MatchBundle.scouting` carries each bench's report headlines by claim id.
+
+**D-036 · Evaluation independence and tuning disclosure.** While developing scouting on season 2026 we inspected
+the hidden traits of the test teams (HAR, ASH) and raised `press_resistance_trait_penalty` from 40 to 55 so the
+trait shows in the data. E1 therefore runs on an unseen season (seed 7777) whose truth nobody looked at. Scouting
+compares a player with players in the same position on the same team type (position x team factor) and excludes
+goalkeepers from pressure outliers. The offline rules client adds a
+Plan B ("go direct if the main KPI fails after 25'") for short/mixed build-up plans. The higher penalty makes the
+fixture HAR KPI rule rarer, so `test_kpi_rule_from_fixture_plan_can_fire` uses R=2000.
+
+**D-037 · Demo seed search.** `python -m pipeline.build --search N` tries match seeds in order, prints the criteria
+each one missed and keeps the smallest seed meeting `STORY_CRITERIA` (pipeline/build.py). The criteria select a
+match that tells the story (an adaptation, no dominant option for one bench, a regret) without editing any number;
+the bundle records the criteria and the chosen seed's story.
+
+**D-038 · Adaptation = a build-up switch seen in open play.** Goal kicks alone (3-6 per team per half) cannot show a
+change with confidence, and the simulator's `gk_short_bias` trait keeps a biased keeper short whatever the lever
+(Person A's model; unchanged). The detector scans the share of long balls among a team's own-half build-up actions
+(passes, long balls, carries, goal kicks; ~300 per match) for one change point: >= 20 actions each side,
+|change| >= 0.2 and two-proportion z >= 4.0. It runs online: at minute m it reads only events up to m, the broadcast
+cue appears at the first minute it fires, and claim ids carry the cutoff (`c_ad_HAR_50_after`) so a half-time reading
+is never overwritten by a later one. The cue says "since about minute X" because X is the estimated change point.
+The threshold comes from `eval/calibrate_adaptation.py` on dev seasons 11-14 only, measuring the online procedure
+(any alarm at any minute): rule "smallest grid z with false-alarm rate <= 5% per team-match" gives 7/192 false alarms,
+48/48 injected switches found (none before the switch), detection a median 6.5 minutes after the switch (90th
+percentile 20) and the estimated change minute off by a median of 2 (90th percentile 7). Disclosure: a first
+version calibrated a single full-time test, which understated online false alarms (18% at its chosen z of 3.0); the
+rule was corrected after seeing that. A test keeps the constant equal to the committed calibration result.
+
+**D-039 · Reproducible bundles.** Two bugs made the same seed give different bundles: the pre-match valuation cache
+was keyed on levers plus the number of Plan B rules (two candidates with equal levers collided, and the two staffs
+run concurrently, so the winner depended on timing), and half-time substitutions broke condition ties by set order
+(PYTHONHASHSEED). Both are fixed; a test rebuilds the demo in a subprocess with another hash seed and compares
+everything except wall-clock fields (trace durations, build time, seal timestamps, which the seal hash excludes).
+
+**D-040 · Regret with an interval; KPI targets from season rates.** Regret gets a paired 90% bootstrap interval over
+the same replicas (common random numbers) of the best response and the chosen option; the cue says "within the
+simulator's noise" when it includes zero. Offline plans track four KPIs (lever KPIs first, then balls in behind
+conceded <= 14 and high turnovers >= 4, near our simulator's season median 16 and lower quartile 4 per team-match).
+The demo story criteria (D-037) now require a live detection that matches a real build-up lever change and a regret
+interval above zero; with them 3 of match seeds 202-249 qualify and the smallest, 223, is the demo match.
+
+**D-041 · One definition of "ball in behind".** The simulator counted a ball in behind only against a high line,
+the engine counted every completed long ball into the final third, so the Plan Tracker expected 0 for any team not
+pressing high. The simulator's KPI counter now uses the engine's definition; only a ball behind a high line still
+opens a counter-attack window (game behaviour unchanged). `tests/test_kpi_definitions.py` checks that all simulator
+KPI counters equal the engine's event-based values on the same logged match (to +-1 for stoppage time). Simulator
+change: needs Person A's review.
+
+**D-042 · Shot volume calibrated on dev seasons.** New coefficient `shot_logit_offset` (-0.4) chosen by
+`eval/calibrate_sim.py` on seasons 11-14 (rule: mean shots per match closest to the middle of 24-27): shots 30.3 ->
+25.7, goals 3.33 -> 3.00 per match. Other season statistics are reported against their targets, not tuned. The
+`test_possession_continuity` check now skips a ball won just before half-time (the other team kicks off the second
+half), a legitimate sequence the new coefficient exposed.
+
+**D-043 · E1 on seasons nobody inspected.** Club trait kinds are fixed in `sim.season.TRAITS` and were seen during
+development, so E1 now runs on seasons 8001-8005 built with `random_trait_kinds=True` (three kinds per club drawn from
+the seed), scouting all six clubs per season (30 scouted teams, 90 traits). Scoring is at the level scouting observes:
+player for press resistance, side for a weak channel, team for the rest (the first run scored slow centre-backs per
+player and counted correct team-level detections as misses; fixed before the reported run). Nothing is tuned on these
+seasons.
+
+**D-044 · Replayed pre-match keeps its claims.** The seed search and the evaluation compute the pre-match once and
+replay it into fresh engines; the replay engine now adopts the claims the pre-match engine served (`Prematch`
+in pipeline/build.py). Before, plan cues were dropped and plans cited claims missing from the bundle. The
+integration test fixture uses this path and a test checks it gives the same bundle as a fresh build.
+
+**D-045 · Random salts for half-time choices.** The engine derived each choice salt from the true-matrix seed, team
+and option, all public in the repo, so the three possible commits could be recomputed and the choice read before the
+reveal. Salts now come from `secrets` (`contracts.sealing.new_salt`). Bundles stay reproducible except for salts,
+commits and wall-clock fields; the determinism test excludes exactly those.
