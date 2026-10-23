@@ -97,3 +97,32 @@ attributes, per-subset player selection.
 **D-024 · Model simplifications.** No cards, offsides, penalties or added time. Slow centre-back is team level.
 Invalid subs at run time are skipped deterministically; structurally invalid plans raise `sim.PlanError`. Sim-side
 KPI statuses for Plan B are an approximation of the engine's Plan Tracker (H2), which stays authoritative.
+
+## H1, person B (2026-10-23)
+
+**D-025 · Agent dependencies.** The H0 pins did not resolve (`agent-framework 1.23.0` needs `azure-ai-projects<2.8`,
+H0 pinned 2.9.0) and the meta-package pulls pre-release integrations. The `agents` extra now pins
+`agent-framework-core==1.23.0`, `agent-framework-foundry==1.15.0`, `mcp==2.3.0`, `azure-identity==1.26.0`
+(`azure-ai-projects 2.7.0` comes transitively). `make setup` and CI install `.[dev,agents]`.
+
+**D-026 · MCP trust model (refines tools.md "X-Team-Scope set by the host").** The scope is fixed per server instance
+by the trusted host and never read from a request header or argument. Agents connect in-process (no listener). HTTP
+mode serves one scope on loopback only and refuses other hosts until real client authentication exists. Only the tools
+allowed for the scope are registered. Details: `mcp_server/README.md`.
+
+**D-027 · Tool results are one JSON text block.** MCP splits list results into one content item per element, which is
+ambiguous for one-item lists; every tool returns a single JSON string (same payloads as `fixtures/tools_canned`).
+
+**D-028 · Staff claim visibility and time gating.** Staffs read public observed claims plus their own `kpi_status`,
+`sim_valuation` and `opponent_estimate`; matrix cells and regret only via their own tools or broadcast.
+`visible_minute` (0 before kick-off) hides future events/snapshots of the match being prepared.
+
+**D-029 · Offline rules client.** CI and demos without Azure run the same Agent Framework `Agent`s with a deterministic
+`OfflineRulesClient`; outputs are labelled `offline-rules`. The Foundry path is implemented against the installed
+APIs but has not been run against a real deployment (no Azure access yet, see `infra/AZURE_PLAN.md`).
+
+**D-030 · Text verifier and identifiers.** Player ids such as `HAR-5` are identifiers, not statistics, and are allowed
+in text; every other digit must come from a `{claim_id.field}` placeholder.
+
+**D-031 · Browser seal check.** The web app recomputes each plan's SHA-256 with Web Crypto over the same canonical
+JSON as `contracts/sealing.py` (plans contain no floats, so encodings match) and shows "Seal verified" only then.

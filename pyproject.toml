@@ -16,11 +16,11 @@ dev = [
     "jsonschema>=4.22",
     "ruff>=0.6",
 ]
-# Person B (H1). Latest releases on PyPI as of 2026-10-23; not installed by `make setup` yet.
+# Person B (H1). Core + Foundry client only (the meta-package pulls pre-release integrations), see D-025.
 agents = [
-    "agent-framework==1.23.0",
+    "agent-framework-core==1.23.0",
+    "agent-framework-foundry==1.15.0",
     "mcp==2.3.0",
-    "azure-ai-projects==2.9.0",
     "azure-identity==1.26.0",
 ]
 

@@ -14,7 +14,7 @@ jobs:
       - name: Install
         run: |
           uv venv --python 3.12
-          uv pip install -e ".[dev]"
+          uv pip install -e ".[dev,agents]"
       - name: Contracts, fixtures, lint, tests
         run: make check
 
@@ -31,6 +31,9 @@ jobs:
         working-directory: web
       - name: Types match the exported schema
         run: npm run check:types
+        working-directory: web
+      - name: Frontend tests
+        run: npm test
         working-directory: web
       - name: Typecheck and build (fixture bundle)
         run: |
