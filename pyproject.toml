@@ -29,7 +29,7 @@ requires = ["setuptools>=69"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools.packages.find]
-include = ["contracts*", "fixtures*", "sim*", "engine*", "eval*", "mcp_server*", "agents*"]
+include = ["contracts*", "fixtures*", "sim*", "engine*", "eval*", "mcp_server*", "agents*", "pipeline*"]
 
 [tool.setuptools.package-data]
 contracts = ["schemas/*.json", "schemas/eval_only/*.json"]

@@ -4,7 +4,7 @@ PY := uv run --no-sync python
 
 .PHONY: help setup schemas check-schemas fixtures check-fixtures lint test check bench \
         web-install web-types web-check-types web-bundle web-dev web-build web-test h0 prematch mcp \
-        season match duel second-half live final render eval bundle
+        season match duel second-half live final render eval bundle seed-search
 
 help:
 	@grep -E '^[a-z0-9-]+:.*## ' $(MAKEFILE_LIST) | awk 'BEGIN{FS=":.*## "}{printf "  %-16s %s\n",$$1,$$2}'
@@ -46,9 +46,9 @@ web-types: ## Regenerate TS types from contracts/schemas/match_bundle.schema.jso
 web-check-types: ## Fail if TS types are stale
 	cd web && npm run check:types
 
-web-bundle: ## Copy the fixture bundle to web/public/match_bundle.json (until `make bundle` exists)
+web-bundle: ## Copy the FIXTURE bundle to web/public/match_bundle.json (illustrative; `make bundle` for the real one)
 	mkdir -p web/public
-	cp fixtures/match_bundle_fixture.json web/public/match_bundle.json
+	test -f web/public/match_bundle.json || cp fixtures/match_bundle_fixture.json web/public/match_bundle.json
 
 web-dev: web-bundle ## Run the web app locally (no backend needed)
 	cd web && npm run dev
@@ -68,6 +68,19 @@ mcp: ## MCP server on loopback HTTP for one scope (SCOPE=KES|HAR|broadcast)
 h0: check web-check-types web-build web-test ## H0 gate: contracts, fixtures, tests, web build + tests
 	@echo "H0 local checks passed. Remaining H0 item: a Foundry model responds (see docs/START_HERE.md)."
 
-# ---- pipeline targets (plan v6 execution §10.2). Not implemented yet: they fail on purpose.
-season match duel second-half live final render eval bundle:
+# ---- pipeline targets (plan v6 execution §10.2). The per-stage targets at the end are folded into `bundle`.
+season: ## Synthetic season -> data/season/public.json (+ eval_only/truth.json)
+	$(PY) -m pipeline.season_io
+
+bundle: ## Full demo pipeline -> web/public/match_bundle.json (AGENTS_MODE=offline|foundry, SEED=match seed)
+	$(PY) -m pipeline.build $(if $(SEED),--match-seed $(SEED),)
+
+seed-search: ## Try N match seeds for the demo story criteria (N=36), keeps the smallest passing seed
+	$(PY) -m pipeline.build --search $(or $(N),36) --workers $(or $(WORKERS),8)
+
+eval: ## Evaluation E1-E8 + calibration -> eval/results/
+	$(PY) -m eval.calibrate_adaptation
+	$(PY) -m eval.run
+
+match duel second-half live final render:
 	@echo "'make $@' is not implemented yet (see docs/START_HERE.md for owner and milestone)"; exit 1
