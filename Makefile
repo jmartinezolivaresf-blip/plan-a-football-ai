@@ -78,9 +78,11 @@ bundle: ## Full demo pipeline -> web/public/match_bundle.json (AGENTS_MODE=offli
 seed-search: ## Try N match seeds for the demo story criteria (N=36), keeps the smallest passing seed
 	$(PY) -m pipeline.build --search $(or $(N),36) --workers $(or $(WORKERS),8)
 
-eval: ## Evaluation E1-E8 + calibration -> eval/results/
+eval: ## Calibrations (dev seasons) + E1-E8 -> eval/results/ (RESULTS.md)
+	$(PY) -m eval.calibrate_sim
 	$(PY) -m eval.calibrate_adaptation
 	$(PY) -m eval.run
+	$(PY) -m eval.report
 
 match duel second-half live final render:
 	@echo "'make $@' is not implemented yet (see docs/START_HERE.md for owner and milestone)"; exit 1

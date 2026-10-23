@@ -15,19 +15,12 @@
    8005
   ],
   "per_kind": {
-   "late_fade": {
-    "flagged": 7,
-    "correct": 6,
-    "true": 16,
-    "precision": 0.857,
-    "recall": 0.375
-   },
-   "gk_short_bias": {
-    "flagged": 8,
+   "weak_channel": {
+    "flagged": 4,
     "correct": 3,
-    "true": 9,
-    "precision": 0.375,
-    "recall": 0.333
+    "true": 17,
+    "precision": 0.75,
+    "recall": 0.176
    },
    "fb_low_press_resistance": {
     "flagged": 31,
@@ -36,12 +29,19 @@
     "precision": 0.258,
     "recall": 0.571
    },
-   "weak_channel": {
-    "flagged": 4,
+   "gk_short_bias": {
+    "flagged": 8,
     "correct": 3,
-    "true": 17,
-    "precision": 0.75,
-    "recall": 0.176
+    "true": 9,
+    "precision": 0.375,
+    "recall": 0.333
+   },
+   "late_fade": {
+    "flagged": 7,
+    "correct": 6,
+    "true": 16,
+    "precision": 0.857,
+    "recall": 0.375
    },
    "cb_low_pace": {
     "flagged": 3,
@@ -1251,6 +1251,6 @@
    "target_inside_ci90": false
   }
  },
- "seconds": 163.0,
+ "seconds": 164.4,
  "scope": "all results are inside our simulator; synthetic data; not claims about real football"
 }
