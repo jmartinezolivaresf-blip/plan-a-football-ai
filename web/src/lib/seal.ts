@@ -34,3 +34,11 @@ export async function verifyPlan(plan: Plan): Promise<SealState> {
   if (!globalThis.crypto?.subtle) return "unavailable";
   return (await planDigest(plan)) === plan.sealed.sha256 ? "verified" : "mismatch";
 }
+
+/** Commit-reveal check of a half-time choice: SHA-256 of {match_id, team, option_id, salt} (contracts/sealing.py). */
+export async function verifyChoice(sha256: string, matchId: string, team: string, optionId: string,
+                                   salt: string): Promise<SealState> {
+  if (!globalThis.crypto?.subtle) return "unavailable";
+  const digest = await sha256Hex(canonicalJson({ match_id: matchId, team, option_id: optionId, salt }));
+  return digest === sha256 ? "verified" : "mismatch";
+}

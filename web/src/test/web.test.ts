@@ -126,3 +126,52 @@ describe("broadcast view", () => {
     expect(html.match(/data-player=/g)?.length).toBe(22);
   });
 });
+
+import { fill, formatValue, indexClaims } from "../lib/claims";
+import { deltas, view } from "../lib/duel";
+import { verifyChoice } from "../lib/seal";
+
+describe("claims and placeholders", () => {
+  const claims = indexClaims(bundle);
+  it("formats shares as percentages and other numbers plainly (same rule as Python)", () => {
+    const share = { claim_id: "cx", type: "observed_tendency", metric: "goal_kick_short_share", value: 0.784 } as never;
+    const count = { claim_id: "cy", type: "kpi_status", metric: "high_turnovers", value: 4.0 } as never;
+    expect(formatValue(share, "value")).toBe("78%");
+    expect(formatValue(count, "value")).toBe("4");
+  });
+  it("fills every cue in the fixture without unknown claims", () => {
+    for (const cue of bundle.cues) {
+      expect(fill(cue.text.en, claims)).not.toContain("?");
+      expect(fill(cue.text.en, claims)).not.toMatch(/\{c[\w-]+\./);
+    }
+  });
+});
+
+describe("duel matrix views", () => {
+  const m = bundle.duel!.broadcast.true_matrix;
+  it("transposes for the column team and centres deltas on Stay/Stay", () => {
+    const home = view(m, m.row_team);
+    const away = view(m, m.col_team);
+    expect(home.own).toEqual(m.rows);
+    expect(away.own).toEqual(m.cols);
+    expect(away.xpts[1][2]).toBe(m.cells[2][1].xpts[m.col_team]);
+    expect(deltas(home)[0][0]).toBe(0);
+  });
+  it("verifies both sealed half-time choices with the revealed salts", async () => {
+    const d = bundle.duel!;
+    for (const team of Object.keys(d.private)) {
+      const r = d.broadcast.revealed[team];
+      expect(await verifyChoice(d.private[team].choice.sha256, d.match_id, team, r.option_id, r.salt)).toBe("verified");
+      expect(await verifyChoice(d.private[team].choice.sha256, d.match_id, team, "other", r.salt)).toBe("mismatch");
+    }
+  });
+});
+
+describe("analyst desk", () => {
+  it("renders traces, plans and both matrices", () => {
+    const html = renderToString(createElement(Broadcast, { bundle, initialTab: "desk" }));
+    expect(html).toContain("Agent trace");
+    expect(html).toContain("Validation panel");
+    expect(html).toContain("The real duel");
+  });
+});

@@ -9,9 +9,10 @@ interface Props {
   plan: Plan;
   color: string;
   side: "home" | "away";
+  lang?: "en" | "es";
 }
 
-export function PlanCard({ bundle, plan, color, side }: Props) {
+export function PlanCard({ bundle, plan, color, side, lang = "en" }: Props) {
   const nameOf = (id: string) => playerName(bundle, id);
   const changed = new Set(changedLevers(plan.levers));
   const squad = bundle.squads.teams[plan.team];
@@ -19,8 +20,8 @@ export function PlanCard({ bundle, plan, color, side }: Props) {
     <section className={`plan-card ${side}`} style={{ borderColor: color }} aria-label={`${squad.name} plan`}>
       <header>
         <span className="pc-team" style={{ color }}>{squad.name}</span>
-        <h2>{plan.name.en}</h2>
-        <p className="pc-es" lang="es">{plan.name.es}</p>
+        <h2>{plan.name[lang]}</h2>
+        <p className="pc-es" lang={lang === "en" ? "es" : "en"}>{plan.name[lang === "en" ? "es" : "en"]}</p>
       </header>
       <p className="pc-objective">{objective(plan.levers, nameOf)}</p>
       <ul className="pc-levers">
