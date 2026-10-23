@@ -2,7 +2,7 @@
 PY := uv run --no-sync python
 .DEFAULT_GOAL := help
 
-.PHONY: help setup schemas check-schemas fixtures check-fixtures lint test check \
+.PHONY: help setup schemas check-schemas fixtures check-fixtures lint test check bench \
         web-install web-types web-check-types web-bundle web-dev web-build h0 \
         season prematch match duel second-half live final render eval bundle
 
@@ -33,6 +33,9 @@ test: ## Pytest
 	uv run --no-sync pytest
 
 check: check-schemas check-fixtures lint test ## Everything CI runs for Python
+
+bench: ## Simulator benchmark (person A, H1)
+	$(PY) -m sim.bench
 
 web-install: ## npm ci
 	cd web && npm ci

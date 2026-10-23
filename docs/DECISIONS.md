@@ -66,3 +66,34 @@ regret) was needed to build and test consistent fixtures. Owned by A from now on
 
 **D-018 · Contradiction: validation panel contents.** v6 §9.15 lists E1, E2, E4; v6 §16 and §11 list E1–E4, E7,
 E8. → Use §16.
+
+## H1, person A (2026-10-23)
+
+**D-019 · Contract: hidden truth reaches the simulator (needs joint review).** `simulate()` and `fork()` gain
+keyword-only, optional `truth`, `config` (and `match_id` for `simulate`); `sim.bind(truth, config)` returns a
+`BoundWorld` with the same two methods and the truth captured inside, so `engine/` can fork matches without
+importing `contracts.eval_only`. Existing call sites are unaffected. B uses none of these types.
+
+**D-020 · Contract: `MatchState` carries what an exact fork needs.** Added sim-internal fields: `home`, `away`,
+`plans`, `squads`, `t`, `period`, `possession`, `carrier`, `ball`, `counter_until`, `after_cross`,
+`dynamics[team]` (used players, Plan B rules fired, executed/pending subs, sim-side KPI counters),
+`events_emitted`, `possession_id`, `last_event_t`. No truth, no `SimConfig` (tested). `SimResult.final_state`
+is returned for `R == 1`.
+
+**D-021 · Home team.** `simulate()` has no metadata argument: the home team is the first key of `plans`
+(attacks towards x = 105 in the first half and kicks off).
+
+**D-022 · Calibration (fixture plans, no truth, 200 replicas).** Goals 2.78/match, shots 26.2, conversion 10.6 %,
+passes 973 (79 % completed), corners 9.0, long balls 76, high turnovers ≈ 7–13 per team, H/D/A 33/28/39. With
+default levers for both teams the model is symmetric (37/22/40). Single-lever effects on expected points are
+within ±0.25 (high press without traits to exploit costs ≈ −0.2). Full calibration against the Anexo A table is
+Sunday's task (person A).
+
+**D-023 · Benchmark (`make bench`, Apple Silicon, Python 3.12, one core, best of 3).** R=1 full match with log:
+0.36 s; R=500 full matches: 1.74 s; second halves forked from half-time: R=100 0.39 s, R=300 0.64 s, R=500
+0.85 s (target ≤ 1 s met); peak traced memory for R=500: 11.8 MB. Optimisations: cached on-pitch roles and
+attributes, per-subset player selection.
+
+**D-024 · Model simplifications.** No cards, offsides, penalties or added time. Slow centre-back is team level.
+Invalid subs at run time are skipped deterministically; structurally invalid plans raise `sim.PlanError`. Sim-side
+KPI statuses for Plan B are an approximation of the engine's Plan Tracker (H2), which stays authoritative.
