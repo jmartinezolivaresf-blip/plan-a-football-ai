@@ -50,6 +50,7 @@ export function Broadcast({ bundle, initialTab = "broadcast", link = NO_PARAMS }
   }, [atHalftime, playing, pause, seek]);
 
   const minute = Math.min(90, Math.floor(clock.time / 60));
+  const levers = bundle.snapshots[Math.min(minute, bundle.snapshots.length - 1)]?.active_levers ?? {};
   const target = bundle.plans[home]?.levers.press_target ?? null;
   const cues = activeCues(bundle.cues, clock.time, settings.mode,
                           ["duel_rooms", "duel_sealed", "duel_reveal", "duel_matrix", "plan_scorecard", "bench_regret",
@@ -73,7 +74,7 @@ export function Broadcast({ bundle, initialTab = "broadcast", link = NO_PARAMS }
       </p>
       {tab === "broadcast" ? (
         <div className="stage">
-          {bundle.plans[home] && <PlanCard bundle={bundle} plan={bundle.plans[home]} color={colors[home]} side="home" lang={settings.lang} />}
+          {bundle.plans[home] && <PlanCard bundle={bundle} plan={bundle.plans[home]} color={colors[home]} side="home" lang={settings.lang} active={levers[home]} />}
           <div className="pitch-wrap">
             <Scorebug bundle={bundle} time={clock.time} colors={colors} />
             <CueStack cues={cues} claims={claims} lang={settings.lang} colors={colors} />
@@ -91,7 +92,7 @@ export function Broadcast({ bundle, initialTab = "broadcast", link = NO_PARAMS }
             )}
             {atFullTime && <FinalPanel bundle={bundle} lang={settings.lang} mode={settings.mode} claims={claims} colors={colors} />}
           </div>
-          {bundle.plans[away] && <PlanCard bundle={bundle} plan={bundle.plans[away]} color={colors[away]} side="away" lang={settings.lang} />}
+          {bundle.plans[away] && <PlanCard bundle={bundle} plan={bundle.plans[away]} color={colors[away]} side="away" lang={settings.lang} active={levers[away]} />}
         </div>
       ) : (
         <AnalystDesk bundle={bundle} claims={claims} minute={minute} lang={settings.lang} colors={colors} />

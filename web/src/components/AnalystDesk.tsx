@@ -2,6 +2,7 @@
 import { useState } from "react";
 import type { MatchBundle } from "../contracts/bundle";
 import { type ClaimIndex, fill } from "../lib/claims";
+import { kpiLabel } from "../lib/levers";
 import { DuelMatrix } from "./Duel";
 import type { Lang } from "./Overlays";
 
@@ -76,7 +77,8 @@ export function AnalystDesk({ bundle, claims, minute, lang, colors }: {
             <tbody>
               {snap?.kpis.filter((k) => k.team === team).map((k) => (
                 <tr key={k.kpi_id}>
-                  <td>{k.kpi_id}</td><td>{k.value}</td><td>{k.expected ?? "–"}</td>
+                  <td>{(() => { const def = plan.kpis.find((x) => x.id === k.kpi_id); return def ? kpiLabel(def) : k.kpi_id; })()}</td>
+                  <td>{k.value}</td><td>{k.expected ?? "–"}</td>
                   <td>{k.band_low}–{k.band_high}</td><td>{k.n}</td><td className={k.status}>{k.status}</td>
                 </tr>
               ))}

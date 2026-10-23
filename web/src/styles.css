@@ -147,3 +147,4 @@ button.primary { background: #2dd4bf; color: #04201c; border: 0; border-radius: 
 .trace tr.rejected td, .trace tr.retried td { color: #fbbf24; }
 .two { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 .eval { font-size: 13px; }
+.pc-now { color: #fbbf24; font-style: normal; font-weight: 600; }

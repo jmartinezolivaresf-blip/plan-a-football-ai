@@ -217,3 +217,24 @@ describe("frozen demo bundle (simulated, not the fixture)", () => {
     }
   });
 });
+
+describe("plan card shows levers changed during the match", () => {
+  it("marks the first in-match lever change only from its minute on", () => {
+    const demo: MatchBundle = JSON.parse(readFileSync(new URL("../../public/match_bundle.json", import.meta.url), "utf8"));
+    let found: { team: string; lever: string; minute: number } | null = null;
+    for (const snap of demo.snapshots) {
+      for (const [team, lv] of Object.entries(snap.active_levers)) {
+        for (const [lever, value] of Object.entries(lv)) {
+          if (!found && value !== (demo.plans[team].levers as unknown as Record<string, unknown>)[lever]) {
+            found = { team, lever, minute: snap.minute };
+          }
+        }
+      }
+    }
+    expect(found).not.toBeNull();
+    const { team, lever, minute } = found!;
+    const at = (m: number) => renderToString(createElement(Broadcast, { bundle: demo, link: readParams(`?t=${m * 60 + 30}`) }));
+    expect(at(minute - 1)).not.toContain(`now-${team}-${lever}`);
+    expect(at(minute)).toContain(`now-${team}-${lever}`);
+  });
+});

@@ -57,6 +57,21 @@ def expected_at(metric: str, params: dict[str, str], team: str, minute: int,
     return at(metric)
 
 
+CUMULATIVE = ("high_turnovers", "set_piece_xg", "balls_in_behind_conceded")  # can only grow during a match
+
+
+def settled(op: str, threshold: float, value: float, metric: str, minute: int) -> str | None:
+    """A cumulative KPI whose target is already met stays on track; one whose limit is already broken is failing,
+    whatever the expected curve says (the viewer sees the value next to the target)."""
+    if metric not in CUMULATIVE or minute < 10:
+        return None
+    if (op == ">=" and value >= threshold) or (op == ">" and value > threshold):
+        return "on_track"
+    if (op == "<=" and value > threshold) or (op == "<" and value >= threshold):
+        return "failing"
+    return None
+
+
 def status_for(op: str, value: KpiValue, expected: float | None, metric: str, minute: int) -> tuple[str, float, float]:
     """(status, band_low, band_high) for one KPI at one minute."""
     if expected is None:
@@ -90,6 +105,7 @@ class PlanTracker:
             v = kpi_value(k.metric, k.params, self.plan.team, upto, self.home, self.xg)
             exp = expected_at(k.metric, k.params, self.plan.team, minute, self.traj)
             raw, low, high = status_for(op, v, exp, k.metric, minute)
+            raw = settled(op, float(_TARGET.match(k.target).group(2)), v.value, k.metric, minute) or raw
             status = self._hysteresis(k.id, raw, minute)
             cid = f"c_kpi_{self.plan.team}_{k.id}_{minute}"
             statuses.append(KpiStatus(plan_id=self.plan.plan_id, kpi_id=k.id, team=self.plan.team,

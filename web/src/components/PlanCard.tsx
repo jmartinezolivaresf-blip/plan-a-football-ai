@@ -10,9 +10,11 @@ interface Props {
   color: string;
   side: "home" | "away";
   lang?: "en" | "es";
+  /** Levers in force now (Plan B, half-time choice); shown next to the sealed value when they differ. */
+  active?: Levers;
 }
 
-export function PlanCard({ bundle, plan, color, side, lang = "en" }: Props) {
+export function PlanCard({ bundle, plan, color, side, lang = "en", active }: Props) {
   const nameOf = (id: string) => playerName(bundle, id);
   const changed = new Set(changedLevers(plan.levers));
   const squad = bundle.squads.teams[plan.team];
@@ -28,7 +30,14 @@ export function PlanCard({ bundle, plan, color, side, lang = "en" }: Props) {
         {(Object.keys(LEVER_LABEL) as (keyof Levers)[]).map((k) => (
           <li key={k} className={changed.has(k) ? "changed" : ""}>
             <span>{LEVER_LABEL[k]}</span>
-            <strong>{leverValue(k, plan.levers[k] as string | null, nameOf)}</strong>
+            <strong>
+              {leverValue(k, plan.levers[k] as string | null, nameOf)}
+              {active && active[k] !== plan.levers[k] && (
+                <em className="pc-now" data-testid={`now-${plan.team}-${k}`}>
+                  {" → "}{leverValue(k, active[k] as string | null, nameOf)}{lang === "en" ? " now" : " ahora"}
+                </em>
+              )}
+            </strong>
           </li>
         ))}
       </ul>
