@@ -24,6 +24,14 @@ next to what was really true. Built for the Microsoft + Premier League *Inside t
    against the best answer to what the other bench really did, with an interval.
 
 <!-- DEMO_STORY -->
+**The demo match** (season 2026, match seed 226, agents: offline-rules/offline-rules): Kestrel 1-0 Harbourside at half-time, 1-2 at full time.
+- Plans: Kestrel "Measured approach", Harbourside "Exploit their weaknesses".
+- Kestrel changed its build-up at minute 25; the live detector flagged it at minute 28 (estimated change minute 19).
+- Half-time: Kestrel chose "Stay the course" (safe pick on its own believed matrix).
+- Half-time: Harbourside chose "Fresh legs up front" (best guess on its own believed matrix).
+- Kestrel: regret 0.236 xPts (paired 90% interval 0.14 to 0.336) against "Protect the lead"; "Protect the lead" was dominant in the true matrix.
+- Harbourside: regret 0.05 xPts (paired 90% interval -0.064 to 0.168) against "Back to short passing".
+<!-- /DEMO_STORY -->
 
 Deep links open any moment: `?t=45:00&reveal=1&mode=analyst`, `?t=90:00`, `?tab=desk&lang=es&club=HAR`.
 
