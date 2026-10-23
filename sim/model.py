@@ -83,7 +83,7 @@ DEFAULT_COEFFICIENTS: dict[str, float] = {
     "beta_press": 2.2,
     "beta_fatigue": 1.0,
     "press_target_bonus": 0.6,
-    "press_resistance_trait_penalty": 40.0,
+    "press_resistance_trait_penalty": 55.0,
     "long_vs_high_line": 0.4,
     "slow_cb_bonus": 0.9,
     "weak_channel_bonus": 0.6,

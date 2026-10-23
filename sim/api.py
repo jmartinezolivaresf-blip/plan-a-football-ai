@@ -18,7 +18,14 @@ from .world import KPI_METRICS, World, add_override_subs, compile_world, lever_c
 
 def simulate(plans: dict[str, Plan], squads: Squads, seed: int, R: int = 1, log: bool = False,
              start: MatchState | None = None, until_minute: int = 90, *, truth: Truth | None = None,
-             config: SimConfig | None = None, match_id: str | None = None) -> SimResult:
+             config: SimConfig | None = None, match_id: str | None = None, home: str | None = None) -> SimResult:
+    """`home` (or `start.home`) names the home team explicitly; the first key of `plans` is only a fallback (D-032)."""
+    home = home or (start.home if start is not None else None)
+    if home is not None:
+        if home not in plans or len(plans) != 2:
+            raise ValueError(f"home team {home!r} must be one of the two plans")
+        away = next(code for code in plans if code != home)
+        plans = {home: plans[home], away: plans[away]}
     if log and R != 1:
         raise ValueError("log=True requires R == 1")
     if not 1 <= until_minute <= 90:
@@ -67,9 +74,14 @@ class BoundWorld:
     _config: SimConfig | None
 
     def simulate(self, plans: dict[str, Plan], squads: Squads, seed: int, R: int = 1, log: bool = False,
-                 start: MatchState | None = None, until_minute: int = 90, match_id: str | None = None) -> SimResult:
+                 start: MatchState | None = None, until_minute: int = 90, match_id: str | None = None,
+                 home: str | None = None) -> SimResult:
         return simulate(plans, squads, seed, R, log, start, until_minute, truth=self._truth, config=self._config,
-                        match_id=match_id)
+                        match_id=match_id, home=home)
+
+    def fork_detailed(self, state: MatchState, overrides: dict[str, Option], R: int, seed: int,
+                      log: bool = False):
+        return fork_detailed(state, overrides, R, seed, truth=self._truth, config=self._config, log=log)
 
     def fork(self, state: MatchState, overrides: dict[str, Option], R: int, seed: int) -> Outcomes:
         return fork(state, overrides, R, seed, truth=self._truth, config=self._config)
@@ -80,6 +92,19 @@ class BoundWorld:
 
 def bind(truth: Truth | None, config: SimConfig | None = None) -> BoundWorld:
     return BoundWorld(truth, config)
+
+
+def bind_beliefs(beliefs: list[dict], season_id: str = "beliefs") -> BoundWorld:
+    """A world model built from SUSPECTED weaknesses (public inferences), not from the hidden truth.
+
+    beliefs: [{"team", "kind", "player_id"?, "side"?, "strength"}] with the same kinds as hidden traits. Used by the
+    engine so each bench values plans with what its own scouting believes (D-033)."""
+    teams: dict[str, list[dict]] = {}
+    for b in beliefs:
+        teams.setdefault(b["team"], []).append({k: b[k] for k in ("kind", "player_id", "side", "strength") if k in b})
+    believed = Truth.model_validate({"season_id": season_id, "teams": {
+        t: {"team": t, "archetype": "possession", "split": "dev", "traits": tr[:4]} for t, tr in teams.items() if tr}})
+    return BoundWorld(believed, None)
 
 
 # ---------------------------------------------------------------------------------------- overrides

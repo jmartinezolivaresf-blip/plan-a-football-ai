@@ -128,3 +128,13 @@ def test_outcomes_are_consistent():
         assert len(out.goals[team]) == 300
     traj = out.kpi_trajectories["KES:high_turnovers"]
     assert len(traj) == 91 and traj == sorted(traj)
+
+
+def test_explicit_home_overrides_dict_order():
+    p = plans()
+    swapped = {"HAR": p["HAR"], "KES": p["KES"]}
+    a = simulate(p, squads(), seed=12, R=1, log=True, truth=truth())
+    b = simulate(swapped, squads(), seed=12, R=1, log=True, truth=truth(), home="KES")
+    assert [e.model_dump() for e in a.events] == [e.model_dump() for e in b.events]
+    c = simulate(swapped, squads(), seed=12, R=1, log=True, truth=truth())  # fallback: HAR becomes home
+    assert c.events[0].team == "HAR"

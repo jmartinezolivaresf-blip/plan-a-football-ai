@@ -37,8 +37,11 @@ def test_score_rule_only_fires_when_condition_holds():
 
 
 def test_kpi_rule_from_fixture_plan_can_fire():
-    """HAR Plan B: switch to direct if central entries KPI is failing after 25'."""
-    b, out = batch(plans(), 300, 3)
+    """HAR Plan B: switch to direct if central entries KPI is failing after 25'.
+
+    The rule is rare by design (~0.5% of replicas since press_resistance_trait_penalty 40 -> 55, D-036), so the
+    sample is large enough to see it fire."""
+    b, out = batch(plans(), 2000, 3)
     fired = [x for x in out.planb_log if x[1] == 1]
     assert fired and all(m >= 25 for *_, m in fired)
     assert len({r for r, *_ in fired}) == len(fired)
