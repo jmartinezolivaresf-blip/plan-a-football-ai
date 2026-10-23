@@ -32,6 +32,9 @@ jobs:
       - name: Types match the exported schema
         run: npm run check:types
         working-directory: web
+      - name: Frontend tests
+        run: npm test
+        working-directory: web
       - name: Typecheck and build (fixture bundle)
         run: |
           mkdir -p web/public

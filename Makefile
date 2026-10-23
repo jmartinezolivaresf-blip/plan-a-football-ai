@@ -3,8 +3,8 @@ PY := uv run --no-sync python
 .DEFAULT_GOAL := help
 
 .PHONY: help setup schemas check-schemas fixtures check-fixtures lint test check \
-        web-install web-types web-check-types web-bundle web-dev web-build h0 \
-        season prematch match duel second-half live final render eval bundle
+        web-install web-types web-check-types web-bundle web-dev web-build web-test h0 prematch mcp \
+        season match duel second-half live final render eval bundle
 
 help:
 	@grep -E '^[a-z0-9-]+:.*## ' $(MAKEFILE_LIST) | awk 'BEGIN{FS=":.*## "}{printf "  %-16s %s\n",$$1,$$2}'
@@ -53,9 +53,18 @@ web-dev: web-bundle ## Run the web app locally (no backend needed)
 web-build: web-bundle ## Typecheck and build the static web app
 	cd web && npm run build
 
-h0: check web-check-types web-build ## H0 gate: contracts, fixtures, tests, web build
+web-test: ## Frontend tests (vitest)
+	cd web && npm test
+
+prematch: ## Pre-match workflow for both staffs (AGENTS_MODE=offline|foundry), writes agents/_out/prematch.json
+	$(PY) -m agents.prematch
+
+mcp: ## MCP server on loopback HTTP for one scope (SCOPE=KES|HAR|broadcast)
+	$(PY) -m mcp_server --scope $(or $(SCOPE),broadcast) --http
+
+h0: check web-check-types web-build web-test ## H0 gate: contracts, fixtures, tests, web build + tests
 	@echo "H0 local checks passed. Remaining H0 item: a Foundry model responds (see docs/START_HERE.md)."
 
 # ---- pipeline targets (plan v6 execution §10.2). Not implemented yet: they fail on purpose.
-season prematch match duel second-half live final render eval bundle:
+season match duel second-half live final render eval bundle:
 	@echo "'make $@' is not implemented yet (see docs/START_HERE.md for owner and milestone)"; exit 1
