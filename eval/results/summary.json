@@ -1,5 +1,5 @@
 {
- "season_seed": 7777,
+ "season_seed": 8101,
  "matches": 6,
  "E1": {
   "precision": 0.492,
@@ -29,19 +29,19 @@
     "precision": 0.258,
     "recall": 0.571
    },
-   "gk_short_bias": {
-    "flagged": 8,
-    "correct": 3,
-    "true": 9,
-    "precision": 0.375,
-    "recall": 0.333
-   },
    "late_fade": {
     "flagged": 7,
     "correct": 6,
     "true": 16,
     "precision": 0.857,
     "recall": 0.375
+   },
+   "gk_short_bias": {
+    "flagged": 8,
+    "correct": 3,
+    "true": 9,
+    "precision": 0.375,
+    "recall": 0.333
    },
    "cb_low_pace": {
     "flagged": 3,
@@ -1002,11 +1002,11 @@
   "meaning": "share of flagged weaknesses that are real hidden traits / share of hidden traits flagged, on unseen seasons with random trait kinds"
  },
  "E2": {
-  "sign_agreement": 0.667,
-  "mean_abs_error_xpts": 0.018,
-  "sign_agreement_when_reference_is_clear": 1.0,
-  "clear_cells": 2,
-  "ci90_coverage_of_reference": 1.0,
+  "sign_agreement": 0.5,
+  "mean_abs_error_xpts": 0.033,
+  "sign_agreement_when_reference_is_clear": 0.0,
+  "clear_cells": 1,
+  "ci90_coverage_of_reference": 0.833,
   "cells": 6,
   "R": [
    300,
@@ -1019,14 +1019,14 @@
      "press_height": "low"
     },
     "small": [
-     0.04666666666666667,
-     0.01,
-     0.08333333333333333
+     0.023333333333333334,
+     -0.02,
+     0.06666666666666667
     ],
     "reference": [
-     0.014333333333333333,
-     0.0026666666666666666,
-     0.025016666666666652
+     0.01,
+     -0.003,
+     0.02266666666666667
     ]
    },
    {
@@ -1035,14 +1035,14 @@
      "build_up": "direct"
     },
     "small": [
-     0.03,
-     -0.013333333333333334,
-     0.07333333333333333
+     -0.023333333333333334,
+     -0.06666666666666667,
+     0.020166666666666517
     ],
     "reference": [
-     -0.003,
-     -0.01633333333333333,
-     0.01
+     -0.007333333333333333,
+     -0.021666666666666667,
+     0.007666666666666666
     ]
    },
    {
@@ -1051,14 +1051,14 @@
      "press_height": "high"
     },
     "small": [
-     0.0,
-     0.0,
-     0.0
+     -0.013333333333333334,
+     -0.06,
+     0.03333333333333333
     ],
     "reference": [
-     0.0,
-     0.0,
-     0.0
+     0.006333333333333333,
+     -0.008,
+     0.021
     ]
    },
    {
@@ -1067,14 +1067,14 @@
      "press_height": "low"
     },
     "small": [
-     -0.02666666666666667,
-     -0.06666666666666667,
-     0.01
+     0.06,
+     -0.0033333333333333335,
+     0.12666666666666668
     ],
     "reference": [
-     0.005333333333333333,
-     -0.008666666666666666,
-     0.02
+     0.006666666666666667,
+     -0.012,
+     0.024666666666666667
     ]
    },
    {
@@ -1083,14 +1083,14 @@
      "build_up": "direct"
     },
     "small": [
-     0.0,
-     0.0,
-     0.0
+     0.016666666666666666,
+     -0.056666666666666664,
+     0.09
     ],
     "reference": [
-     0.0,
-     0.0,
-     0.0
+     -0.011333333333333334,
+     -0.035666666666666666,
+     0.011666666666666667
     ]
    },
    {
@@ -1099,14 +1099,14 @@
      "press_height": "high"
     },
     "small": [
-     -0.04666666666666667,
-     -0.1,
-     0.006666666666666667
+     0.0,
+     -0.06333333333333334,
+     0.06333333333333334
     ],
     "reference": [
-     -0.035666666666666666,
-     -0.052,
-     -0.019666666666666666
+     -0.06733333333333333,
+     -0.08833333333333333,
+     -0.04630000000000003
     ]
    }
   ],
@@ -1115,9 +1115,9 @@
  "E3": {
   "levers_citing_served_claims": 1.0,
   "changed_levers": 17,
-  "plans_attacking_a_real_weakness": 1.0,
+  "plans_attacking_a_real_weakness": 0.583,
   "plans": 12,
-  "random_plan_baseline": 0.536,
+  "random_plan_baseline": 0.501,
   "meaning": "a plan counts if one lever targets a real hidden trait; the baseline is the share of all lever combinations that would also count"
  },
  "E4": {
@@ -1128,11 +1128,16 @@
   "llm_numbers": 0,
   "meaning": "digits outside {claim.field} placeholders are rejected by code (0 by construction)"
  },
+ "duel_interaction": {
+  "benches": 12,
+  "share_without_dominant_option": 0.25,
+  "meaning": "how often a bench's best half-time answer depends on what the other bench does (true matrix); plan target: at least half"
+ },
  "E7": {
   "prob_on_actual_intent": {
-   "mean": 0.383,
+   "mean": 0.379,
    "ci90": [
-    0.342,
+    0.333,
     0.425
    ],
    "n": 12
@@ -1142,26 +1147,26 @@
  },
  "E8": {
   "ai_regret": {
-   "mean": 0.02,
+   "mean": 0.004,
    "ci90": [
     0.0,
-    0.044
+    0.009
    ],
    "n": 12
   },
   "always_stay_regret": {
-   "mean": 0.078,
+   "mean": 0.073,
    "ci90": [
-    0.042,
-    0.122
+    0.033,
+    0.116
    ],
    "n": 12
   },
   "random_choice_regret": {
-   "mean": 0.066,
+   "mean": 0.062,
    "ci90": [
-    0.041,
-    0.098
+    0.032,
+    0.092
    ],
    "n": 12
   },
@@ -1169,15 +1174,15 @@
  },
  "calibration": {
   "goals_per_match": {
-   "value": 2.917,
+   "value": 2.583,
    "target": [
     2.7,
     3.0
    ],
-   "in_range": true
+   "in_range": false
   },
   "shots_per_match": {
-   "value": 24.167,
+   "value": 25.042,
    "target": [
     24,
     27
@@ -1185,15 +1190,15 @@
    "in_range": true
   },
   "shot_conversion": {
-   "value": 0.121,
+   "value": 0.103,
    "target": [
     0.1,
     0.12
    ],
-   "in_range": false
+   "in_range": true
   },
   "passes_per_match": {
-   "value": 944.583,
+   "value": 938.333,
    "target": [
     850,
     900
@@ -1201,7 +1206,7 @@
    "in_range": false
   },
   "pass_accuracy": {
-   "value": 0.779,
+   "value": 0.783,
    "target": [
     0.8,
     0.85
@@ -1209,7 +1214,7 @@
    "in_range": false
   },
   "corners_per_match": {
-   "value": 10.333,
+   "value": 10.708,
    "target": [
     9,
     11
@@ -1217,7 +1222,7 @@
    "in_range": true
   },
   "high_turnovers_per_team": {
-   "value": 6.812,
+   "value": 6.438,
    "target": [
     5,
     14
@@ -1225,32 +1230,32 @@
    "in_range": true
   },
   "home_win_share": {
-   "value": 0.5,
+   "value": 0.208,
    "target": [
     0.35,
     0.47
    ],
    "in_range": false,
    "ci90": [
-    0.341,
-    0.659
+    0.105,
+    0.37
    ],
    "target_inside_ci90": true
   },
   "draw_share": {
-   "value": 0.042,
+   "value": 0.333,
    "target": [
     0.2,
     0.3
    ],
    "in_range": false,
    "ci90": [
-    0.009,
-    0.167
+    0.199,
+    0.501
    ],
-   "target_inside_ci90": false
+   "target_inside_ci90": true
   }
  },
- "seconds": 164.4,
+ "seconds": 160.1,
  "scope": "all results are inside our simulator; synthetic data; not claims about real football"
 }

@@ -151,7 +151,8 @@ raise the same types); `seal_choice(..., rule)` records which matrix reading jus
 
 **D-036 · Evaluation independence and tuning disclosure.** While developing scouting on season 2026 we inspected
 the hidden traits of the test teams (HAR, ASH) and raised `press_resistance_trait_penalty` from 40 to 55 so the
-trait shows in the data. E1 therefore runs on an unseen season (seed 7777) whose truth nobody looked at. Scouting
+trait shows in the data. The evaluation therefore runs on seasons nobody looked at (D-043 supersedes the first
+choice of season 7777, whose trait kinds per club are the same fixed table we had seen). Scouting
 compares a player with players in the same position on the same team type (position x team factor) and excludes
 goalkeepers from pressure outliers. The offline rules client adds a
 Plan B ("go direct if the main KPI fails after 25'") for short/mixed build-up plans. The higher penalty makes the
@@ -206,8 +207,9 @@ half), a legitimate sequence the new coefficient exposed.
 development, so E1 now runs on seasons 8001-8005 built with `random_trait_kinds=True` (three kinds per club drawn from
 the seed), scouting all six clubs per season (30 scouted teams, 90 traits). Scoring is at the level scouting observes:
 player for press resistance, side for a weak channel, team for the rest (the first run scored slow centre-backs per
-player and counted correct team-level detections as misses; fixed before the reported run). Nothing is tuned on these
-seasons.
+player and counted correct team-level detections as misses; fixed before the reported run). The match-level tests
+(E2-E8, season statistics) moved from season 7777 (fixed trait table, whose kinds per club we had seen) to season
+8101 with random trait kinds. Nothing is tuned on these seasons.
 
 **D-044 · Replayed pre-match keeps its claims.** The seed search and the evaluation compute the pre-match once and
 replay it into fresh engines; the replay engine now adopts the claims the pre-match engine served (`Prematch`

@@ -8,11 +8,12 @@ simulator** on synthetic data with fictional clubs; nothing here is a claim abou
 | Test | What it measures | Result |
 |---|---|---|
 | E1 | Scouting reports vs hidden truth, 30 clubs in 5 unseen seasons with random trait kinds | precision 0.492, recall 0.333 (61 flagged, 90 real traits) |
-| E2 | Monte Carlo noise: R=300 vs R=3000 for 6 lever changes from one half-time state | mean abs error 0.018 xPts; 90% CI covers the reference 1.0; sign agreement 0.667 overall, 1.0 on the 2 cells whose reference interval excludes zero |
-| E3 | Plans that target a real hidden weakness (12 plans) | 1.0 vs 0.536 for a blind random plan; levers citing claims the staff retrieved 1.0 |
+| E2 | Monte Carlo noise: R=300 vs R=3000 for 6 lever changes from one half-time state | mean abs error 0.033 xPts; 90% CI covers the reference 0.833; sign agreement 0.5 overall, 0.0 on the 1 cells whose reference interval excludes zero |
+| E3 | Plans that target a real hidden weakness (12 plans) | 0.583 vs 0.501 for a blind random plan; levers citing claims the staff retrieved 1.0 |
 | E4 | Grounded text | reports valid at first try 1.0; cues dropped by the verifier 0; numbers written by the model 0 (by construction) |
-| E7 | Probability a bench gave to what the other bench really did | 0.383 (90% CI 0.342 to 0.425, n 12); uniform guess 0.333 |
-| E8 | Half-time regret (xPts lost vs the best answer to the other bench's real choice) | AI 0.02 (90% CI 0.0 to 0.044, n 12); always stay 0.078 (90% CI 0.042 to 0.122, n 12); random 0.066 (90% CI 0.041 to 0.098, n 12) |
+| E7 | Probability a bench gave to what the other bench really did | 0.379 (90% CI 0.333 to 0.425, n 12); uniform guess 0.333 |
+| E8 | Half-time regret (xPts lost vs the best answer to the other bench's real choice) | AI 0.004 (90% CI 0.0 to 0.009, n 12); always stay 0.073 (90% CI 0.033 to 0.116, n 12); random 0.062 (90% CI 0.032 to 0.092, n 12) |
+| Duel | Half-times where the best answer depends on the other bench (no dominant option in the true matrix) | 0.25 of 12 bench decisions |
 
 ## E1 by trait kind
 
@@ -25,22 +26,22 @@ simulator** on synthetic data with fictional clubs; nothing here is a claim abou
 | late_fade | 7 | 6 | 16 | 0.857 | 0.375 |
 | weak_channel | 4 | 3 | 17 | 0.75 | 0.176 |
 
-## Season statistics of the simulator (evaluation season 7777, 24 matches)
+## Season statistics of the simulator (evaluation season 8101, 24 matches)
 
 Targets are the ranges in the plan (Anexo A); they are reported, and only shot volume was calibrated (on dev
 seasons, below).
 
 | Statistic | Value | Target | In range |
 |---|---|---|---|
-| goals per match | 2.917 | 2.7 to 3.0 | yes |
-| shots per match | 24.167 | 24 to 27 | yes |
-| shot conversion | 0.121 | 0.1 to 0.12 | no |
-| passes per match | 944.583 | 850 to 900 | no |
-| pass accuracy | 0.779 | 0.8 to 0.85 | no |
-| corners per match | 10.333 | 9 to 11 | yes |
-| high turnovers per team | 6.812 | 5 to 14 | yes |
-| home win share | 0.5 (90% CI 0.341 to 0.659) | 0.35 to 0.47 | no |
-| draw share | 0.042 (90% CI 0.009 to 0.167) | 0.2 to 0.3 | no |
+| goals per match | 2.583 | 2.7 to 3.0 | no |
+| shots per match | 25.042 | 24 to 27 | yes |
+| shot conversion | 0.103 | 0.1 to 0.12 | yes |
+| passes per match | 938.333 | 850 to 900 | no |
+| pass accuracy | 0.783 | 0.8 to 0.85 | no |
+| corners per match | 10.708 | 9 to 11 | yes |
+| high turnovers per team | 6.438 | 5 to 14 | yes |
+| home win share | 0.208 (90% CI 0.105 to 0.37) | 0.35 to 0.47 | no |
+| draw share | 0.333 (90% CI 0.199 to 0.501) | 0.2 to 0.3 | no |
 
 ## Calibrations on dev seasons (never the demo or evaluation seasons)
 

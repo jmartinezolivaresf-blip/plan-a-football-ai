@@ -1,12 +1,12 @@
 """Evaluation E1-E8 + calibration (v6 §11). Writes eval/results/summary.json and eval/results/*.md.
 
-    python -m eval.run [--season-seed 7777] [--matches 6]
+    python -m eval.run [--season-seed 8101] [--matches 6]
 
 What each number means (and does not mean) is written next to it in the output. Everything is measured INSIDE our
 simulator; nothing here is a claim about real football.
 
-Independence: E1 runs on seasons 8001-8005 whose clubs get randomly drawn trait kinds, never inspected (D-043).
-E2/E3/E4/E7/E8 and the calibration table run on season 7777 (fixed trait table, never used for tuning). The scouting
+Independence: E1 runs on seasons 8001-8005 and E2/E3/E4/E7/E8 plus the season statistics on season 8101; all of
+them draw each club's trait kinds at random and none was inspected or used for tuning (D-043). The scouting
 thresholds were developed on season 2026 (disclosed in docs/DECISIONS.md, D-036); simulator knobs were calibrated on
 dev seasons 11-14 only (eval/calibrate_*.py).
 """
@@ -205,7 +205,14 @@ def e7_e8(duels: list) -> dict:
         x = np.asarray(x)
         lo, hi = paired_ci(x, seed=7) if len(x) > 1 else (float(x.mean()), float(x.mean()))
         return {"mean": round(float(x.mean()), 3), "ci90": [round(lo, 3), round(hi, 3)], "n": len(x)}
-    return {"E7": {"prob_on_actual_intent": ci(probs), "uniform_baseline": round(1 / 3, 3),
+    dominated = [m.readings[t].dominant is not None for d in duels for m in [d.broadcast.true_matrix]
+                 for t in d.private]
+    return {"duel_interaction": {"benches": len(dominated),
+                                 "share_without_dominant_option": round(1 - sum(dominated) / len(dominated), 3)
+                                 if dominated else None,
+                                 "meaning": "how often a bench's best half-time answer depends on what the other "
+                                            "bench does (true matrix); plan target: at least half"},
+            "E7": {"prob_on_actual_intent": ci(probs), "uniform_baseline": round(1 / 3, 3),
                    "meaning": "how much the analyst anticipated the other bench (higher is better)"},
             "E8": {"ai_regret": ci(ai), "always_stay_regret": ci(stay), "random_choice_regret": ci(rnd),
                    "meaning": "xPts lost vs the best response to what the other bench really did, in our simulator"}}
@@ -254,7 +261,7 @@ def _wilson(p: float, n: int, z: float = 1.645) -> tuple[float, float]:
 def _eval_match(job: tuple) -> dict:
     """One full pipeline match of the evaluation season (pre-match, first half, duel, second half)."""
     season_seed, k, home, away, mode = job
-    season = build_season(season_seed, season_id=f"s-eval-{season_seed}")
+    season = build_season(season_seed, season_id=f"s-eval-{season_seed}", random_trait_kinds=True)
     pre = run_prematch_for(season, home, away, mode, Seeds(match=500 + k))
     built = build(season=season, prematch=pre, home=home, away=away, match_seed=500 + k, mode=mode)
     return {"reports": [r.report for r in pre.results.values()],
@@ -267,13 +274,13 @@ def main(argv: list[str] | None = None) -> int:
     from concurrent.futures import ProcessPoolExecutor
 
     ap = argparse.ArgumentParser(prog="python -m eval.run")
-    ap.add_argument("--season-seed", type=int, default=7777)
+    ap.add_argument("--season-seed", type=int, default=8101)
     ap.add_argument("--matches", type=int, default=len(MATCHUPS))
     ap.add_argument("--mode", choices=["offline", "foundry"], default=None)
     ap.add_argument("--workers", type=int, default=6)
     args = ap.parse_args(argv)
     t0 = time.perf_counter()
-    season = build_season(args.season_seed, season_id=f"s-eval-{args.season_seed}")
+    season = build_season(args.season_seed, season_id=f"s-eval-{args.season_seed}", random_trait_kinds=True)
     jobs = [(args.season_seed, k, h, a, args.mode) for k, (h, a) in enumerate(MATCHUPS[: args.matches])]
     with ProcessPoolExecutor(args.workers) as ex:
         matches = list(ex.map(_eval_match, jobs))

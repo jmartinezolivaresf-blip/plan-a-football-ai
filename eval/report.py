@@ -54,6 +54,12 @@ def render() -> str:
         f"| E8 | Half-time regret (xPts lost vs the best answer to the other bench's real choice) | AI "
         f"{_ci(e8['ai_regret'])}; always stay {_ci(e8['always_stay_regret'])}; random "
         f"{_ci(e8['random_choice_regret'])} |",
+    ]
+    if "duel_interaction" in s:
+        di = s["duel_interaction"]
+        lines.append(f"| Duel | Half-times where the best answer depends on the other bench (no dominant option in the "
+                     f"true matrix) | {di['share_without_dominant_option']} of {di['benches']} bench decisions |")
+    lines += [
         "",
         "## E1 by trait kind",
         "",
