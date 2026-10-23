@@ -44,6 +44,7 @@ web-check-types: ## Fail if TS types are stale
 	cd web && npm run check:types
 
 web-bundle: ## Copy the fixture bundle to web/public/match_bundle.json (until `make bundle` exists)
+	mkdir -p web/public
 	cp fixtures/match_bundle_fixture.json web/public/match_bundle.json
 
 web-dev: web-bundle ## Run the web app locally (no backend needed)

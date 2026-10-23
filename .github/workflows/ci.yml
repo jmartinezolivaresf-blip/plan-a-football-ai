@@ -34,5 +34,6 @@ jobs:
         working-directory: web
       - name: Typecheck and build (fixture bundle)
         run: |
+          mkdir -p web/public
           cp fixtures/match_bundle_fixture.json web/public/match_bundle.json
           npm run build --prefix web
