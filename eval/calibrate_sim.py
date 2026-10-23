@@ -1,4 +1,4 @@
-"""Calibrate the simulator's shot volume on synthetic DEV seasons (never the demo season 2026 or the evaluation seasons).
+"""Calibrate the simulator's shot volume on synthetic DEV seasons (never the demo or the evaluation seasons).
 
     python -m eval.calibrate_sim [--workers 8]
 
