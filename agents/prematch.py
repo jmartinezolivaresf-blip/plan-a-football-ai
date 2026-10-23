@@ -64,12 +64,15 @@ def _block(payload: dict[str, Any]) -> str:
 class Staff:
     """One coaching staff: its scoped tools, an in-process MCP client, its chat clients and its trace."""
 
-    def __init__(self, engine: EngineAPI, team: str, home: str, away: str, choice: ModelChoice):
+    def __init__(self, engine: EngineAPI, team: str, home: str, away: str, choice: ModelChoice,
+                 visible_minute: int = 0, workflow: str = "prematch"):
         self.team, self.opp = team, (away if team == home else home)
-        self.tools = ScopedTools(engine=engine, scope=team, home=home, away=away, match_id=DEMO_MATCH,
-                                 visible_minute=0)
+        match_id = getattr(getattr(engine, "meta", None), "match_id", None) or DEMO_MATCH
+        self.tools = ScopedTools(engine=engine, scope=team, home=home, away=away, match_id=match_id,
+                                 visible_minute=visible_minute)
         self.server = build_server(self.tools)
         self.choice = choice
+        self.workflow = workflow
         self.trace: list[TraceStep] = []
         self._actor = "analyst"
         self._recorded = 0
@@ -91,7 +94,8 @@ class Staff:
     def _step(self, agent: str, tool: str | None, args: dict, claims: list[str], ms: int, status: str,
               message: str | None = None) -> None:
         safe_args = {k: (v if k not in ("plan", "opponent_estimate") else "<plan>") for k, v in args.items()}
-        self.trace.append(TraceStep(trace_id=f"{self.team}-pre-{len(self.trace) + 1:03d}", workflow="prematch",
+        tag = {"prematch": "pre", "duel": "duel", "final": "fin", "live": "live"}[self.workflow]
+        self.trace.append(TraceStep(trace_id=f"{self.team}-{tag}-{len(self.trace) + 1:03d}", workflow=self.workflow,
                                     agent=agent, scope=self.team, step=len(self.trace), tool=tool, args=safe_args,
                                     result_claims=claims, duration_ms=ms, status=status, message=message))
 
@@ -307,6 +311,11 @@ async def run_prematch(engine: EngineAPI, home: str, away: str, mode: str | None
     return {home: kes, away: har}
 
 
+def engine_meta(engine) -> tuple[str, str]:
+    meta = getattr(engine, "meta", None) or engine.bundle.meta
+    return meta.home, meta.away
+
+
 def main(argv: list[str] | None = None) -> int:
     from mcp_server.engine_factory import get_engine
     ap = argparse.ArgumentParser(prog="python -m agents.prematch")
@@ -314,8 +323,8 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--out", default=str(Path(__file__).parent / "_out" / "prematch.json"))
     args = ap.parse_args(argv)
     engine = get_engine()
-    meta = engine.bundle.meta  # type: ignore[attr-defined]
-    results = asyncio.run(run_prematch(engine, meta.home, meta.away, args.mode))
+    home, away = engine_meta(engine)
+    results = asyncio.run(run_prematch(engine, home, away, args.mode))
     out = Path(args.out)
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps({t: r.model_dump(mode="json", by_alias=True) for t, r in results.items()}, indent=1,

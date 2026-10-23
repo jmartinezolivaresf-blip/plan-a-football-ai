@@ -66,15 +66,25 @@ def verify(text: str, claims: Mapping[str, Claim], mode: str = "analyst") -> lis
     return errors
 
 
-def _fmt(value) -> str:
-    if isinstance(value, float):
-        return f"{value:.0%}" if 0 < abs(value) < 1 else f"{value:g}"
+SHARE_FIELDS = {"value", "league_ref", "interval_low", "interval_high"}
+
+
+def format_value(claim: Claim, fld: str) -> str:
+    """Shares as percentages; other numbers with at most two decimals (same rule as web/src/lib/claims.ts)."""
+    value = getattr(claim, fld)
+    if isinstance(value, bool) or value is None:
+        return str(value)
+    if isinstance(value, (int, float)):
+        if claim.metric.endswith("_share") and fld in SHARE_FIELDS:
+            return f"{round(float(value) * 100)}%"
+        if isinstance(value, float):
+            return f"{value:.2f}".rstrip("0").rstrip(".") if abs(value) < 100 else f"{value:.0f}"
     return str(value)
 
 
 def fill(text: str, claims: Mapping[str, Claim]) -> str:
     """Replace placeholders with claim values and drop [claim] tags. Call only on verified text."""
-    out = PLACEHOLDER.sub(lambda m: _fmt(getattr(claims[m.group(1)], m.group(2))), text)
+    out = PLACEHOLDER.sub(lambda m: format_value(claims[m.group(1)], m.group(2)), text)
     return re.sub(r"\s*\[c[\w-]+\]", "", out)
 
 

@@ -36,7 +36,11 @@ METRIC_LABEL = {
     "first_contact_conceded_share": "They lose the first contact at the {label} on corners",
     "high_turnovers_conceded_per_match": "They concede high turnovers",
     "central_entries_conceded_share": "They concede entries through the centre",
+    "entries_conceded_share": "They concede entries down their {label}",
+    "balls_in_behind_conceded_per_match": "They concede balls in behind",
+    "late_xg_conceded_ratio": "They concede more chances late on",
 }
+DEFENSIVE_ROLES = ("LB", "RB", "CB", "DM")
 
 
 def evidence(messages) -> dict[str, Any]:
@@ -94,14 +98,17 @@ def candidates(ev: dict) -> CandidateSetDraft:
     evid: dict[str, list[str]] = {}
     for c in usable:
         r, cid, m = _ratio(c), c["claim_id"], c["metric"]
-        if m == "losses_per_100_pressured_receptions" and r > 1.4 and c.get("player_id"):
+        role = (c.get("label") or "").split(",")[0]
+        if m == "losses_per_100_pressured_receptions" and r >= 1.15 and c.get("player_id") and (
+                not c.get("label") or role in DEFENSIVE_ROLES):
             lev.update(press_height="high", press_target=c["player_id"])
             evid.setdefault("press_height", []).append(cid)
             evid["press_target"] = [cid]
         elif m == "goal_kick_short_share" and r > 1.15:
             lev["press_height"] = "high"
             evid.setdefault("press_height", []).append(cid)
-        elif m == "crosses_conceded_share" and r > 1.15 and _mirror(c.get("label")):
+        elif m in ("crosses_conceded_share", "entries_conceded_share") and r > 1.15 and _mirror(c.get("label")) \
+                and "attack_channel" not in lev:
             lev["attack_channel"] = _mirror(c.get("label"))
             evid["attack_channel"] = [cid]
         elif m == "central_entries_conceded_share" and r > 1.1:
@@ -110,6 +117,9 @@ def candidates(ev: dict) -> CandidateSetDraft:
         elif m == "first_contact_conceded_share" and r > 1.15 and "back" in (c.get("label") or ""):
             lev["corner_delivery"] = "far_post"
             evid["corner_delivery"] = [cid]
+        elif m == "balls_in_behind_conceded_per_match" and r > 1.2 and lev.get("press_height") != "high":
+            lev["build_up"] = "direct"
+            evid["build_up"] = [cid]
     if not lev:
         return CandidateSetDraft(candidates=[])  # nothing to exploit: the workflow falls back to its template
     out = [_candidate(lev, evid, "Exploit their weaknesses", "Explotar sus debilidades")]
@@ -133,9 +143,16 @@ def _candidate(lev: dict, evid: dict, en: str, es: str) -> CandidateDraft:
     if not kpis:
         kpis.append({"id": "k4", "metric": "balls_in_behind_conceded", "target": "<=3", "by_minute": 90})
     plan_b = []
+    first_kpi = kpis[0]["id"]
     if lev.get("press_height") == "high":
         plan_b.append({"if": {"kpi": "k1", "status": "failing", "after_minute": 30},
                        "then": {"levers": {"press_height": "mid"}}})
+    if lev.get("build_up", "mixed") in ("short", "mixed"):
+        # if the main KPI fails, stop building through the press and go direct
+        plan_b.append({"if": {"kpi": first_kpi, "status": "failing", "after_minute": 25},
+                       "then": {"levers": {"build_up": "direct"}}})
+    else:
+        plan_b.append({"if": {"score_diff": "<0", "after_minute": 60}, "then": {"levers": {"press_height": "high"}}})
     cites = [c for cs in evid.values() for c in cs]
     rationale = " ".join(f"Supported by [{c}]." for c in dict.fromkeys(cites))
     return CandidateDraft.model_validate({"name_en": en, "name_es": es, **lev, "lever_evidence": evid,
