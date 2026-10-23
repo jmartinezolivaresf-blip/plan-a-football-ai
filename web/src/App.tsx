@@ -12,6 +12,7 @@ import type { MatchBundle } from "./contracts/bundle";
 import { indexClaims } from "./lib/claims";
 import { useMatchClock } from "./lib/clock";
 import { matchEnd, teams } from "./lib/match";
+import { type LinkParams, readParams } from "./lib/params";
 
 // Fictional clubs get fixed broadcast colours by home/away slot (no club branding).
 export const SLOT_COLORS = ["#2dd4bf", "#f59e0b"];
@@ -22,13 +23,20 @@ export function teamColors(bundle: MatchBundle): Record<string, string> {
   return { [home]: SLOT_COLORS[0], [away]: SLOT_COLORS[1] };
 }
 
-export function Broadcast({ bundle, initialTab = "broadcast" }: { bundle: MatchBundle; initialTab?: "broadcast" | "desk" }) {
-  const clock = useMatchClock(matchEnd(bundle));
+const NO_PARAMS: LinkParams = { t: null, tab: null, mode: null, lang: null, club: null, reveal: false };
+
+export function Broadcast({ bundle, initialTab = "broadcast", link = NO_PARAMS }: {
+  bundle: MatchBundle;
+  initialTab?: "broadcast" | "desk";
+  link?: LinkParams;
+}) {
+  const clock = useMatchClock(matchEnd(bundle), link.t ?? 0);
   const colors = teamColors(bundle);
   const [home, away] = teams(bundle);
   const claims = useMemo(() => indexClaims(bundle), [bundle]);
-  const [settings, setSettings] = useState<Settings>({ mode: "casual", lang: "en", club: home });
-  const [tab, setTab] = useState<"broadcast" | "desk">(initialTab);
+  const club = link.club && [home, away].includes(link.club) ? link.club : home;
+  const [settings, setSettings] = useState<Settings>({ mode: link.mode ?? "casual", lang: link.lang ?? "en", club });
+  const [tab, setTab] = useState<"broadcast" | "desk">(link.tab ?? initialTab);
   const [halftimeSeen, setHalftimeSeen] = useState(false);
   const atHalftime = !!bundle.duel && !halftimeSeen && clock.time >= HALF_TIME && clock.time < HALF_TIME + 60;
   const atFullTime = clock.time >= clock.end;
@@ -75,7 +83,7 @@ export function Broadcast({ bundle, initialTab = "broadcast" }: { bundle: MatchB
                               onPlay={clock.play} onPause={clock.pause} onSeek={clock.seek} onSpeed={clock.setSpeed} />
             {atHalftime && (
               <HalftimeScreen bundle={bundle} mode={settings.mode} lang={settings.lang} club={settings.club} claims={claims}
-                              colors={colors} onContinue={() => {
+                              colors={colors} initialRevealed={link.reveal} onContinue={() => {
                                 setHalftimeSeen(true);
                                 seek(HALF_TIME + 61);
                                 play();
@@ -100,5 +108,5 @@ export function App() {
   }, []);
   if (error) return <p role="alert" className="app">{error}</p>;
   if (!bundle) return <p className="app">Loading match…</p>;
-  return <Broadcast bundle={bundle} />;
+  return <Broadcast bundle={bundle} link={readParams(window.location.search)} />;
 }

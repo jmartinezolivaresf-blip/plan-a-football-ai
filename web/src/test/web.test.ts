@@ -8,6 +8,7 @@ import { Broadcast } from "../App";
 import type { MatchBundle } from "../contracts/bundle";
 import { clockReducer, initClock } from "../lib/clock";
 import { changedLevers, kpiTarget, objective } from "../lib/levers";
+import { parseTime, readParams } from "../lib/params";
 import { frameIndex, matchEnd, playerName, positionsAt, possessionAt, scoreAt, teams } from "../lib/match";
 import { canonicalJson, verifyPlan } from "../lib/seal";
 
@@ -173,5 +174,17 @@ describe("analyst desk", () => {
     expect(html).toContain("Agent trace");
     expect(html).toContain("Validation panel");
     expect(html).toContain("The real duel");
+  });
+});
+
+describe("deep links", () => {
+  it("parses time, tab, mode, language, club and reveal", () => {
+    expect(parseTime("45:00")).toBe(2700);
+    expect(parseTime("90")).toBe(90);
+    expect(parseTime("4500:00")).toBeNull();
+    expect(readParams("?t=45:00&tab=desk&mode=fan&lang=es&club=HAR&reveal=1")).toEqual({
+      t: 2700, tab: "desk", mode: "casual", lang: "es", club: "HAR", reveal: true,
+    });
+    expect(readParams("?tab=admin&mode=x")).toMatchObject({ tab: null, mode: null, reveal: false });
   });
 });

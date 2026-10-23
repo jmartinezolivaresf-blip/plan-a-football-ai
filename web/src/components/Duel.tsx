@@ -149,7 +149,7 @@ export function DuelMatrix({ bundle, matrix, perspective, mode, lang, claims, co
   );
 }
 
-export function HalftimeScreen({ bundle, mode, lang, club, claims, colors, onContinue }: {
+export function HalftimeScreen({ bundle, mode, lang, club, claims, colors, onContinue, initialRevealed = false }: {
   bundle: MatchBundle;
   mode: Mode;
   lang: Lang;
@@ -157,8 +157,9 @@ export function HalftimeScreen({ bundle, mode, lang, club, claims, colors, onCon
   claims: ClaimIndex;
   colors: Record<string, string>;
   onContinue: () => void;
+  initialRevealed?: boolean;
 }) {
-  const [revealed, setRevealed] = useState(false);
+  const [revealed, setRevealed] = useState(initialRevealed);
   const [which, setWhich] = useState<"true" | "believed">("true");
   const duel = bundle.duel;
   if (!duel) return null;

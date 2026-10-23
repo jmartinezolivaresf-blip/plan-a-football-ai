@@ -113,15 +113,30 @@ export function AnalystDesk({ bundle, claims, minute, lang, colors }: {
           <h3>Validation panel (inside our simulator)</h3>
           {ev?.E1 ? (
             <ul className="eval">
-              <li>E1 scouting vs hidden truth (test teams, unseen season): precision {ev.E1.precision}, recall {ev.E1.recall} ({ev.E1.flagged} flagged, {ev.E1.true_traits} real traits)</li>
+              <li>E1 scouting vs hidden truth ({ev.E1.scouted_teams} clubs in {ev.E1.seasons?.length} unseen seasons with random trait kinds): precision {ev.E1.precision}, recall {ev.E1.recall} ({ev.E1.flagged} flagged, {ev.E1.true_traits} real traits)</li>
               <li>E2 Monte Carlo stability (R={ev.E2.R?.join(" vs ")}): sign agreement {ev.E2.sign_agreement}, mean abs error {ev.E2.mean_abs_error_xpts} xPts, CI coverage {ev.E2.ci90_coverage_of_reference}</li>
               <li>E3 levers citing served claims: {ev.E3.levers_citing_served_claims}; plans attacking a real weakness: {ev.E3.plans_attacking_a_real_weakness}</li>
               <li>E4 reports valid at first try: {ev.E4.reports_valid_first_try}; cues dropped by the verifier: {ev.E4.cues_dropped}; numbers written by the LLM: {ev.E4.llm_numbers}</li>
               <li>E7 probability on the other bench's real intent: {ev.E7.prob_on_actual_intent.mean} (uniform {ev.E7.uniform_baseline}, n {ev.E7.prob_on_actual_intent.n})</li>
               <li>E8 regret (xPts): AI {ev.E8.ai_regret.mean} [{ev.E8.ai_regret.ci90.join(", ")}] · always stay {ev.E8.always_stay_regret.mean} · random {ev.E8.random_choice_regret.mean}</li>
+              {ev.adaptation_detector && (
+                <li>Adaptation detector (dev seasons, online): false alarms {ev.adaptation_detector.chosen.false_alarm_rate} per team-match, switches found {ev.adaptation_detector.chosen.power}, median delay {ev.adaptation_detector.chosen.median_delay_min} min</li>
+              )}
             </ul>
           ) : (
             <p>{ev?.note ?? "No evaluation in this bundle."}</p>
+          )}
+          {ev?.calibration && (
+            <table className="kpi-table calib">
+              <caption>Season statistics of our simulator vs targets (evaluation season {ev.season_seed})</caption>
+              <thead><tr><th>statistic</th><th>value</th><th>target</th><th>in range</th></tr></thead>
+              <tbody>
+                {Object.entries(ev.calibration as Record<string, { value: number; target: number[]; in_range: boolean }>).map(([k, v]) => (
+                  <tr key={k}><td>{k.replaceAll("_", " ")}</td><td>{v.value}</td><td>{v.target.join("–")}</td>
+                    <td className={v.in_range ? "on_track" : "at_risk"}>{v.in_range ? "yes" : "no"}</td></tr>
+                ))}
+              </tbody>
+            </table>
           )}
           {ev?.story && <p className="legend">Demo story criteria: {ev.story_criteria}</p>}
         </section>

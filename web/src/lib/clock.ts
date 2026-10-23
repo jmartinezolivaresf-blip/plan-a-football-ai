@@ -39,8 +39,8 @@ export function clockReducer(state: ClockState, action: ClockAction): ClockState
   }
 }
 
-export function useMatchClock(end: number) {
-  const [state, dispatch] = useReducer(clockReducer, end, (e) => initClock(e));
+export function useMatchClock(end: number, start = 0) {
+  const [state, dispatch] = useReducer(clockReducer, end, (e) => ({ ...initClock(e), time: Math.min(e, start) }));
   const last = useRef<number | null>(null);
 
   useEffect(() => {
