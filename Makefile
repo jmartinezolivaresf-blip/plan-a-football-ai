@@ -11,7 +11,7 @@ help:
 
 setup: ## Create .venv (Python 3.12) and install Python + web dependencies
 	uv venv --python 3.12 --allow-existing
-	uv pip install -e ".[dev]"
+	uv pip install -e ".[dev,agents]"
 	cd web && npm ci
 
 schemas: ## Export JSON Schemas from the Pydantic contracts

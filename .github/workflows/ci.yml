@@ -14,7 +14,7 @@ jobs:
       - name: Install
         run: |
           uv venv --python 3.12
-          uv pip install -e ".[dev]"
+          uv pip install -e ".[dev,agents]"
       - name: Contracts, fixtures, lint, tests
         run: make check
 
