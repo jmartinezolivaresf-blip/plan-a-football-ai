@@ -11,7 +11,7 @@ from .common import Contract, TeamCode
 from .cue import Cue
 from .duel import Duel
 from .events import Event
-from .plan import Plan
+from .plan import OpponentPlanEstimate, Plan
 from .snapshot import Snapshot
 from .squads import Squads
 from .trace import TraceStep
@@ -43,6 +43,21 @@ class RenderFrame(Contract):
     players: dict[str, tuple[float, float]]
 
 
+class FindingRef(Contract):
+    claim_id: str
+    headline: str = Field(description="Text with {claim_id.field} placeholders, verified by code.")
+
+
+class ScoutingSummary(Contract):
+    """What a bench's analyst reported before kick-off (findings point to claims in `claims`)."""
+
+    team: TeamCode
+    opponent: TeamCode
+    findings: list[FindingRef] = Field(default_factory=list, max_length=5)
+    opponent_estimate: OpponentPlanEstimate | None = None
+    model: str
+
+
 class MatchBundle(Contract):
     schema_version: str = SCHEMA_VERSION
     meta: MatchMeta
@@ -53,6 +68,7 @@ class MatchBundle(Contract):
     plans: dict[TeamCode, Plan]
     duel: Duel | None = None
     claims: list[Claim] = Field(default_factory=list)
+    scouting: dict[TeamCode, ScoutingSummary] = Field(default_factory=dict)
     cues: list[Cue] = Field(default_factory=list)
     traces: list[TraceStep] = Field(default_factory=list)
     eval: dict[str, Any] = Field(default_factory=dict, description="Aggregated E1..E8 results for the panel.")

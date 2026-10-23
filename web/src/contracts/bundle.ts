@@ -54,7 +54,8 @@ export type Template =
   | "duel_matrix"
   | "plan_scorecard"
   | "bench_regret"
-  | "option_not_taken";
+  | "option_not_taken"
+  | "goal_flash";
 export type En = string;
 export type Es = string;
 export type TtlS = number;
@@ -311,9 +312,31 @@ export type Ball = [unknown, unknown];
 export type T1 = number;
 export type RenderFrames = RenderFrame[];
 export type SchemaVersion = string;
+/**
+ * @maxItems 5
+ */
+export type Findings =
+  | []
+  | [FindingRef]
+  | [FindingRef, FindingRef]
+  | [FindingRef, FindingRef, FindingRef]
+  | [FindingRef, FindingRef, FindingRef, FindingRef]
+  | [FindingRef, FindingRef, FindingRef, FindingRef, FindingRef];
+export type ClaimId3 = string;
+/**
+ * Text with {claim_id.field} placeholders, verified by code.
+ */
+export type Headline = string;
+export type Model = string;
+export type Opponent2 = string;
+export type Claims3 = string[];
+export type Confidence = number;
+export type Estimator1 = string;
+export type Opponent3 = string;
+export type Team10 = string;
 export type BandHigh = number | null;
 export type BandLow = number | null;
-export type ClaimId3 = string | null;
+export type ClaimId4 = string | null;
 /**
  * Mean of pre-match sims at this minute.
  */
@@ -322,7 +345,7 @@ export type KpiId = string;
 export type N1 = number;
 export type PlanId1 = string;
 export type Status2 = "on_track" | "at_risk" | "failing" | "insufficient_evidence";
-export type Team10 = string;
+export type Team11 = string;
 export type Value1 = number;
 export type Kpis1 = KpiStatus[];
 export type MatchId4 = string;
@@ -359,7 +382,7 @@ export type Position = "GK" | "RB" | "CB" | "LB" | "DM" | "CM" | "AM" | "RW" | "
 export type Shirt = number;
 export type Starter = boolean;
 export type ShortName = string;
-export type Team11 = string;
+export type Team12 = string;
 export type Agent = "analyst" | "manager" | "director" | "chronicler" | "localizer" | "validator";
 export type DurationMs = number;
 export type Message = string | null;
@@ -383,6 +406,7 @@ export interface MatchBundle {
   plans: Plans;
   render_frames: RenderFrames;
   schema_version: SchemaVersion;
+  scouting: Scouting;
   snapshots: Snapshots;
   squads: Squads;
   traces: Traces;
@@ -709,6 +733,36 @@ export interface Players {
    */
   [k: string]: [unknown, unknown];
 }
+export interface Scouting {
+  [k: string]: ScoutingSummary;
+}
+/**
+ * What a bench's analyst reported before kick-off (findings point to claims in `claims`).
+ *
+ * This interface was referenced by `Scouting`'s JSON-Schema definition
+ * via the `patternProperty` "^[A-Z]{3}$".
+ */
+export interface ScoutingSummary {
+  findings: Findings;
+  model: Model;
+  opponent: Opponent2;
+  opponent_estimate: OpponentPlanEstimate | null;
+  team: Team10;
+}
+export interface FindingRef {
+  claim_id: ClaimId3;
+  headline: Headline;
+}
+/**
+ * Pre-match: the analyst's guess of the opponent's levers (never the opponent's real plan).
+ */
+export interface OpponentPlanEstimate {
+  claims: Claims3;
+  confidence: Confidence;
+  estimator: Estimator1;
+  levers: Levers;
+  opponent: Opponent3;
+}
 export interface Snapshot {
   active_levers: ActiveLevers;
   condition_est: ConditionEst;
@@ -733,13 +787,13 @@ export interface ConditionEst {
 export interface KpiStatus {
   band_high: BandHigh;
   band_low: BandLow;
-  claim_id: ClaimId3;
+  claim_id: ClaimId4;
   expected: Expected;
   kpi_id: KpiId;
   n: N1;
   plan_id: PlanId1;
   status: Status2;
-  team: Team10;
+  team: Team11;
   value: Value1;
 }
 export interface OnPitch {
@@ -784,7 +838,7 @@ export interface Squad {
   name: Name;
   players: Players1;
   short_name: ShortName;
-  team: Team11;
+  team: Team12;
 }
 export interface Player {
   attributes: Attributes;

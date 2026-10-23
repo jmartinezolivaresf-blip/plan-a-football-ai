@@ -96,9 +96,9 @@ def build_server(tools: ScopedTools) -> MCPServer:
         return tools.call("validate_plan", {"plan": plan, "option": option})
 
     @reg
-    def seal_choice(option_id: str) -> Any:
-        """Seal your half-time choice (commit only)."""
-        return tools.call("seal_choice", {"option_id": option_id})
+    def seal_choice(option_id: str, rule: str = "best_guess") -> Any:
+        """Seal your half-time choice (commit only) and the rule you chose it by."""
+        return tools.call("seal_choice", {"option_id": option_id, "rule": rule})
 
     @reg
     def get_plan_status(minute: int, team: str | None = None) -> Any:
@@ -144,13 +144,14 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--visible-minute", type=int, default=None, help="latest visible minute (default 0 for staff)")
     args = ap.parse_args(argv)
     engine = get_engine()
-    meta = engine.bundle.meta if hasattr(engine, "bundle") else None
+    meta = getattr(engine, "meta", None) or getattr(getattr(engine, "bundle", None), "meta", None)
     home, away = (meta.home, meta.away) if meta else ("KES", "HAR")
     if args.scope not in (home, away, BROADCAST_SCOPE):
         ap.error(f"unknown scope {args.scope}")
     visible = args.visible_minute if args.visible_minute is not None else (90 if args.scope == BROADCAST_SCOPE
                                                                             else 0)
-    tools = ScopedTools(engine=engine, scope=args.scope, home=home, away=away, match_id=DEMO_MATCH,
+    match_id = meta.match_id if meta else DEMO_MATCH
+    tools = ScopedTools(engine=engine, scope=args.scope, home=home, away=away, match_id=match_id,
                         visible_minute=visible)
     server = build_server(tools)
     if not args.http:

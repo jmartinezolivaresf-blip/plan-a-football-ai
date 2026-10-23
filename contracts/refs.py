@@ -23,5 +23,5 @@ class ValidationResult(Contract):
 
 
 class ToolError(Contract):
-    error: Literal["forbidden_scope", "not_sealed_yet", "not_found", "invalid_args"]
+    error: Literal["forbidden_scope", "not_sealed_yet", "not_ready", "not_found", "invalid_args"]
     detail: str = ""

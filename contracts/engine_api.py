@@ -19,6 +19,14 @@ from .snapshot import Snapshot
 from .squads import Squad
 
 
+class NotSealedYet(RuntimeError):
+    """true_matrix()/regret() before both benches sealed their half-time choice."""
+
+
+class NotReady(RuntimeError):
+    """The data a tool needs does not exist yet in this phase (e.g. price_matrix before half-time)."""
+
+
 @runtime_checkable
 class EngineAPI(Protocol):
     # scouting (season history)
@@ -36,7 +44,7 @@ class EngineAPI(Protocol):
     def estimate_opponent_options(self, match_id: str, team: str) -> OpponentOptionsEstimate: ...
     def price_matrix(self, match_id: str, own_options: list[Option], opponent_options: list[Option], R: int,
                      perspective: str, opponent_probs: list[float]) -> Matrix: ...
-    def seal_choice(self, match_id: str, team: str, option_id: str) -> SealedChoice: ...
+    def seal_choice(self, match_id: str, team: str, option_id: str, rule: str = "best_guess") -> SealedChoice: ...
     def true_matrix(self, match_id: str) -> DuelBroadcast: ...
     def regret(self, match_id: str) -> dict[str, Regret]: ...
 

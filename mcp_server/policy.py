@@ -15,11 +15,9 @@ from pydantic import ValidationError
 
 from agents.validators.plan import validate_plan as validate_plan_rules
 from contracts import BROADCAST_SCOPE, Option, Plan
-from contracts.engine_api import EngineAPI
+from contracts.engine_api import EngineAPI, NotReady, NotSealedYet
 from contracts.plan import OpponentPlanEstimate
 from contracts.refs import ToolError
-
-from .mock_engine import NotSealedYet
 
 STAFF_TOOLS = frozenset({
     "list_matches", "get_team_tendencies", "get_player_profile", "get_set_piece_profile", "get_squad_condition",
@@ -105,6 +103,12 @@ class ScopedTools:
                 result = error("invalid_args", str(exc))
             except (KeyError, LookupError, IndexError) as exc:
                 result = error("not_found", str(exc))
+            except NotReady as exc:
+                result = error("not_ready", str(exc))
+            except NotSealedYet as exc:
+                result = error("not_sealed_yet", str(exc))
+            except ValueError as exc:
+                result = error("invalid_args", str(exc))
         claims = _claim_ids(result)
         status = "rejected" if isinstance(result, dict) and "error" in result else "ok"
         if status == "ok":
@@ -170,8 +174,10 @@ class ScopedTools:
             return error("forbidden_scope", "a staff can only validate its own option")
         return _dump(self.engine.validate_option(self.match_id, o))
 
-    def _t_seal_choice(self, option_id: str) -> Any:
-        return _dump(self.engine.seal_choice(self.match_id, self.scope, option_id))
+    def _t_seal_choice(self, option_id: str, rule: str = "best_guess") -> Any:
+        if rule not in ("safe_pick", "best_guess", "gamble"):
+            return error("invalid_args", "rule must be safe_pick, best_guess or gamble")
+        return _dump(self.engine.seal_choice(self.match_id, self.scope, option_id, rule))
 
     def _t_get_plan_status(self, minute: int, team: str | None = None) -> Any:
         if self.is_staff:

@@ -7,7 +7,7 @@ Types: `contracts/sim_types.py` (`MatchState`, `Outcomes`, `SimResult`), plus `P
 def simulate(plans: dict[str, Plan], squads: Squads, seed: int, R: int = 1, log: bool = False,
              start: MatchState | None = None, until_minute: int = 90, *,
              truth: Truth | None = None, config: SimConfig | None = None,
-             match_id: str | None = None) -> SimResult: ...
+             match_id: str | None = None, home: str | None = None) -> SimResult: ...
 def fork(state: MatchState, overrides: dict[str, Option], R: int, seed: int, *,
          truth: Truth | None = None, config: SimConfig | None = None) -> Outcomes: ...
 def bind(truth: Truth | None, config: SimConfig | None) -> World: ...   # World.simulate / World.fork
@@ -23,7 +23,8 @@ the engine, so `engine/` can fork matches without ever importing or seeing `cont
    fatigue). Each step advances one action in every live replica; finished replicas are masked.
 2. **`log=True` is only valid with `R == 1`.** It returns `events[]`, `snapshots[]` (minutes 0..`until_minute`)
    and `final_state`. With `R > 1` only `outcomes` is returned. Same code path, no second simulator.
-3. **Home team** = first key of `plans` (attacks towards x = 105 in the first half and kicks off).
+3. **Home team** = `home` (or `start.home`); the first key of `plans` is only a fallback (D-032). The home team
+   attacks towards x = 105 in the first half and kicks off.
 4. **Determinism.** Same `plans`, `squads`, `seed`, `start`, `truth` and `config` give identical results.
 5. **Common random numbers.** Uniforms are a counter-based hash of `(replica seed, step, use)`
    (`sim/rng.py`). Replica `r` of a run with `seed` uses replica seed `h(seed, r)`, so an `R=1` run equals
