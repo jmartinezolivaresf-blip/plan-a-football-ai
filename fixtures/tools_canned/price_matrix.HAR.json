@@ -200,7 +200,7 @@
     },
     "safe_pick": "HAR-HT-Z",
     "best_guess": "HAR-HT-Z",
-    "gamble": "HAR-HT-X",
+    "gamble": null,
     "dominant": null
    }
   },

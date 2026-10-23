@@ -39,9 +39,12 @@ def best_guess(matrix: Matrix, team: str, opponent_probs: list[float]) -> str:
 
 
 def gamble(matrix: Matrix, team: str) -> str | None:
+    """An option that gives up floor for a HIGHER ceiling than the safe pick; none when the safe pick is also the
+    best case (e.g. a dominant option), so a dominated option is never labelled a gamble."""
     own, _, p = payoffs(matrix, team)
     safe = own.index(safe_pick(matrix, team))
-    candidates = [i for i in range(len(own)) if i != safe and min(p[i]) <= min(p[safe]) - GAMBLE_MARGIN]
+    candidates = [i for i in range(len(own)) if i != safe and min(p[i]) <= min(p[safe]) - GAMBLE_MARGIN
+                  and max(p[i]) >= max(p[safe]) + GAMBLE_MARGIN]
     if not candidates:
         return None
     return own[max(candidates, key=lambda i: max(p[i]))]

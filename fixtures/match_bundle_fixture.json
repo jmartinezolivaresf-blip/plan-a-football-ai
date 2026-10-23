@@ -77195,7 +77195,7 @@
        },
        "safe_pick": "KES-HT-B",
        "best_guess": "KES-HT-B",
-       "gamble": "KES-HT-A",
+       "gamble": null,
        "dominant": null
       }
      },
@@ -77538,7 +77538,7 @@
        },
        "safe_pick": "HAR-HT-Z",
        "best_guess": "HAR-HT-Z",
-       "gamble": "HAR-HT-X",
+       "gamble": null,
        "dominant": null
       }
      },
@@ -77757,7 +77757,7 @@
       },
       "safe_pick": "KES-HT-B",
       "best_guess": null,
-      "gamble": "KES-HT-A",
+      "gamble": null,
       "dominant": null
      },
      "HAR": {
@@ -77769,7 +77769,7 @@
       },
       "safe_pick": "HAR-HT-Z",
       "best_guess": null,
-      "gamble": "HAR-HT-X",
+      "gamble": null,
       "dominant": null
      }
     },
