@@ -111,12 +111,25 @@ def make_squads(seed: int) -> Squads:
     return Squads(teams=teams)
 
 
-def make_truth(squads: Squads, season_id: str, seed: int) -> Truth:
+# Where each trait kind lives, for seasons whose trait kinds are drawn at random (evaluation, D-043)
+TRAIT_ARGS = {"fb_low_press_resistance": ("LB", "RB"), "cb_low_pace": ("CB",), "weak_channel": ("left", "right"),
+              "back_post_weak": (None,), "late_fade": (None,), "gk_short_bias": (None,)}
+
+
+def random_traits(seed: int) -> dict[str, list[tuple[str, str | None]]]:
+    """Three distinct trait kinds per club drawn from the seed: configurations nobody inspected during development."""
+    rng = random.Random(seed + 7)
+    return {code: [(k, rng.choice(TRAIT_ARGS[k])) for k in rng.sample(sorted(TRAIT_ARGS), 3)]
+            for code, *_ in CLUBS}
+
+
+def make_truth(squads: Squads, season_id: str, seed: int, random_kinds: bool = False) -> Truth:
     rng = random.Random(seed + 1)
+    table = random_traits(seed) if random_kinds else TRAITS
     teams = {}
     for code, _, _, archetype, split in CLUBS:
         traits = []
-        for kind, arg in TRAITS[code]:
+        for kind, arg in table[code]:
             strength = round(rng.uniform(0.55, 0.85), 2)
             player_id = side = None
             if arg in ("LB", "RB", "CB"):
@@ -149,10 +162,13 @@ def schedule() -> list[tuple[str, str]]:
     return [pair for rnd in rounds for pair in rnd]
 
 
-def build_season(seed: int = 2026, season_id: str = "s-2026") -> Season:
+def build_season(seed: int = 2026, season_id: str = "s-2026", coefficients: dict[str, float] | None = None,
+                 random_trait_kinds: bool = False) -> Season:
+    """coefficients: overrides of sim.model.DEFAULT_COEFFICIENTS (calibration runs only). random_trait_kinds: draw
+    each club's hidden trait kinds from the seed instead of the fixed TRAITS table (evaluation seasons)."""
     squads = make_squads(seed)
-    truth = make_truth(squads, season_id, seed)
-    config = SimConfig(season_id=season_id, seed=seed, coefficients={})
+    truth = make_truth(squads, season_id, seed, random_kinds=random_trait_kinds)
+    config = SimConfig(season_id=season_id, seed=seed, coefficients=dict(coefficients or {}))
     archetype = {c[0]: c[3] for c in CLUBS}
     rng = random.Random(seed + 2)
     public = SeasonPublic(season_id=season_id, squads=squads, names={c[0]: (c[1], c[2]) for c in CLUBS})

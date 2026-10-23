@@ -93,6 +93,7 @@ DEFAULT_COEFFICIENTS: dict[str, float] = {
     "p_out_long": 0.35,
     "p_corner_failed_cross": 0.30,
     "p_corner_blocked_shot": 0.55,
+    "shot_logit_offset": -0.4,  # calibrated on dev seasons 11-14 (eval/calibrate_sim.py, D-042)
     "goal_band5_center": 0.12,
     "goal_band5_wide": 0.05,
     "goal_band4_center": 0.043,

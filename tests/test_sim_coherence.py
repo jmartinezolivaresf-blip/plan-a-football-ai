@@ -57,8 +57,8 @@ def test_possession_continuity(match):
         if e.type != "possession_change":
             continue
         nxt = next((f for f in evs[i + 1:] if f.type in ON_BALL), None)
-        if nxt is None:
-            continue
+        if nxt is None or nxt.period != e.period:
+            continue  # a ball won just before half-time: the second half starts with the other team's kick-off
         assert nxt.team == e.team, e.event_id
         if nxt.type in ("pass", "long_ball", "cross", "carry", "shot", "throw_in"):
             assert nxt.player_id == e.player_id, e.event_id

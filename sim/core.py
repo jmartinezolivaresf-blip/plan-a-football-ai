@@ -296,7 +296,7 @@ class Batch:
         L[:, M.LONG] += 0.3 * (late & (lead < 0))
         L[:, M.PROG] += 0.6 * counter
         L[:, M.CARRY] += 0.4 * counter
-        L[:, M.SHOT] += 0.6 * (counter & (band >= 3))
+        L[:, M.SHOT] += 0.6 * (counter & (band >= 3)) + cf["shot_logit_offset"]
         L = np.where(self.after_cross[:, None], M.NEG, L)
         L[:, M.SHOT] = np.where(self.after_cross, 5.0, L[:, M.SHOT])
         pa = np.exp(L - L.max(axis=1, keepdims=True))
@@ -408,9 +408,11 @@ class Batch:
         for ln, k in ((0, K_ENT_L), (1, K_ENT_C), (2, K_ENT_R)):
             e = entry & (tl == ln)
             np.add.at(self.counters, (ar[e], poss[e], k), 1)
-        bib = m & (action == M.LONG) & (tb >= 4) & opp_high  # a ball played in behind a high line
+        # KPI: a completed long ball into the final third, the engine's is_ball_in_behind() (D-015, D-041). Only one
+        # played behind a HIGH line opens a counter-attack window.
+        bib = m & (action == M.LONG) & (tb >= 4)
         np.add.at(self.counters, (ar[bib], opp[bib], K_BIB), 1)
-        self.counter_until = np.where(bib, t0 + cf["counter_window_s"], self.counter_until)
+        self.counter_until = np.where(bib & opp_high, t0 + cf["counter_window_s"], self.counter_until)
 
         # ---- losses in open play
         lost_int = cat == C_LOSS_INT
