@@ -300,3 +300,18 @@ change. Because the shipped code changed, the dependent dev calibration (opponen
 evaluation was run again; this is disclosed here: test was run before the changes (0d51fc7), once after them
 (14ba1fd), and once more after this bug fix, which was found by reading the demo output, not the test numbers. The
 reported "after" numbers are from the last run. Also: Python wrote -0.002 as "-0"; now "0" (as the web already did).
+
+## H3, final review (2026-10-25)
+
+**D-053 · Found in the final end-to-end review.** (1) The full-time KPI verdict went through the live 2-minute
+hysteresis, so a target missed at 90' could still read "on track" (the demo's Kestrel showed "2 of 3 KPIs" instead of
+1 of 3); the full-time verdict is now settled immediately. Only full time changes (live readings before 90' keep the
+smoothing), so the evaluation numbers, which never use the full-time KPI status, are unaffected. (2) The half-time
+screen said "choice seal verified" before the reveal, when only the commitment exists; it now shows "locked" until
+the reveal and verifies with the revealed salt afterwards. (3) Known, not fixed here: a bench builds its half-time
+options from its sealed plan, not from its current levers, so after a Plan B it can offer an option that changes
+nothing (in the demo, Kestrel's "Go direct" equals "Stay the course" because its Plan B already went direct at 25').
+The fix touches the engine protocol and changes the demo match and the evaluated numbers; it is prepared on branch
+`fix/duel-active-levers` with its measured effect for the owners to decide. A clean clone rebuilds the demo bundle
+identical to the committed one (salts and wall-clock fields aside), and `tests/test_demo_consistency.py` checks the
+bundle against itself, the README story block and every number in the video narration.
