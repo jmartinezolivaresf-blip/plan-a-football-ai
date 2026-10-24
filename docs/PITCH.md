@@ -2,31 +2,32 @@
 
 **Project:** Plan A: The Battle of the Benches
 **Category:** Best Multi-Agent System (choose "Best Use of Microsoft Foundry" only after a real, recorded Foundry run)
-**Links:** demo URL (todo: deployment needs approval) · public repository (todo: owner flips visibility) · video (todo)
+**Links:** demo URL (todo: deployment needs a personal subscription) · public repository (todo: owner flips visibility) ·
+video (todo: upload `docs/media/plan_a_demo_v2.mp4` with the recorded narration)
 
 ## One line
 
-Two AI coaching staffs scout each other, seal their plans and make a blind half-time call; the broadcast then shows
-what each bench believed next to what was really true.
+Two AI coaching staffs. Two hidden strategies. One tactical duel: each bench scouts, plans and makes a blind
+half-time call, and the broadcast then shows what each bench believed next to what was really true.
 
 ## Description (about 220 words)
 
 Football broadcasts explain what happened. Plan A explains the decisions behind it, and checks them.
 
-Two coaching staffs, each a team of Microsoft Agent Framework agents (analyst, manager, half-time bench), work in
-separate rooms. Each reaches the world only through its own Model Context Protocol server: past matches of a
-synthetic league, a simulator to value plans, and a live Plan Tracker. Neither can see the other's options, beliefs
-or choice; each anticipates the other from what it observed on the pitch. Plans are sealed before kick-off and
-half-time choices are committed before the reveal.
+Each club has its own AI staff, built with Microsoft Agent Framework: an analyst that scouts the opponent's last eight
+matches and a manager that turns that evidence into a game plan, tested in simulation and locked in before kick-off.
+The two staffs work in separate rooms. Each reaches the data only through its own Model Context Protocol tools, so
+neither can see the other's plan, beliefs or choices; it can only read the other team from what happens on the
+pitch.
 
-At half-time each bench prices its three options against what it expects the other to do. Only after both seals
-does the broadcast price the real payoff matrix, so viewers see a decision, the belief behind it and its regret,
-with an interval.
+At half-time both benches choose at the same moment, blind to each other. Each prices its options on what it
+believes; the choices are locked in, then revealed. The simulator replays the second half hundreds of times for every
+pair of choices, so viewers see the call, the belief behind it and what it cost, with a likely range.
 
-Every number on screen is a claim with its sample size and likely range; agents write placeholders, never digits,
-and code rejects ungrounded text. Inside our simulator, on seasons nobody inspected, scouting reports flag real
-hidden weaknesses with 0.69 precision and 0.63 recall, and 9 of 12 sealed plans target a real weakness (a random
-plan: about half). All data is synthetic; clubs and players are fictional.
+Agents never type numbers: every figure on screen points to recorded data, and code rejects anything ungrounded.
+Inside our simulator, on seasons nobody inspected, scouting flags real hidden weaknesses with 0.69 precision and 0.63
+recall, and 9 of 12 plans target a real weakness (a random plan: about half). The half-time calls do not yet beat
+random choices; we report that too. All data is synthetic; clubs and players are fictional.
 
 ## Why multi-agent
 

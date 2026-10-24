@@ -9,7 +9,8 @@ next to what was really true. Built for the Microsoft + Premier League *Inside t
 > are used. Every number is produced inside our own simulator and is not a prediction about real football.
 
 **Demo:** <!-- DEMO_URL --> not deployed yet (ready for Azure Static Web Apps, `infra/AZURE_PLAN.md`). Run it
-locally in two commands below, or watch `docs/media/walkthrough.mp4` (a silent walkthrough recorded from the app).
+locally in two commands below, or watch [`docs/media/plan_a_demo_v2.mp4`](docs/media/plan_a_demo_v2.mp4) (117 s, captured
+from the app; narration and timings in [`docs/VIDEO_SCRIPT.md`](docs/VIDEO_SCRIPT.md)).
 
 ![Half-time duel: what each bench believed vs the real payoff matrix](docs/media/05-duel-true-matrix.png)
 
@@ -35,6 +36,9 @@ locally in two commands below, or watch `docs/media/walkthrough.mp4` (a silent w
 - Kestrel: regret 0.076 xPts (paired 90% interval 0.012 to 0.144) against "Protect the lead"; "Protect the lead" was dominant in the true matrix.
 - Harbourside: regret 0.03 xPts (paired 90% interval -0.032 to 0.098) against "Back to short passing".
 <!-- /DEMO_STORY -->
+
+This is one replay: it illustrates the decisions, it does not prove anything on its own; the half-time calls are
+judged by the matrices, and the evaluation below measures them over many matches.
 
 Deep links open any moment: `?t=45:00&reveal=1&mode=analyst`, `?t=45:00&reveal=1&matrix=believed`, `?t=90:00`,
 `?tab=desk&section=validation`, `?tab=desk&lang=es&club=HAR`.
@@ -82,6 +86,10 @@ Full tables: [`eval/results/RESULTS.md`](eval/results/RESULTS.md) (generated fro
 | Duel | Half-times where the best answer depends on the other bench (no dominant option in the true matrix) | 0.5 of 12 bench decisions |
 <!-- /RESULTS_HEADLINE -->
 
+Reading them honestly: scouting (E1) and plans (E3) clearly beat blind baselines. The half-time calls do not yet:
+the benches anticipate the other bench only slightly better than a uniform guess (E7, interval includes 0.333), and
+their regret is lower than always staying the course but about the same as a random choice (E8).
+
 How these were obtained: every threshold and simulator knob was chosen on **dev** seasons only (random trait kinds,
 seeds 9001-9015 and 11-14); the **test** seasons (8001-8005 for E1, 8101 for the matches) were run once before and
 once after the changes. Before/after table and every calibration: [`eval/results/RESULTS.md`](eval/results/RESULTS.md).
@@ -90,12 +98,16 @@ One change that made results worse on dev (a "what would they pick" step for E7)
 ## Limitations
 
 - **Synthetic world.** Clubs, players, hidden weaknesses and matches come from our simulator. The results show the
-  agents are grounded, reproducible and better than blind baselines *inside that world*; they say nothing about real
-  football or real coaches.
+  agents are grounded and reproducible, and that their scouting and plans beat blind baselines *inside that
+  world*; they say nothing about real football or real coaches.
 - **A simple match model.** A zone-based simulator with five levers. Its season statistics are near, not always
   inside, the target ranges (passes and pass accuracy are off; 24-match samples are noisy). Pressing-based exploits
   do not pay off in it yet (D-051), and many half-time matrices still have a dominant option.
 - **Small evaluation samples.** E7/E8 rest on 12 half-time decisions per run; intervals are reported.
+- **Half-time options come from the sealed plan.** After a Plan B a bench can be offered an option that changes
+  nothing: in the demo, Kestrel's "Go direct" has the same numbers as "Stay the course" because its Plan B already
+  went direct at minute 25 (D-053). The fix touches the engine protocol and the evaluated numbers, so it is kept on
+  a separate branch for the owners to decide.
 - **Offline agents in the demo.** The committed demo was produced by the deterministic rules client. A Foundry run
   will change texts, plans and possibly the story; the bundle records which model produced it.
 - **No live backend.** The public demo replays a precomputed bundle; the MCP server is not exposed.
@@ -148,6 +160,8 @@ Architecture: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md). Every design decis
 - Every broadcast cue passes the text verifier; the bundle contains no hidden trait.
 - The simulator's KPI counters equal the engine's event definitions; the same seed gives the same bundle in any
   process.
+- The committed demo bundle is internally consistent (score, matrices, readings, regret, seals, KPI verdicts), and
+  every number in this README's story block and in the video narration is in it (`tests/test_demo_consistency.py`).
 
 ## License
 
