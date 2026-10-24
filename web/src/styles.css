@@ -131,7 +131,15 @@ button.primary.big { font-size: 18px; padding: 14px 26px; box-shadow: 0 0 0 4px 
 .ht-matrices .duel-matrix { background: var(--panel); border-radius: 10px; padding: 10px 12px; margin: 0; border: 2px solid transparent; }
 .ht-matrices.focus-true .duel-matrix.true, .ht-matrices.focus-believed .duel-matrix.believed { border-color: #fbbf24; }
 .verdict { margin: 12px 0 6px; font-size: 18px; font-weight: 600; background: var(--panel); border-left: 6px solid; border-radius: 8px; padding: 10px 14px; }
-.ht-foot { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+/* the way on stays in view when the duel needs more than one screen */
+.ht-foot {
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  position: sticky; bottom: -22px; margin: 0 -28px -22px; padding: 8px 28px 12px;
+  background: rgba(10, 17, 32, 0.97); box-shadow: 0 -10px 18px rgba(10, 17, 32, 0.9);
+}
+.ht-foot .verdict { flex: 1; margin: 0; }
+.ht-foot button.primary { flex: none; }
+.halftime > .legend { margin: 10px 0 4px; }
 
 .duel-matrix { margin: 8px 0; }
 .duel-matrix figcaption { font-size: 13px; color: var(--muted); margin-bottom: 8px; }

@@ -225,13 +225,13 @@ export function HalftimeScreen({ bundle, mode, lang, club, claims, colors, onCon
             <DuelMatrix bundle={bundle} matrix={duel.broadcast.true_matrix} perspective={club} mode={mode} lang={lang}
                         claims={claims} colors={colors} />
           </div>
-          {regretCue && <p className="verdict" style={{ borderLeftColor: colors[club] }}>{fill(regretCue.text[lang], claims)}</p>}
+          <p className="legend">
+            {lang === "en"
+              ? "Green: better for the selected club than both staying; red: worse. ◎ the pair of choices that really happened · ★ the best answer to what the other bench really chose. Values from our simulator."
+              : "Verde: mejor para el club elegido que si ninguno cambia; rojo: peor. ◎ lo que pasó · ★ la mejor respuesta a lo que eligió el rival. Valores de nuestro simulador."}
+          </p>
           <div className="ht-foot">
-            <p className="legend">
-              {lang === "en"
-                ? "Green: better for the selected club than both staying; red: worse. ◎ the pair of choices that really happened · ★ the best answer to what the other bench really chose. Values from our simulator."
-                : "Verde: mejor para el club elegido que si ninguno cambia; rojo: peor. ◎ lo que pasó · ★ la mejor respuesta a lo que eligió el rival. Valores de nuestro simulador."}
-            </p>
+            {regretCue && <p className="verdict" style={{ borderLeftColor: colors[club] }}>{fill(regretCue.text[lang], claims)}</p>}
             <button type="button" className="primary" onClick={onContinue}>
               {lang === "en" ? "Play the second half" : "Jugar la segunda parte"}
             </button>
