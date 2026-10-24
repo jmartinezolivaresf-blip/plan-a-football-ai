@@ -1,6 +1,7 @@
 """Evaluation E1-E8 + calibration (v6 §11). Writes eval/results/summary.json and eval/results/*.md.
 
-    python -m eval.run [--season-seed 8101] [--matches 6]
+    python -m eval.run [--season-seed 8101] [--matches 6]   # TEST: run once, for the final numbers
+    python -m eval.run --dev                                # DEV check (seasons 9011-9015, 9101) -> results/dev/
 
 What each number means (and does not mean) is written next to it in the output. Everything is measured INSIDE our
 simulator; nothing here is a claim about real football.
@@ -39,6 +40,8 @@ TARGETS = {  # Anexo A of PLAN_A_v6 (to be re-checked against the cited sources 
 
 
 E1_SEASONS = (8001, 8002, 8003, 8004, 8005)
+DEV_E1_SEASONS = (9011, 9012, 9013, 9014, 9015)  # dev seasons not used to select thresholds (those are 9001-9010)
+DEV_MATCH_SEASON = 9101
 E1_MATCHUPS = (("KES", "HAR"), ("MOR", "ASH"), ("WEX", "BRY"))  # each pre-match scouts both clubs: 6 per season
 
 
@@ -71,11 +74,11 @@ def _e1_season(job: tuple[int, str | None]) -> list[dict]:
     return rows
 
 
-def e1(mode: str | None, workers: int) -> dict:
+def e1(mode: str | None, workers: int, seasons: tuple[int, ...] = E1_SEASONS) -> dict:
     """Scouting vs hidden truth on seasons whose trait kinds were drawn at random and never inspected (D-043)."""
     from concurrent.futures import ProcessPoolExecutor
     with ProcessPoolExecutor(workers) as ex:
-        rows = [r for rs in ex.map(_e1_season, [(s, mode) for s in E1_SEASONS]) for r in rs]
+        rows = [r for rs in ex.map(_e1_season, [(s, mode) for s in seasons]) for r in rs]
     flagged = correct = total = 0
     per_kind: dict[str, dict[str, int]] = {}
     for r in rows:
@@ -91,7 +94,7 @@ def e1(mode: str | None, workers: int) -> dict:
         k["recall"] = round(k["correct"] / k["true"], 3) if k["true"] else None
     return {"precision": round(correct / flagged, 3) if flagged else None,
             "recall": round(correct / total, 3) if total else None, "flagged": flagged, "true_traits": total,
-            "scouted_teams": len(rows), "seasons": E1_SEASONS, "per_kind": per_kind, "reports": rows,
+            "scouted_teams": len(rows), "seasons": seasons, "per_kind": per_kind, "reports": rows,
             "meaning": "share of flagged weaknesses that are real hidden traits / share of hidden traits flagged, "
                        "on unseen seasons with random trait kinds"}
 
@@ -277,10 +280,14 @@ def main(argv: list[str] | None = None) -> int:
     load_env()
     ap = argparse.ArgumentParser(prog="python -m eval.run")
     ap.add_argument("--season-seed", type=int, default=8101)
+    ap.add_argument("--dev", action="store_true", help="dev seasons only; writes eval/results/dev/summary.json")
     ap.add_argument("--matches", type=int, default=len(MATCHUPS))
     ap.add_argument("--mode", choices=["offline", "foundry"], default=None)
     ap.add_argument("--workers", type=int, default=6)
     args = ap.parse_args(argv)
+    if args.dev:
+        args.season_seed = DEV_MATCH_SEASON
+    out_dir = OUT / "dev" if args.dev else OUT
     t0 = time.perf_counter()
     season = build_season(args.season_seed, season_id=f"s-eval-{args.season_seed}", random_trait_kinds=True)
     jobs = [(args.season_seed, k, h, a, args.mode) for k, (h, a) in enumerate(MATCHUPS[: args.matches])]
@@ -293,14 +300,15 @@ def main(argv: list[str] | None = None) -> int:
     e2_engine = make_engine(season, home, away, Seeds(match=500))
     e2_engine.set_plans(matches[0]["plans_sealed"])
     e2_engine.play_first_half()
-    summary = {"season_seed": args.season_seed, "matches": args.matches, "E1": e1(args.mode, args.workers),
+    summary = {"season_seed": args.season_seed, "matches": args.matches, "dev": args.dev,
+               "E1": e1(args.mode, args.workers, DEV_E1_SEASONS if args.dev else E1_SEASONS),
                "E2": e2(e2_engine), "E3": e3(plans_truth, season.public.squads),
                "E4": e4(reports, [d for m in matches for d in m["dropped"]]),
                **e7_e8([m["duel"] for m in matches]), "calibration": calibration(season),
                "seconds": round(time.perf_counter() - t0, 1),
                "scope": "all results are inside our simulator; synthetic data; not claims about real football"}
-    OUT.mkdir(parents=True, exist_ok=True)
-    (OUT / "summary.json").write_text(json.dumps(summary, indent=1))
+    out_dir.mkdir(parents=True, exist_ok=True)
+    (out_dir / "summary.json").write_text(json.dumps(summary, indent=1))
     print(json.dumps({k: v for k, v in summary.items() if k not in ("calibration",)}, indent=1)[:3000])
     print("calibration:", {k: (v["value"], v["in_range"]) for k, v in summary["calibration"].items()})
     return 0

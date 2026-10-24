@@ -40,13 +40,19 @@ from contracts.sim_types import MatchState
 from . import duel as dm
 from .beliefs import beliefs_from_claims
 from .scouting import MatchLog, Scout
-from .tracker import PlanTracker, detect_adaptation
+from .tracker import PlanTracker, detect_adaptation, observed_levers
 from .valuation import default_plan, estimate_plan, matrix_from_outcomes, paired_ci, points
 
 
 def _tactics(plan: Plan) -> str:
     """Everything in a plan that changes what the simulator does (KPIs too: Plan B rules can trigger on them)."""
     return plan.model_dump_json(include={"levers", "plan_b", "subs_plan", "kpis"}, by_alias=True)
+
+
+# P(keep the plan, situational move, build-up switch) for the OTHER bench, by its score situation at half-time:
+# Laplace-smoothed frequencies of dev duels (eval/calibrate_estimates.py, D-048); a test pins them to the file.
+ESTIMATE_PROBS: dict[str, list[float]] = {"leading": [0.536, 0.107, 0.357], "level": [0.44, 0.2, 0.36],
+                                          "trailing": [0.25, 0.643, 0.107]}
 
 
 @dataclass
@@ -267,28 +273,31 @@ class RealEngine:
         diff = score[opp] - score[team]
         adapted = self.adaptation(opp, 45)
         went_long = bool(adapted) and adapted[1].label == "short to long"
-        lev = self.ht_state.levers[opp]
+        # what this bench can see of the other team's levers, never their sealed plan (D-048)
+        observed, seen = observed_levers(opp, self.events, self.home, 45)
+        self._keep(seen)
+        seen_press, seen_build = observed["press_height"], observed["build_up"]
         stay = Option(option_id=f"{team}-EST-{opp}-1", team=opp, intent="stay_the_course", estimated=True,
                       label=I18nText(en="They keep their plan", es="Mantienen su plan"))
         if diff > 0:
             second = Option(option_id=f"{team}-EST-{opp}-2", team=opp, intent="protect_lead", estimated=True,
                             label=I18nText(en="They sit deep", es="Se encierran"),
                             lever_changes=LeverChanges(press_height="low"))
-            probs = [0.45, 0.35, 0.20]
+            probs = ESTIMATE_PROBS["leading"]
         elif diff < 0:
             second = Option(option_id=f"{team}-EST-{opp}-2", team=opp, intent="attacking_subs", estimated=True,
                             label=I18nText(en="They push for a goal", es="Van a por el gol"),
                             lever_changes=LeverChanges(press_height="high", attack_channel="balanced"))
-            probs = [0.35, 0.45, 0.20]
+            probs = ESTIMATE_PROBS["trailing"]
         else:
-            higher = lev.press_height != "high"
+            higher = seen_press != "high"
             second = Option(option_id=f"{team}-EST-{opp}-2", team=opp, estimated=True,
                             intent="press_higher" if higher else "drop_block",
                             label=I18nText(en="They press higher" if higher else "They drop deeper",
                                            es="Presionan más arriba" if higher else "Bajan el bloque"),
                             lever_changes=LeverChanges(press_height="high" if higher else "mid"))
-            probs = [0.50, 0.25, 0.25]
-        if went_long or lev.build_up == "direct":
+            probs = ESTIMATE_PROBS["level"]
+        if went_long or seen_build == "direct":
             third = Option(option_id=f"{team}-EST-{opp}-3", team=opp, intent="short_build_up", estimated=True,
                            label=I18nText(en="They go back to short", es="Vuelven al corto"),
                            lever_changes=LeverChanges(build_up="short"))
@@ -296,7 +305,7 @@ class RealEngine:
             third = Option(option_id=f"{team}-EST-{opp}-3", team=opp, intent="go_direct", estimated=True,
                            label=I18nText(en="They go direct", es="Juegan directo"),
                            lever_changes=LeverChanges(build_up="direct"))
-        evidence = [c.claim_id for c in adapted]
+        evidence = [c.claim_id for c in adapted] + [c.claim_id for c in seen]
         cid = f"c_est_{team}"
         self._keep([Claim(claim_id=cid, type="opponent_estimate", team=team, metric="opponent_option_probabilities",
                           value=" / ".join(f"{o.label.en} {p:.0%}" for o, p in zip((stay, second, third), probs,
@@ -332,7 +341,12 @@ class RealEngine:
         R = min(R, self.R_matrix)
         self.declared[perspective] = list(own_options)
         opp = self.opponent(perspective)
-        grid = self._fork_grid(self.world_for(perspective), own_options, opponent_options, perspective, opp, R,
+        # a bench prices the other team from what it saw in the first half, not from their real levers (D-048)
+        observed, seen = observed_levers(opp, self.events, self.home, 45)
+        self._keep(seen)
+        as_seen = [o.model_copy(update={"lever_changes": LeverChanges(**{
+            **observed, **o.lever_changes.model_dump(exclude_none=True)})}) for o in opponent_options]
+        grid = self._fork_grid(self.world_for(perspective), own_options, as_seen, perspective, opp, R,
                                self.seeds.believed)
         m, claims = matrix_from_outcomes(f"mx-believed-{perspective}", self.match_id, "believed", perspective,
                                          perspective, opp, own_options, opponent_options, grid,

@@ -23,7 +23,8 @@ export function teamColors(bundle: MatchBundle): Record<string, string> {
   return { [home]: SLOT_COLORS[0], [away]: SLOT_COLORS[1] };
 }
 
-const NO_PARAMS: LinkParams = { t: null, tab: null, mode: null, lang: null, club: null, reveal: false };
+const NO_PARAMS: LinkParams = { t: null, tab: null, mode: null, lang: null, club: null, reveal: false, matrix: null,
+  section: null };
 
 export function Broadcast({ bundle, initialTab = "broadcast", link = NO_PARAMS }: {
   bundle: MatchBundle;
@@ -84,7 +85,8 @@ export function Broadcast({ bundle, initialTab = "broadcast", link = NO_PARAMS }
                               onPlay={clock.play} onPause={clock.pause} onSeek={clock.seek} onSpeed={clock.setSpeed} />
             {atHalftime && (
               <HalftimeScreen bundle={bundle} mode={settings.mode} lang={settings.lang} club={settings.club} claims={claims}
-                              colors={colors} initialRevealed={link.reveal} onContinue={() => {
+                              colors={colors} initialRevealed={link.reveal} initialMatrix={link.matrix ?? "true"}
+                              onContinue={() => {
                                 setHalftimeSeen(true);
                                 seek(HALF_TIME + 61);
                                 play();
@@ -95,7 +97,8 @@ export function Broadcast({ bundle, initialTab = "broadcast", link = NO_PARAMS }
           {bundle.plans[away] && <PlanCard bundle={bundle} plan={bundle.plans[away]} color={colors[away]} side="away" lang={settings.lang} active={levers[away]} />}
         </div>
       ) : (
-        <AnalystDesk bundle={bundle} claims={claims} minute={minute} lang={settings.lang} colors={colors} />
+        <AnalystDesk bundle={bundle} claims={claims} minute={minute} lang={settings.lang} colors={colors}
+                     section={link.section} />
       )}
     </div>
   );

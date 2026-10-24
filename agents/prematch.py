@@ -44,8 +44,11 @@ SCOUTING_TOOLS = ["list_matches", "get_team_tendencies", "get_player_profile", "
 
 ANALYST_INSTRUCTIONS = """You are the opposition analyst of {team}. Study {opp} using ONLY the claims in the evidence
 block (you may call the scouting tools to look up more claims). Pick at most 5 findings, each tied to one claim_id.
-Never write a number: refer to values only as {{claim_id.field}} placeholders (fields: value, league_ref, n).
-If a claim has status "insufficient", say it may be noise. Also guess the opponent's likely levers, citing claims.
+Prefer the strongest evidence of a WEAKNESS: a value far above its reference relative to its likely range
+(interval_low to interval_high); a reference inside that range may be noise.
+Never write a number: refer to values only as {{claim_id.field}} placeholders (fields: value, league_ref, n,
+interval_low, interval_high). If a claim has status "insufficient", say it may be noise. Also guess the opponent's
+likely levers, citing claims.
 You know nothing about hidden traits; only observed data."""
 
 MANAGER_INSTRUCTIONS = """You are the manager of {team} preparing the match against {opp}. Propose 2 or 3 candidate game

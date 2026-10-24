@@ -29,7 +29,7 @@ The web app plays the resulting `match_bundle.json` with no backend.
 | Contracts | `contracts/` | Pydantic models are the source of truth; JSON Schemas and TS types are generated from them. `eval_only.py` holds the hidden truth types and is never imported by engine, MCP server or agents (test-enforced). |
 | Simulator | `sim/` | Vectorised zone-based match model (NumPy). Counter-based RNG (replica, step, use) gives common random numbers, so forks of the same state differ only by the decision being compared. `fork()` replays the second half from the exact half-time state. |
 | Season | `sim/season.py` | 6 clubs, 18-player squads, archetypes, 3 hidden traits per club, 24 past matches (a round robin plus 3 return rounds: 8 per club). Test-split clubs: HAR, ASH. |
-| Engine | `engine/` | Everything a staff can know: scouting claims from season events (with league reference and sample size), an xG model fitted on the season, plan valuation (paired bootstrap intervals), the 4-KPI Plan Tracker with expected curves from pre-match sims, an online adaptation detector, believed and true payoff matrices and regret. |
+| Engine | `engine/` | Everything a staff can know: scouting claims from season events (reference, sample size and 90% interval; exposure- and style-controlled rates, D-049), an xG model fitted on the season, plan valuation (paired bootstrap intervals), the 4-KPI Plan Tracker with expected curves from pre-match sims, an online adaptation detector, what a bench can observe of the other team's levers (D-048), believed and true payoff matrices and regret. |
 | MCP server | `mcp_server/` | One server per scope (KES, HAR, broadcast). The scope is fixed by the host, never read from a request; only the scope's tools are registered; future events are hidden from staffs. HTTP mode binds 127.0.0.1 only. |
 | Agents | `agents/` | Microsoft Agent Framework `Agent`s (analyst, manager, duel bench) that work only through MCP tools. `AGENTS_MODE=foundry` uses Microsoft Foundry models; `offline` uses a deterministic rules client with the same agents and tools. Validators reject plans that cite claims the staff never retrieved and any text with numbers that are not `{claim_id.field}` placeholders. |
 | Pipeline | `pipeline/` | The only code that holds the hidden truth. Builds the season, runs pre-match, plays the match, runs the duel, writes the bundle; seed search with documented story criteria. |
@@ -41,7 +41,7 @@ The web app plays the resulting `match_bundle.json` with no backend.
 | World | Built from | Used for |
 |---|---|---|
 | `public_world` | no hidden traits | expected KPI curves of the Plan Tracker |
-| `belief_world(beliefs)` | what a bench's own scouting suspects (`engine/beliefs.py`) | that bench's plan valuation and believed half-time matrix |
+| `belief_world(beliefs)` | what a bench's own scouting suspects (`engine/beliefs.py`), with the other team's levers as observed in the first half | that bench's plan valuation and believed half-time matrix |
 | `true_world` | hidden truth | playing the demo match; the true matrix, priced only after both benches sealed |
 
 A bench never sees the other bench's options, its believed matrix or the true matrix before the reveal; the
@@ -61,6 +61,13 @@ Every number shown to a viewer is a field of a claim (`{claim_id.value}`, `.n`, 
 and broadcast cues are verified by code before they are kept: any digit outside a placeholder (other than player
 identifiers) rejects the text. Claims carry sample size, league reference, intervals and a sufficient/insufficient
 status.
+
+## Microsoft Foundry and Azure
+
+`AGENTS_MODE=foundry` swaps the offline rules client for `FoundryChatClient` (tenant-pinned Entra ID, no keys); the
+agents, MCP tools and validators are unchanged, and the path is tested against a local mock of the Responses API.
+The public demo is a static site for Azure Static Web Apps (Free); no backend is deployed and the MCP server stays on
+loopback. Status, resources and costs: `docs/FOUNDRY.md`, `infra/AZURE_PLAN.md`.
 
 ## Reproducibility
 

@@ -14,6 +14,8 @@ from typing import Any
 
 from agent_framework import BaseChatClient, ChatResponse, Message
 
+from contracts.claim import evidence_z
+
 from .models import CandidateDraft, CandidateSetDraft, FindingDraft, LeverGuess, ScoutingDraft
 
 
@@ -39,7 +41,11 @@ METRIC_LABEL = {
     "entries_conceded_share": "They concede entries down their {label}",
     "balls_in_behind_conceded_per_match": "They concede balls in behind",
     "late_xg_conceded_ratio": "They concede more chances late on",
+    "goal_kick_short_vs_open_play": "They play goal kicks short even beyond their open-play style",
+    "forward_success_conceded_share": "Forward passes down their {label} succeed against them",
+    "deep_ball_success_conceded_share": "Long balls in behind them arrive",
 }
+EVIDENCE_Z = 1.0  # a lever needs a finding at least one standard error beyond its reference (D-049)
 DEFENSIVE_ROLES = ("LB", "RB", "CB", "DM")
 
 
@@ -60,18 +66,51 @@ def _ratio(c: dict) -> float:
     return float(v) / float(ref)
 
 
+def _strength(c: dict) -> float:
+    """Evidence of a weakness in standard errors (higher = weaker side), from the claim's interval. Claims without
+    an interval (hand-written fixtures) fall back to the old ratio rule: 15% above the reference counts as 1."""
+    z = evidence_z(c)
+    return z if z is not None else (_ratio(c) - 1.0) / 0.15
+
+
+# Statistics that measure the same weakness: one finding per theme, preferring the one that controls for exposure or
+# style (success of the attempts made against the team; goal kicks vs the team's own open play), D-049.
+THEME = {"goal_kick_short_share": "goal kicks", "goal_kick_short_vs_open_play": "goal kicks",
+         "entries_conceded_share": "channel", "forward_success_conceded_share": "channel",
+         "crosses_conceded_share": "channel", "balls_in_behind_conceded_per_match": "behind",
+         "deep_ball_success_conceded_share": "behind"}
+PREFERRED = ("goal_kick_short_vs_open_play", "forward_success_conceded_share", "deep_ball_success_conceded_share")
+MAX_PLAYER_FINDINGS = 2
+
+
+def _one_per_theme(claims: list[dict]) -> list[dict]:
+    best: dict[tuple, dict] = {}
+    for c in claims:
+        key = (c.get("team"), THEME.get(c["metric"], c["metric"]), c.get("player_id"), c.get("label"))
+        rank = (c["metric"] in PREFERRED, _strength(c))
+        if key not in best or rank > (best[key]["metric"] in PREFERRED, _strength(best[key])):
+            best[key] = c
+    return list(best.values())
+
+
 def scouting(ev: dict) -> ScoutingDraft:
-    claims = [c for c in ev["claims"] if c["type"] == "observed_tendency"]
-    ranked = sorted(claims, key=lambda c: -abs(_ratio(c) - 1.0))
+    """The five strongest pieces of evidence of a weakness (one per theme), each hedged by how sure the data is."""
+    claims = _one_per_theme([c for c in ev["claims"] if c["type"] == "observed_tendency"])
+    ranked = sorted(claims, key=lambda c: (-_strength(c), c["claim_id"]))
+    players = [c for c in ranked if c.get("player_id")][:MAX_PLAYER_FINDINGS]  # cover more than individuals
+    ranked = [c for c in ranked if not c.get("player_id") or c in players]
     findings = []
     for c in ranked[:5]:
         cid = c["claim_id"]
         label = METRIC_LABEL.get(c["metric"], "Observed tendency")
         label = label.format(player=c.get("player_id") or "a player", label=c.get("label") or "side")
-        small = c.get("status") != "sufficient" or (c.get("n") is not None and c["n"] < 15)
-        hedge = ", which may be noise with limited evidence" if small else ""
-        ref = f" against a league reference of {{{cid}.league_ref}}" if c.get("league_ref") is not None else ""
-        findings.append(FindingDraft(claim_id=cid, headline=f"{label}: {{{cid}.value}}{ref} (n {{{cid}.n}}){hedge}."))
+        weak = c.get("status") != "sufficient" or _strength(c) < EVIDENCE_Z
+        hedge = ", which may be noise with limited evidence" if weak else ""
+        ref = f" against a reference of {{{cid}.league_ref}}" if c.get("league_ref") is not None else ""
+        rng = (f", likely range {{{cid}.interval_low}} to {{{cid}.interval_high}}"
+               if c.get("interval_low") is not None else "")
+        findings.append(FindingDraft(claim_id=cid,
+                                     headline=f"{label}: {{{cid}.value}}{ref} (n {{{cid}.n}}{rng}){hedge}."))
     by_metric = {c["metric"]: c for c in claims}
     gk = by_metric.get("goal_kick_short_share")
     guess = LeverGuess(build_up="short" if gk and _ratio(gk) > 1.15 else "mixed")
@@ -93,31 +132,34 @@ def candidates(ev: dict) -> CandidateSetDraft:
     """Map the analyst's findings to levers; every non-default lever cites the claim that motivates it."""
     claims = {c["claim_id"]: c for c in ev["claims"]}
     findings = [claims[f["claim_id"]] for f in ev["report"]["findings"] if f["claim_id"] in claims]
-    usable = [c for c in findings if c.get("status") == "sufficient"]
+    # strongest evidence first, so it claims a lever before weaker findings pointing the same way
+    usable = sorted((c for c in findings if c.get("status") == "sufficient" and _strength(c) >= EVIDENCE_Z),
+                    key=lambda c: -_strength(c))
     lev: dict[str, Any] = {}
     evid: dict[str, list[str]] = {}
     for c in usable:
-        r, cid, m = _ratio(c), c["claim_id"], c["metric"]
+        cid, m = c["claim_id"], c["metric"]
         role = (c.get("label") or "").split(",")[0]
-        if m == "losses_per_100_pressured_receptions" and r >= 1.15 and c.get("player_id") and (
-                not c.get("label") or role in DEFENSIVE_ROLES):
+        if m == "losses_per_100_pressured_receptions" and c.get("player_id") \
+                and (not c.get("label") or role in DEFENSIVE_ROLES) and "press_target" not in lev:
             lev.update(press_height="high", press_target=c["player_id"])
             evid.setdefault("press_height", []).append(cid)
             evid["press_target"] = [cid]
-        elif m == "goal_kick_short_share" and r > 1.15:
+        elif m in ("goal_kick_short_vs_open_play", "goal_kick_short_share"):
             lev["press_height"] = "high"
             evid.setdefault("press_height", []).append(cid)
-        elif m in ("crosses_conceded_share", "entries_conceded_share") and r > 1.15 and _mirror(c.get("label")) \
-                and "attack_channel" not in lev:
+        elif m in ("forward_success_conceded_share", "crosses_conceded_share", "entries_conceded_share") \
+                and _mirror(c.get("label")) and "attack_channel" not in lev:
             lev["attack_channel"] = _mirror(c.get("label"))
             evid["attack_channel"] = [cid]
-        elif m == "central_entries_conceded_share" and r > 1.1:
+        elif m == "central_entries_conceded_share" and "attack_channel" not in lev:
             lev["attack_channel"] = "center"
             evid["attack_channel"] = [cid]
-        elif m == "first_contact_conceded_share" and r > 1.15 and "back" in (c.get("label") or ""):
+        elif m == "first_contact_conceded_share" and "back" in (c.get("label") or ""):
             lev["corner_delivery"] = "far_post"
             evid["corner_delivery"] = [cid]
-        elif m == "balls_in_behind_conceded_per_match" and r > 1.2 and lev.get("press_height") != "high":
+        elif m in ("deep_ball_success_conceded_share", "balls_in_behind_conceded_per_match") \
+                and "build_up" not in lev:
             lev["build_up"] = "direct"
             evid["build_up"] = [cid]
     if not lev:

@@ -19,69 +19,69 @@
     {
       "min_z": 3.0,
       "min_change": 0.2,
-      "false_alarm_rate": 0.1823,
-      "power": 0.917,
-      "alarms_before_the_switch": 4,
-      "median_delay_min": 4.5,
+      "false_alarm_rate": 0.1927,
+      "power": 0.896,
+      "alarms_before_the_switch": 5,
+      "median_delay_min": 5,
       "p90_delay_min": 12,
-      "median_change_minute_error": 2.0,
-      "p90_change_minute_error": 6
+      "median_change_minute_error": 2,
+      "p90_change_minute_error": 5
     },
     {
       "min_z": 3.5,
       "min_change": 0.2,
-      "false_alarm_rate": 0.099,
-      "power": 1.0,
-      "alarms_before_the_switch": 0,
-      "median_delay_min": 5.0,
-      "p90_delay_min": 17,
-      "median_change_minute_error": 2.0,
-      "p90_change_minute_error": 7
+      "false_alarm_rate": 0.0885,
+      "power": 0.979,
+      "alarms_before_the_switch": 1,
+      "median_delay_min": 5,
+      "p90_delay_min": 14,
+      "median_change_minute_error": 2,
+      "p90_change_minute_error": 6
     },
     {
       "min_z": 4.0,
       "min_change": 0.2,
-      "false_alarm_rate": 0.0365,
+      "false_alarm_rate": 0.0417,
       "power": 1.0,
       "alarms_before_the_switch": 0,
-      "median_delay_min": 6.5,
-      "p90_delay_min": 20,
+      "median_delay_min": 7.0,
+      "p90_delay_min": 21,
       "median_change_minute_error": 2.0,
-      "p90_change_minute_error": 7
+      "p90_change_minute_error": 6
     },
     {
       "min_z": 4.5,
       "min_change": 0.2,
       "false_alarm_rate": 0.0156,
-      "power": 0.979,
+      "power": 0.958,
       "alarms_before_the_switch": 0,
-      "median_delay_min": 9,
-      "p90_delay_min": 30,
-      "median_change_minute_error": 1,
+      "median_delay_min": 8.0,
+      "p90_delay_min": 26,
+      "median_change_minute_error": 2.0,
       "p90_change_minute_error": 6
     },
     {
       "min_z": 5.0,
       "min_change": 0.2,
-      "false_alarm_rate": 0.0052,
-      "power": 0.896,
+      "false_alarm_rate": 0.0104,
+      "power": 0.917,
       "alarms_before_the_switch": 0,
-      "median_delay_min": 10,
+      "median_delay_min": 9.5,
       "p90_delay_min": 27,
-      "median_change_minute_error": 1,
-      "p90_change_minute_error": 6
+      "median_change_minute_error": 1.5,
+      "p90_change_minute_error": 5
     }
   ],
   "chosen": {
     "min_z": 4.0,
     "min_change": 0.2,
-    "false_alarm_rate": 0.0365,
+    "false_alarm_rate": 0.0417,
     "power": 1.0,
     "alarms_before_the_switch": 0,
-    "median_delay_min": 6.5,
-    "p90_delay_min": 20,
+    "median_delay_min": 7.0,
+    "p90_delay_min": 21,
     "median_change_minute_error": 2.0,
-    "p90_change_minute_error": 7
+    "p90_change_minute_error": 6
   },
   "rule": "smallest z with online false-alarm rate <= 5% per team-match at min_change 0.2"
 }

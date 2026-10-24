@@ -182,3 +182,30 @@ def test_http_mode_refuses_non_loopback():
         main(["--scope", "KES", "--http", "--host", "0.0.0.0"])
     with pytest.raises(SystemExit):
         main(["--scope", "XYZ"])
+
+
+def test_staff_cannot_read_claims_about_later_minutes():
+    from contracts import Claim
+    from mcp_server.policy import ScopedTools
+
+    class _Engine:
+        claims = {c.claim_id: c for c in [
+            Claim(claim_id="c_kpi_KES_k1_60", type="kpi_status", team="KES", metric="high_turnovers", value=3,
+                  minute=60),
+            Claim(claim_id="c_kpi_KES_k1_40", type="kpi_status", team="KES", metric="high_turnovers", value=1,
+                  minute=40),
+            Claim(claim_id="c_ad_HAR_50_after", type="observed_adaptation", team="HAR", metric="build_up_long_share",
+                  value=0.4, minute=41),
+            Claim(claim_id="c_obs_HAR_press_45", type="observed_tendency", team="HAR",
+                  metric="pressures_in_opponent_half_share", value=0.5, minute=25),
+            Claim(claim_id="c_sc_HAR_gk_short", type="observed_tendency", team="HAR", metric="goal_kick_short_share",
+                  value=0.8)]}
+
+        def get_claim(self, cid):
+            return self.claims[cid]
+
+    tools = ScopedTools(engine=_Engine(), scope="KES", home="KES", away="HAR", match_id="m", visible_minute=45)
+    assert tools.call("get_claim", {"claim_id": "c_kpi_KES_k1_60"})["error"] == "forbidden_scope"
+    assert tools.call("get_claim", {"claim_id": "c_ad_HAR_50_after"})["error"] == "forbidden_scope"  # cutoff 50
+    for ok in ("c_kpi_KES_k1_40", "c_obs_HAR_press_45", "c_sc_HAR_gk_short"):
+        assert "error" not in tools.call("get_claim", {"claim_id": ok}), ok

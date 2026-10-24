@@ -1,0 +1,94 @@
+{
+  "seasons": [
+    9001,
+    9003
+  ],
+  "R": 400,
+  "matchups": 72,
+  "effects": {
+    "attack_channel=balanced": {
+      "n_targeting": 0,
+      "mean_when_targeting_trait": null,
+      "n_other": 47,
+      "mean_otherwise": 0.019
+    },
+    "attack_channel=center": {
+      "n_targeting": 0,
+      "mean_when_targeting_trait": null,
+      "n_other": 55,
+      "mean_otherwise": -0.032
+    },
+    "attack_channel=left": {
+      "n_targeting": 12,
+      "mean_when_targeting_trait": 0.101,
+      "n_other": 45,
+      "mean_otherwise": 0.02
+    },
+    "attack_channel=right": {
+      "n_targeting": 5,
+      "mean_when_targeting_trait": 0.089,
+      "n_other": 52,
+      "mean_otherwise": -0.017
+    },
+    "build_up=direct": {
+      "n_targeting": 12,
+      "mean_when_targeting_trait": 0.014,
+      "n_other": 39,
+      "mean_otherwise": -0.023
+    },
+    "build_up=mixed": {
+      "n_targeting": 0,
+      "mean_when_targeting_trait": null,
+      "n_other": 42,
+      "mean_otherwise": 0.005
+    },
+    "build_up=short": {
+      "n_targeting": 0,
+      "mean_when_targeting_trait": null,
+      "n_other": 51,
+      "mean_otherwise": 0.038
+    },
+    "corner_delivery=far_post": {
+      "n_targeting": 9,
+      "mean_when_targeting_trait": 0.146,
+      "n_other": 36,
+      "mean_otherwise": 0.002
+    },
+    "corner_delivery=near_post": {
+      "n_targeting": 0,
+      "mean_when_targeting_trait": null,
+      "n_other": 27,
+      "mean_otherwise": -0.038
+    },
+    "corner_delivery=short": {
+      "n_targeting": 0,
+      "mean_when_targeting_trait": null,
+      "n_other": 72,
+      "mean_otherwise": -0.204
+    },
+    "press_height=high": {
+      "n_targeting": 18,
+      "mean_when_targeting_trait": -0.316,
+      "n_other": 39,
+      "mean_otherwise": -0.287
+    },
+    "press_height=low": {
+      "n_targeting": 0,
+      "mean_when_targeting_trait": null,
+      "n_other": 57,
+      "mean_otherwise": 0.16
+    },
+    "press_height=mid": {
+      "n_targeting": 0,
+      "mean_when_targeting_trait": null,
+      "n_other": 30,
+      "mean_otherwise": -0.001
+    },
+    "press_target=fullback": {
+      "n_targeting": 50,
+      "mean_when_targeting_trait": -0.243,
+      "n_other": 94,
+      "mean_otherwise": -0.167
+    }
+  }
+}

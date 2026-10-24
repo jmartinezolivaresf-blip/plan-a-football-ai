@@ -1,0 +1,263 @@
+{
+  "seasons": [
+    9001,
+    9002,
+    9003,
+    9004
+  ],
+  "matches_per_season": 12,
+  "R": 200,
+  "grid": [
+    {
+      "long_vs_high_line": 0.4,
+      "high_press_fatigue_mult": 1.25,
+      "high_press_cover_scale": 1.0,
+      "low_block_pressure_scale": 0.8,
+      "high_minus_mid": -0.201,
+      "low_minus_mid": 0.021,
+      "imbalance": 0.201,
+      "distance_from_defaults": 0.2
+    },
+    {
+      "long_vs_high_line": 0.4,
+      "high_press_fatigue_mult": 1.25,
+      "high_press_cover_scale": 1.0,
+      "low_block_pressure_scale": 0.9,
+      "high_minus_mid": -0.202,
+      "low_minus_mid": 0.057,
+      "imbalance": 0.202,
+      "distance_from_defaults": 0.1
+    },
+    {
+      "long_vs_high_line": 0.4,
+      "high_press_fatigue_mult": 1.25,
+      "high_press_cover_scale": 1.2,
+      "low_block_pressure_scale": 0.8,
+      "high_minus_mid": -0.144,
+      "low_minus_mid": 0.019,
+      "imbalance": 0.144,
+      "distance_from_defaults": 0.4
+    },
+    {
+      "long_vs_high_line": 0.4,
+      "high_press_fatigue_mult": 1.25,
+      "high_press_cover_scale": 1.2,
+      "low_block_pressure_scale": 0.9,
+      "high_minus_mid": -0.146,
+      "low_minus_mid": 0.051,
+      "imbalance": 0.146,
+      "distance_from_defaults": 0.3
+    },
+    {
+      "long_vs_high_line": 0.4,
+      "high_press_fatigue_mult": 1.25,
+      "high_press_cover_scale": 1.4,
+      "low_block_pressure_scale": 0.8,
+      "high_minus_mid": -0.085,
+      "low_minus_mid": 0.019,
+      "imbalance": 0.085,
+      "distance_from_defaults": 0.6
+    },
+    {
+      "long_vs_high_line": 0.4,
+      "high_press_fatigue_mult": 1.25,
+      "high_press_cover_scale": 1.4,
+      "low_block_pressure_scale": 0.9,
+      "high_minus_mid": -0.08,
+      "low_minus_mid": 0.05,
+      "imbalance": 0.08,
+      "distance_from_defaults": 0.5
+    },
+    {
+      "long_vs_high_line": 0.4,
+      "high_press_fatigue_mult": 1.1,
+      "high_press_cover_scale": 1.0,
+      "low_block_pressure_scale": 0.8,
+      "high_minus_mid": -0.138,
+      "low_minus_mid": 0.019,
+      "imbalance": 0.138,
+      "distance_from_defaults": 0.35
+    },
+    {
+      "long_vs_high_line": 0.4,
+      "high_press_fatigue_mult": 1.1,
+      "high_press_cover_scale": 1.0,
+      "low_block_pressure_scale": 0.9,
+      "high_minus_mid": -0.143,
+      "low_minus_mid": 0.058,
+      "imbalance": 0.143,
+      "distance_from_defaults": 0.25
+    },
+    {
+      "long_vs_high_line": 0.4,
+      "high_press_fatigue_mult": 1.1,
+      "high_press_cover_scale": 1.2,
+      "low_block_pressure_scale": 0.8,
+      "high_minus_mid": -0.08,
+      "low_minus_mid": 0.016,
+      "imbalance": 0.08,
+      "distance_from_defaults": 0.55
+    },
+    {
+      "long_vs_high_line": 0.4,
+      "high_press_fatigue_mult": 1.1,
+      "high_press_cover_scale": 1.2,
+      "low_block_pressure_scale": 0.9,
+      "high_minus_mid": -0.089,
+      "low_minus_mid": 0.053,
+      "imbalance": 0.089,
+      "distance_from_defaults": 0.45
+    },
+    {
+      "long_vs_high_line": 0.4,
+      "high_press_fatigue_mult": 1.1,
+      "high_press_cover_scale": 1.4,
+      "low_block_pressure_scale": 0.8,
+      "high_minus_mid": -0.018,
+      "low_minus_mid": 0.018,
+      "imbalance": 0.018,
+      "distance_from_defaults": 0.75
+    },
+    {
+      "long_vs_high_line": 0.4,
+      "high_press_fatigue_mult": 1.1,
+      "high_press_cover_scale": 1.4,
+      "low_block_pressure_scale": 0.9,
+      "high_minus_mid": -0.022,
+      "low_minus_mid": 0.051,
+      "imbalance": 0.051,
+      "distance_from_defaults": 0.65
+    },
+    {
+      "long_vs_high_line": 0.2,
+      "high_press_fatigue_mult": 1.25,
+      "high_press_cover_scale": 1.0,
+      "low_block_pressure_scale": 0.8,
+      "high_minus_mid": -0.172,
+      "low_minus_mid": 0.021,
+      "imbalance": 0.172,
+      "distance_from_defaults": 0.4
+    },
+    {
+      "long_vs_high_line": 0.2,
+      "high_press_fatigue_mult": 1.25,
+      "high_press_cover_scale": 1.0,
+      "low_block_pressure_scale": 0.9,
+      "high_minus_mid": -0.171,
+      "low_minus_mid": 0.056,
+      "imbalance": 0.171,
+      "distance_from_defaults": 0.3
+    },
+    {
+      "long_vs_high_line": 0.2,
+      "high_press_fatigue_mult": 1.25,
+      "high_press_cover_scale": 1.2,
+      "low_block_pressure_scale": 0.8,
+      "high_minus_mid": -0.118,
+      "low_minus_mid": 0.018,
+      "imbalance": 0.118,
+      "distance_from_defaults": 0.6
+    },
+    {
+      "long_vs_high_line": 0.2,
+      "high_press_fatigue_mult": 1.25,
+      "high_press_cover_scale": 1.2,
+      "low_block_pressure_scale": 0.9,
+      "high_minus_mid": -0.116,
+      "low_minus_mid": 0.053,
+      "imbalance": 0.116,
+      "distance_from_defaults": 0.5
+    },
+    {
+      "long_vs_high_line": 0.2,
+      "high_press_fatigue_mult": 1.25,
+      "high_press_cover_scale": 1.4,
+      "low_block_pressure_scale": 0.8,
+      "high_minus_mid": -0.061,
+      "low_minus_mid": 0.018,
+      "imbalance": 0.061,
+      "distance_from_defaults": 0.8
+    },
+    {
+      "long_vs_high_line": 0.2,
+      "high_press_fatigue_mult": 1.25,
+      "high_press_cover_scale": 1.4,
+      "low_block_pressure_scale": 0.9,
+      "high_minus_mid": -0.06,
+      "low_minus_mid": 0.051,
+      "imbalance": 0.06,
+      "distance_from_defaults": 0.7
+    },
+    {
+      "long_vs_high_line": 0.2,
+      "high_press_fatigue_mult": 1.1,
+      "high_press_cover_scale": 1.0,
+      "low_block_pressure_scale": 0.8,
+      "high_minus_mid": -0.103,
+      "low_minus_mid": 0.022,
+      "imbalance": 0.103,
+      "distance_from_defaults": 0.55
+    },
+    {
+      "long_vs_high_line": 0.2,
+      "high_press_fatigue_mult": 1.1,
+      "high_press_cover_scale": 1.0,
+      "low_block_pressure_scale": 0.9,
+      "high_minus_mid": -0.107,
+      "low_minus_mid": 0.059,
+      "imbalance": 0.107,
+      "distance_from_defaults": 0.45
+    },
+    {
+      "long_vs_high_line": 0.2,
+      "high_press_fatigue_mult": 1.1,
+      "high_press_cover_scale": 1.2,
+      "low_block_pressure_scale": 0.8,
+      "high_minus_mid": -0.046,
+      "low_minus_mid": 0.017,
+      "imbalance": 0.046,
+      "distance_from_defaults": 0.75
+    },
+    {
+      "long_vs_high_line": 0.2,
+      "high_press_fatigue_mult": 1.1,
+      "high_press_cover_scale": 1.2,
+      "low_block_pressure_scale": 0.9,
+      "high_minus_mid": -0.05,
+      "low_minus_mid": 0.053,
+      "imbalance": 0.053,
+      "distance_from_defaults": 0.65
+    },
+    {
+      "long_vs_high_line": 0.2,
+      "high_press_fatigue_mult": 1.1,
+      "high_press_cover_scale": 1.4,
+      "low_block_pressure_scale": 0.8,
+      "high_minus_mid": 0.009,
+      "low_minus_mid": 0.019,
+      "imbalance": 0.019,
+      "distance_from_defaults": 0.95
+    },
+    {
+      "long_vs_high_line": 0.2,
+      "high_press_fatigue_mult": 1.1,
+      "high_press_cover_scale": 1.4,
+      "low_block_pressure_scale": 0.9,
+      "high_minus_mid": 0.004,
+      "low_minus_mid": 0.053,
+      "imbalance": 0.053,
+      "distance_from_defaults": 0.85
+    }
+  ],
+  "chosen": {
+    "long_vs_high_line": 0.4,
+    "high_press_fatigue_mult": 1.1,
+    "high_press_cover_scale": 1.4,
+    "low_block_pressure_scale": 0.8,
+    "high_minus_mid": -0.018,
+    "low_minus_mid": 0.018,
+    "imbalance": 0.018,
+    "distance_from_defaults": 0.75
+  },
+  "rule": "smallest max(|high - mid|, |low - mid|) in xPts; ties to the point closest to the defaults"
+}

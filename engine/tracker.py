@@ -7,7 +7,15 @@ from dataclasses import dataclass
 
 from contracts import Claim, Event, KpiStatus, Plan
 
-from .eventsx import entry_lane, goal_kick_is_long, is_ball_in_behind, is_entry, is_high_turnover, rel_x
+from .eventsx import (
+    corner_delivery,
+    entry_lane,
+    goal_kick_is_long,
+    is_ball_in_behind,
+    is_entry,
+    is_high_turnover,
+    rel_x,
+)
 from .xg import XGModel
 
 LANES = {"left": 0, "center": 1, "right": 2}
@@ -60,9 +68,16 @@ def expected_at(metric: str, params: dict[str, str], team: str, minute: int,
 CUMULATIVE = ("high_turnovers", "set_piece_xg", "balls_in_behind_conceded")  # can only grow during a match
 
 
-def settled(op: str, threshold: float, value: float, metric: str, minute: int) -> str | None:
-    """A cumulative KPI whose target is already met stays on track; one whose limit is already broken is failing,
-    whatever the expected curve says (the viewer sees the value next to the target)."""
+def _meets(op: str, value: float, threshold: float) -> bool:
+    return {">=": value >= threshold, ">": value > threshold, "<=": value <= threshold, "<": value < threshold}[op]
+
+
+def settled(op: str, threshold: float, value: float, metric: str, minute: int, by_minute: int = 90) -> str | None:
+    """Statuses that must not contradict the target the viewer sees: at the KPI's deadline it is met or missed; before
+    that, a cumulative KPI whose target is already met stays on track and one past its limit is failing, whatever the
+    expected curve says."""
+    if minute >= by_minute:
+        return "on_track" if _meets(op, value, threshold) else "failing"
     if metric not in CUMULATIVE or minute < 10:
         return None
     if (op == ">=" and value >= threshold) or (op == ">" and value > threshold):
@@ -105,7 +120,7 @@ class PlanTracker:
             v = kpi_value(k.metric, k.params, self.plan.team, upto, self.home, self.xg)
             exp = expected_at(k.metric, k.params, self.plan.team, minute, self.traj)
             raw, low, high = status_for(op, v, exp, k.metric, minute)
-            raw = settled(op, float(_TARGET.match(k.target).group(2)), v.value, k.metric, minute) or raw
+            raw = settled(op, float(_TARGET.match(k.target).group(2)), v.value, k.metric, minute, k.by_minute) or raw
             status = self._hysteresis(k.id, raw, minute)
             cid = f"c_kpi_{self.plan.team}_{k.id}_{minute}"
             statuses.append(KpiStatus(plan_id=self.plan.plan_id, kpi_id=k.id, team=self.plan.team,
@@ -198,3 +213,48 @@ def detect_adaptation(team: str, events: list[Event], home: str, upto: int, min_
     a = Claim(claim_id=f"c_ad_{team}_{upto:02d}_after", type="observed_adaptation", team=team, metric=metric,
               value=round(after, 3), n=n - k, minute=first_after.minute, label=label, evidence=longs_after)
     return b, a
+
+
+# What a bench can SEE of the other team's levers (instead of reading them). Thresholds sit between the observed
+# distributions of each lever value on dev seasons 9001-9003 (eval/diagnose_estimates.py, D-048); mid and high press
+# overlap, so a press read is a noisy observation, as it would be live.
+PRESS_HIGH_SHARE = (0.118, 0.445)  # share of pressures in the opponent half: low < 0.118 <= mid < 0.445 <= high
+LONG_SHARE = (0.094, 0.297)        # own-half long-ball share: short < 0.094 <= mixed < 0.297 <= direct
+OBSERVE_WINDOW = 20               # minutes before the reading
+
+
+CHANNEL_SHARE = 0.5               # a lane with at least half of the entries reads as the attack channel
+
+
+def observed_levers(team: str, events: list[Event], home: str, upto: int) -> tuple[dict[str, str], list[Claim]]:
+    """Levers read from the last OBSERVE_WINDOW minutes of play before `upto`, with the claims behind them.
+    Keys: press_height, build_up, attack_channel and, if a corner was taken, corner_delivery. The press target is
+    not observable and is never returned."""
+    window = [e for e in events if e.team == team and upto - OBSERVE_WINDOW <= e.minute < upto]
+    pressures = [e for e in window if e.type == "pressure"]
+    high = sum(rel_x(e, team, home) >= HALF_X for e in pressures) / max(len(pressures), 1)
+    own = [(e, f) for e, f in build_up_actions(team, window, home)]
+    long_share = sum(f for _, f in own) / max(len(own), 1)
+    press = "low" if high < PRESS_HIGH_SHARE[0] else "mid" if high < PRESS_HIGH_SHARE[1] else "high"
+    build = "short" if long_share < LONG_SHARE[0] else "mixed" if long_share < LONG_SHARE[1] else "direct"
+    lanes = [entry_lane(e, home) for e in window if is_entry(e, home)]
+    shares = [lanes.count(k) / max(len(lanes), 1) for k in range(3)]
+    top = max(range(3), key=lambda k: shares[k])
+    channel = ("left", "center", "right")[top] if shares[top] >= CHANNEL_SHARE else "balanced"
+    corners = [corner_delivery(e) for e in window if e.type == "corner"]
+    seen = {"press_height": press, "build_up": build, "attack_channel": channel}
+    if corners:
+        seen["corner_delivery"] = max(set(corners), key=lambda d: (corners.count(d), d))
+    start = max(upto - OBSERVE_WINDOW, 0)
+    claims = [
+        Claim(claim_id=f"c_obs_{team}_press_{upto:02d}", type="observed_tendency", team=team,
+              metric="pressures_in_opponent_half_share", value=round(high, 3), n=len(pressures), minute=start,
+              label=f"reads as a {press} press", evidence=[e.event_id for e in pressures][-12:]),
+        Claim(claim_id=f"c_obs_{team}_build_{upto:02d}", type="observed_tendency", team=team,
+              metric="build_up_long_share", value=round(long_share, 3), n=len(own), minute=start,
+              label=f"reads as {build} build-up", evidence=[e.event_id for e, f in own if f][-12:]),
+        Claim(claim_id=f"c_obs_{team}_channel_{upto:02d}", type="observed_tendency", team=team,
+              metric="entries_top_lane_share", value=round(shares[top], 3), n=len(lanes), minute=start,
+              label=f"reads as attacking {channel}"),
+    ]
+    return seen, claims

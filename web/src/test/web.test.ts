@@ -182,8 +182,8 @@ describe("deep links", () => {
     expect(parseTime("45:00")).toBe(2700);
     expect(parseTime("90")).toBe(90);
     expect(parseTime("4500:00")).toBeNull();
-    expect(readParams("?t=45:00&tab=desk&mode=fan&lang=es&club=HAR&reveal=1")).toEqual({
-      t: 2700, tab: "desk", mode: "casual", lang: "es", club: "HAR", reveal: true,
+    expect(readParams("?t=45:00&tab=desk&mode=fan&lang=es&club=HAR&reveal=1&matrix=believed&section=trace")).toEqual({
+      t: 2700, tab: "desk", mode: "casual", lang: "es", club: "HAR", reveal: true, matrix: "believed", section: "trace",
     });
     expect(readParams("?tab=admin&mode=x")).toMatchObject({ tab: null, mode: null, reveal: false });
   });

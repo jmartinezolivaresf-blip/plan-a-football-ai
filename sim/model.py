@@ -85,6 +85,8 @@ DEFAULT_COEFFICIENTS: dict[str, float] = {
     "press_target_bonus": 0.6,
     "press_resistance_trait_penalty": 55.0,
     "long_vs_high_line": 0.4,
+    "low_block_pressure_scale": 0.8,  # press balance (D-047)
+    "high_press_cover_scale": 1.4,  # press balance (D-047)
     "slow_cb_bonus": 0.9,
     "weak_channel_bonus": 0.6,
     "counter_bonus": 0.3,
@@ -112,7 +114,7 @@ DEFAULT_COEFFICIENTS: dict[str, float] = {
     "corner_header_goal": 0.12,
     "fatigue_rate": 0.0035,
     "fatigue_gk_rate": 0.001,
-    "high_press_fatigue_mult": 1.25,
+    "high_press_fatigue_mult": 1.1,  # was 1.25; press balance, eval/calibrate_press.py (D-047)
     "late_fade_mult": 0.6,
     "gk_short_short": 0.85,
     "gk_short_mixed": 0.55,

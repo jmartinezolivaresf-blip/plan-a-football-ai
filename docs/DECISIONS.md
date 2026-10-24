@@ -236,3 +236,45 @@ turn). (3) `.env` is loaded by every entry point (values already set win). (4) `
 need `PLAN_A_APPROVED=yes` for billable steps (`tests/test_infra_guard.py`, fake `az`). (5) Static Web Apps Free
 config with SPA fallback, MIME types, caching and security headers, verified in the official emulator on loopback.
 Nothing was created, deployed or called in Azure.
+
+## H3, evaluation improvements (2026-10-24)
+
+Protocol: every change below was selected on DEV data only (random-trait seasons 9001-9010, dev duels, dev
+seasons 11-14 for the older calibrations). The test sets (E1 seasons 8001-8005, match season 8101) were not run
+between the "before" numbers (commit 0d51fc7) and the final evaluation, which is run once at the end.
+
+**D-047 · No press height wins on average.** `eval/diagnose_levers.py` (dev 9001-9003, 72 matchups, true world,
+common random numbers) found pressing high cost -0.29 xPts against any opponent and sitting deep gained +0.16; the
+press-based weaknesses (short goal kicks, a full-back weak under pressure) were never worth attacking and "sit deep"
+dominated half-time matrices. Yet pressing the full-back who really is weak gained +0.075 xPts over pressing without a
+target, so the interaction existed and the main effects hid it. Two new coefficients scale defensive pressure in the
+possessor's final two fifths (`high_press_cover_scale`: how a pressing team recovers behind its press;
+`low_block_pressure_scale`: how compact a low block is). `eval/calibrate_press.py` (dev 9001-9004, fixed grid over
+these two plus the high-line long-ball bonus and pressing fatigue; rule: smallest max |high - mid|, |low - mid|)
+chose long-ball bonus 0.4 (unchanged), pressing fatigue 1.25 -> 1.1, cover 1.0 -> 1.4, low block 1.0 -> 0.8:
+high - mid -0.20 -> -0.018 and low - mid +0.10 -> +0.018 xPts. Shot volume, the adaptation detector and the lever
+observation thresholds were re-calibrated after it (shot offset stays -0.4; detector stays z >= 4.0 with 4.2%
+online false alarms, 48/48 switches, median delay 7 min). Simulator change: needs Person A's review.
+
+**D-048 · A bench anticipates from what it sees.** The opponent estimate read the other team's real active levers
+(`ht_state.levers`) and each believed matrix forked from the true levers of the other team. Both now use
+`engine/tracker.py observed_levers`: press height, build-up, channel and corner delivery read from minutes 25-45
+(thresholds from dev distributions, `eval/diagnose_estimates.py`; mid and high press now overlap, so the read is
+noisy); the press target is not observable. Observations are claims (`c_obs_*`). Probabilities per score situation
+of the other bench come from dev duels (`eval/calibrate_estimates.py`, Laplace-smoothed slot frequencies).
+
+**D-049 · Scouting measures evidence, not volume.** Every scouting claim has a 90% interval (Wilson for shares and
+rates, Poisson for per-match counts, log-normal for the late-xG ratio) and `contracts.claim.evidence_z` reads the
+distance from the reference in standard errors. New controlled statistics: success of long forward balls into the
+final third against the team (slow centre-backs), success of forward actions down each channel against the team
+(weak channels), and goal-kick short share minus the team's own open-play short share (goal-kick bias, so a
+possession side is not flagged for being one); pressure outliers ranked by z. Beliefs come only from the controlled
+statistics, with z thresholds chosen per statistic on dev (`eval/select_scouting.py`, best F1). The offline analyst
+ranks findings by evidence, keeps one per theme (preferring the controlled statistic) and at most two individual
+players; the manager only acts on findings at least one standard error beyond their reference. Dev, report level
+(60 clubs): precision 0.80, recall 0.57 (the test numbers before were 0.49 and 0.33).
+
+**D-050 · KPI statuses and claim time gates.** A cumulative KPI that already met its target stays on track, one past
+its limit is failing, and at its deadline every KPI is met or missed (no "on track" with the target missed). Staff
+`get_claim` now refuses claims about a later minute than the server's `visible_minute` (defense in depth: no such
+claim exists during a duel in the pipeline).

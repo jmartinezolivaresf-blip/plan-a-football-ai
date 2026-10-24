@@ -21,13 +21,15 @@ function ClaimRow({ id, claims }: { id: string; claims: ClaimIndex }) {
   );
 }
 
-export function AnalystDesk({ bundle, claims, minute, lang, colors }: {
+export function AnalystDesk({ bundle, claims, minute, lang, colors, section = null }: {
   bundle: MatchBundle;
   claims: ClaimIndex;
   minute: number;
   lang: Lang;
   colors: Record<string, string>;
+  section?: "validation" | "trace" | null;
 }) {
+  const first = (name: "validation" | "trace") => (section === name ? { order: -1 } : undefined);  // deep-link focus
   const [team, setTeam] = useState(bundle.meta.home);
   const report = bundle.scouting[team];
   const plan = bundle.plans[team];
@@ -85,7 +87,7 @@ export function AnalystDesk({ bundle, claims, minute, lang, colors }: {
             </tbody>
           </table>
         </section>
-        <section className="wide">
+        <section className="wide" id="desk-trace" style={first("trace")}>
           <h3>Agent trace ({traces.length} steps)</h3>
           <table className="trace">
             <thead><tr><th>#</th><th>workflow</th><th>agent</th><th>tool / model</th><th>status</th><th>claims</th><th>ms</th></tr></thead>
@@ -111,7 +113,7 @@ export function AnalystDesk({ bundle, claims, minute, lang, colors }: {
             </div>
           </section>
         )}
-        <section className="wide">
+        <section className="wide" id="desk-validation" style={first("validation")}>
           <h3>Validation panel (inside our simulator)</h3>
           {ev?.E1 ? (
             <ul className="eval">

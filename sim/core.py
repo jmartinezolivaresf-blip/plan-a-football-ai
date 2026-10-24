@@ -324,6 +324,11 @@ class Batch:
         sopp = self._mean_stamina(opp)
         sown = self.fat[ar, poss, carrier0]
         pz = M.PRESS_TABLE[lev_o[:, L_PRESS], band] + cf["press_target_bonus"] * (lev_o[:, L_TARGET] == carrier0)
+        # defensive cover in the possessor's final two fifths: low block compactness and how well a high-pressing
+        # team recovers behind its press (both calibrated so no press height wins on average, D-047)
+        pz = pz * np.where(band >= 3, np.where(lev_o[:, L_PRESS] == 2, cf["low_block_pressure_scale"],
+                                               np.where(lev_o[:, L_PRESS] == 0, cf["high_press_cover_scale"], 1.0)),
+                           1.0)
         pz = pz * (0.6 + 0.4 * sopp)
         pres = np.clip((A[:, A_PRES] - self.PR_PEN[poss, carrier0]) / 100.0, 0.05, 0.98)
         skill = np.where(action == M.CARRY, A[:, A_PACE], A[:, A_PASS])

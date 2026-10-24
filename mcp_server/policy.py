@@ -204,6 +204,8 @@ class ScopedTools:
             own = claim.type in STAFF_CLAIM_TYPES_OWN_TEAM and claim.team == self.scope
             if not (any_team or own):
                 return error("forbidden_scope", f"claim type {claim.type} is not readable by {self.scope}")
+            if _claim_time(claim) > self.visible_minute:
+                return error("forbidden_scope", "that claim is about a later minute of the match")
         return _dump(claim)
 
     def _t_get_true_matrix(self) -> Any:
@@ -212,6 +214,16 @@ class ScopedTools:
         except NotSealedYet:
             return error("not_sealed_yet", "both benches must seal their choice first")
         return _dump(broadcast)
+
+
+def _claim_time(claim) -> int:
+    """The match minute a claim speaks for (-1 for season claims, always readable)."""
+    parts = claim.claim_id.split("_")
+    if claim.claim_id.startswith("c_ad_") and parts[3].isdigit():
+        return int(parts[3])  # c_ad_<team>_<data cutoff>_<before|after>
+    if claim.claim_id.startswith("c_obs_") and parts[-1].isdigit():
+        return int(parts[-1])  # c_obs_<team>_<what>_<data cutoff>
+    return claim.minute if claim.minute is not None else -1
 
 
 def _claim_ids(result: Any) -> list[str]:

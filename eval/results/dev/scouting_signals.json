@@ -1,0 +1,162 @@
+{
+  "seasons": [
+    9001,
+    9010
+  ],
+  "signals": {
+    "back_post_weak/far_post_ratio": {
+      "n": 60,
+      "with_trait": 26,
+      "auc": 0.744,
+      "best_f1": {
+        "threshold": 0.92,
+        "precision": 0.645,
+        "recall": 0.769,
+        "f1": 0.702
+      }
+    },
+    "back_post_weak/far_post_z": {
+      "n": 60,
+      "with_trait": 26,
+      "auc": 0.835,
+      "best_f1": {
+        "threshold": -0.28,
+        "precision": 0.686,
+        "recall": 0.923,
+        "f1": 0.787
+      }
+    },
+    "cb_low_pace/bib_per_match_ratio": {
+      "n": 60,
+      "with_trait": 26,
+      "auc": 0.874,
+      "best_f1": {
+        "threshold": 0.97,
+        "precision": 0.735,
+        "recall": 0.962,
+        "f1": 0.833
+      }
+    },
+    "cb_low_pace/deep_ball_success_z": {
+      "n": 60,
+      "with_trait": 26,
+      "auc": 0.861,
+      "best_f1": {
+        "threshold": 1.34,
+        "precision": 0.952,
+        "recall": 0.769,
+        "f1": 0.851
+      }
+    },
+    "fb_low_press_resistance/press_ratio": {
+      "n": 600,
+      "with_trait": 32,
+      "auc": 0.894,
+      "best_f1": {
+        "threshold": 1.44,
+        "precision": 0.588,
+        "recall": 0.312,
+        "f1": 0.408
+      }
+    },
+    "fb_low_press_resistance/press_z": {
+      "n": 600,
+      "with_trait": 32,
+      "auc": 0.899,
+      "best_f1": {
+        "threshold": 2.92,
+        "precision": 0.56,
+        "recall": 0.438,
+        "f1": 0.491
+      }
+    },
+    "fb_low_press_resistance/press_z_fullbacks": {
+      "n": 120,
+      "with_trait": 32,
+      "auc": 0.96,
+      "best_f1": {
+        "threshold": 0.94,
+        "precision": 0.789,
+        "recall": 0.938,
+        "f1": 0.857
+      }
+    },
+    "gk_short_bias/gk_short_minus_openplay_short": {
+      "n": 60,
+      "with_trait": 28,
+      "auc": 0.948,
+      "best_f1": {
+        "threshold": -0.1,
+        "precision": 0.844,
+        "recall": 0.964,
+        "f1": 0.9
+      }
+    },
+    "gk_short_bias/gk_short_ratio": {
+      "n": 60,
+      "with_trait": 28,
+      "auc": 0.86,
+      "best_f1": {
+        "threshold": 1.07,
+        "precision": 0.757,
+        "recall": 1.0,
+        "f1": 0.862
+      }
+    },
+    "gk_short_bias/gk_short_z": {
+      "n": 60,
+      "with_trait": 28,
+      "auc": 0.883,
+      "best_f1": {
+        "threshold": 1.4,
+        "precision": 0.8,
+        "recall": 1.0,
+        "f1": 0.889
+      }
+    },
+    "late_fade/late_shot_share_z": {
+      "n": 60,
+      "with_trait": 29,
+      "auc": 0.727,
+      "best_f1": {
+        "threshold": -0.66,
+        "precision": 0.565,
+        "recall": 0.897,
+        "f1": 0.693
+      }
+    },
+    "late_fade/late_xg_ratio": {
+      "n": 60,
+      "with_trait": 29,
+      "auc": 0.744,
+      "best_f1": {
+        "threshold": 0.88,
+        "precision": 0.639,
+        "recall": 0.793,
+        "f1": 0.708
+      }
+    },
+    "weak_channel/entries_share_ratio": {
+      "n": 120,
+      "with_trait": 39,
+      "auc": 0.651,
+      "best_f1": {
+        "threshold": 0.89,
+        "precision": 0.375,
+        "recall": 0.923,
+        "f1": 0.533
+      }
+    },
+    "weak_channel/forward_success_z": {
+      "n": 120,
+      "with_trait": 39,
+      "auc": 0.781,
+      "best_f1": {
+        "threshold": -0.6,
+        "precision": 0.493,
+        "recall": 0.897,
+        "f1": 0.636
+      }
+    }
+  }
+}
