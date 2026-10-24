@@ -1,10 +1,11 @@
 {
  "season_seed": 8101,
  "matches": 6,
+ "dev": false,
  "E1": {
-  "precision": 0.492,
-  "recall": 0.333,
-  "flagged": 61,
+  "precision": 0.742,
+  "recall": 0.544,
+  "flagged": 66,
   "true_traits": 90,
   "scouted_teams": 30,
   "seasons": [
@@ -15,40 +16,40 @@
    8005
   ],
   "per_kind": {
+   "gk_short_bias": {
+    "flagged": 13,
+    "correct": 9,
+    "true": 9,
+    "precision": 0.692,
+    "recall": 1.0
+   },
    "weak_channel": {
-    "flagged": 4,
-    "correct": 3,
+    "flagged": 17,
+    "correct": 8,
     "true": 17,
-    "precision": 0.75,
-    "recall": 0.176
+    "precision": 0.471,
+    "recall": 0.471
    },
    "fb_low_press_resistance": {
-    "flagged": 31,
-    "correct": 8,
+    "flagged": 11,
+    "correct": 9,
     "true": 14,
-    "precision": 0.258,
-    "recall": 0.571
+    "precision": 0.818,
+    "recall": 0.643
    },
    "late_fade": {
-    "flagged": 7,
-    "correct": 6,
-    "true": 16,
-    "precision": 0.857,
-    "recall": 0.375
-   },
-   "gk_short_bias": {
-    "flagged": 8,
+    "flagged": 4,
     "correct": 3,
-    "true": 9,
-    "precision": 0.375,
-    "recall": 0.333
+    "true": 16,
+    "precision": 0.75,
+    "recall": 0.188
    },
    "cb_low_pace": {
-    "flagged": 3,
-    "correct": 3,
+    "flagged": 13,
+    "correct": 13,
     "true": 19,
     "precision": 1.0,
-    "recall": 0.158
+    "recall": 0.684
    },
    "back_post_weak": {
     "flagged": 8,
@@ -66,11 +67,6 @@
     "flagged": [
      [
       "HAR",
-      "fb_low_press_resistance",
-      "HAR-2"
-     ],
-     [
-      "HAR",
       "gk_short_bias"
      ]
     ],
@@ -102,17 +98,8 @@
      ],
      [
       "KES",
-      "fb_low_press_resistance",
-      "KES-3"
-     ],
-     [
-      "KES",
-      "fb_low_press_resistance",
-      "KES-4"
-     ],
-     [
-      "KES",
-      "late_fade"
+      "weak_channel",
+      "right"
      ]
     ],
     "truth": [
@@ -136,11 +123,6 @@
     "scouted": "ASH",
     "by": "MOR",
     "flagged": [
-     [
-      "ASH",
-      "fb_low_press_resistance",
-      "ASH-4"
-     ],
      [
       "ASH",
       "late_fade"
@@ -178,8 +160,17 @@
      ],
      [
       "MOR",
+      "cb_low_pace"
+     ],
+     [
+      "MOR",
       "fb_low_press_resistance",
       "MOR-5"
+     ],
+     [
+      "MOR",
+      "weak_channel",
+      "left"
      ]
     ],
     "truth": [
@@ -210,11 +201,6 @@
      [
       "BRY",
       "gk_short_bias"
-     ],
-     [
-      "BRY",
-      "weak_channel",
-      "right"
      ]
     ],
     "truth": [
@@ -241,8 +227,12 @@
     "flagged": [
      [
       "WEX",
-      "fb_low_press_resistance",
-      "WEX-3"
+      "back_post_weak"
+     ],
+     [
+      "WEX",
+      "weak_channel",
+      "right"
      ]
     ],
     "truth": [
@@ -304,18 +294,7 @@
     "flagged": [
      [
       "KES",
-      "fb_low_press_resistance",
-      "KES-3"
-     ],
-     [
-      "KES",
-      "fb_low_press_resistance",
-      "KES-4"
-     ],
-     [
-      "KES",
-      "weak_channel",
-      "right"
+      "cb_low_pace"
      ]
     ],
     "truth": [
@@ -340,13 +319,21 @@
     "flagged": [
      [
       "ASH",
+      "back_post_weak"
+     ],
+     [
+      "ASH",
+      "cb_low_pace"
+     ],
+     [
+      "ASH",
       "fb_low_press_resistance",
       "ASH-2"
      ],
      [
       "ASH",
-      "fb_low_press_resistance",
-      "ASH-4"
+      "weak_channel",
+      "right"
      ]
     ],
     "truth": [
@@ -377,13 +364,13 @@
      ],
      [
       "MOR",
-      "fb_low_press_resistance",
-      "MOR-3"
+      "weak_channel",
+      "left"
      ],
      [
       "MOR",
       "weak_channel",
-      "left"
+      "right"
      ]
     ],
     "truth": [
@@ -410,7 +397,12 @@
     "flagged": [
      [
       "BRY",
-      "gk_short_bias"
+      "cb_low_pace"
+     ],
+     [
+      "BRY",
+      "weak_channel",
+      "left"
      ]
     ],
     "truth": [
@@ -436,11 +428,12 @@
     "flagged": [
      [
       "WEX",
-      "back_post_weak"
+      "gk_short_bias"
      ],
      [
       "WEX",
-      "gk_short_bias"
+      "weak_channel",
+      "right"
      ]
     ],
     "truth": [
@@ -464,6 +457,10 @@
     "scouted": "HAR",
     "by": "KES",
     "flagged": [
+     [
+      "HAR",
+      "back_post_weak"
+     ],
      [
       "HAR",
       "late_fade"
@@ -492,6 +489,15 @@
      [
       "KES",
       "back_post_weak"
+     ],
+     [
+      "KES",
+      "cb_low_pace"
+     ],
+     [
+      "KES",
+      "fb_low_press_resistance",
+      "KES-2"
      ]
     ],
     "truth": [
@@ -517,13 +523,11 @@
     "flagged": [
      [
       "ASH",
-      "fb_low_press_resistance",
-      "ASH-3"
+      "cb_low_pace"
      ],
      [
       "ASH",
-      "fb_low_press_resistance",
-      "ASH-4"
+      "gk_short_bias"
      ]
     ],
     "truth": [
@@ -548,8 +552,21 @@
     "flagged": [
      [
       "MOR",
-      "fb_low_press_resistance",
-      "MOR-3"
+      "cb_low_pace"
+     ],
+     [
+      "MOR",
+      "gk_short_bias"
+     ],
+     [
+      "MOR",
+      "weak_channel",
+      "left"
+     ],
+     [
+      "MOR",
+      "weak_channel",
+      "right"
      ]
     ],
     "truth": [
@@ -571,7 +588,13 @@
     "season": 8003,
     "scouted": "BRY",
     "by": "WEX",
-    "flagged": [],
+    "flagged": [
+     [
+      "BRY",
+      "weak_channel",
+      "right"
+     ]
+    ],
     "truth": [
      [
       "BRY",
@@ -596,8 +619,11 @@
     "flagged": [
      [
       "WEX",
-      "fb_low_press_resistance",
-      "WEX-6"
+      "gk_short_bias"
+     ],
+     [
+      "WEX",
+      "late_fade"
      ]
     ],
     "truth": [
@@ -628,10 +654,6 @@
      [
       "HAR",
       "gk_short_bias"
-     ],
-     [
-      "HAR",
-      "late_fade"
      ]
     ],
     "truth": [
@@ -656,10 +678,6 @@
     "scouted": "KES",
     "by": "HAR",
     "flagged": [
-     [
-      "KES",
-      "back_post_weak"
-     ],
      [
       "KES",
       "cb_low_pace"
@@ -691,13 +709,12 @@
     "flagged": [
      [
       "ASH",
-      "fb_low_press_resistance",
-      "ASH-3"
+      "cb_low_pace"
      ],
      [
       "ASH",
-      "fb_low_press_resistance",
-      "ASH-4"
+      "weak_channel",
+      "right"
      ]
     ],
     "truth": [
@@ -723,13 +740,17 @@
     "flagged": [
      [
       "MOR",
-      "fb_low_press_resistance",
-      "MOR-3"
+      "cb_low_pace"
      ],
      [
       "MOR",
-      "fb_low_press_resistance",
-      "MOR-4"
+      "weak_channel",
+      "left"
+     ],
+     [
+      "MOR",
+      "weak_channel",
+      "right"
      ]
     ],
     "truth": [
@@ -756,10 +777,6 @@
      [
       "BRY",
       "gk_short_bias"
-     ],
-     [
-      "BRY",
-      "late_fade"
      ]
     ],
     "truth": [
@@ -787,11 +804,6 @@
       "WEX",
       "fb_low_press_resistance",
       "WEX-2"
-     ],
-     [
-      "WEX",
-      "fb_low_press_resistance",
-      "WEX-3"
      ]
     ],
     "truth": [
@@ -818,7 +830,7 @@
     "flagged": [
      [
       "HAR",
-      "back_post_weak"
+      "cb_low_pace"
      ],
      [
       "HAR",
@@ -854,12 +866,7 @@
      [
       "KES",
       "fb_low_press_resistance",
-      "KES-3"
-     ],
-     [
-      "KES",
-      "fb_low_press_resistance",
-      "KES-4"
+      "KES-2"
      ],
      [
       "KES",
@@ -890,7 +897,16 @@
      [
       "ASH",
       "fb_low_press_resistance",
-      "ASH-3"
+      "ASH-2"
+     ],
+     [
+      "ASH",
+      "gk_short_bias"
+     ],
+     [
+      "ASH",
+      "weak_channel",
+      "right"
      ]
     ],
     "truth": [
@@ -917,12 +933,16 @@
      [
       "MOR",
       "fb_low_press_resistance",
-      "MOR-3"
+      "MOR-5"
      ],
      [
       "MOR",
-      "fb_low_press_resistance",
-      "MOR-4"
+      "gk_short_bias"
+     ],
+     [
+      "MOR",
+      "weak_channel",
+      "left"
      ]
     ],
     "truth": [
@@ -947,12 +967,7 @@
     "flagged": [
      [
       "BRY",
-      "fb_low_press_resistance",
-      "BRY-6"
-     ],
-     [
-      "BRY",
-      "late_fade"
+      "gk_short_bias"
      ]
     ],
     "truth": [
@@ -1003,9 +1018,9 @@
  },
  "E2": {
   "sign_agreement": 0.5,
-  "mean_abs_error_xpts": 0.033,
-  "sign_agreement_when_reference_is_clear": 0.0,
-  "clear_cells": 1,
+  "mean_abs_error_xpts": 0.022,
+  "sign_agreement_when_reference_is_clear": 0.5,
+  "clear_cells": 2,
   "ci90_coverage_of_reference": 0.833,
   "cells": 6,
   "R": [
@@ -1019,14 +1034,14 @@
      "press_height": "low"
     },
     "small": [
-     0.023333333333333334,
-     -0.02,
-     0.06666666666666667
+     -0.016666666666666666,
+     -0.04,
+     0.0033333333333333335
     ],
     "reference": [
-     0.01,
-     -0.003,
-     0.02266666666666667
+     0.0023333333333333335,
+     -0.004666666666666667,
+     0.009666666666666667
     ]
    },
    {
@@ -1035,14 +1050,14 @@
      "build_up": "direct"
     },
     "small": [
-     -0.023333333333333334,
-     -0.06666666666666667,
-     0.020166666666666517
+     0.0,
+     0.0,
+     0.0
     ],
     "reference": [
-     -0.007333333333333333,
-     -0.021666666666666667,
-     0.007666666666666666
+     0.0,
+     0.0,
+     0.0
     ]
    },
    {
@@ -1051,14 +1066,14 @@
      "press_height": "high"
     },
     "small": [
-     -0.013333333333333334,
-     -0.06,
-     0.03333333333333333
+     0.01,
+     -0.02,
+     0.03666666666666667
     ],
     "reference": [
-     0.006333333333333333,
-     -0.008,
-     0.021
+     0.0016666666666666668,
+     -0.006333333333333333,
+     0.009349999999999985
     ]
    },
    {
@@ -1067,14 +1082,14 @@
      "press_height": "low"
     },
     "small": [
-     0.06,
-     -0.0033333333333333335,
-     0.12666666666666668
+     -0.016666666666666666,
+     -0.06683333333333337,
+     0.04
     ],
     "reference": [
-     0.006666666666666667,
-     -0.012,
-     0.024666666666666667
+     -0.016666666666666666,
+     -0.03133333333333333,
+     -0.0016666666666666668
     ]
    },
    {
@@ -1083,14 +1098,14 @@
      "build_up": "direct"
     },
     "small": [
-     0.016666666666666666,
-     -0.056666666666666664,
-     0.09
+     0.06,
+     -0.006666666666666667,
+     0.12666666666666668
     ],
     "reference": [
-     -0.011333333333333334,
-     -0.035666666666666666,
-     0.011666666666666667
+     -0.007333333333333333,
+     -0.029016666666666673,
+     0.017
     ]
    },
    {
@@ -1099,14 +1114,14 @@
      "press_height": "high"
     },
     "small": [
-     0.0,
-     -0.06333333333333334,
-     0.06333333333333334
+     0.016666666666666666,
+     -0.03,
+     0.07
     ],
     "reference": [
-     -0.06733333333333333,
-     -0.08833333333333333,
-     -0.04630000000000003
+     -0.019333333333333334,
+     -0.03666666666666667,
+     -0.0013166666666666817
     ]
    }
   ],
@@ -1114,8 +1129,8 @@
  },
  "E3": {
   "levers_citing_served_claims": 1.0,
-  "changed_levers": 17,
-  "plans_attacking_a_real_weakness": 0.583,
+  "changed_levers": 28,
+  "plans_attacking_a_real_weakness": 0.917,
   "plans": 12,
   "random_plan_baseline": 0.501,
   "meaning": "a plan counts if one lever targets a real hidden trait; the baseline is the share of all lever combinations that would also count"
@@ -1130,15 +1145,15 @@
  },
  "duel_interaction": {
   "benches": 12,
-  "share_without_dominant_option": 0.25,
+  "share_without_dominant_option": 0.417,
   "meaning": "how often a bench's best half-time answer depends on what the other bench does (true matrix); plan target: at least half"
  },
  "E7": {
   "prob_on_actual_intent": {
-   "mean": 0.379,
+   "mean": 0.467,
    "ci90": [
-    0.333,
-    0.425
+    0.365,
+    0.563
    ],
    "n": 12
   },
@@ -1147,26 +1162,26 @@
  },
  "E8": {
   "ai_regret": {
-   "mean": 0.004,
+   "mean": 0.034,
    "ci90": [
-    0.0,
-    0.009
+    0.011,
+    0.062
    ],
    "n": 12
   },
   "always_stay_regret": {
-   "mean": 0.073,
+   "mean": 0.062,
    "ci90": [
-    0.033,
-    0.116
+    0.038,
+    0.089
    ],
    "n": 12
   },
   "random_choice_regret": {
-   "mean": 0.062,
+   "mean": 0.051,
    "ci90": [
-    0.032,
-    0.092
+    0.033,
+    0.069
    ],
    "n": 12
   },
@@ -1174,7 +1189,7 @@
  },
  "calibration": {
   "goals_per_match": {
-   "value": 2.583,
+   "value": 2.5,
    "target": [
     2.7,
     3.0
@@ -1182,7 +1197,7 @@
    "in_range": false
   },
   "shots_per_match": {
-   "value": 25.042,
+   "value": 24.125,
    "target": [
     24,
     27
@@ -1190,7 +1205,7 @@
    "in_range": true
   },
   "shot_conversion": {
-   "value": 0.103,
+   "value": 0.104,
    "target": [
     0.1,
     0.12
@@ -1198,7 +1213,7 @@
    "in_range": true
   },
   "passes_per_match": {
-   "value": 938.333,
+   "value": 940.0,
    "target": [
     850,
     900
@@ -1206,7 +1221,7 @@
    "in_range": false
   },
   "pass_accuracy": {
-   "value": 0.783,
+   "value": 0.782,
    "target": [
     0.8,
     0.85
@@ -1222,7 +1237,7 @@
    "in_range": true
   },
   "high_turnovers_per_team": {
-   "value": 6.438,
+   "value": 6.375,
    "target": [
     5,
     14
@@ -1243,19 +1258,19 @@
    "target_inside_ci90": true
   },
   "draw_share": {
-   "value": 0.333,
+   "value": 0.417,
    "target": [
     0.2,
     0.3
    ],
    "in_range": false,
    "ci90": [
-    0.199,
-    0.501
+    0.268,
+    0.582
    ],
    "target_inside_ci90": true
   }
  },
- "seconds": 160.1,
+ "seconds": 169.4,
  "scope": "all results are inside our simulator; synthetic data; not claims about real football"
 }

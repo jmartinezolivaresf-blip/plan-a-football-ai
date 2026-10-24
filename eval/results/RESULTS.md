@@ -7,24 +7,37 @@ simulator** on synthetic data with fictional clubs; nothing here is a claim abou
 
 | Test | What it measures | Result |
 |---|---|---|
-| E1 | Scouting reports vs hidden truth, 30 clubs in 5 unseen seasons with random trait kinds | precision 0.492, recall 0.333 (61 flagged, 90 real traits) |
-| E2 | Monte Carlo noise: R=300 vs R=3000 for 6 lever changes from one half-time state | mean abs error 0.033 xPts; 90% CI covers the reference 0.833; sign agreement 0.5 overall, 0.0 on the 1 cells whose reference interval excludes zero |
-| E3 | Plans that target a real hidden weakness (12 plans) | 0.583 vs 0.501 for a blind random plan; levers citing claims the staff retrieved 1.0 |
+| E1 | Scouting reports vs hidden truth, 30 clubs in 5 unseen seasons with random trait kinds | precision 0.742, recall 0.544 (66 flagged, 90 real traits) |
+| E2 | Monte Carlo noise: R=300 vs R=3000 for 6 lever changes from one half-time state | mean abs error 0.022 xPts; 90% CI covers the reference 0.833; sign agreement 0.5 overall, 0.5 on the 2 cells whose reference interval excludes zero |
+| E3 | Plans that target a real hidden weakness (12 plans) | 0.917 vs 0.501 for a blind random plan; levers citing claims the staff retrieved 1.0 |
 | E4 | Grounded text | reports valid at first try 1.0; cues dropped by the verifier 0; numbers written by the model 0 (by construction) |
-| E7 | Probability a bench gave to what the other bench really did | 0.379 (90% CI 0.333 to 0.425, n 12); uniform guess 0.333 |
-| E8 | Half-time regret (xPts lost vs the best answer to the other bench's real choice) | AI 0.004 (90% CI 0.0 to 0.009, n 12); always stay 0.073 (90% CI 0.033 to 0.116, n 12); random 0.062 (90% CI 0.032 to 0.092, n 12) |
-| Duel | Half-times where the best answer depends on the other bench (no dominant option in the true matrix) | 0.25 of 12 bench decisions |
+| E7 | Probability a bench gave to what the other bench really did | 0.467 (90% CI 0.365 to 0.563, n 12); uniform guess 0.333 |
+| E8 | Half-time regret (xPts lost vs the best answer to the other bench's real choice) | AI 0.034 (90% CI 0.011 to 0.062, n 12); always stay 0.062 (90% CI 0.038 to 0.089, n 12); random 0.051 (90% CI 0.033 to 0.069, n 12) |
+| Duel | Half-times where the best answer depends on the other bench (no dominant option in the true matrix) | 0.417 of 12 bench decisions |
+
+## Before and after the evaluation improvements (same test seasons)
+
+Before: commit 0d51fc7 (`eval/results/test_before.json`). After: this run. The changes were chosen on dev data only (docs/DECISIONS.md D-047..D-051).
+
+| Measure | Before | After |
+|---|---|---|
+| E1 precision / recall | 0.492 / 0.333 | 0.742 / 0.544 |
+| E3 plans targeting a real weakness (random plan) | 0.583 (0.501) | 0.917 (0.501) |
+| E7 probability on the other bench's real intent (uniform 0.333) | 0.379 | 0.467 |
+| E8 regret AI / always stay / random (xPts) | 0.004 / 0.073 / 0.062 | 0.034 / 0.062 / 0.051 |
+| Half-times without a dominant option | 0.25 | 0.417 |
+| Season statistics in target range | 4 of 9 | 4 of 9 |
 
 ## E1 by trait kind
 
 | Trait kind | Flagged | Correct | Real | Precision | Recall |
 |---|---|---|---|---|---|
 | back_post_weak | 8 | 7 | 15 | 0.875 | 0.467 |
-| cb_low_pace | 3 | 3 | 19 | 1.0 | 0.158 |
-| fb_low_press_resistance | 31 | 8 | 14 | 0.258 | 0.571 |
-| gk_short_bias | 8 | 3 | 9 | 0.375 | 0.333 |
-| late_fade | 7 | 6 | 16 | 0.857 | 0.375 |
-| weak_channel | 4 | 3 | 17 | 0.75 | 0.176 |
+| cb_low_pace | 13 | 13 | 19 | 1.0 | 0.684 |
+| fb_low_press_resistance | 11 | 9 | 14 | 0.818 | 0.643 |
+| gk_short_bias | 13 | 9 | 9 | 0.692 | 1.0 |
+| late_fade | 4 | 3 | 16 | 0.75 | 0.188 |
+| weak_channel | 17 | 8 | 17 | 0.471 | 0.471 |
 
 ## Season statistics of the simulator (evaluation season 8101, 24 matches)
 
@@ -33,20 +46,20 @@ seasons, below).
 
 | Statistic | Value | Target | In range |
 |---|---|---|---|
-| goals per match | 2.583 | 2.7 to 3.0 | no |
-| shots per match | 25.042 | 24 to 27 | yes |
-| shot conversion | 0.103 | 0.1 to 0.12 | yes |
-| passes per match | 938.333 | 850 to 900 | no |
-| pass accuracy | 0.783 | 0.8 to 0.85 | no |
+| goals per match | 2.5 | 2.7 to 3.0 | no |
+| shots per match | 24.125 | 24 to 27 | yes |
+| shot conversion | 0.104 | 0.1 to 0.12 | yes |
+| passes per match | 940.0 | 850 to 900 | no |
+| pass accuracy | 0.782 | 0.8 to 0.85 | no |
 | corners per match | 10.708 | 9 to 11 | yes |
-| high turnovers per team | 6.438 | 5 to 14 | yes |
+| high turnovers per team | 6.375 | 5 to 14 | yes |
 | home win share | 0.208 (90% CI 0.105 to 0.37) | 0.35 to 0.47 | no |
-| draw share | 0.333 (90% CI 0.199 to 0.501) | 0.2 to 0.3 | no |
+| draw share | 0.417 (90% CI 0.268 to 0.582) | 0.2 to 0.3 | no |
 
 ## Calibrations on dev seasons (never the demo or evaluation seasons)
 
-- **Adaptation detector** (online: re-tested every minute on the events seen so far; rule: smallest z with online false-alarm rate <= 5% per team-match at min_change 0.2): z >= 4.0, false alarms 0.0365 per team-match (192 unchanged team-matches), switches found 1.0 of 48, median detection delay 6.5 min (90th percentile 20), change minute error median 2.0 (90th percentile 7).
-- **Shot volume** (rule: grid value with mean shots per match closest to the middle of the target range): shot_logit_offset -0.4 gives 25.719 shots and 3.0 goals per match on seasons 11, 12, 13, 14.
+- **Adaptation detector** (online: re-tested every minute on the events seen so far; rule: smallest z with online false-alarm rate <= 5% per team-match at min_change 0.2): z >= 4.0, false alarms 0.0417 per team-match (192 unchanged team-matches), switches found 1.0 of 48, median detection delay 7.0 min (90th percentile 21), change minute error median 2.0 (90th percentile 6).
+- **Shot volume** (rule: grid value with mean shots per match closest to the middle of the target range): shot_logit_offset -0.4 gives 25.594 shots and 2.896 goals per match on seasons 11, 12, 13, 14.
 
 What these do not show: that the agents would help a real coach, or that the simulator's football
 is realistic beyond the statistics above. They show the pipeline is grounded, reproducible and better

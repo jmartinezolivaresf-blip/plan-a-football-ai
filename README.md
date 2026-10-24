@@ -65,13 +65,13 @@ Full tables: [`eval/results/RESULTS.md`](eval/results/RESULTS.md) (generated fro
 <!-- RESULTS_HEADLINE -->
 | Test | What it measures | Result |
 |---|---|---|
-| E1 | Scouting reports vs hidden truth, 30 clubs in 5 unseen seasons with random trait kinds | precision 0.492, recall 0.333 (61 flagged, 90 real traits) |
-| E2 | Monte Carlo noise: R=300 vs R=3000 for 6 lever changes from one half-time state | mean abs error 0.033 xPts; 90% CI covers the reference 0.833; sign agreement 0.5 overall, 0.0 on the 1 cells whose reference interval excludes zero |
-| E3 | Plans that target a real hidden weakness (12 plans) | 0.583 vs 0.501 for a blind random plan; levers citing claims the staff retrieved 1.0 |
+| E1 | Scouting reports vs hidden truth, 30 clubs in 5 unseen seasons with random trait kinds | precision 0.742, recall 0.544 (66 flagged, 90 real traits) |
+| E2 | Monte Carlo noise: R=300 vs R=3000 for 6 lever changes from one half-time state | mean abs error 0.022 xPts; 90% CI covers the reference 0.833; sign agreement 0.5 overall, 0.5 on the 2 cells whose reference interval excludes zero |
+| E3 | Plans that target a real hidden weakness (12 plans) | 0.917 vs 0.501 for a blind random plan; levers citing claims the staff retrieved 1.0 |
 | E4 | Grounded text | reports valid at first try 1.0; cues dropped by the verifier 0; numbers written by the model 0 (by construction) |
-| E7 | Probability a bench gave to what the other bench really did | 0.379 (90% CI 0.333 to 0.425, n 12); uniform guess 0.333 |
-| E8 | Half-time regret (xPts lost vs the best answer to the other bench's real choice) | AI 0.004 (90% CI 0.0 to 0.009, n 12); always stay 0.073 (90% CI 0.033 to 0.116, n 12); random 0.062 (90% CI 0.032 to 0.092, n 12) |
-| Duel | Half-times where the best answer depends on the other bench (no dominant option in the true matrix) | 0.25 of 12 bench decisions |
+| E7 | Probability a bench gave to what the other bench really did | 0.467 (90% CI 0.365 to 0.563, n 12); uniform guess 0.333 |
+| E8 | Half-time regret (xPts lost vs the best answer to the other bench's real choice) | AI 0.034 (90% CI 0.011 to 0.062, n 12); always stay 0.062 (90% CI 0.038 to 0.089, n 12); random 0.051 (90% CI 0.033 to 0.069, n 12) |
+| Duel | Half-times where the best answer depends on the other bench (no dominant option in the true matrix) | 0.417 of 12 bench decisions |
 <!-- /RESULTS_HEADLINE -->
 
 The scouting thresholds were developed on season 2026 (the demo season); E1 runs on seasons whose trait kinds were
