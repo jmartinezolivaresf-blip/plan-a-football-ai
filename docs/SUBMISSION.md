@@ -5,10 +5,10 @@ public until then. Status column: done / todo / needs approval (owner decision b
 
 | # | Item | Status | Notes |
 |---|---|---|---|
-| 1 | Code complete on `main` (integration/h2 merged after both owners approve the contract changes) | needs approval | draft PR #3; D-032..D-045 list every contract and simulator change |
-| 2 | CI green | done on PR #3 | re-check on `main` after the merge |
+| 1 | Code complete on `main` (integration/h2 merged after both owners approve the contract changes) | needs approval | PR #3 ready for review; shared changes listed in its description (D-032..D-052) |
+| 2 | CI green | done on PR #3 (1feac18) | re-check on `main` after the merge |
 | 3 | Real Microsoft Foundry call verified and recorded | needs a personal subscription | code path tested against a Responses API mock; procedure in `docs/FOUNDRY.md` (`make foundry-check`, `make foundry-ping`) |
-| 4 | Demo bundle frozen (seed, mode, git commit recorded in the bundle's eval.build) | done (offline rules) | regenerate with Foundry once item 3 is done, then re-run `python -m pipeline.story` |
+| 4 | Demo bundle frozen (seed, mode, git commit recorded in the bundle's eval.build) | done: seed 236, offline rules, b383a8e | after a Foundry run: seed search, bundle, `pipeline.story`, `pipeline.evidence`, re-record |
 | 5 | Public demo URL (no login) | ready, needs a personal subscription | `infra/swa_deploy.sh` (Free plan, guards, anonymous verification); config checked in the SWA emulator |
 | 6 | MCP server not exposed publicly | done | loopback only (D-026); the demo shows recorded traces |
 | 7 | Repository public | needs approval | currently private; owner flips visibility at submission |
