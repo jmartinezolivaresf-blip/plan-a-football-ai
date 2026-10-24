@@ -59,6 +59,29 @@ def render() -> str:
         di = s["duel_interaction"]
         lines.append(f"| Duel | Half-times where the best answer depends on the other bench (no dominant option in the "
                      f"true matrix) | {di['share_without_dominant_option']} of {di['benches']} bench decisions |")
+    before = _load("test_before.json")
+    if before:
+        def row(name, get):
+            try:
+                return f"| {name} | {get(before)} | {get(s)} |"
+            except (KeyError, TypeError):
+                return f"| {name} | n/a | {get(s)} |"
+        lines += ["", "## Before and after the evaluation improvements (same test seasons)", "",
+                  "Before: commit 0d51fc7 (`eval/results/test_before.json`). After: this run. The changes were chosen "
+                  "on dev data only (docs/DECISIONS.md D-047..D-051).", "",
+                  "| Measure | Before | After |", "|---|---|---|",
+                  row("E1 precision / recall", lambda x: f"{x['E1']['precision']} / {x['E1']['recall']}"),
+                  row("E3 plans targeting a real weakness (random plan)",
+                      lambda x: f"{x['E3']['plans_attacking_a_real_weakness']} ({x['E3']['random_plan_baseline']})"),
+                  row("E7 probability on the other bench's real intent (uniform 0.333)",
+                      lambda x: f"{x['E7']['prob_on_actual_intent']['mean']}"),
+                  row("E8 regret AI / always stay / random (xPts)",
+                      lambda x: f"{x['E8']['ai_regret']['mean']} / {x['E8']['always_stay_regret']['mean']} / "
+                                f"{x['E8']['random_choice_regret']['mean']}"),
+                  row("Half-times without a dominant option",
+                      lambda x: f"{x['duel_interaction']['share_without_dominant_option']}"),
+                  row("Season statistics in target range",
+                      lambda x: f"{sum(v['in_range'] for v in x['calibration'].values())} of {len(x['calibration'])}")]
     lines += [
         "",
         "## E1 by trait kind",

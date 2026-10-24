@@ -43,7 +43,8 @@ def _duel(job: tuple[int, int, str, str]) -> list[dict]:
         chosen = b.duel.broadcast.revealed[opp].option_id
         intent = next(o.intent for o in b.duel.private[opp].options if o.option_id == chosen)
         est = b.duel.private[team].opponent_estimate.options
-        out.append({"season": seed, "match": f"{home}-{away}", "opponent_situation": situation(ht[opp] - ht[team]),
+        out.append({"season": seed,
+                    "match": f"{home}-{away}", "opponent_situation": situation(ht[opp] - ht[team]),
                     "opponent_intent": intent, "estimated_intents": [e.option.intent for e in est],
                     "prob_on_actual": sum(e.probability for e in est if e.option.intent == intent),
                     "own_options": [o.intent for o in b.duel.private[team].options],
@@ -57,6 +58,7 @@ def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(prog="python -m eval.calibrate_estimates")
     ap.add_argument("--seasons", default="9001-9006")
     ap.add_argument("--workers", type=int, default=12)
+    ap.add_argument("--out", default=str(OUT), help="where to write (a different file for a check run)")
     args = ap.parse_args(argv)
     lo, hi = (int(x) for x in args.seasons.split("-"))
     jobs = [(s, k, h, a) for s in range(lo, hi + 1) for k, (h, a) in enumerate(MATCHUPS)]
@@ -71,12 +73,14 @@ def main(argv: list[str] | None = None) -> int:
     intents = Counter((r["opponent_situation"], r["opponent_intent"]) for r in rows)
     out = {"seasons": [lo, hi], "duels": len(rows), "probabilities": probs, "slot_counts": counts,
            "intent_counts": {f"{s}:{i}": n for (s, i), n in sorted(intents.items())},
-           "dev_prob_on_actual_intent_before": round(sum(r["prob_on_actual"] for r in rows) / max(len(rows), 1), 3),
+           "dev_prob_on_actual_intent": round(sum(r["prob_on_actual"] for r in rows) / max(len(rows), 1), 3),
            "dev_share_without_dominant_option": round(1 - sum(r["dominant"] for r in rows) / max(len(rows), 1), 3),
+
            "rows": rows,
            "rule": "Laplace-smoothed frequency of each estimator slot per score situation of the other bench"}
-    OUT.parent.mkdir(parents=True, exist_ok=True)
-    OUT.write_text(json.dumps(out, indent=2))
+    target = Path(args.out)
+    target.parent.mkdir(parents=True, exist_ok=True)
+    target.write_text(json.dumps(out, indent=2))
     print(json.dumps(out, indent=2))
     return 0
 

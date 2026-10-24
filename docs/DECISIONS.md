@@ -278,3 +278,16 @@ players; the manager only acts on findings at least one standard error beyond th
 its limit is failing, and at its deadline every KPI is met or missed (no "on track" with the target missed). Staff
 `get_claim` now refuses claims about a later minute than the server's `visible_minute` (defense in depth: no such
 claim exists during a duel in the pipeline).
+
+**D-051 · Tried and rejected: one step of theory of mind.** Situation frequencies left E7 at chance on a small dev
+holdout (0.34, 12 decisions), so the estimator was given a level-1 step: simulate (public world, observed levers)
+which of its guesses the other bench would prefer if this bench kept its plan, and weight that option (0.459, from
+how often the simulated pick was the real choice in 72 dev duels: 33 times). A paired check on 72 FRESH dev duels
+(seasons 9007-9012, both estimators scored on the same decisions) showed it hurts: probability on the real intent
+0.349 with the step vs 0.412 without (difference -0.063 +- 0.034, 90%). It was removed; the record is
+`eval/results/dev/estimate_check_level1.json`. The estimator keeps the dev-calibrated situation frequencies.
+After the press rebalance (D-047) the lever diagnostic on dev shows the press heights near zero on average (high
+-0.05, low +0.02 xPts) and real trait interactions for far-post corners (+0.15), the weak channel (+0.08) and going
+direct against a slow centre-back (+0.03); pressing-based exploits (short goal kicks, a full-back weak under
+pressure) still show no gain there, a limitation of the pressing model for Person A to review
+(`eval/results/dev/lever_effects.json` vs `lever_effects_before_D047.json`).

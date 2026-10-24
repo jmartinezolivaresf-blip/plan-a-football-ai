@@ -1,0 +1,1274 @@
+{
+ "season_seed": 9101,
+ "matches": 6,
+ "dev": true,
+ "E1": {
+  "precision": 0.785,
+  "recall": 0.567,
+  "flagged": 65,
+  "true_traits": 90,
+  "scouted_teams": 30,
+  "seasons": [
+   9011,
+   9012,
+   9013,
+   9014,
+   9015
+  ],
+  "per_kind": {
+   "weak_channel": {
+    "flagged": 21,
+    "correct": 15,
+    "true": 17,
+    "precision": 0.714,
+    "recall": 0.882
+   },
+   "late_fade": {
+    "flagged": 5,
+    "correct": 4,
+    "true": 20,
+    "precision": 0.8,
+    "recall": 0.2
+   },
+   "back_post_weak": {
+    "flagged": 5,
+    "correct": 4,
+    "true": 18,
+    "precision": 0.8,
+    "recall": 0.222
+   },
+   "gk_short_bias": {
+    "flagged": 13,
+    "correct": 12,
+    "true": 16,
+    "precision": 0.923,
+    "recall": 0.75
+   },
+   "fb_low_press_resistance": {
+    "flagged": 13,
+    "correct": 9,
+    "true": 10,
+    "precision": 0.692,
+    "recall": 0.9
+   },
+   "cb_low_pace": {
+    "flagged": 8,
+    "correct": 7,
+    "true": 9,
+    "precision": 0.875,
+    "recall": 0.778
+   }
+  },
+  "reports": [
+   {
+    "season": 9011,
+    "scouted": "HAR",
+    "by": "KES",
+    "flagged": [
+     [
+      "HAR",
+      "late_fade"
+     ]
+    ],
+    "truth": [
+     [
+      "HAR",
+      "back_post_weak"
+     ],
+     [
+      "HAR",
+      "late_fade"
+     ],
+     [
+      "HAR",
+      "weak_channel",
+      "right"
+     ]
+    ]
+   },
+   {
+    "season": 9011,
+    "scouted": "KES",
+    "by": "HAR",
+    "flagged": [
+     [
+      "KES",
+      "fb_low_press_resistance",
+      "KES-5"
+     ],
+     [
+      "KES",
+      "gk_short_bias"
+     ]
+    ],
+    "truth": [
+     [
+      "KES",
+      "fb_low_press_resistance",
+      "KES-5"
+     ],
+     [
+      "KES",
+      "gk_short_bias"
+     ],
+     [
+      "KES",
+      "late_fade"
+     ]
+    ]
+   },
+   {
+    "season": 9011,
+    "scouted": "ASH",
+    "by": "MOR",
+    "flagged": [
+     [
+      "ASH",
+      "cb_low_pace"
+     ],
+     [
+      "ASH",
+      "weak_channel",
+      "left"
+     ],
+     [
+      "ASH",
+      "weak_channel",
+      "right"
+     ]
+    ],
+    "truth": [
+     [
+      "ASH",
+      "back_post_weak"
+     ],
+     [
+      "ASH",
+      "cb_low_pace"
+     ],
+     [
+      "ASH",
+      "weak_channel",
+      "left"
+     ]
+    ]
+   },
+   {
+    "season": 9011,
+    "scouted": "MOR",
+    "by": "ASH",
+    "flagged": [
+     [
+      "MOR",
+      "fb_low_press_resistance",
+      "MOR-5"
+     ],
+     [
+      "MOR",
+      "gk_short_bias"
+     ],
+     [
+      "MOR",
+      "weak_channel",
+      "left"
+     ]
+    ],
+    "truth": [
+     [
+      "MOR",
+      "back_post_weak"
+     ],
+     [
+      "MOR",
+      "gk_short_bias"
+     ],
+     [
+      "MOR",
+      "weak_channel",
+      "left"
+     ]
+    ]
+   },
+   {
+    "season": 9011,
+    "scouted": "BRY",
+    "by": "WEX",
+    "flagged": [
+     [
+      "BRY",
+      "gk_short_bias"
+     ],
+     [
+      "BRY",
+      "weak_channel",
+      "left"
+     ]
+    ],
+    "truth": [
+     [
+      "BRY",
+      "fb_low_press_resistance",
+      "BRY-5"
+     ],
+     [
+      "BRY",
+      "gk_short_bias"
+     ],
+     [
+      "BRY",
+      "weak_channel",
+      "left"
+     ]
+    ]
+   },
+   {
+    "season": 9011,
+    "scouted": "WEX",
+    "by": "BRY",
+    "flagged": [
+     [
+      "WEX",
+      "back_post_weak"
+     ],
+     [
+      "WEX",
+      "fb_low_press_resistance",
+      "WEX-2"
+     ],
+     [
+      "WEX",
+      "weak_channel",
+      "right"
+     ]
+    ],
+    "truth": [
+     [
+      "WEX",
+      "back_post_weak"
+     ],
+     [
+      "WEX",
+      "late_fade"
+     ],
+     [
+      "WEX",
+      "weak_channel",
+      "right"
+     ]
+    ]
+   },
+   {
+    "season": 9012,
+    "scouted": "HAR",
+    "by": "KES",
+    "flagged": [
+     [
+      "HAR",
+      "back_post_weak"
+     ]
+    ],
+    "truth": [
+     [
+      "HAR",
+      "back_post_weak"
+     ],
+     [
+      "HAR",
+      "gk_short_bias"
+     ],
+     [
+      "HAR",
+      "late_fade"
+     ]
+    ]
+   },
+   {
+    "season": 9012,
+    "scouted": "KES",
+    "by": "HAR",
+    "flagged": [
+     [
+      "KES",
+      "cb_low_pace"
+     ],
+     [
+      "KES",
+      "fb_low_press_resistance",
+      "KES-5"
+     ],
+     [
+      "KES",
+      "gk_short_bias"
+     ]
+    ],
+    "truth": [
+     [
+      "KES",
+      "back_post_weak"
+     ],
+     [
+      "KES",
+      "cb_low_pace"
+     ],
+     [
+      "KES",
+      "gk_short_bias"
+     ]
+    ]
+   },
+   {
+    "season": 9012,
+    "scouted": "ASH",
+    "by": "MOR",
+    "flagged": [
+     [
+      "ASH",
+      "gk_short_bias"
+     ],
+     [
+      "ASH",
+      "weak_channel",
+      "left"
+     ]
+    ],
+    "truth": [
+     [
+      "ASH",
+      "gk_short_bias"
+     ],
+     [
+      "ASH",
+      "late_fade"
+     ],
+     [
+      "ASH",
+      "weak_channel",
+      "left"
+     ]
+    ]
+   },
+   {
+    "season": 9012,
+    "scouted": "MOR",
+    "by": "ASH",
+    "flagged": [
+     [
+      "MOR",
+      "weak_channel",
+      "left"
+     ]
+    ],
+    "truth": [
+     [
+      "MOR",
+      "back_post_weak"
+     ],
+     [
+      "MOR",
+      "late_fade"
+     ],
+     [
+      "MOR",
+      "weak_channel",
+      "left"
+     ]
+    ]
+   },
+   {
+    "season": 9012,
+    "scouted": "BRY",
+    "by": "WEX",
+    "flagged": [
+     [
+      "BRY",
+      "back_post_weak"
+     ],
+     [
+      "BRY",
+      "weak_channel",
+      "right"
+     ]
+    ],
+    "truth": [
+     [
+      "BRY",
+      "back_post_weak"
+     ],
+     [
+      "BRY",
+      "late_fade"
+     ],
+     [
+      "BRY",
+      "weak_channel",
+      "right"
+     ]
+    ]
+   },
+   {
+    "season": 9012,
+    "scouted": "WEX",
+    "by": "BRY",
+    "flagged": [
+     [
+      "WEX",
+      "fb_low_press_resistance",
+      "WEX-2"
+     ]
+    ],
+    "truth": [
+     [
+      "WEX",
+      "fb_low_press_resistance",
+      "WEX-2"
+     ],
+     [
+      "WEX",
+      "gk_short_bias"
+     ],
+     [
+      "WEX",
+      "late_fade"
+     ]
+    ]
+   },
+   {
+    "season": 9013,
+    "scouted": "HAR",
+    "by": "KES",
+    "flagged": [
+     [
+      "HAR",
+      "late_fade"
+     ],
+     [
+      "HAR",
+      "weak_channel",
+      "right"
+     ]
+    ],
+    "truth": [
+     [
+      "HAR",
+      "gk_short_bias"
+     ],
+     [
+      "HAR",
+      "late_fade"
+     ],
+     [
+      "HAR",
+      "weak_channel",
+      "right"
+     ]
+    ]
+   },
+   {
+    "season": 9013,
+    "scouted": "KES",
+    "by": "HAR",
+    "flagged": [
+     [
+      "KES",
+      "fb_low_press_resistance",
+      "KES-5"
+     ]
+    ],
+    "truth": [
+     [
+      "KES",
+      "back_post_weak"
+     ],
+     [
+      "KES",
+      "fb_low_press_resistance",
+      "KES-5"
+     ],
+     [
+      "KES",
+      "late_fade"
+     ]
+    ]
+   },
+   {
+    "season": 9013,
+    "scouted": "ASH",
+    "by": "MOR",
+    "flagged": [
+     [
+      "ASH",
+      "cb_low_pace"
+     ],
+     [
+      "ASH",
+      "fb_low_press_resistance",
+      "ASH-2"
+     ],
+     [
+      "ASH",
+      "gk_short_bias"
+     ],
+     [
+      "ASH",
+      "weak_channel",
+      "left"
+     ]
+    ],
+    "truth": [
+     [
+      "ASH",
+      "cb_low_pace"
+     ],
+     [
+      "ASH",
+      "fb_low_press_resistance",
+      "ASH-2"
+     ],
+     [
+      "ASH",
+      "gk_short_bias"
+     ]
+    ]
+   },
+   {
+    "season": 9013,
+    "scouted": "MOR",
+    "by": "ASH",
+    "flagged": [
+     [
+      "MOR",
+      "cb_low_pace"
+     ],
+     [
+      "MOR",
+      "gk_short_bias"
+     ],
+     [
+      "MOR",
+      "weak_channel",
+      "right"
+     ]
+    ],
+    "truth": [
+     [
+      "MOR",
+      "gk_short_bias"
+     ],
+     [
+      "MOR",
+      "late_fade"
+     ],
+     [
+      "MOR",
+      "weak_channel",
+      "right"
+     ]
+    ]
+   },
+   {
+    "season": 9013,
+    "scouted": "BRY",
+    "by": "WEX",
+    "flagged": [
+     [
+      "BRY",
+      "weak_channel",
+      "left"
+     ],
+     [
+      "BRY",
+      "weak_channel",
+      "right"
+     ]
+    ],
+    "truth": [
+     [
+      "BRY",
+      "back_post_weak"
+     ],
+     [
+      "BRY",
+      "late_fade"
+     ],
+     [
+      "BRY",
+      "weak_channel",
+      "right"
+     ]
+    ]
+   },
+   {
+    "season": 9013,
+    "scouted": "WEX",
+    "by": "BRY",
+    "flagged": [
+     [
+      "WEX",
+      "back_post_weak"
+     ]
+    ],
+    "truth": [
+     [
+      "WEX",
+      "back_post_weak"
+     ],
+     [
+      "WEX",
+      "gk_short_bias"
+     ],
+     [
+      "WEX",
+      "late_fade"
+     ]
+    ]
+   },
+   {
+    "season": 9014,
+    "scouted": "HAR",
+    "by": "KES",
+    "flagged": [
+     [
+      "HAR",
+      "fb_low_press_resistance",
+      "HAR-5"
+     ],
+     [
+      "HAR",
+      "late_fade"
+     ]
+    ],
+    "truth": [
+     [
+      "HAR",
+      "back_post_weak"
+     ],
+     [
+      "HAR",
+      "fb_low_press_resistance",
+      "HAR-5"
+     ],
+     [
+      "HAR",
+      "late_fade"
+     ]
+    ]
+   },
+   {
+    "season": 9014,
+    "scouted": "KES",
+    "by": "HAR",
+    "flagged": [
+     [
+      "KES",
+      "cb_low_pace"
+     ],
+     [
+      "KES",
+      "gk_short_bias"
+     ]
+    ],
+    "truth": [
+     [
+      "KES",
+      "back_post_weak"
+     ],
+     [
+      "KES",
+      "cb_low_pace"
+     ],
+     [
+      "KES",
+      "gk_short_bias"
+     ]
+    ]
+   },
+   {
+    "season": 9014,
+    "scouted": "ASH",
+    "by": "MOR",
+    "flagged": [
+     [
+      "ASH",
+      "cb_low_pace"
+     ],
+     [
+      "ASH",
+      "fb_low_press_resistance",
+      "ASH-2"
+     ],
+     [
+      "ASH",
+      "gk_short_bias"
+     ]
+    ],
+    "truth": [
+     [
+      "ASH",
+      "back_post_weak"
+     ],
+     [
+      "ASH",
+      "cb_low_pace"
+     ],
+     [
+      "ASH",
+      "gk_short_bias"
+     ]
+    ]
+   },
+   {
+    "season": 9014,
+    "scouted": "MOR",
+    "by": "ASH",
+    "flagged": [
+     [
+      "MOR",
+      "gk_short_bias"
+     ],
+     [
+      "MOR",
+      "weak_channel",
+      "right"
+     ]
+    ],
+    "truth": [
+     [
+      "MOR",
+      "gk_short_bias"
+     ],
+     [
+      "MOR",
+      "late_fade"
+     ],
+     [
+      "MOR",
+      "weak_channel",
+      "right"
+     ]
+    ]
+   },
+   {
+    "season": 9014,
+    "scouted": "BRY",
+    "by": "WEX",
+    "flagged": [
+     [
+      "BRY",
+      "back_post_weak"
+     ],
+     [
+      "BRY",
+      "fb_low_press_resistance",
+      "BRY-5"
+     ],
+     [
+      "BRY",
+      "weak_channel",
+      "left"
+     ],
+     [
+      "BRY",
+      "weak_channel",
+      "right"
+     ]
+    ],
+    "truth": [
+     [
+      "BRY",
+      "cb_low_pace"
+     ],
+     [
+      "BRY",
+      "fb_low_press_resistance",
+      "BRY-5"
+     ],
+     [
+      "BRY",
+      "weak_channel",
+      "left"
+     ]
+    ]
+   },
+   {
+    "season": 9014,
+    "scouted": "WEX",
+    "by": "BRY",
+    "flagged": [
+     [
+      "WEX",
+      "late_fade"
+     ]
+    ],
+    "truth": [
+     [
+      "WEX",
+      "back_post_weak"
+     ],
+     [
+      "WEX",
+      "cb_low_pace"
+     ],
+     [
+      "WEX",
+      "weak_channel",
+      "right"
+     ]
+    ]
+   },
+   {
+    "season": 9015,
+    "scouted": "HAR",
+    "by": "KES",
+    "flagged": [
+     [
+      "HAR",
+      "cb_low_pace"
+     ],
+     [
+      "HAR",
+      "gk_short_bias"
+     ]
+    ],
+    "truth": [
+     [
+      "HAR",
+      "cb_low_pace"
+     ],
+     [
+      "HAR",
+      "gk_short_bias"
+     ],
+     [
+      "HAR",
+      "late_fade"
+     ]
+    ]
+   },
+   {
+    "season": 9015,
+    "scouted": "KES",
+    "by": "HAR",
+    "flagged": [
+     [
+      "KES",
+      "cb_low_pace"
+     ],
+     [
+      "KES",
+      "fb_low_press_resistance",
+      "KES-5"
+     ],
+     [
+      "KES",
+      "weak_channel",
+      "left"
+     ]
+    ],
+    "truth": [
+     [
+      "KES",
+      "cb_low_pace"
+     ],
+     [
+      "KES",
+      "fb_low_press_resistance",
+      "KES-5"
+     ],
+     [
+      "KES",
+      "late_fade"
+     ]
+    ]
+   },
+   {
+    "season": 9015,
+    "scouted": "ASH",
+    "by": "MOR",
+    "flagged": [
+     [
+      "ASH",
+      "fb_low_press_resistance",
+      "ASH-2"
+     ],
+     [
+      "ASH",
+      "gk_short_bias"
+     ],
+     [
+      "ASH",
+      "weak_channel",
+      "left"
+     ]
+    ],
+    "truth": [
+     [
+      "ASH",
+      "fb_low_press_resistance",
+      "ASH-2"
+     ],
+     [
+      "ASH",
+      "gk_short_bias"
+     ],
+     [
+      "ASH",
+      "late_fade"
+     ]
+    ]
+   },
+   {
+    "season": 9015,
+    "scouted": "MOR",
+    "by": "ASH",
+    "flagged": [
+     [
+      "MOR",
+      "fb_low_press_resistance",
+      "MOR-5"
+     ],
+     [
+      "MOR",
+      "weak_channel",
+      "right"
+     ]
+    ],
+    "truth": [
+     [
+      "MOR",
+      "back_post_weak"
+     ],
+     [
+      "MOR",
+      "fb_low_press_resistance",
+      "MOR-5"
+     ],
+     [
+      "MOR",
+      "weak_channel",
+      "right"
+     ]
+    ]
+   },
+   {
+    "season": 9015,
+    "scouted": "BRY",
+    "by": "WEX",
+    "flagged": [
+     [
+      "BRY",
+      "gk_short_bias"
+     ],
+     [
+      "BRY",
+      "weak_channel",
+      "right"
+     ]
+    ],
+    "truth": [
+     [
+      "BRY",
+      "back_post_weak"
+     ],
+     [
+      "BRY",
+      "late_fade"
+     ],
+     [
+      "BRY",
+      "weak_channel",
+      "right"
+     ]
+    ]
+   },
+   {
+    "season": 9015,
+    "scouted": "WEX",
+    "by": "BRY",
+    "flagged": [
+     [
+      "WEX",
+      "late_fade"
+     ],
+     [
+      "WEX",
+      "weak_channel",
+      "left"
+     ]
+    ],
+    "truth": [
+     [
+      "WEX",
+      "back_post_weak"
+     ],
+     [
+      "WEX",
+      "late_fade"
+     ],
+     [
+      "WEX",
+      "weak_channel",
+      "left"
+     ]
+    ]
+   }
+  ],
+  "meaning": "share of flagged weaknesses that are real hidden traits / share of hidden traits flagged, on unseen seasons with random trait kinds"
+ },
+ "E2": {
+  "sign_agreement": 0.333,
+  "mean_abs_error_xpts": 0.017,
+  "sign_agreement_when_reference_is_clear": null,
+  "clear_cells": 0,
+  "ci90_coverage_of_reference": 0.667,
+  "cells": 6,
+  "R": [
+   300,
+   3000
+  ],
+  "rows": [
+   {
+    "team": "KES",
+    "change": {
+     "press_height": "low"
+    },
+    "small": [
+     -0.02,
+     -0.04,
+     -0.006666666666666667
+    ],
+    "reference": [
+     -0.003,
+     -0.011666666666666667,
+     0.006333333333333333
+    ]
+   },
+   {
+    "team": "KES",
+    "change": {
+     "build_up": "direct"
+    },
+    "small": [
+     0.02666666666666667,
+     -0.006666666666666667,
+     0.06
+    ],
+    "reference": [
+     0.0016666666666666668,
+     -0.010666666666666666,
+     0.012666666666666666
+    ]
+   },
+   {
+    "team": "KES",
+    "change": {
+     "press_height": "high"
+    },
+    "small": [
+     0.006666666666666667,
+     -0.02,
+     0.03333333333333333
+    ],
+    "reference": [
+     -0.0026666666666666666,
+     -0.011,
+     0.005666666666666667
+    ]
+   },
+   {
+    "team": "HAR",
+    "change": {
+     "press_height": "low"
+    },
+    "small": [
+     0.006666666666666667,
+     -0.016666666666666666,
+     0.03
+    ],
+    "reference": [
+     -0.001,
+     -0.007333333333333333,
+     0.005333333333333333
+    ]
+   },
+   {
+    "team": "HAR",
+    "change": {
+     "build_up": "direct"
+    },
+    "small": [
+     0.02,
+     -0.01,
+     0.05333333333333334
+    ],
+    "reference": [
+     -0.002,
+     -0.01,
+     0.005683333333333319
+    ]
+   },
+   {
+    "team": "HAR",
+    "change": {
+     "press_height": "high"
+    },
+    "small": [
+     0.016666666666666666,
+     -0.0033333333333333335,
+     0.04
+    ],
+    "reference": [
+     -0.004666666666666667,
+     -0.011333333333333334,
+     0.0013333333333333333
+    ]
+   }
+  ],
+  "meaning": "noise of the Monte Carlo estimate only, not validity of the model"
+ },
+ "E3": {
+  "levers_citing_served_claims": 1.0,
+  "changed_levers": 23,
+  "plans_attacking_a_real_weakness": 1.0,
+  "plans": 12,
+  "random_plan_baseline": 0.526,
+  "meaning": "a plan counts if one lever targets a real hidden trait; the baseline is the share of all lever combinations that would also count"
+ },
+ "E4": {
+  "reports_valid_first_try": 1.0,
+  "reports_fallback": 0,
+  "cues_dropped": 0,
+  "cues_dropped_detail": [],
+  "llm_numbers": 0,
+  "meaning": "digits outside {claim.field} placeholders are rejected by code (0 by construction)"
+ },
+ "duel_interaction": {
+  "benches": 12,
+  "share_without_dominant_option": 0.583,
+  "meaning": "how often a bench's best half-time answer depends on what the other bench does (true matrix); plan target: at least half"
+ },
+ "E7": {
+  "prob_on_actual_intent": {
+   "mean": 0.273,
+   "ci90": [
+    0.208,
+    0.342
+   ],
+   "n": 12
+  },
+  "uniform_baseline": 0.333,
+  "meaning": "how much the analyst anticipated the other bench (higher is better)"
+ },
+ "E8": {
+  "ai_regret": {
+   "mean": 0.026,
+   "ci90": [
+    0.009,
+    0.044
+   ],
+   "n": 12
+  },
+  "always_stay_regret": {
+   "mean": 0.022,
+   "ci90": [
+    0.01,
+    0.036
+   ],
+   "n": 12
+  },
+  "random_choice_regret": {
+   "mean": 0.029,
+   "ci90": [
+    0.019,
+    0.039
+   ],
+   "n": 12
+  },
+  "meaning": "xPts lost vs the best response to what the other bench really did, in our simulator"
+ },
+ "calibration": {
+  "goals_per_match": {
+   "value": 3.0,
+   "target": [
+    2.7,
+    3.0
+   ],
+   "in_range": true
+  },
+  "shots_per_match": {
+   "value": 26.583,
+   "target": [
+    24,
+    27
+   ],
+   "in_range": true
+  },
+  "shot_conversion": {
+   "value": 0.113,
+   "target": [
+    0.1,
+    0.12
+   ],
+   "in_range": true
+  },
+  "passes_per_match": {
+   "value": 937.125,
+   "target": [
+    850,
+    900
+   ],
+   "in_range": false
+  },
+  "pass_accuracy": {
+   "value": 0.784,
+   "target": [
+    0.8,
+    0.85
+   ],
+   "in_range": false
+  },
+  "corners_per_match": {
+   "value": 10.875,
+   "target": [
+    9,
+    11
+   ],
+   "in_range": true
+  },
+  "high_turnovers_per_team": {
+   "value": 7.125,
+   "target": [
+    5,
+    14
+   ],
+   "in_range": true
+  },
+  "home_win_share": {
+   "value": 0.417,
+   "target": [
+    0.35,
+    0.47
+   ],
+   "in_range": true,
+   "ci90": [
+    0.268,
+    0.582
+   ],
+   "target_inside_ci90": true
+  },
+  "draw_share": {
+   "value": 0.292,
+   "target": [
+    0.2,
+    0.3
+   ],
+   "in_range": true,
+   "ci90": [
+    0.167,
+    0.459
+   ],
+   "target_inside_ci90": true
+  }
+ },
+ "seconds": 226.1,
+ "scope": "all results are inside our simulator; synthetic data; not claims about real football"
+}
