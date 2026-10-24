@@ -1,6 +1,7 @@
 // Broadcast overlays: settings, timed cues, Plan Tracker lower third.
 import type { Cue, MatchBundle } from "../contracts/bundle";
 import { type ClaimIndex, fill } from "../lib/claims";
+import { kpiLabel } from "../lib/levers";
 
 export type Mode = "casual" | "analyst";
 export type Lang = "en" | "es";
@@ -103,7 +104,7 @@ export function PlanTrackerLT({ bundle, minute, mode, lang, colors }: {
             const st = STATUS_LABEL[k.status];
             return (
               <span key={k.kpi_id} className={`kpi ${k.status}`} data-testid={`kpi-${team}-${k.kpi_id}`}>
-                <b>{st.icon}</b> {kpi?.metric.replaceAll("_", " ")} · {st[lang]}
+                <b>{st.icon}</b> {kpi ? kpiLabel(kpi) : k.kpi_id} · {st[lang]}
                 {mode === "analyst" && (
                   <small> {fmt(k.value, kpi?.metric)} (exp. {k.expected === null ? "–" : fmt(k.expected, kpi?.metric)}, n {k.n})</small>
                 )}

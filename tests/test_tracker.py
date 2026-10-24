@@ -18,3 +18,16 @@ def test_at_the_deadline_a_kpi_is_met_or_missed():
     assert settled(">=", 0.4, 0.45, "final_third_entries_share", 90, by_minute=90) == "on_track"
     assert settled(">=", 6, 7, "high_turnovers", 50, by_minute=45) == "on_track"
     assert settled("<=", 14, 10, "balls_in_behind_conceded", 89, by_minute=90) is None
+
+
+def test_the_deadline_verdict_is_not_delayed_by_the_hysteresis():
+    from contracts import Kpi
+    from engine.tracker import PlanTracker
+
+    from .sim_helpers import plans
+    plan = plans()["KES"].model_copy(update={"kpis": [Kpi(id="k1", metric="high_turnovers", target=">=4",
+                                                          by_minute=90)]})
+    tracker = PlanTracker(plan, "KES", None, {"KES:high_turnovers": [0.0] * 91})  # high turnovers need no xG model
+    tracker.reported["k1"] = "on_track"  # what the live reading showed until now
+    statuses, _ = tracker.at(90, [])
+    assert statuses[0].status == "failing"  # 0 high turnovers against >= 4 at the deadline

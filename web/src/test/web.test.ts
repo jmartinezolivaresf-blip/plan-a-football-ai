@@ -173,7 +173,8 @@ describe("analyst desk", () => {
     const html = renderToString(createElement(Broadcast, { bundle, initialTab: "desk" }));
     expect(html).toContain("Agent trace");
     expect(html).toContain("Validation panel");
-    expect(html).toContain("The real duel");
+    expect(html).toContain("What was really true");
+    expect(html).toContain("What Kestrel believed");
   });
 });
 
@@ -236,5 +237,18 @@ describe("plan card shows levers changed during the match", () => {
     const at = (m: number) => renderToString(createElement(Broadcast, { bundle: demo, link: readParams(`?t=${m * 60 + 30}`) }));
     expect(at(minute - 1)).not.toContain(`now-${team}-${lever}`);
     expect(at(minute)).toContain(`now-${team}-${lever}`);
+  });
+});
+
+
+describe("pitch markers", () => {
+  it("never overlap after separation", async () => {
+    const { separate } = await import("../components/Pitch2D");
+    const out = separate({ "KES-9": [50, 30], "HAR-2": [50, 30], "KES-2": [50.5, 30.4], "HAR-5": [10, 10] });
+    const ids = Object.keys(out);
+    for (let a = 0; a < ids.length; a++)
+      for (let b = a + 1; b < ids.length; b++)
+        expect(Math.hypot(out[ids[a]][0] - out[ids[b]][0], out[ids[a]][1] - out[ids[b]][1])).toBeGreaterThan(2.5);
+    expect(out["HAR-5"]).toEqual([10, 10]);
   });
 });

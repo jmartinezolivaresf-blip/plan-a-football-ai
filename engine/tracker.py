@@ -121,7 +121,8 @@ class PlanTracker:
             exp = expected_at(k.metric, k.params, self.plan.team, minute, self.traj)
             raw, low, high = status_for(op, v, exp, k.metric, minute)
             raw = settled(op, float(_TARGET.match(k.target).group(2)), v.value, k.metric, minute, k.by_minute) or raw
-            status = self._hysteresis(k.id, raw, minute)
+            # the full-time verdict is settled at once (met or missed); live readings keep the 2-minute smoothing
+            status = raw if minute >= 90 else self._hysteresis(k.id, raw, minute)
             cid = f"c_kpi_{self.plan.team}_{k.id}_{minute}"
             statuses.append(KpiStatus(plan_id=self.plan.plan_id, kpi_id=k.id, team=self.plan.team,
                                       value=round(v.value, 3), expected=None if exp is None else round(exp, 3),

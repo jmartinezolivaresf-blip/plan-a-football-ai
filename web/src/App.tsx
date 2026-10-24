@@ -83,18 +83,18 @@ export function Broadcast({ bundle, initialTab = "broadcast", link = NO_PARAMS }
             <PlanTrackerLT bundle={bundle} minute={minute} mode={settings.mode} lang={settings.lang} colors={colors} />
             <PlaybackControls time={clock.time} end={clock.end} playing={clock.playing} speed={clock.speed}
                               onPlay={clock.play} onPause={clock.pause} onSeek={clock.seek} onSpeed={clock.setSpeed} />
-            {atHalftime && (
-              <HalftimeScreen bundle={bundle} mode={settings.mode} lang={settings.lang} club={settings.club} claims={claims}
-                              colors={colors} initialRevealed={link.reveal} initialMatrix={link.matrix ?? "true"}
-                              onContinue={() => {
-                                setHalftimeSeen(true);
-                                seek(HALF_TIME + 61);
-                                play();
-                              }} />
-            )}
-            {atFullTime && <FinalPanel bundle={bundle} lang={settings.lang} mode={settings.mode} claims={claims} colors={colors} />}
           </div>
           {bundle.plans[away] && <PlanCard bundle={bundle} plan={bundle.plans[away]} color={colors[away]} side="away" lang={settings.lang} active={levers[away]} />}
+          {atHalftime && (
+            <HalftimeScreen bundle={bundle} mode={settings.mode} lang={settings.lang} club={settings.club} claims={claims}
+                            colors={colors} initialRevealed={link.reveal} initialMatrix={link.matrix ?? "true"}
+                            onContinue={() => {
+                              setHalftimeSeen(true);
+                              seek(HALF_TIME + 61);
+                              play();
+                            }} />
+          )}
+          {atFullTime && <FinalPanel bundle={bundle} lang={settings.lang} mode={settings.mode} claims={claims} colors={colors} />}
         </div>
       ) : (
         <AnalystDesk bundle={bundle} claims={claims} minute={minute} lang={settings.lang} colors={colors}

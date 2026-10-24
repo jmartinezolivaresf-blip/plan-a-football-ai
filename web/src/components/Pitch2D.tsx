@@ -9,8 +9,33 @@ interface Props {
   highlight?: string | null; // player_id to emphasise (e.g. a press target)
 }
 
+const MIN_GAP = 3.0; // metres between two markers so shirt numbers stay readable
+
+/** Push apart markers that sit on top of each other (display only; the layer positions are illustrative). */
+export function separate(players: Record<string, [number, number]>): Record<string, [number, number]> {
+  const ids = Object.keys(players).sort();
+  const out: Record<string, [number, number]> = {};
+  for (const id of ids) out[id] = [...players[id]] as [number, number];
+  for (let pass = 0; pass < 3; pass++) {
+    for (let a = 0; a < ids.length; a++) {
+      for (let b = a + 1; b < ids.length; b++) {
+        const p = out[ids[a]], q = out[ids[b]];
+        const dx = q[0] - p[0], dy = q[1] - p[1];
+        const dist = Math.hypot(dx, dy);
+        if (dist >= MIN_GAP) continue;
+        const [ux, uy] = dist > 1e-6 ? [dx / dist, dy / dist] : [0, 1];
+        const push = (MIN_GAP - dist) / 2;
+        p[0] -= ux * push; p[1] -= uy * push; q[0] += ux * push; q[1] += uy * push;
+      }
+    }
+  }
+  for (const id of ids) out[id] = [Math.min(104, Math.max(1, out[id][0])), Math.min(67, Math.max(1, out[id][1]))];
+  return out;
+}
+
 export function Pitch2D({ bundle, time, colors, highlight }: Props) {
-  const pos = positionsAt(bundle.render_frames, time);
+  const raw = positionsAt(bundle.render_frames, time);
+  const pos = raw && { ...raw, players: separate(raw.players as Record<string, [number, number]>) };
   return (
     <svg className="pitch" viewBox="-3 -3 111 74" role="img" aria-label="Match pitch">
       <rect x={-3} y={-3} width={111} height={74} className="pitch-bg" />
