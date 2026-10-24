@@ -51,8 +51,8 @@ def _tactics(plan: Plan) -> str:
 
 # P(keep the plan, situational move, build-up switch) for the OTHER bench, by its score situation at half-time:
 # Laplace-smoothed frequencies of dev duels (eval/calibrate_estimates.py, D-048); a test pins them to the file.
-ESTIMATE_PROBS: dict[str, list[float]] = {"leading": [0.536, 0.107, 0.357], "level": [0.48, 0.24, 0.28],
-                                          "trailing": [0.179, 0.75, 0.071]}
+ESTIMATE_PROBS: dict[str, list[float]] = {"leading": [0.4, 0.16, 0.44], "level": [0.452, 0.194, 0.355],
+                                          "trailing": [0.2, 0.68, 0.12]}
 
 
 @dataclass
@@ -307,6 +307,8 @@ class RealEngine:
                            lever_changes=LeverChanges(build_up="direct"))
         evidence = [c.claim_id for c in adapted] + [c.claim_id for c in seen]
         options = (stay, second, third)
+        total = sum(probs)
+        probs = [p / total for p in probs]  # calibrated values are rounded; the contract needs an exact sum of 1
         cid = f"c_est_{team}"
         self._keep([Claim(claim_id=cid, type="opponent_estimate", team=team, metric="opponent_option_probabilities",
                           value=" / ".join(f"{o.label.en} {p:.0%}" for o, p in zip(options, probs, strict=True)),

@@ -101,9 +101,9 @@
     }
   },
   "report_level": {
-    "precision": 0.797,
-    "recall": 0.567,
-    "flagged": 128,
+    "precision": 0.771,
+    "recall": 0.672,
+    "flagged": 157,
     "real_traits": 180
   },
   "rule": "per statistic, the grid z with the best claim-level F1 on dev (ties: higher z)"

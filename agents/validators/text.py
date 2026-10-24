@@ -78,7 +78,8 @@ def format_value(claim: Claim, fld: str) -> str:
         if claim.metric.endswith("_share") and fld in SHARE_FIELDS:
             return f"{round(float(value) * 100)}%"
         if isinstance(value, float):
-            return f"{value:.2f}".rstrip("0").rstrip(".") if abs(value) < 100 else f"{value:.0f}"
+            text = f"{value:.2f}".rstrip("0").rstrip(".") if abs(value) < 100 else f"{value:.0f}"
+            return "0" if text == "-0" else text
     return str(value)
 
 

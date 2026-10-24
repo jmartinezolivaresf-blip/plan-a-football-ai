@@ -291,3 +291,12 @@ After the press rebalance (D-047) the lever diagnostic on dev shows the press he
 direct against a slow centre-back (+0.03); pressing-based exploits (short goal kicks, a full-back weak under
 pressure) still show no gain there, a limitation of the pressing model for Person A to review
 (`eval/results/dev/lever_effects.json` vs `lever_effects_before_D047.json`).
+
+**D-052 · A bug found in the demo, and a second "after" run on test.** Reviewing the demo's scouting report showed
+two goal-kick findings: the analyst's one-finding-per-theme rule keyed on the claim label, which differs between the
+raw and the controlled statistic, so it only de-duplicated channels. After the fix (key = team, theme, player, side
+for channels), dev report level went from precision 0.80 / recall 0.57 to 0.77 / 0.67; the thresholds did not
+change. Because the shipped code changed, the dependent dev calibration (opponent estimates) was re-run and the test
+evaluation was run again; this is disclosed here: test was run before the changes (0d51fc7), once after them
+(14ba1fd), and once more after this bug fix, which was found by reading the demo output, not the test numbers. The
+reported "after" numbers are from the last run. Also: Python wrote -0.002 as "-0"; now "0" (as the web already did).

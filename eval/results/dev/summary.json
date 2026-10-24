@@ -3,9 +3,9 @@
  "matches": 6,
  "dev": true,
  "E1": {
-  "precision": 0.785,
-  "recall": 0.567,
-  "flagged": 65,
+  "precision": 0.775,
+  "recall": 0.611,
+  "flagged": 71,
   "true_traits": 90,
   "scouted_teams": 30,
   "seasons": [
@@ -17,18 +17,18 @@
   ],
   "per_kind": {
    "weak_channel": {
-    "flagged": 21,
+    "flagged": 22,
     "correct": 15,
     "true": 17,
-    "precision": 0.714,
+    "precision": 0.682,
     "recall": 0.882
    },
    "late_fade": {
-    "flagged": 5,
-    "correct": 4,
+    "flagged": 8,
+    "correct": 6,
     "true": 20,
-    "precision": 0.8,
-    "recall": 0.2
+    "precision": 0.75,
+    "recall": 0.3
    },
    "back_post_weak": {
     "flagged": 5,
@@ -37,19 +37,19 @@
     "precision": 0.8,
     "recall": 0.222
    },
-   "gk_short_bias": {
-    "flagged": 13,
-    "correct": 12,
-    "true": 16,
-    "precision": 0.923,
-    "recall": 0.75
-   },
    "fb_low_press_resistance": {
     "flagged": 13,
     "correct": 9,
     "true": 10,
     "precision": 0.692,
     "recall": 0.9
+   },
+   "gk_short_bias": {
+    "flagged": 15,
+    "correct": 14,
+    "true": 16,
+    "precision": 0.933,
+    "recall": 0.875
    },
    "cb_low_pace": {
     "flagged": 8,
@@ -99,6 +99,10 @@
      [
       "KES",
       "gk_short_bias"
+     ],
+     [
+      "KES",
+      "late_fade"
      ]
     ],
     "truth": [
@@ -158,6 +162,10 @@
     "scouted": "MOR",
     "by": "ASH",
     "flagged": [
+     [
+      "MOR",
+      "back_post_weak"
+     ],
      [
       "MOR",
       "fb_low_press_resistance",
@@ -228,10 +236,6 @@
     "flagged": [
      [
       "WEX",
-      "back_post_weak"
-     ],
-     [
-      "WEX",
       "fb_low_press_resistance",
       "WEX-2"
      ],
@@ -385,6 +389,10 @@
      ],
      [
       "BRY",
+      "late_fade"
+     ],
+     [
+      "BRY",
       "weak_channel",
       "right"
      ]
@@ -414,6 +422,10 @@
       "WEX",
       "fb_low_press_resistance",
       "WEX-2"
+     ],
+     [
+      "WEX",
+      "gk_short_bias"
      ]
     ],
     "truth": [
@@ -605,6 +617,10 @@
      [
       "WEX",
       "back_post_weak"
+     ],
+     [
+      "WEX",
+      "gk_short_bias"
      ]
     ],
     "truth": [
@@ -665,6 +681,10 @@
      [
       "KES",
       "gk_short_bias"
+     ],
+     [
+      "KES",
+      "late_fade"
      ]
     ],
     "truth": [
@@ -699,6 +719,11 @@
      [
       "ASH",
       "gk_short_bias"
+     ],
+     [
+      "ASH",
+      "weak_channel",
+      "left"
      ]
     ],
     "truth": [
@@ -1148,10 +1173,10 @@
  },
  "E7": {
   "prob_on_actual_intent": {
-   "mean": 0.273,
+   "mean": 0.341,
    "ci90": [
-    0.208,
-    0.342
+    0.267,
+    0.421
    ],
    "n": 12
   },
@@ -1160,26 +1185,26 @@
  },
  "E8": {
   "ai_regret": {
-   "mean": 0.026,
+   "mean": 0.032,
    "ci90": [
-    0.009,
-    0.044
+    0.014,
+    0.051
    ],
    "n": 12
   },
   "always_stay_regret": {
-   "mean": 0.022,
+   "mean": 0.035,
    "ci90": [
-    0.01,
-    0.036
+    0.011,
+    0.066
    ],
    "n": 12
   },
   "random_choice_regret": {
-   "mean": 0.029,
+   "mean": 0.036,
    "ci90": [
-    0.019,
-    0.039
+    0.02,
+    0.055
    ],
    "n": 12
   },
@@ -1269,6 +1294,6 @@
    "target_inside_ci90": true
   }
  },
- "seconds": 226.1,
+ "seconds": 165.5,
  "scope": "all results are inside our simulator; synthetic data; not claims about real football"
 }

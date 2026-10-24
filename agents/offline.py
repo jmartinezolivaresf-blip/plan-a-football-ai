@@ -86,7 +86,9 @@ MAX_PLAYER_FINDINGS = 2
 def _one_per_theme(claims: list[dict]) -> list[dict]:
     best: dict[tuple, dict] = {}
     for c in claims:
-        key = (c.get("team"), THEME.get(c["metric"], c["metric"]), c.get("player_id"), c.get("label"))
+        theme = THEME.get(c["metric"], c["metric"])
+        side = (c.get("label") or "").split()[0] if theme == "channel" and c.get("label") else None
+        key = (c.get("team"), theme, c.get("player_id"), side)  # the label differs between statistics of a theme
         rank = (c["metric"] in PREFERRED, _strength(c))
         if key not in best or rank > (best[key]["metric"] in PREFERRED, _strength(best[key])):
             best[key] = c

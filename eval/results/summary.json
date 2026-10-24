@@ -3,9 +3,9 @@
  "matches": 6,
  "dev": false,
  "E1": {
-  "precision": 0.742,
-  "recall": 0.544,
-  "flagged": 66,
+  "precision": 0.687,
+  "recall": 0.633,
+  "flagged": 83,
   "true_traits": 90,
   "scouted_teams": 30,
   "seasons": [
@@ -16,19 +16,19 @@
    8005
   ],
   "per_kind": {
-   "gk_short_bias": {
-    "flagged": 13,
-    "correct": 9,
-    "true": 9,
-    "precision": 0.692,
-    "recall": 1.0
-   },
    "weak_channel": {
-    "flagged": 17,
-    "correct": 8,
+    "flagged": 24,
+    "correct": 10,
     "true": 17,
-    "precision": 0.471,
-    "recall": 0.471
+    "precision": 0.417,
+    "recall": 0.588
+   },
+   "late_fade": {
+    "flagged": 11,
+    "correct": 7,
+    "true": 16,
+    "precision": 0.636,
+    "recall": 0.438
    },
    "fb_low_press_resistance": {
     "flagged": 11,
@@ -37,12 +37,12 @@
     "precision": 0.818,
     "recall": 0.643
    },
-   "late_fade": {
-    "flagged": 4,
-    "correct": 3,
-    "true": 16,
-    "precision": 0.75,
-    "recall": 0.188
+   "gk_short_bias": {
+    "flagged": 14,
+    "correct": 9,
+    "true": 9,
+    "precision": 0.643,
+    "recall": 1.0
    },
    "cb_low_pace": {
     "flagged": 13,
@@ -52,11 +52,11 @@
     "recall": 0.684
    },
    "back_post_weak": {
-    "flagged": 8,
-    "correct": 7,
+    "flagged": 10,
+    "correct": 9,
     "true": 15,
-    "precision": 0.875,
-    "recall": 0.467
+    "precision": 0.9,
+    "recall": 0.6
    }
   },
   "reports": [
@@ -68,6 +68,11 @@
      [
       "HAR",
       "gk_short_bias"
+     ],
+     [
+      "HAR",
+      "weak_channel",
+      "right"
      ]
     ],
     "truth": [
@@ -95,6 +100,11 @@
      [
       "KES",
       "cb_low_pace"
+     ],
+     [
+      "KES",
+      "weak_channel",
+      "left"
      ],
      [
       "KES",
@@ -231,6 +241,10 @@
      ],
      [
       "WEX",
+      "late_fade"
+     ],
+     [
+      "WEX",
       "weak_channel",
       "right"
      ]
@@ -295,6 +309,10 @@
      [
       "KES",
       "cb_low_pace"
+     ],
+     [
+      "KES",
+      "late_fade"
      ]
     ],
     "truth": [
@@ -401,6 +419,10 @@
      ],
      [
       "BRY",
+      "gk_short_bias"
+     ],
+     [
+      "BRY",
       "weak_channel",
       "left"
      ]
@@ -428,6 +450,10 @@
     "flagged": [
      [
       "WEX",
+      "back_post_weak"
+     ],
+     [
+      "WEX",
       "gk_short_bias"
      ],
      [
@@ -464,6 +490,11 @@
      [
       "HAR",
       "late_fade"
+     ],
+     [
+      "HAR",
+      "weak_channel",
+      "left"
      ]
     ],
     "truth": [
@@ -498,6 +529,10 @@
       "KES",
       "fb_low_press_resistance",
       "KES-2"
+     ],
+     [
+      "KES",
+      "late_fade"
      ]
     ],
     "truth": [
@@ -654,6 +689,10 @@
      [
       "HAR",
       "gk_short_bias"
+     ],
+     [
+      "HAR",
+      "late_fade"
      ]
     ],
     "truth": [
@@ -678,6 +717,10 @@
     "scouted": "KES",
     "by": "HAR",
     "flagged": [
+     [
+      "KES",
+      "back_post_weak"
+     ],
      [
       "KES",
       "cb_low_pace"
@@ -714,6 +757,11 @@
      [
       "ASH",
       "weak_channel",
+      "left"
+     ],
+     [
+      "ASH",
+      "weak_channel",
       "right"
      ]
     ],
@@ -741,6 +789,10 @@
      [
       "MOR",
       "cb_low_pace"
+     ],
+     [
+      "MOR",
+      "late_fade"
      ],
      [
       "MOR",
@@ -777,6 +829,11 @@
      [
       "BRY",
       "gk_short_bias"
+     ],
+     [
+      "BRY",
+      "weak_channel",
+      "left"
      ]
     ],
     "truth": [
@@ -871,6 +928,11 @@
      [
       "KES",
       "late_fade"
+     ],
+     [
+      "KES",
+      "weak_channel",
+      "right"
      ]
     ],
     "truth": [
@@ -902,6 +964,10 @@
      [
       "ASH",
       "gk_short_bias"
+     ],
+     [
+      "ASH",
+      "late_fade"
      ],
      [
       "ASH",
@@ -943,6 +1009,11 @@
       "MOR",
       "weak_channel",
       "left"
+     ],
+     [
+      "MOR",
+      "weak_channel",
+      "right"
      ]
     ],
     "truth": [
@@ -968,6 +1039,10 @@
      [
       "BRY",
       "gk_short_bias"
+     ],
+     [
+      "BRY",
+      "late_fade"
      ]
     ],
     "truth": [
@@ -1017,11 +1092,11 @@
   "meaning": "share of flagged weaknesses that are real hidden traits / share of hidden traits flagged, on unseen seasons with random trait kinds"
  },
  "E2": {
-  "sign_agreement": 0.5,
-  "mean_abs_error_xpts": 0.022,
+  "sign_agreement": 0.333,
+  "mean_abs_error_xpts": 0.013,
   "sign_agreement_when_reference_is_clear": 0.5,
   "clear_cells": 2,
-  "ci90_coverage_of_reference": 0.833,
+  "ci90_coverage_of_reference": 0.667,
   "cells": 6,
   "R": [
    300,
@@ -1034,14 +1109,14 @@
      "press_height": "low"
     },
     "small": [
+     -0.0033333333333333335,
      -0.016666666666666666,
-     -0.04,
-     0.0033333333333333335
+     0.01
     ],
     "reference": [
-     0.0023333333333333335,
-     -0.004666666666666667,
-     0.009666666666666667
+     -0.007333333333333333,
+     -0.013333333333333334,
+     -0.0013333333333333333
     ]
    },
    {
@@ -1051,13 +1126,13 @@
     },
     "small": [
      0.0,
-     0.0,
-     0.0
+     -0.01,
+     0.01
     ],
     "reference": [
-     0.0,
-     0.0,
-     0.0
+     -0.005666666666666667,
+     -0.013350000000000004,
+     0.002349999999999985
     ]
    },
    {
@@ -1066,14 +1141,14 @@
      "press_height": "high"
     },
     "small": [
-     0.01,
-     -0.02,
-     0.03666666666666667
+     0.016666666666666666,
+     -0.0033333333333333335,
+     0.04
     ],
     "reference": [
      0.0016666666666666668,
-     -0.006333333333333333,
-     0.009349999999999985
+     -0.004333333333333333,
+     0.007666666666666666
     ]
    },
    {
@@ -1082,14 +1157,14 @@
      "press_height": "low"
     },
     "small": [
-     -0.016666666666666666,
-     -0.06683333333333337,
-     0.04
+     -0.013333333333333334,
+     -0.03333333333333333,
+     0.0
     ],
     "reference": [
-     -0.016666666666666666,
-     -0.03133333333333333,
-     -0.0016666666666666668
+     0.001,
+     -0.007350000000000003,
+     0.01
     ]
    },
    {
@@ -1098,14 +1173,14 @@
      "build_up": "direct"
     },
     "small": [
-     0.06,
-     -0.006666666666666667,
-     0.12666666666666668
+     -0.023333333333333334,
+     -0.06333333333333334,
+     0.016666666666666666
     ],
     "reference": [
-     -0.007333333333333333,
-     -0.029016666666666673,
-     0.017
+     0.0006666666666666666,
+     -0.011,
+     0.012683333333333317
     ]
    },
    {
@@ -1114,14 +1189,14 @@
      "press_height": "high"
     },
     "small": [
-     0.016666666666666666,
-     -0.03,
-     0.07
+     0.0,
+     -0.013333333333333334,
+     0.013333333333333334
     ],
     "reference": [
-     -0.019333333333333334,
-     -0.03666666666666667,
-     -0.0013166666666666817
+     -0.016,
+     -0.026,
+     -0.005333333333333333
     ]
    }
   ],
@@ -1129,8 +1204,8 @@
  },
  "E3": {
   "levers_citing_served_claims": 1.0,
-  "changed_levers": 28,
-  "plans_attacking_a_real_weakness": 0.917,
+  "changed_levers": 23,
+  "plans_attacking_a_real_weakness": 0.75,
   "plans": 12,
   "random_plan_baseline": 0.501,
   "meaning": "a plan counts if one lever targets a real hidden trait; the baseline is the share of all lever combinations that would also count"
@@ -1145,15 +1220,15 @@
  },
  "duel_interaction": {
   "benches": 12,
-  "share_without_dominant_option": 0.417,
+  "share_without_dominant_option": 0.5,
   "meaning": "how often a bench's best half-time answer depends on what the other bench does (true matrix); plan target: at least half"
  },
  "E7": {
   "prob_on_actual_intent": {
-   "mean": 0.467,
+   "mean": 0.4,
    "ci90": [
-    0.365,
-    0.563
+    0.31,
+    0.493
    ],
    "n": 12
   },
@@ -1162,26 +1237,26 @@
  },
  "E8": {
   "ai_regret": {
-   "mean": 0.034,
+   "mean": 0.028,
    "ci90": [
-    0.011,
-    0.062
+    0.013,
+    0.047
    ],
    "n": 12
   },
   "always_stay_regret": {
-   "mean": 0.062,
+   "mean": 0.045,
    "ci90": [
-    0.038,
-    0.089
+    0.031,
+    0.064
    ],
    "n": 12
   },
   "random_choice_regret": {
-   "mean": 0.051,
+   "mean": 0.029,
    "ci90": [
-    0.033,
-    0.069
+    0.02,
+    0.039
    ],
    "n": 12
   },
@@ -1271,6 +1346,6 @@
    "target_inside_ci90": true
   }
  },
- "seconds": 169.4,
+ "seconds": 171.2,
  "scope": "all results are inside our simulator; synthetic data; not claims about real football"
 }

@@ -7,13 +7,13 @@ simulator** on synthetic data with fictional clubs; nothing here is a claim abou
 
 | Test | What it measures | Result |
 |---|---|---|
-| E1 | Scouting reports vs hidden truth, 30 clubs in 5 unseen seasons with random trait kinds | precision 0.742, recall 0.544 (66 flagged, 90 real traits) |
-| E2 | Monte Carlo noise: R=300 vs R=3000 for 6 lever changes from one half-time state | mean abs error 0.022 xPts; 90% CI covers the reference 0.833; sign agreement 0.5 overall, 0.5 on the 2 cells whose reference interval excludes zero |
-| E3 | Plans that target a real hidden weakness (12 plans) | 0.917 vs 0.501 for a blind random plan; levers citing claims the staff retrieved 1.0 |
+| E1 | Scouting reports vs hidden truth, 30 clubs in 5 unseen seasons with random trait kinds | precision 0.687, recall 0.633 (83 flagged, 90 real traits) |
+| E2 | Monte Carlo noise: R=300 vs R=3000 for 6 lever changes from one half-time state | mean abs error 0.013 xPts; 90% CI covers the reference 0.667; sign agreement 0.333 overall, 0.5 on the 2 cells whose reference interval excludes zero |
+| E3 | Plans that target a real hidden weakness (12 plans) | 0.75 vs 0.501 for a blind random plan; levers citing claims the staff retrieved 1.0 |
 | E4 | Grounded text | reports valid at first try 1.0; cues dropped by the verifier 0; numbers written by the model 0 (by construction) |
-| E7 | Probability a bench gave to what the other bench really did | 0.467 (90% CI 0.365 to 0.563, n 12); uniform guess 0.333 |
-| E8 | Half-time regret (xPts lost vs the best answer to the other bench's real choice) | AI 0.034 (90% CI 0.011 to 0.062, n 12); always stay 0.062 (90% CI 0.038 to 0.089, n 12); random 0.051 (90% CI 0.033 to 0.069, n 12) |
-| Duel | Half-times where the best answer depends on the other bench (no dominant option in the true matrix) | 0.417 of 12 bench decisions |
+| E7 | Probability a bench gave to what the other bench really did | 0.4 (90% CI 0.31 to 0.493, n 12); uniform guess 0.333 |
+| E8 | Half-time regret (xPts lost vs the best answer to the other bench's real choice) | AI 0.028 (90% CI 0.013 to 0.047, n 12); always stay 0.045 (90% CI 0.031 to 0.064, n 12); random 0.029 (90% CI 0.02 to 0.039, n 12) |
+| Duel | Half-times where the best answer depends on the other bench (no dominant option in the true matrix) | 0.5 of 12 bench decisions |
 
 ## Before and after the evaluation improvements (same test seasons)
 
@@ -21,23 +21,23 @@ Before: commit 0d51fc7 (`eval/results/test_before.json`). After: this run. The c
 
 | Measure | Before | After |
 |---|---|---|
-| E1 precision / recall | 0.492 / 0.333 | 0.742 / 0.544 |
-| E3 plans targeting a real weakness (random plan) | 0.583 (0.501) | 0.917 (0.501) |
-| E7 probability on the other bench's real intent (uniform 0.333) | 0.379 | 0.467 |
-| E8 regret AI / always stay / random (xPts) | 0.004 / 0.073 / 0.062 | 0.034 / 0.062 / 0.051 |
-| Half-times without a dominant option | 0.25 | 0.417 |
+| E1 precision / recall | 0.492 / 0.333 | 0.687 / 0.633 |
+| E3 plans targeting a real weakness (random plan) | 0.583 (0.501) | 0.75 (0.501) |
+| E7 probability on the other bench's real intent (uniform 0.333) | 0.379 | 0.4 |
+| E8 regret AI / always stay / random (xPts) | 0.004 / 0.073 / 0.062 | 0.028 / 0.045 / 0.029 |
+| Half-times without a dominant option | 0.25 | 0.5 |
 | Season statistics in target range | 4 of 9 | 4 of 9 |
 
 ## E1 by trait kind
 
 | Trait kind | Flagged | Correct | Real | Precision | Recall |
 |---|---|---|---|---|---|
-| back_post_weak | 8 | 7 | 15 | 0.875 | 0.467 |
+| back_post_weak | 10 | 9 | 15 | 0.9 | 0.6 |
 | cb_low_pace | 13 | 13 | 19 | 1.0 | 0.684 |
 | fb_low_press_resistance | 11 | 9 | 14 | 0.818 | 0.643 |
-| gk_short_bias | 13 | 9 | 9 | 0.692 | 1.0 |
-| late_fade | 4 | 3 | 16 | 0.75 | 0.188 |
-| weak_channel | 17 | 8 | 17 | 0.471 | 0.471 |
+| gk_short_bias | 14 | 9 | 9 | 0.643 | 1.0 |
+| late_fade | 11 | 7 | 16 | 0.636 | 0.438 |
+| weak_channel | 24 | 10 | 17 | 0.417 | 0.588 |
 
 ## Season statistics of the simulator (evaluation season 8101, 24 matches)
 

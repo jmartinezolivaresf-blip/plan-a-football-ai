@@ -119,3 +119,29 @@ def test_correction_succeeds_before_fallback():
 def test_broken_fallback_raises():
     with pytest.raises(ValueError):
         tv.with_fallback(lambda e: "bad 1", CLAIMS, fallback="also bad 2")
+
+
+def test_negative_zero_is_written_as_zero():
+    from agents.validators.text import format_value
+    from contracts import Claim
+    c = Claim(claim_id="c_x", type="observed_tendency", metric="goal_kick_short_vs_open_play", value=-0.002)
+    assert format_value(c, "value") == "0"
+
+
+def test_analyst_keeps_one_finding_per_theme():
+    from agents.offline import scouting
+    base = {"type": "observed_tendency", "team": "HAR", "status": "sufficient", "n": 30}
+    claims = [
+        {**base, "claim_id": "c_a", "metric": "goal_kick_short_share", "value": 0.8, "league_ref": 0.5,
+         "interval_low": 0.7, "interval_high": 0.9},
+        {**base, "claim_id": "c_b", "metric": "goal_kick_short_vs_open_play", "value": 0.1, "league_ref": -0.1,
+         "interval_low": 0.0, "interval_high": 0.2, "label": "goal kicks short minus open-play short share"},
+        {**base, "claim_id": "c_c", "metric": "entries_conceded_share", "value": 0.5, "league_ref": 0.3,
+         "interval_low": 0.4, "interval_high": 0.6, "label": "left channel"},
+        {**base, "claim_id": "c_d", "metric": "forward_success_conceded_share", "value": 0.7, "league_ref": 0.6,
+         "interval_low": 0.65, "interval_high": 0.75, "label": "left channel"},
+        {**base, "claim_id": "c_e", "metric": "forward_success_conceded_share", "value": 0.7, "league_ref": 0.6,
+         "interval_low": 0.65, "interval_high": 0.75, "label": "right channel"},
+    ]
+    ids = [f.claim_id for f in scouting({"claims": claims}).findings]
+    assert sorted(ids) == ["c_b", "c_d", "c_e"]  # the controlled statistic wins its theme; sides stay separate

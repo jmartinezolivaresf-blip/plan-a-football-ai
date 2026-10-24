@@ -27,13 +27,13 @@ locally in two commands below, or watch `docs/media/walkthrough.mp4` (a silent w
    against the best answer to what the other bench really did, with an interval.
 
 <!-- DEMO_STORY -->
-**The demo match** (season 2026, match seed 226, agents: offline-rules/offline-rules): Kestrel 1-0 Harbourside at half-time, 1-2 at full time.
-- Plans: Kestrel "Measured approach", Harbourside "Exploit their weaknesses".
-- Kestrel changed its build-up at minute 25; the live detector flagged it at minute 28 (estimated change minute 19).
-- Half-time: Kestrel chose "Stay the course" (safe pick on its own believed matrix).
-- Half-time: Harbourside chose "Fresh legs up front" (best guess on its own believed matrix).
-- Kestrel: regret 0.236 xPts (paired 90% interval 0.14 to 0.336) against "Protect the lead"; "Protect the lead" was dominant in the true matrix.
-- Harbourside: regret 0.05 xPts (paired 90% interval -0.064 to 0.168) against "Back to short passing".
+**The demo match** (season 2026, match seed 205, agents: offline-rules/offline-rules): Kestrel 1-2 Harbourside at half-time, 2-3 at full time.
+- Plans: Kestrel "Exploit their weaknesses", Harbourside "Exploit their weaknesses".
+- Kestrel changed its build-up at minute 25; the live detector flagged it at minute 52 (estimated change minute 34).
+- Half-time: Kestrel chose "Fresh legs up front" (best guess on its own believed matrix).
+- Half-time: Harbourside chose "Stay the course" (safe pick on its own believed matrix).
+- Kestrel: regret 0.078 xPts (paired 90% interval 0.034 to 0.126) against "Stay the course".
+- Harbourside: no regret, its choice was the best answer to the other bench.
 <!-- /DEMO_STORY -->
 
 Deep links open any moment: `?t=45:00&reveal=1&mode=analyst`, `?t=45:00&reveal=1&matrix=believed`, `?t=90:00`,
@@ -73,13 +73,13 @@ Full tables: [`eval/results/RESULTS.md`](eval/results/RESULTS.md) (generated fro
 <!-- RESULTS_HEADLINE -->
 | Test | What it measures | Result |
 |---|---|---|
-| E1 | Scouting reports vs hidden truth, 30 clubs in 5 unseen seasons with random trait kinds | precision 0.742, recall 0.544 (66 flagged, 90 real traits) |
-| E2 | Monte Carlo noise: R=300 vs R=3000 for 6 lever changes from one half-time state | mean abs error 0.022 xPts; 90% CI covers the reference 0.833; sign agreement 0.5 overall, 0.5 on the 2 cells whose reference interval excludes zero |
-| E3 | Plans that target a real hidden weakness (12 plans) | 0.917 vs 0.501 for a blind random plan; levers citing claims the staff retrieved 1.0 |
+| E1 | Scouting reports vs hidden truth, 30 clubs in 5 unseen seasons with random trait kinds | precision 0.687, recall 0.633 (83 flagged, 90 real traits) |
+| E2 | Monte Carlo noise: R=300 vs R=3000 for 6 lever changes from one half-time state | mean abs error 0.013 xPts; 90% CI covers the reference 0.667; sign agreement 0.333 overall, 0.5 on the 2 cells whose reference interval excludes zero |
+| E3 | Plans that target a real hidden weakness (12 plans) | 0.75 vs 0.501 for a blind random plan; levers citing claims the staff retrieved 1.0 |
 | E4 | Grounded text | reports valid at first try 1.0; cues dropped by the verifier 0; numbers written by the model 0 (by construction) |
-| E7 | Probability a bench gave to what the other bench really did | 0.467 (90% CI 0.365 to 0.563, n 12); uniform guess 0.333 |
-| E8 | Half-time regret (xPts lost vs the best answer to the other bench's real choice) | AI 0.034 (90% CI 0.011 to 0.062, n 12); always stay 0.062 (90% CI 0.038 to 0.089, n 12); random 0.051 (90% CI 0.033 to 0.069, n 12) |
-| Duel | Half-times where the best answer depends on the other bench (no dominant option in the true matrix) | 0.417 of 12 bench decisions |
+| E7 | Probability a bench gave to what the other bench really did | 0.4 (90% CI 0.31 to 0.493, n 12); uniform guess 0.333 |
+| E8 | Half-time regret (xPts lost vs the best answer to the other bench's real choice) | AI 0.028 (90% CI 0.013 to 0.047, n 12); always stay 0.045 (90% CI 0.031 to 0.064, n 12); random 0.029 (90% CI 0.02 to 0.039, n 12) |
+| Duel | Half-times where the best answer depends on the other bench (no dominant option in the true matrix) | 0.5 of 12 bench decisions |
 <!-- /RESULTS_HEADLINE -->
 
 How these were obtained: every threshold and simulator knob was chosen on **dev** seasons only (random trait kinds,
@@ -112,7 +112,7 @@ make web-dev      # http://localhost:5173 with the committed demo bundle, no bac
 Rebuild everything from scratch (offline mode, about a minute per match on a laptop):
 
 ```bash
-make bundle SEED=226        # season -> pre-match -> first half -> duel -> second half -> web/public/match_bundle.json
+make bundle SEED=205        # season -> pre-match -> first half -> duel -> second half -> web/public/match_bundle.json
 make seed-search N=48       # how the demo seed was chosen (criteria in pipeline/build.py, STORY_CRITERIA)
 make eval                   # calibrations on dev seasons, E1-E8, eval/results/RESULTS.md
 make check                  # lint, schemas, fixtures, tests
