@@ -27,13 +27,13 @@ locally in two commands below, or watch `docs/media/walkthrough.mp4` (a silent w
    against the best answer to what the other bench really did, with an interval.
 
 <!-- DEMO_STORY -->
-**The demo match** (season 2026, match seed 205, agents: offline-rules/offline-rules): Kestrel 1-2 Harbourside at half-time, 2-3 at full time.
-- Plans: Kestrel "Exploit their weaknesses", Harbourside "Exploit their weaknesses".
-- Kestrel changed its build-up at minute 25; the live detector flagged it at minute 52 (estimated change minute 34).
-- Half-time: Kestrel chose "Fresh legs up front" (best guess on its own believed matrix).
-- Half-time: Harbourside chose "Stay the course" (safe pick on its own believed matrix).
-- Kestrel: regret 0.078 xPts (paired 90% interval 0.034 to 0.126) against "Stay the course".
-- Harbourside: no regret, its choice was the best answer to the other bench.
+**The demo match** (season 2026, match seed 236, agents: offline-rules/offline-rules): Kestrel 2-0 Harbourside at half-time, 2-2 at full time.
+- Plans: Kestrel "Measured approach", Harbourside "Exploit their weaknesses".
+- Kestrel changed its build-up at minute 25; the live detector flagged it at minute 37 (estimated change minute 26).
+- Half-time: Kestrel chose "Stay the course" (safe pick on its own believed matrix).
+- Half-time: Harbourside chose "Stay the course" (best guess on its own believed matrix).
+- Kestrel: regret 0.076 xPts (paired 90% interval 0.012 to 0.144) against "Protect the lead"; "Protect the lead" was dominant in the true matrix.
+- Harbourside: regret 0.03 xPts (paired 90% interval -0.032 to 0.098) against "Back to short passing".
 <!-- /DEMO_STORY -->
 
 Deep links open any moment: `?t=45:00&reveal=1&mode=analyst`, `?t=45:00&reveal=1&matrix=believed`, `?t=90:00`,
@@ -112,7 +112,7 @@ make web-dev      # http://localhost:5173 with the committed demo bundle, no bac
 Rebuild everything from scratch (offline mode, about a minute per match on a laptop):
 
 ```bash
-make bundle SEED=205        # season -> pre-match -> first half -> duel -> second half -> web/public/match_bundle.json
+make bundle SEED=236        # season -> pre-match -> first half -> duel -> second half -> web/public/match_bundle.json
 make seed-search N=48       # how the demo seed was chosen (criteria in pipeline/build.py, STORY_CRITERIA)
 make eval                   # calibrations on dev seasons, E1-E8, eval/results/RESULTS.md
 make check                  # lint, schemas, fixtures, tests

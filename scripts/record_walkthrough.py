@@ -26,12 +26,24 @@ PORT = 4179
 W, H = 1920, 1080
 
 
+def _cue_seconds(template: str) -> int | None:
+    import json
+    bundle = json.loads((ROOT / "web" / "dist" / "match_bundle.json").read_text())
+    times = [c["t_match"] for c in bundle["cues"] if c["template"] == template]
+    return None if not times else int(times[0].split(":")[0]) * 60 + int(times[0].split(":")[1])
+
+
 def shots() -> list[tuple[str, float, str | None]]:
     """(query, seconds on screen, screenshot name or None), in the order of the video script."""
     out: list[tuple[str, float, str | None]] = [("t=0:00&mode=analyst", 4.0, "01-plans-sealed"),
                                                 ("tab=desk&mode=analyst", 5.0, "02-scouting-and-plan")]
-    for s in range(24 * 60, 29 * 60 + 31, 15):  # the Plan B and the live detector, at 15 match-seconds a frame
-        out.append((f"t={s // 60}:{s % 60:02d}&mode=analyst", 0.25, "03-live-detector" if s == 29 * 60 else None))
+    start = (_cue_seconds("plan_b_fired") or 24 * 60) - 30
+    end = (_cue_seconds("adaptation_detected") or start + 300) + 20
+    step = max(15, (end - start) // 28)  # the Plan B and the live detector in about 28 frames
+    for s in range(start, end + 1, step):
+        last = s + step > end
+        out.append((f"t={s // 60}:{s % 60:02d}&mode=analyst", 2.0 if last else 0.25,
+                    "03-live-detector" if last else None))
     out += [("t=45:00&mode=analyst", 3.0, "04-duel-rooms"),
             ("t=45:00&reveal=1&mode=analyst", 6.0, "05-duel-true-matrix"),
             ("t=45:00&reveal=1&mode=analyst&matrix=believed", 5.0, "06-duel-believed-matrix"),

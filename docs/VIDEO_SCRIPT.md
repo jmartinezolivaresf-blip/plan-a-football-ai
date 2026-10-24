@@ -11,7 +11,7 @@ Deep links used for each shot (append to the demo URL):
 |---|---|
 | A | `?t=0:00` |
 | B | `?tab=desk&mode=analyst` |
-| C | `?t=24:30&mode=analyst` then play at 30x to 29:00 |
+| C | `?t=24:30&mode=analyst` then play at 30x to 38:00 |
 | D | `?t=45:00&mode=analyst` (press "Reveal both choices", then toggle "What your bench believed") |
 | E | `?t=90:00&mode=analyst` |
 | F | `?tab=desk&t=90:00&mode=analyst` (scroll to the agent trace and the validation panel) |
@@ -22,16 +22,16 @@ Deep links used for each shot (append to the demo URL):
 |---|---|---|
 | 0-10 s | A: both plan cards, seal badges turning to "Seal verified" | "Every manager has a Plan A. The other manager has an answer. This is the Battle of the Benches: two AI coaching staffs, one match, and neither can see the other's room." |
 | 10-30 s | B: scouting report with evidence chips, then the sealed plan with its valuation | "Each staff is a team of agents built with Microsoft Agent Framework. The analyst scouts eight past matches through its own MCP tools, and every finding is a claim with a sample size and a league reference. The manager turns claims into a plan, values it in simulation against its guess of the opponent, and seals it before kick-off. Your browser checks the seal." |
-| 30-48 s | C: Plan Tracker lower third, "Plan B fired", then "Adaptation detected" | "Live, the Plan Tracker follows each plan's KPIs against what the staff expected. At minute 25 Kestrel's Plan B switches to direct play, and three minutes later the detector sees it in the data: long balls from their own half up from 7% to 39%." |
-| 48-80 s | D: two rooms, two seals, reveal; real matrix; toggle to the believed matrix | "Half-time. Kestrel lead one-nil. Both benches choose at the same time from three options, blind to each other, and seal their choice. Kestrel price the options with their own beliefs: staying the course looks safe. Only after both seals do we price the real matrix. In reality, protecting the lead was the best move whatever Harbourside did." |
-| 80-95 s | E: full-time panel | "Harbourside's fresh legs turn it around: one-two. Kestrel's call left 0.24 expected points on the table, with a likely range of 0.14 to 0.34. One replay is an anecdote; the matrix is the evidence." |
+| 30-48 s | C: Plan Tracker lower third, "Plan B fired", then "Adaptation detected" | "Live, the Plan Tracker follows each plan's KPIs against what the staff expected. At minute 25 Kestrel's Plan B switches to direct play, and the detector sees it in the data: long balls from their own half up from 16% to 56%." |
+| 48-80 s | D: two rooms, two seals, reveal; real matrix; toggle to the believed matrix | "Half-time. Kestrel lead two-nil. Both benches choose at the same time from three options, blind to each other, and seal their choice. Kestrel price the options with their own beliefs: staying the course looks safe. Only after both seals do we price the real matrix. In reality, protecting the lead was the best move whatever Harbourside did." |
+| 80-95 s | E: full-time panel | "Harbourside come back to two-two. Kestrel's call left 0.08 expected points on the table, with a likely range of 0.01 to 0.14. One replay is an anecdote; the matrix is the evidence." |
 | 95-115 s | F: agent trace, then the validation panel | "Every number you saw is a claim. Agents write placeholders, never digits, and code rejects any text that is not grounded. On a season we never inspected, the AI benches' half-time calls lost almost nothing against the best answer to the other bench, far less than always staying the course or choosing at random. Synthetic data, fictional clubs, values inside our simulator." |
 | 115-118 s | Title card | "Plan A. The Battle of the Benches." |
 
 ## Before recording
 
-- [ ] Bundle frozen and its README story block re-generated; narration numbers match it (7%, 39%, minute 25 and 28,
-      0.24 and 0.14 to 0.34, scores 1-0 and 1-2).
+- [ ] Bundle frozen (seed 236) and its README story block re-generated; narration numbers match the cues (16%, 56%,
+      minute 25, 0.08 and 0.01 to 0.14, scores 2-0 and 2-2).
 - [ ] Shot F matches `eval/results/RESULTS.md` E8 (AI regret well below "always stay" and "random"). Do not quote
       E3 as a strong result: on the unseen season it is close to the random-plan baseline.
 - [ ] If the bundle was built with Foundry, say so in shot B ("models on Microsoft Foundry"); if it is the offline

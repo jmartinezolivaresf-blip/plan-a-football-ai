@@ -24,10 +24,9 @@ does the broadcast price the real payoff matrix, so viewers see a decision, the 
 with an interval.
 
 Every number on screen is a claim with its sample size and likely range; agents write placeholders, never digits,
-and code rejects ungrounded text. Inside our simulator, on seasons nobody inspected: scouting reports flag real
-hidden weaknesses with 0.74 precision and 0.54 recall, 11 of 12 sealed plans target a real weakness (a random plan:
-about half), and benches put 0.47 probability on the other bench's real move (chance: 0.33). All data is synthetic;
-clubs and players are fictional.
+and code rejects ungrounded text. Inside our simulator, on seasons nobody inspected, scouting reports flag real
+hidden weaknesses with 0.69 precision and 0.63 recall, and 9 of 12 sealed plans target a real weakness (a random
+plan: about half). All data is synthetic; clubs and players are fictional.
 
 ## Why multi-agent
 
