@@ -8,7 +8,10 @@ next to what was really true. Built for the Microsoft + Premier League *Inside t
 > **Data statement.** All data is synthetic. Clubs and players are fictional. No Premier League data, names or marks
 > are used. Every number is produced inside our own simulator and is not a prediction about real football.
 
-**Demo:** <!-- DEMO_URL --> not deployed yet (see `infra/AZURE_PLAN.md`). Run it locally in two commands below.
+**Demo:** <!-- DEMO_URL --> not deployed yet (ready for Azure Static Web Apps, `infra/AZURE_PLAN.md`). Run it
+locally in two commands below, or watch `docs/media/walkthrough.mp4` (a silent walkthrough recorded from the app).
+
+![Half-time duel: what each bench believed vs the real payoff matrix](docs/media/05-duel-true-matrix.png)
 
 ## What you see
 
@@ -33,13 +36,18 @@ next to what was really true. Built for the Microsoft + Premier League *Inside t
 - Harbourside: regret 0.05 xPts (paired 90% interval -0.064 to 0.168) against "Back to short passing".
 <!-- /DEMO_STORY -->
 
-Deep links open any moment: `?t=45:00&reveal=1&mode=analyst`, `?t=90:00`, `?tab=desk&lang=es&club=HAR`.
+Deep links open any moment: `?t=45:00&reveal=1&mode=analyst`, `?t=45:00&reveal=1&matrix=believed`, `?t=90:00`,
+`?tab=desk&section=validation`, `?tab=desk&lang=es&club=HAR`.
 
 ## Why it is agentic
 
+Full design: [`docs/MULTI_AGENT.md`](docs/MULTI_AGENT.md). Every decision of the demo with the claims behind it:
+[`docs/AGENT_EVIDENCE.md`](docs/AGENT_EVIDENCE.md) (generated from the bundle).
+
 - **Two adversarial teams of agents with private information.** Each staff only reaches the world through MCP
   tools scoped to its club; the scope is fixed by the host, never by the request, and the other bench's options,
-  matrix and choice are unreachable (tested).
+  matrix and choice are unreachable (tested). A bench anticipates the other from what it saw in the first half,
+  never from the other team's real settings.
 - **Commitments.** Plans and half-time choices are sealed before anything that could change them is revealed.
 - **Grounded by construction.** Agents write `{claim_id.field}` placeholders, never digits; code fills them from
   claims and rejects any text that is not grounded. Plans must cite claims the staff actually retrieved.
@@ -52,8 +60,8 @@ Deep links open any moment: `?t=45:00&reveal=1&mode=analyst`, `?t=90:00`, `?tab=
 |---|---|
 | Microsoft Agent Framework (`agent-framework-core` 1.23.0): analyst, manager and duel-bench agents with MCP tools | used in every run |
 | Model Context Protocol (MCP SDK 2.3.0): one scoped server per club and one for the broadcast | used in every run |
-| Microsoft Foundry (`agent-framework-foundry`, Entra ID, no keys): `AGENTS_MODE=foundry` | implemented; **not yet called against a real deployment** (needs an approved Azure resource, `infra/AZURE_PLAN.md`) |
-| Azure Static Web Apps (Free) for the public demo | planned, needs approval |
+| Microsoft Foundry (`agent-framework-foundry` 1.15.0, Entra ID pinned to one tenant, no keys): `AGENTS_MODE=foundry` | code path verified against a local mock of the Responses API (`tests/test_foundry_contract.py`); **no real Foundry deployment has been called yet** (`docs/FOUNDRY.md`) |
+| Azure Static Web Apps (Free) for the public demo | config and guarded deploy script ready and checked in the SWA emulator; **not deployed yet** (`infra/AZURE_PLAN.md`) |
 
 Without Azure, the same agents run with a deterministic offline rules client (`AGENTS_MODE=offline`), which is what
 CI and the current demo bundle use; the bundle says which model produced it (`eval.build.models`).
@@ -74,9 +82,23 @@ Full tables: [`eval/results/RESULTS.md`](eval/results/RESULTS.md) (generated fro
 | Duel | Half-times where the best answer depends on the other bench (no dominant option in the true matrix) | 0.417 of 12 bench decisions |
 <!-- /RESULTS_HEADLINE -->
 
-The scouting thresholds were developed on season 2026 (the demo season); E1 runs on seasons whose trait kinds were
-drawn at random and never inspected. Simulator knobs were calibrated on dev seasons only. Disclosures:
-`docs/DECISIONS.md` (D-036, D-038, D-042, D-043).
+How these were obtained: every threshold and simulator knob was chosen on **dev** seasons only (random trait kinds,
+seeds 9001-9015 and 11-14); the **test** seasons (8001-8005 for E1, 8101 for the matches) were run once before and
+once after the changes. Before/after table and every calibration: [`eval/results/RESULTS.md`](eval/results/RESULTS.md).
+One change that made results worse on dev (a "what would they pick" step for E7) was measured and removed (D-051).
+
+## Limitations
+
+- **Synthetic world.** Clubs, players, hidden weaknesses and matches come from our simulator. The results show the
+  agents are grounded, reproducible and better than blind baselines *inside that world*; they say nothing about real
+  football or real coaches.
+- **A simple match model.** A zone-based simulator with five levers. Its season statistics are near, not always
+  inside, the target ranges (passes and pass accuracy are off; 24-match samples are noisy). Pressing-based exploits
+  do not pay off in it yet (D-051), and many half-time matrices still have a dominant option.
+- **Small evaluation samples.** E7/E8 rest on 12 half-time decisions per run; intervals are reported.
+- **Offline agents in the demo.** The committed demo was produced by the deterministic rules client. A Foundry run
+  will change texts, plans and possibly the story; the bundle records which model produced it.
+- **No live backend.** The public demo replays a precomputed bundle; the MCP server is not exposed.
 
 ## Run it
 
@@ -96,8 +118,9 @@ make eval                   # calibrations on dev seasons, E1-E8, eval/results/R
 make check                  # lint, schemas, fixtures, tests
 ```
 
-With Microsoft Foundry: `cp .env.example .env`, set `FOUNDRY_PROJECT_ENDPOINT` and `FOUNDRY_MODEL_SMALL`, `az login`,
-then `uv run python -m agents.foundry_ping` and `AGENTS_MODE=foundry make bundle SEED=226`.
+With Microsoft Foundry (needs your own subscription, see `docs/FOUNDRY.md`): set `FOUNDRY_PROJECT_ENDPOINT`,
+`FOUNDRY_MODEL_SMALL` and `FOUNDRY_TENANT_ID` in `.env`, `az login --tenant <tenant>`, then `make foundry-check`
+(no network), `make foundry-ping` (one call) and `AGENTS_MODE=foundry make bundle SEED=<seed>`.
 
 ## Layout
 
@@ -110,7 +133,8 @@ agents/       Microsoft Agent Framework agents, offline rules client, validators
 pipeline/     The only holder of the hidden truth: builds the demo bundle, seed search
 eval/         Calibrations, E1-E8, results
 web/          React + TypeScript + Vite app (static)
-docs/         Architecture, decisions, plan, submission checklist, video script
+docs/         Architecture, multi-agent design, decisions, Foundry, submission, video script, media
+infra/        Guarded Azure scripts (Foundry, Static Web Apps, teardown)
 ```
 
 Architecture: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md). Every design decision and disclosure:
