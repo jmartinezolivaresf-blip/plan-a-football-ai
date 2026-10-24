@@ -27,7 +27,7 @@ from contracts.sealing import plan_digest, verify_plan
 from mcp_server.policy import ScopedTools
 from mcp_server.server import DEMO_MATCH, build_server
 
-from .clients import ModelChoice, chat_client, model_choice
+from .clients import ChatClients, ModelChoice, model_choice
 from .models import (
     CandidateDraft,
     CandidateResult,
@@ -72,6 +72,7 @@ class Staff:
                                  visible_minute=visible_minute)
         self.server = build_server(self.tools)
         self.choice = choice
+        self.chat = ChatClients(choice)
         self.workflow = workflow
         self.trace: list[TraceStep] = []
         self._actor = "analyst"
@@ -115,9 +116,12 @@ class Staff:
         if self.choice.mode == "foundry":
             tools = [MCPStdioTool(name=f"plan-a-{self.team}", mcp_client=client,
                                   allowed_tools=SCOUTING_TOOLS if role == "analyst" else None)]
-        agent = Agent(chat_client(self.choice, role), instructions, name=f"{self.team}-{role}", tools=tools)
+        agent = Agent(self.chat.get(role), instructions, name=f"{self.team}-{role}", tools=tools)
         t0 = time.perf_counter()
-        resp = await agent.run(prompt, options={"response_format": fmt})
+        try:
+            resp = await agent.run(prompt, options={"response_format": fmt})
+        finally:
+            await agent.close()  # closes the MCP tool contexts the run opened; the shared chat client stays open
         self._flush()
         model = self.choice.analyst if role == "analyst" else self.choice.manager
         self._step(role, None, {"response_format": fmt.__name__}, [], int((time.perf_counter() - t0) * 1000), "ok",
@@ -295,9 +299,12 @@ def _template_scouting(claims: dict[str, Claim]) -> ScoutingDraft:
 # ---------------------------------------------------------------------------- orchestration
 async def run_staff(engine: EngineAPI, team: str, home: str, away: str, choice: ModelChoice) -> PrematchResult:
     staff = Staff(engine, team, home, away, choice)
-    async with Client(staff.server) as client:
-        report = await staff.scout(client)
-        candidates, chosen, reason, used_template = await staff.plan(client, report)
+    try:
+        async with Client(staff.server) as client:
+            report = await staff.scout(client)
+            candidates, chosen, reason, used_template = await staff.plan(client, report)
+    finally:
+        await staff.chat.aclose()
     return PrematchResult(team=team, opponent=staff.opp, report=report, candidates=candidates, chosen=chosen,
                           chosen_reason=reason, used_template=used_template, traces=staff.trace,
                           model=f"{choice.analyst}/{choice.manager}")
@@ -317,7 +324,9 @@ def engine_meta(engine) -> tuple[str, str]:
 
 
 def main(argv: list[str] | None = None) -> int:
+    from agents.settings import load_env
     from mcp_server.engine_factory import get_engine
+    load_env()
     ap = argparse.ArgumentParser(prog="python -m agents.prematch")
     ap.add_argument("--mode", choices=["offline", "foundry"], default=None)
     ap.add_argument("--out", default=str(Path(__file__).parent / "_out" / "prematch.json"))

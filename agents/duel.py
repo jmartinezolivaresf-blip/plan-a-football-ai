@@ -125,6 +125,12 @@ class DuelBench:
         self.validation: list[list[str]] = []
 
     async def decide(self) -> TeamDuelPrivate:
+        try:
+            return await self._decide()
+        finally:
+            await self.staff.chat.aclose()
+
+    async def _decide(self) -> TeamDuelPrivate:
         s = self.staff
         async with Client(s.server) as client:
             s._actor = "analyst"

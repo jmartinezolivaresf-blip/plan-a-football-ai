@@ -220,3 +220,19 @@ integration test fixture uses this path and a test checks it gives the same bund
 and option, all public in the repo, so the three possible commits could be recomputed and the choice read before the
 reveal. Salts now come from `secrets` (`contracts.sealing.new_salt`). Bundles stay reproducible except for salts,
 commits and wall-clock fields; the determinism test excludes exactly those.
+
+## H3, readiness (2026-10-24)
+
+**D-046 · Foundry and Azure readiness without touching Azure.** The dev machine's CLI is signed in only to corporate
+subscriptions, which must not be used. (1) `AGENTS_MODE=foundry` needs `FOUNDRY_PROJECT_ENDPOINT`,
+`FOUNDRY_MODEL_SMALL` and `FOUNDRY_TENANT_ID`; the credential is `AzureCliCredential` pinned to that tenant, and the
+Microsoft corporate tenant (plus any in `FOUNDRY_DENY_TENANTS`) is refused before any client exists. (2) The Foundry
+path is tested end to end against a local mock of the Responses API: the real `FoundryChatClient`, `Agent` and the
+staff's scoped MCP tools run the pre-match and half-time workflows (`tests/test_foundry_contract.py`). This found
+three bugs that offline mode could not show: `tenacity` missing for MCP tools (first Foundry turn would crash), a
+client and an unclosed credential per call, and MCP subscriptions outliving the client (`agent.close()` after each
+turn). (3) `.env` is loaded by every entry point (values already set win). (4) `infra/*.sh` always pass an explicit
+`PLAN_A_SUBSCRIPTION_ID`, refuse the corporate tenant and any subscription in the git-ignored `infra/deny.local`, and
+need `PLAN_A_APPROVED=yes` for billable steps (`tests/test_infra_guard.py`, fake `az`). (5) Static Web Apps Free
+config with SPA fallback, MIME types, caching and security headers, verified in the official emulator on loopback.
+Nothing was created, deployed or called in Azure.

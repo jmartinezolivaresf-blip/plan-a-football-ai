@@ -1,52 +1,59 @@
 # Azure plan (needs explicit approval before anything is created)
 
-Status on 2026-10-23: **nothing provisioned**. Azure CLI 2.91.0 is installed on the dev machine but there is no
-Azure session (`az account show` asks for `az login`), so no subscription, quota or model availability has been
-inspected. No `.env` exists. Everything below is a proposal.
+Status on 2026-10-24: **nothing provisioned, nothing deployed.** The dev machine's Azure CLI is signed in to
+corporate subscriptions that must not be used for this project: no resources, no deployments, no model calls. The
+scripts below refuse any subscription in the Microsoft corporate tenant and any listed in the git-ignored
+`infra/deny.local` (or `PLAN_A_DENY_SUBSCRIPTIONS`), never fall back to the CLI's default subscription, and stop
+before any billable step unless `PLAN_A_APPROVED=yes` (D-046, tested in `tests/test_infra_guard.py` with a fake
+`az`).
 
-## Step 1: Microsoft Foundry (the agents' model)
+## What gets created, and what can cost money
 
-| # | Resource | Why | Cost source |
+| # | Resource | Script | Cost |
 |---|---|---|---|
-| 1 | Resource group `rg-plan-a` | Container for everything; deleted after judging | Free |
-| 2 | Microsoft Foundry resource + project | Model deployment and project endpoint | No fixed fee; usage only |
-| 3 | One model deployment, Standard (a small `gpt-4.1-mini`-class model) | Analyst, manager, duel bench | Pay per token |
-| 4 | (optional) Application Insights + Log Analytics | Agent traces in Foundry | Per GB ingested (free monthly allowance) |
+| 1 | Resource group `rg-plan-a` | both | free |
+| 2 | Static Web App, **Free** plan (public demo) | `infra/swa_deploy.sh` | free plan; the script stops if the plan is not Free |
+| 3 | Foundry resource (AIServices S0) + project | `infra/foundry_provision.sh` | no fixed fee |
+| 4 | Model deployment `gpt-4.1-mini` Global Standard | `infra/foundry_provision.sh` | **pay per token** (docs/FOUNDRY.md: ~23k input + 3.4k output tokens per demo build) |
+| 5 | Role assignment "Azure AI User" for the signed-in user | `infra/foundry_provision.sh` | free |
+| - | Not created: Container Apps, App Service, databases, Application Insights, public MCP server | | |
 
-- **Region:** one where the chosen model is offered in Foundry (Sweden Central or East US 2 are common); checked
-  read-only with `az` before creating anything.
-- **Expected usage:** a pre-match run is ~6 model calls of a few thousand tokens; a duel adds ~2 per bench. The demo
-  bundle plus the 6-match evaluation is in the order of 100 calls. CI never calls Azure. Check the per-token price of
-  the chosen model on the Azure pricing page before approving.
-- **Reuse:** an existing Foundry project works too: only the project endpoint and a deployment name are needed.
-- A budget alert on the resource group (for example 20 USD) is recommended.
+Only item 4 generates charges. Recommended: a budget alert on the resource group (Cost Management) before step 4.
 
-## Step 2: public demo (judging until 10 Nov 2026)
+## Public demo: Azure Static Web Apps (Free)
 
-| # | Resource | Why | Cost source |
-|---|---|---|---|
-| 5 | Azure Static Web Apps, **Free** plan | Serves the web app and the precomputed `match_bundle.json` | Free plan |
-
-- Anonymous read access is intended (judges open it without a login). It serves static files only: the synthetic
-  bundle, no keys, no tokens, no backend.
-- **No public MCP server.** The MCP server has no client authentication (D-026), so it stays on loopback and is not
-  deployed. The demo shows the agents' recorded tool calls (traces) from the bundle instead.
-
-## Permissions
-
-- To create: Contributor (or Owner) on the subscription or on the resource group.
-- To call the model keylessly (Entra ID): **Azure AI User** (or Cognitive Services OpenAI User) on the Foundry
-  resource for the signed-in user. No API keys in the repo.
-
-## Steps once approved
+- The app is fully static: `web/dist` = `index.html`, two hashed assets, `favicon.svg`, the frozen
+  `match_bundle.json` and `staticwebapp.config.json`. **No backend, no API, no keys**; the browser verifies seals
+  with Web Crypto.
+- `web/public/staticwebapp.config.json`: SPA fallback to `index.html` (deep links like `/?t=45:00` work),
+  `application/json` for the bundle, long cache for hashed assets, 5-minute cache for the bundle, the config file and
+  `/.auth/*` return 404, and security headers (CSP `default-src 'self'`, no framing, `nosniff`, no referrer).
+- Verified locally with the official SWA CLI emulator (`npx swa start dist --host 127.0.0.1`): routes, MIME types,
+  headers, deep links, and the app renders with no CSP violations; seals verify.
+- Anonymous read access is intended (judges, no login) and the content is synthetic. The deploy script checks the
+  live site anonymously (home page, bundle, CSP header) after uploading.
+- **The MCP server is not deployed:** it has no client authentication (D-026). The demo shows recorded tool calls.
 
 ```bash
-az login                                   # pick the subscription you approve
-# read-only checks first: az account show, model availability in the chosen region
-# create resources (portal or CLI), then:
-cp .env.example .env                       # FOUNDRY_PROJECT_ENDPOINT, FOUNDRY_MODEL_SMALL (and _LARGE)
-uv run python -m agents.foundry_ping       # real call; prints model, latency, reply (no secrets)
-AGENTS_MODE=foundry make bundle SEED=223   # demo bundle with the real model
+az login --tenant <HACKATHON_TENANT_ID>
+export PLAN_A_SUBSCRIPTION_ID=<HACKATHON_SUBSCRIPTION_ID>
+infra/swa_deploy.sh --check                 # guards + production build + bundle checks, creates nothing
+PLAN_A_APPROVED=yes infra/swa_deploy.sh     # group + Free static web app + deploy + anonymous verification
 ```
 
-Decisions to make: subscription, region, model, Application Insights yes/no, and approval of step 2.
+Optional settings (env or `.env`): `PLAN_A_RESOURCE_GROUP`, `PLAN_A_LOCATION`, `PLAN_A_SWA_LOCATION` (Static Web
+Apps regions: westeurope, eastus2, centralus, westus2, eastasia), `PLAN_A_SWA_NAME`. Redeploying after a new bundle:
+run the same command; the deployment token is read from Azure each time and never printed or stored.
+
+## Microsoft Foundry
+
+See `docs/FOUNDRY.md` (resources, region, model, permissions, measured token volume, procedure, verification).
+
+```bash
+infra/foundry_provision.sh --check
+PLAN_A_APPROVED=yes infra/foundry_provision.sh
+```
+
+## After judging (10 Nov 2026)
+
+`infra/teardown.sh` lists what is in the resource group and deletes it only after you type its name.

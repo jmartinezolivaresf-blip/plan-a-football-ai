@@ -4,6 +4,7 @@ PY := uv run --no-sync python
 
 .PHONY: help setup schemas check-schemas fixtures check-fixtures lint test check bench \
         web-install web-types web-check-types web-bundle web-dev web-build web-test h0 prematch mcp \
+        foundry-check foundry-ping deploy-check \
         season match duel second-half live final render eval bundle seed-search
 
 help:
@@ -61,6 +62,15 @@ web-test: ## Frontend tests (vitest)
 
 prematch: ## Pre-match workflow for both staffs (AGENTS_MODE=offline|foundry), writes agents/_out/prematch.json
 	$(PY) -m agents.prematch
+
+foundry-check: ## Validate Foundry settings and build the clients, no network call (docs/FOUNDRY.md)
+	$(PY) -m agents.foundry_ping --dry-run
+
+foundry-ping: ## ONE real Foundry call per role (needs an approved subscription, docs/FOUNDRY.md)
+	$(PY) -m agents.foundry_ping
+
+deploy-check: ## Guards + production build for Static Web Apps, creates nothing (PLAN_A_SUBSCRIPTION_ID)
+	infra/swa_deploy.sh --check
 
 mcp: ## MCP server on loopback HTTP for one scope (SCOPE=KES|HAR|broadcast)
 	$(PY) -m mcp_server --scope $(or $(SCOPE),broadcast) --http

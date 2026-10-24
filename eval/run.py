@@ -273,6 +273,8 @@ def _eval_match(job: tuple) -> dict:
 def main(argv: list[str] | None = None) -> int:
     from concurrent.futures import ProcessPoolExecutor
 
+    from agents.settings import load_env
+    load_env()
     ap = argparse.ArgumentParser(prog="python -m eval.run")
     ap.add_argument("--season-seed", type=int, default=8101)
     ap.add_argument("--matches", type=int, default=len(MATCHUPS))

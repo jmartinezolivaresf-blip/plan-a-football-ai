@@ -277,6 +277,8 @@ def search(n: int, season_seed: int, mode: str | None, start: int = 202, workers
 
 
 def main(argv: list[str] | None = None) -> int:
+    from agents.settings import load_env
+    load_env()
     ap = argparse.ArgumentParser(prog="python -m pipeline.build")
     ap.add_argument("--mode", choices=["offline", "foundry"], default=None)
     ap.add_argument("--season-seed", type=int, default=2026)

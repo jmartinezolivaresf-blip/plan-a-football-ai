@@ -113,7 +113,7 @@ class _ScriptedClient(BaseChatClient):
 
 
 def _with_client(monkeypatch, client_factory):
-    monkeypatch.setattr(pm, "chat_client", lambda choice, role: client_factory())
+    monkeypatch.setattr(pm.ChatClients, "_make", lambda self, role: client_factory())
 
 
 def test_invalid_candidate_is_revised(monkeypatch):
