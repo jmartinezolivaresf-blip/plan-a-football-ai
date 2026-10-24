@@ -178,8 +178,10 @@ class DuelBench:
                               key=lambda p: (cond.get(p, 1.0), p))
         bench = [p for p, d in squad.items() if p not in on and not d["starter"] and p not in planned_in
                  and d["position"] in ATTACK_ROLES]
+        # options change the levers in force at half-time (after a Plan B), not the ones sealed before kick-off
+        levers = state.get("levers") or self.plan.levers.model_dump()
         return {"team": self.team, "opponent": self.opp, "score_diff": diff, "kpis": kpis,
-                "kpi_claims": [k["claim_id"] for k in kpis][:2], "levers": self.plan.levers.model_dump(),
+                "kpi_claims": [k["claim_id"] for k in kpis][:2], "levers": levers,
                 "tired_attackers": attackers_on[:2], "bench_attackers": bench[:2], "on_pitch": sorted(on)}
 
     async def _options(self, client: Client, ev: dict) -> list[OptionDraft]:

@@ -109,6 +109,15 @@ def test_true_matrix_uses_the_real_options(bundle):
     assert m.cols == [o.option_id for o in bundle.duel.private[m.col_team].options]
 
 
+def test_every_half_time_option_changes_something(bundle):
+    """Options change the levers in force at half-time (after a Plan B), so none is a copy of staying (D-054)."""
+    for team, priv in bundle.duel.private.items():
+        now = bundle.snapshots[45].active_levers[team].model_dump()
+        for o in priv.options[1:]:
+            changes = o.lever_changes.model_dump(exclude_none=True)
+            assert o.subs or any(now[k] != v for k, v in changes.items()), (team, o.option_id, changes, now)
+
+
 def test_every_cue_verifies_and_resolves(bundle):
     assert bundle.eval["cues_dropped_by_verifier"] == 0, bundle.eval["cues_dropped_detail"]
     claims = {c.claim_id: c for c in bundle.claims}

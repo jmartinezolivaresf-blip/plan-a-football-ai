@@ -315,3 +315,13 @@ The fix touches the engine protocol and changes the demo match and the evaluated
 `fix/duel-active-levers` with its measured effect for the owners to decide. A clean clone rebuilds the demo bundle
 identical to the committed one (salts and wall-clock fields aside), and `tests/test_demo_consistency.py` checks the
 bundle against itself, the README story block and every number in the video narration.
+
+**D-054 · Half-time options start from the levers in force (branch `fix/duel-active-levers`, not merged).** A bench
+built its options from its sealed plan, so after a Plan B it could offer a change that was already in force (D-053:
+Kestrel's "Go direct" at seed 236). `get_squad_condition` now also returns the caller's own levers at the visible
+minute (its plan, or its Plan B once fired; own team only, same time gate), and the bench builds its options from
+them. No change to the engine protocol. Measured on dev only: the dev check (season 9101, 12 bench decisions, plus
+E1 on 9011-9015) is identical before and after, because no dev bench had a no-op option. The demo match changes:
+at seed 236 Kestrel's third option becomes "Back to short passing", Kestrel picks it, the match ends 4-1 (not 2-2) and
+seed 236 no longer meets the story criteria (final goal difference 3). Merging needs a new seed search, bundle,
+story, evidence, screenshots and video; the test seasons were not run with this change.

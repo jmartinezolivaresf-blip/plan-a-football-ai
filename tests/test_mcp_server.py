@@ -65,12 +65,19 @@ def test_responses_validate_against_contracts():
     assert isinstance(single, list) and len(single) == 1  # one-item lists stay lists
     _, cond = run(_call(kes, "get_squad_condition", {"minute": 0}))
     assert Squad.model_validate(cond["squad"]).team == "KES"
+    assert cond["levers"] == e.get_match_state(MID, 0).active_levers["KES"].model_dump(mode="json")
     _, est = run(_call(kes, "estimate_opponent_options", {}))
     assert OpponentOptionsEstimate.model_validate(est).estimator == "KES"
     _, snap = run(_call(bc, "get_match_state", {"minute": 45}))
     assert Snapshot.model_validate(snap).minute == 45
     _, evs = run(_call(bc, "get_events", {"filter": {"type": "goal"}}))
     assert len(evs) == 3 and all(Event.model_validate(x) for x in evs)
+
+
+def test_own_levers_respect_the_time_gate():
+    e = MockEngine()
+    _, cond = run(_call(scoped(e, "KES", minute=10), "get_squad_condition", {"minute": 80}))
+    assert cond["levers"] == e.get_match_state(MID, 10).active_levers["KES"].model_dump(mode="json")
 
 
 def test_argument_validation():

@@ -134,8 +134,13 @@ class ScopedTools:
     # ------------------------------------------------------------------ own team only (staff)
     def _t_get_squad_condition(self, minute: int = 0) -> Any:
         minute = min(minute, self.visible_minute)
+        try:  # the levers the team plays with now: its sealed plan, or its Plan B once fired (own team only)
+            levers = _dump(self.engine.get_match_state(self.match_id, minute).active_levers[self.scope])
+        except NotReady:
+            levers = None
         return {"squad": _dump(self.engine.get_squad(self.scope)),
-                "condition": _dump(self.engine.get_squad_condition(self.match_id, self.scope, minute))}
+                "condition": _dump(self.engine.get_squad_condition(self.match_id, self.scope, minute)),
+                "levers": levers}
 
     def _t_simulate_plan(self, plan: dict, opponent_estimate: dict, R: int = 500) -> Any:
         p = Plan.model_validate(plan)
