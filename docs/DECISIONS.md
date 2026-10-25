@@ -324,4 +324,4 @@ them. No change to the engine protocol. Measured on dev only: the dev check (sea
 E1 on 9011-9015) is identical before and after, because no dev bench had a no-op option. The demo match changes:
 at seed 236 Kestrel's third option becomes "Back to short passing", Kestrel picks it, the match ends 4-1 (not 2-2) and
 seed 236 no longer meets the story criteria (final goal difference 3). Merging needs a new seed search, bundle,
-story, evidence, screenshots and video; the test seasons were not run with this change.
+story, evidence, screenshots and video; the test seasons were not run with this change. Seed search with the fix (48 seeds from 202): 4 meet the criteria (215, 238, 242, 248; 236 does not); the smallest, 215, is Kestrel 1-3 at half-time and 2-3 at full time, with Kestrel's switch detected only in the second half (minute 61).
