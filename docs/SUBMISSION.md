@@ -5,8 +5,8 @@ public until then. Status column: done / todo / needs approval (owner decision b
 
 | # | Item | Status | Notes |
 |---|---|---|---|
-| 1 | Code complete on `main` (integration/h2 merged after both owners approve the contract changes) | needs approval | PR #3 ready for review; shared changes listed in its description (D-032..D-052) |
-| 2 | CI green | done on PR #3 (1feac18) | re-check on `main` after the merge |
+| 1 | Code complete on `main` | done 2026-10-25 | PR #3 merged (merge commit e823546); PRs #1 and #2 are included in it and marked merged |
+| 2 | CI green | done on `main` (e823546) | python and web jobs; locally `make check` 269 passed, web types, 24 tests and build green |
 | 3 | Real Microsoft Foundry call verified and recorded | needs a personal subscription | code path tested against a Responses API mock; procedure in `docs/FOUNDRY.md` (`make foundry-check`, `make foundry-ping`) |
 | 4 | Demo bundle frozen (seed, mode, git commit recorded in the bundle's eval.build) | done: seed 204, offline rules, 994a317 (clean tree) | after a Foundry run: seed search, bundle, `pipeline.story`, `pipeline.evidence`, re-record |
 | 5 | Public demo URL (no login) | ready, needs a personal subscription | `infra/swa_deploy.sh` (Free plan, guards, anonymous verification); config checked in the SWA emulator |
