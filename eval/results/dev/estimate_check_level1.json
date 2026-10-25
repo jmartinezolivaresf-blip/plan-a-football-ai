@@ -1,0 +1,1578 @@
+{
+  "seasons": [
+    9007,
+    9012
+  ],
+  "duels": 72,
+  "probabilities": {
+    "leading": [
+      0.581,
+      0.29,
+      0.129
+    ],
+    "level": [
+      0.474,
+      0.263,
+      0.263
+    ],
+    "trailing": [
+      0.161,
+      0.581,
+      0.258
+    ]
+  },
+  "slot_counts": {
+    "leading": {
+      "stay": 17,
+      "situational": 8,
+      "build_up_switch": 3,
+      "other": 0
+    },
+    "level": {
+      "stay": 8,
+      "situational": 4,
+      "build_up_switch": 4,
+      "other": 0
+    },
+    "trailing": {
+      "stay": 4,
+      "situational": 17,
+      "build_up_switch": 7,
+      "other": 0
+    }
+  },
+  "intent_counts": {
+    "leading:go_direct": 2,
+    "leading:protect_lead": 8,
+    "leading:short_build_up": 1,
+    "leading:stay_the_course": 17,
+    "level:drop_block": 3,
+    "level:go_direct": 4,
+    "level:press_higher": 1,
+    "level:stay_the_course": 8,
+    "trailing:attacking_subs": 17,
+    "trailing:go_direct": 5,
+    "trailing:short_build_up": 2,
+    "trailing:stay_the_course": 4
+  },
+  "dev_prob_on_actual_intent_before": 0.349,
+  "dev_share_without_dominant_option": 0.361,
+  "level1_hits": 28,
+  "level1_weight": 0.392,
+  "rows": [
+    {
+      "prob_on_actual_without_level1": 0.107,
+      "level1_pick_intent": "stay_the_course",
+      "level1_hit": false,
+      "season": 9007,
+      "match": "KES-HAR",
+      "opponent_situation": "leading",
+      "opponent_intent": "protect_lead",
+      "estimated_intents": [
+        "stay_the_course",
+        "protect_lead",
+        "short_build_up"
+      ],
+      "prob_on_actual": 0.125,
+      "own_options": [
+        "stay_the_course",
+        "attacking_subs",
+        "drop_block"
+      ],
+      "dominant": false
+    },
+    {
+      "prob_on_actual_without_level1": 0.714,
+      "level1_pick_intent": "stay_the_course",
+      "level1_hit": false,
+      "season": 9007,
+      "match": "KES-HAR",
+      "opponent_situation": "trailing",
+      "opponent_intent": "attacking_subs",
+      "estimated_intents": [
+        "stay_the_course",
+        "attacking_subs",
+        "short_build_up"
+      ],
+      "prob_on_actual": 0.47,
+      "own_options": [
+        "stay_the_course",
+        "protect_lead",
+        "drop_block"
+      ],
+      "dominant": true
+    },
+    {
+      "prob_on_actual_without_level1": 0.714,
+      "level1_pick_intent": "stay_the_course",
+      "level1_hit": false,
+      "season": 9007,
+      "match": "MOR-ASH",
+      "opponent_situation": "trailing",
+      "opponent_intent": "attacking_subs",
+      "estimated_intents": [
+        "stay_the_course",
+        "attacking_subs",
+        "short_build_up"
+      ],
+      "prob_on_actual": 0.47,
+      "own_options": [
+        "stay_the_course",
+        "protect_lead",
+        "drop_block"
+      ],
+      "dominant": true
+    },
+    {
+      "prob_on_actual_without_level1": 0.536,
+      "level1_pick_intent": "protect_lead",
+      "level1_hit": false,
+      "season": 9007,
+      "match": "MOR-ASH",
+      "opponent_situation": "leading",
+      "opponent_intent": "stay_the_course",
+      "estimated_intents": [
+        "stay_the_course",
+        "protect_lead",
+        "short_build_up"
+      ],
+      "prob_on_actual": 0.325,
+      "own_options": [
+        "stay_the_course",
+        "attacking_subs",
+        "go_direct"
+      ],
+      "dominant": true
+    },
+    {
+      "prob_on_actual_without_level1": 0.536,
+      "level1_pick_intent": "stay_the_course",
+      "level1_hit": true,
+      "season": 9007,
+      "match": "WEX-HAR",
+      "opponent_situation": "leading",
+      "opponent_intent": "stay_the_course",
+      "estimated_intents": [
+        "stay_the_course",
+        "protect_lead",
+        "short_build_up"
+      ],
+      "prob_on_actual": 0.459,
+      "own_options": [
+        "stay_the_course",
+        "attacking_subs",
+        "go_direct"
+      ],
+      "dominant": true
+    },
+    {
+      "prob_on_actual_without_level1": 0.179,
+      "level1_pick_intent": "stay_the_course",
+      "level1_hit": true,
+      "season": 9007,
+      "match": "WEX-HAR",
+      "opponent_situation": "trailing",
+      "opponent_intent": "stay_the_course",
+      "estimated_intents": [
+        "stay_the_course",
+        "attacking_subs",
+        "go_direct"
+      ],
+      "prob_on_actual": 0.459,
+      "own_options": [
+        "stay_the_course",
+        "protect_lead",
+        "short_build_up"
+      ],
+      "dominant": true
+    },
+    {
+      "prob_on_actual_without_level1": 0.4,
+      "level1_pick_intent": "stay_the_course",
+      "level1_hit": true,
+      "season": 9007,
+      "match": "BRY-ASH",
+      "opponent_situation": "level",
+      "opponent_intent": "stay_the_course",
+      "estimated_intents": [
+        "stay_the_course",
+        "press_higher",
+        "go_direct"
+      ],
+      "prob_on_actual": 0.459,
+      "own_options": [
+        "stay_the_course",
+        "drop_block",
+        "short_build_up"
+      ],
+      "dominant": true
+    },
+    {
+      "prob_on_actual_without_level1": 0.4,
+      "level1_pick_intent": "stay_the_course",
+      "level1_hit": true,
+      "season": 9007,
+      "match": "BRY-ASH",
+      "opponent_situation": "level",
+      "opponent_intent": "stay_the_course",
+      "estimated_intents": [
+        "stay_the_course",
+        "drop_block",
+        "short_build_up"
+      ],
+      "prob_on_actual": 0.459,
+      "own_options": [
+        "stay_the_course",
+        "drop_block",
+        "go_direct"
+      ],
+      "dominant": true
+    },
+    {
+      "prob_on_actual_without_level1": 0.714,
+      "level1_pick_intent": "attacking_subs",
+      "level1_hit": true,
+      "season": 9007,
+      "match": "ASH-KES",
+      "opponent_situation": "trailing",
+      "opponent_intent": "attacking_subs",
+      "estimated_intents": [
+        "stay_the_course",
+        "attacking_subs",
+        "short_build_up"
+      ],
+      "prob_on_actual": 0.459,
+      "own_options": [
+        "stay_the_course",
+        "protect_lead",
+        "go_direct"
+      ],
+      "dominant": true
+    },
+    {
+      "prob_on_actual_without_level1": 0.536,
+      "level1_pick_intent": "stay_the_course",
+      "level1_hit": true,
+      "season": 9007,
+      "match": "ASH-KES",
+      "opponent_situation": "leading",
+      "opponent_intent": "stay_the_course",
+      "estimated_intents": [
+        "stay_the_course",
+        "protect_lead",
+        "short_build_up"
+      ],
+      "prob_on_actual": 0.459,
+      "own_options": [
+        "stay_the_course",
+        "attacking_subs",
+        "drop_block"
+      ],
+      "dominant": false
+    },
+    {
+      "prob_on_actual_without_level1": 0.714,
+      "level1_pick_intent": "stay_the_course",
+      "level1_hit": false,
+      "season": 9007,
+      "match": "HAR-MOR",
+      "opponent_situation": "trailing",
+      "opponent_intent": "attacking_subs",
+      "estimated_intents": [
+        "stay_the_course",
+        "attacking_subs",
+        "go_direct"
+      ],
+      "prob_on_actual": 0.47,
+      "own_options": [
+        "stay_the_course",
+        "protect_lead",
+        "drop_block"
+      ],
+      "dominant": false
+    },
+    {
+      "prob_on_actual_without_level1": 0.107,
+      "level1_pick_intent": "stay_the_course",
+      "level1_hit": false,
+      "season": 9007,
+      "match": "HAR-MOR",
+      "opponent_situation": "leading",
+      "opponent_intent": "protect_lead",
+      "estimated_intents": [
+        "stay_the_course",
+        "protect_lead",
+        "short_build_up"
+      ],
+      "prob_on_actual": 0.125,
+      "own_options": [
+        "stay_the_course",
+        "attacking_subs",
+        "drop_block"
+      ],
+      "dominant": true
+    },
+    {
+      "prob_on_actual_without_level1": 0.107,
+      "level1_pick_intent": "stay_the_course",
+      "level1_hit": false,
+      "season": 9008,
+      "match": "KES-HAR",
+      "opponent_situation": "trailing",
+      "opponent_intent": "go_direct",
+      "estimated_intents": [
+        "stay_the_course",
+        "attacking_subs",
+        "go_direct"
+      ],
+      "prob_on_actual": 0.071,
+      "own_options": [
+        "stay_the_course",
+        "protect_lead",
+        "go_direct"
+      ],
+      "dominant": true
+    },
+    {
+      "prob_on_actual_without_level1": 0.357,
+      "level1_pick_intent": "protect_lead",
+      "level1_hit": false,
+      "season": 9008,
+      "match": "KES-HAR",
+      "opponent_situation": "leading",
+      "opponent_intent": "go_direct",
+      "estimated_intents": [
+        "stay_the_course",
+        "protect_lead",
+        "go_direct"
+      ],
+      "prob_on_actual": 0.216,
+      "own_options": [
+        "stay_the_course",
+        "attacking_subs",
+        "go_direct"
+      ],
+      "dominant": false
+    },
+    {
+      "prob_on_actual_without_level1": 0.714,
+      "level1_pick_intent": "short_build_up",
+      "level1_hit": false,
+      "season": 9008,
+      "match": "MOR-ASH",
+      "opponent_situation": "trailing",
+      "opponent_intent": "attacking_subs",
+      "estimated_intents": [
+        "stay_the_course",
+        "attacking_subs",
+        "short_build_up"
+      ],
+      "prob_on_actual": 0.433,
+      "own_options": [
+        "stay_the_course",
+        "protect_lead",
+        "short_build_up"
+      ],
+      "dominant": false
+    },
+    {
+      "prob_on_actual_without_level1": 0.536,
+      "level1_pick_intent": "protect_lead",
+      "level1_hit": false,
+      "season": 9008,
+      "match": "MOR-ASH",
+      "opponent_situation": "leading",
+      "opponent_intent": "stay_the_course",
+      "estimated_intents": [
+        "stay_the_course",
+        "protect_lead",
+        "short_build_up"
+      ],
+      "prob_on_actual": 0.325,
+      "own_options": [
+        "stay_the_course",
+        "attacking_subs",
+        "drop_block"
+      ],
+      "dominant": false
+    },
+    {
+      "prob_on_actual_without_level1": 0.536,
+      "level1_pick_intent": "protect_lead",
+      "level1_hit": false,
+      "season": 9008,
+      "match": "WEX-HAR",
+      "opponent_situation": "leading",
+      "opponent_intent": "stay_the_course",
+      "estimated_intents": [
+        "stay_the_course",
+        "protect_lead",
+        "go_direct"
+      ],
+      "prob_on_actual": 0.325,
+      "own_options": [
+        "stay_the_course",
+        "attacking_subs",
+        "go_direct"
+      ],
+      "dominant": false
+    },
+    {
+      "prob_on_actual_without_level1": 0.714,
+      "level1_pick_intent": "stay_the_course",
+      "level1_hit": false,
+      "season": 9008,
+      "match": "WEX-HAR",
+      "opponent_situation": "trailing",
+      "opponent_intent": "attacking_subs",
+      "estimated_intents": [
+        "stay_the_course",
+        "attacking_subs",
+        "go_direct"
+      ],
+      "prob_on_actual": 0.47,
+      "own_options": [
+        "stay_the_course",
+        "protect_lead",
+        "go_direct"
+      ],
+      "dominant": true
+    },
+    {
+      "prob_on_actual_without_level1": 0.4,
+      "level1_pick_intent": "press_higher",
+      "level1_hit": false,
+      "season": 9008,
+      "match": "BRY-ASH",
+      "opponent_situation": "level",
+      "opponent_intent": "stay_the_course",
+      "estimated_intents": [
+        "stay_the_course",
+        "press_higher",
+        "short_build_up"
+      ],
+      "prob_on_actual": 0.285,
+      "own_options": [
+        "stay_the_course",
+        "drop_block",
+        "short_build_up"
+      ],
+      "dominant": true
+    },
+    {
+      "prob_on_actual_without_level1": 0.4,
+      "level1_pick_intent": "drop_block",
+      "level1_hit": false,
+      "season": 9008,
+      "match": "BRY-ASH",
+      "opponent_situation": "level",
+      "opponent_intent": "stay_the_course",
+      "estimated_intents": [
+        "stay_the_course",
+        "drop_block",
+        "short_build_up"
+      ],
+      "prob_on_actual": 0.285,
+      "own_options": [
+        "stay_the_course",
+        "drop_block",
+        "go_direct"
+      ],
+      "dominant": true
+    },
+    {
+      "prob_on_actual_without_level1": 0.714,
+      "level1_pick_intent": "stay_the_course",
+      "level1_hit": false,
+      "season": 9008,
+      "match": "ASH-KES",
+      "opponent_situation": "trailing",
+      "opponent_intent": "attacking_subs",
+      "estimated_intents": [
+        "stay_the_course",
+        "attacking_subs",
+        "short_build_up"
+      ],
+      "prob_on_actual": 0.47,
+      "own_options": [
+        "stay_the_course",
+        "protect_lead",
+        "go_direct"
+      ],
+      "dominant": true
+    },
+    {
+      "prob_on_actual_without_level1": 0.536,
+      "level1_pick_intent": "stay_the_course",
+      "level1_hit": true,
+      "season": 9008,
+      "match": "ASH-KES",
+      "opponent_situation": "leading",
+      "opponent_intent": "stay_the_course",
+      "estimated_intents": [
+        "stay_the_course",
+        "protect_lead",
+        "short_build_up"
+      ],
+      "prob_on_actual": 0.459,
+      "own_options": [
+        "stay_the_course",
+        "attacking_subs",
+        "drop_block"
+      ],
+      "dominant": true
+    },
+    {
+      "prob_on_actual_without_level1": 0.714,
+      "level1_pick_intent": "attacking_subs",
+      "level1_hit": true,
+      "season": 9008,
+      "match": "HAR-MOR",
+      "opponent_situation": "trailing",
+      "opponent_intent": "attacking_subs",
+      "estimated_intents": [
+        "stay_the_course",
+        "attacking_subs",
+        "go_direct"
+      ],
+      "prob_on_actual": 0.459,
+      "own_options": [
+        "stay_the_course",
+        "protect_lead",
+        "go_direct"
+      ],
+      "dominant": false
+    },
+    {
+      "prob_on_actual_without_level1": 0.357,
+      "level1_pick_intent": "go_direct",
+      "level1_hit": true,
+      "season": 9008,
+      "match": "HAR-MOR",
+      "opponent_situation": "leading",
+      "opponent_intent": "go_direct",
+      "estimated_intents": [
+        "stay_the_course",
+        "protect_lead",
+        "go_direct"
+      ],
+      "prob_on_actual": 0.459,
+      "own_options": [
+        "stay_the_course",
+        "attacking_subs",
+        "go_direct"
+      ],
+      "dominant": false
+    },
+    {
+      "prob_on_actual_without_level1": 0.107,
+      "level1_pick_intent": "stay_the_course",
+      "level1_hit": false,
+      "season": 9009,
+      "match": "KES-HAR",
+      "opponent_situation": "trailing",
+      "opponent_intent": "short_build_up",
+      "estimated_intents": [
+        "stay_the_course",
+        "attacking_subs",
+        "short_build_up"
+      ],
+      "prob_on_actual": 0.071,
+      "own_options": [
+        "stay_the_course",
+        "protect_lead",
+        "short_build_up"
+      ],
+      "dominant": true
+    },
+    {
+      "prob_on_actual_without_level1": 0.107,
+      "level1_pick_intent": "stay_the_course",
+      "level1_hit": false,
+      "season": 9009,
+      "match": "KES-HAR",
+      "opponent_situation": "leading",
+      "opponent_intent": "protect_lead",
+      "estimated_intents": [
+        "stay_the_course",
+        "protect_lead",
+        "short_build_up"
+      ],
+      "prob_on_actual": 0.125,
+      "own_options": [
+        "stay_the_course",
+        "attacking_subs",
+        "short_build_up"
+      ],
+      "dominant": false
+    },
+    {
+      "prob_on_actual_without_level1": 0.536,
+      "level1_pick_intent": "short_build_up",
+      "level1_hit": false,
+      "season": 9009,
+      "match": "MOR-ASH",
+      "opponent_situation": "leading",
+      "opponent_intent": "stay_the_course",
+      "estimated_intents": [
+        "stay_the_course",
+        "protect_lead",
+        "short_build_up"
+      ],
+      "prob_on_actual": 0.451,
+      "own_options": [
+        "stay_the_course",
+        "attacking_subs",
+        "go_direct"
+      ],
+      "dominant": true
+    },
+    {
+      "prob_on_actual_without_level1": 0.714,
+      "level1_pick_intent": "attacking_subs",
+      "level1_hit": true,
+      "season": 9009,
+      "match": "MOR-ASH",
+      "opponent_situation": "trailing",
+      "opponent_intent": "attacking_subs",
+      "estimated_intents": [
+        "stay_the_course",
+        "attacking_subs",
+        "go_direct"
+      ],
+      "prob_on_actual": 0.459,
+      "own_options": [
+        "stay_the_course",
+        "protect_lead",
+        "go_direct"
+      ],
+      "dominant": true
+    },
+    {
+      "prob_on_actual_without_level1": 0.36,
+      "level1_pick_intent": "stay_the_course",
+      "level1_hit": false,
+      "season": 9009,
+      "match": "WEX-HAR",
+      "opponent_situation": "level",
+      "opponent_intent": "go_direct",
+      "estimated_intents": [
+        "stay_the_course",
+        "drop_block",
+        "go_direct"
+      ],
+      "prob_on_actual": 0.325,
+      "own_options": [
+        "stay_the_course",
+        "drop_block",
+        "short_build_up"
+      ],
+      "dominant": true
+    },
+    {
+      "prob_on_actual_without_level1": 0,
+      "level1_pick_intent": "short_build_up",
+      "level1_hit": false,
+      "season": 9009,
+      "match": "WEX-HAR",
+      "opponent_situation": "level",
+      "opponent_intent": "drop_block",
+      "estimated_intents": [
+        "stay_the_course",
+        "press_higher",
+        "short_build_up"
+      ],
+      "prob_on_actual": 0,
+      "own_options": [
+        "stay_the_course",
+        "drop_block",
+        "go_direct"
+      ],
+      "dominant": false
+    },
+    {
+      "prob_on_actual_without_level1": 0.107,
+      "level1_pick_intent": "stay_the_course",
+      "level1_hit": false,
+      "season": 9009,
+      "match": "BRY-ASH",
+      "opponent_situation": "leading",
+      "opponent_intent": "protect_lead",
+      "estimated_intents": [
+        "stay_the_course",
+        "protect_lead",
+        "short_build_up"
+      ],
+      "prob_on_actual": 0.125,
+      "own_options": [
+        "stay_the_course",
+        "attacking_subs",
+        "go_direct"
+      ],
+      "dominant": true
+    },
+    {
+      "prob_on_actual_without_level1": 0.714,
+      "level1_pick_intent": "attacking_subs",
+      "level1_hit": true,
+      "season": 9009,
+      "match": "BRY-ASH",
+      "opponent_situation": "trailing",
+      "opponent_intent": "attacking_subs",
+      "estimated_intents": [
+        "stay_the_course",
+        "attacking_subs",
+        "go_direct"
+      ],
+      "prob_on_actual": 0.459,
+      "own_options": [
+        "stay_the_course",
+        "protect_lead",
+        "drop_block"
+      ],
+      "dominant": true
+    },
+    {
+      "prob_on_actual_without_level1": 0.107,
+      "level1_pick_intent": "go_direct",
+      "level1_hit": true,
+      "season": 9009,
+      "match": "ASH-KES",
+      "opponent_situation": "trailing",
+      "opponent_intent": "go_direct",
+      "estimated_intents": [
+        "stay_the_course",
+        "attacking_subs",
+        "go_direct"
+      ],
+      "prob_on_actual": 0.459,
+      "own_options": [
+        "stay_the_course",
+        "protect_lead",
+        "short_build_up"
+      ],
+      "dominant": false
+    },
+    {
+      "prob_on_actual_without_level1": 0.536,
+      "level1_pick_intent": "short_build_up",
+      "level1_hit": false,
+      "season": 9009,
+      "match": "ASH-KES",
+      "opponent_situation": "leading",
+      "opponent_intent": "stay_the_course",
+      "estimated_intents": [
+        "stay_the_course",
+        "protect_lead",
+        "short_build_up"
+      ],
+      "prob_on_actual": 0.451,
+      "own_options": [
+        "stay_the_course",
+        "attacking_subs",
+        "go_direct"
+      ],
+      "dominant": false
+    },
+    {
+      "prob_on_actual_without_level1": 0.107,
+      "level1_pick_intent": "stay_the_course",
+      "level1_hit": false,
+      "season": 9009,
+      "match": "HAR-MOR",
+      "opponent_situation": "leading",
+      "opponent_intent": "protect_lead",
+      "estimated_intents": [
+        "stay_the_course",
+        "protect_lead",
+        "short_build_up"
+      ],
+      "prob_on_actual": 0.125,
+      "own_options": [
+        "stay_the_course",
+        "attacking_subs",
+        "go_direct"
+      ],
+      "dominant": true
+    },
+    {
+      "prob_on_actual_without_level1": 0.107,
+      "level1_pick_intent": "go_direct",
+      "level1_hit": true,
+      "season": 9009,
+      "match": "HAR-MOR",
+      "opponent_situation": "trailing",
+      "opponent_intent": "go_direct",
+      "estimated_intents": [
+        "stay_the_course",
+        "attacking_subs",
+        "go_direct"
+      ],
+      "prob_on_actual": 0.459,
+      "own_options": [
+        "stay_the_course",
+        "protect_lead",
+        "short_build_up"
+      ],
+      "dominant": false
+    },
+    {
+      "prob_on_actual_without_level1": 0.107,
+      "level1_pick_intent": "go_direct",
+      "level1_hit": true,
+      "season": 9010,
+      "match": "KES-HAR",
+      "opponent_situation": "trailing",
+      "opponent_intent": "go_direct",
+      "estimated_intents": [
+        "stay_the_course",
+        "attacking_subs",
+        "go_direct"
+      ],
+      "prob_on_actual": 0.459,
+      "own_options": [
+        "stay_the_course",
+        "protect_lead",
+        "drop_block"
+      ],
+      "dominant": true
+    },
+    {
+      "prob_on_actual_without_level1": 0.107,
+      "level1_pick_intent": "short_build_up",
+      "level1_hit": false,
+      "season": 9010,
+      "match": "KES-HAR",
+      "opponent_situation": "leading",
+      "opponent_intent": "protect_lead",
+      "estimated_intents": [
+        "stay_the_course",
+        "protect_lead",
+        "short_build_up"
+      ],
+      "prob_on_actual": 0.09,
+      "own_options": [
+        "stay_the_course",
+        "attacking_subs",
+        "go_direct"
+      ],
+      "dominant": false
+    },
+    {
+      "prob_on_actual_without_level1": 0.536,
+      "level1_pick_intent": "protect_lead",
+      "level1_hit": false,
+      "season": 9010,
+      "match": "MOR-ASH",
+      "opponent_situation": "leading",
+      "opponent_intent": "stay_the_course",
+      "estimated_intents": [
+        "stay_the_course",
+        "protect_lead",
+        "short_build_up"
+      ],
+      "prob_on_actual": 0.325,
+      "own_options": [
+        "stay_the_course",
+        "attacking_subs",
+        "short_build_up"
+      ],
+      "dominant": false
+    },
+    {
+      "prob_on_actual_without_level1": 0.179,
+      "level1_pick_intent": "stay_the_course",
+      "level1_hit": true,
+      "season": 9010,
+      "match": "MOR-ASH",
+      "opponent_situation": "trailing",
+      "opponent_intent": "stay_the_course",
+      "estimated_intents": [
+        "stay_the_course",
+        "attacking_subs",
+        "short_build_up"
+      ],
+      "prob_on_actual": 0.459,
+      "own_options": [
+        "stay_the_course",
+        "protect_lead",
+        "short_build_up"
+      ],
+      "dominant": true
+    },
+    {
+      "prob_on_actual_without_level1": 0.4,
+      "level1_pick_intent": "drop_block",
+      "level1_hit": false,
+      "season": 9010,
+      "match": "WEX-HAR",
+      "opponent_situation": "level",
+      "opponent_intent": "stay_the_course",
+      "estimated_intents": [
+        "stay_the_course",
+        "drop_block",
+        "short_build_up"
+      ],
+      "prob_on_actual": 0.285,
+      "own_options": [
+        "stay_the_course",
+        "drop_block",
+        "go_direct"
+      ],
+      "dominant": false
+    },
+    {
+      "prob_on_actual_without_level1": 0,
+      "level1_pick_intent": "go_direct",
+      "level1_hit": false,
+      "season": 9010,
+      "match": "WEX-HAR",
+      "opponent_situation": "level",
+      "opponent_intent": "drop_block",
+      "estimated_intents": [
+        "stay_the_course",
+        "press_higher",
+        "go_direct"
+      ],
+      "prob_on_actual": 0,
+      "own_options": [
+        "stay_the_course",
+        "drop_block",
+        "short_build_up"
+      ],
+      "dominant": false
+    },
+    {
+      "prob_on_actual_without_level1": 0.536,
+      "level1_pick_intent": "protect_lead",
+      "level1_hit": false,
+      "season": 9010,
+      "match": "BRY-ASH",
+      "opponent_situation": "leading",
+      "opponent_intent": "stay_the_course",
+      "estimated_intents": [
+        "stay_the_course",
+        "protect_lead",
+        "short_build_up"
+      ],
+      "prob_on_actual": 0.325,
+      "own_options": [
+        "stay_the_course",
+        "attacking_subs",
+        "drop_block"
+      ],
+      "dominant": true
+    },
+    {
+      "prob_on_actual_without_level1": 0.714,
+      "level1_pick_intent": "attacking_subs",
+      "level1_hit": true,
+      "season": 9010,
+      "match": "BRY-ASH",
+      "opponent_situation": "trailing",
+      "opponent_intent": "attacking_subs",
+      "estimated_intents": [
+        "stay_the_course",
+        "attacking_subs",
+        "short_build_up"
+      ],
+      "prob_on_actual": 0.459,
+      "own_options": [
+        "stay_the_course",
+        "protect_lead",
+        "drop_block"
+      ],
+      "dominant": true
+    },
+    {
+      "prob_on_actual_without_level1": 0.357,
+      "level1_pick_intent": "stay_the_course",
+      "level1_hit": false,
+      "season": 9010,
+      "match": "ASH-KES",
+      "opponent_situation": "leading",
+      "opponent_intent": "short_build_up",
+      "estimated_intents": [
+        "stay_the_course",
+        "protect_lead",
+        "short_build_up"
+      ],
+      "prob_on_actual": 0.416,
+      "own_options": [
+        "stay_the_course",
+        "attacking_subs",
+        "short_build_up"
+      ],
+      "dominant": false
+    },
+    {
+      "prob_on_actual_without_level1": 0.714,
+      "level1_pick_intent": "attacking_subs",
+      "level1_hit": true,
+      "season": 9010,
+      "match": "ASH-KES",
+      "opponent_situation": "trailing",
+      "opponent_intent": "attacking_subs",
+      "estimated_intents": [
+        "stay_the_course",
+        "attacking_subs",
+        "short_build_up"
+      ],
+      "prob_on_actual": 0.459,
+      "own_options": [
+        "stay_the_course",
+        "protect_lead",
+        "short_build_up"
+      ],
+      "dominant": true
+    },
+    {
+      "prob_on_actual_without_level1": 0.179,
+      "level1_pick_intent": "stay_the_course",
+      "level1_hit": true,
+      "season": 9010,
+      "match": "HAR-MOR",
+      "opponent_situation": "trailing",
+      "opponent_intent": "stay_the_course",
+      "estimated_intents": [
+        "stay_the_course",
+        "attacking_subs",
+        "short_build_up"
+      ],
+      "prob_on_actual": 0.459,
+      "own_options": [
+        "stay_the_course",
+        "protect_lead",
+        "short_build_up"
+      ],
+      "dominant": true
+    },
+    {
+      "prob_on_actual_without_level1": 0.536,
+      "level1_pick_intent": "stay_the_course",
+      "level1_hit": true,
+      "season": 9010,
+      "match": "HAR-MOR",
+      "opponent_situation": "leading",
+      "opponent_intent": "stay_the_course",
+      "estimated_intents": [
+        "stay_the_course",
+        "protect_lead",
+        "short_build_up"
+      ],
+      "prob_on_actual": 0.459,
+      "own_options": [
+        "stay_the_course",
+        "attacking_subs",
+        "go_direct"
+      ],
+      "dominant": true
+    },
+    {
+      "prob_on_actual_without_level1": 0.536,
+      "level1_pick_intent": "stay_the_course",
+      "level1_hit": true,
+      "season": 9011,
+      "match": "KES-HAR",
+      "opponent_situation": "leading",
+      "opponent_intent": "stay_the_course",
+      "estimated_intents": [
+        "stay_the_course",
+        "protect_lead",
+        "go_direct"
+      ],
+      "prob_on_actual": 0.459,
+      "own_options": [
+        "stay_the_course",
+        "attacking_subs",
+        "drop_block"
+      ],
+      "dominant": true
+    },
+    {
+      "prob_on_actual_without_level1": 0.714,
+      "level1_pick_intent": "stay_the_course",
+      "level1_hit": false,
+      "season": 9011,
+      "match": "KES-HAR",
+      "opponent_situation": "trailing",
+      "opponent_intent": "attacking_subs",
+      "estimated_intents": [
+        "stay_the_course",
+        "attacking_subs",
+        "short_build_up"
+      ],
+      "prob_on_actual": 0.47,
+      "own_options": [
+        "stay_the_course",
+        "protect_lead",
+        "drop_block"
+      ],
+      "dominant": true
+    },
+    {
+      "prob_on_actual_without_level1": 0.536,
+      "level1_pick_intent": "protect_lead",
+      "level1_hit": false,
+      "season": 9011,
+      "match": "MOR-ASH",
+      "opponent_situation": "leading",
+      "opponent_intent": "stay_the_course",
+      "estimated_intents": [
+        "stay_the_course",
+        "protect_lead",
+        "short_build_up"
+      ],
+      "prob_on_actual": 0.325,
+      "own_options": [
+        "stay_the_course",
+        "attacking_subs",
+        "short_build_up"
+      ],
+      "dominant": true
+    },
+    {
+      "prob_on_actual_without_level1": 0,
+      "level1_pick_intent": "stay_the_course",
+      "level1_hit": false,
+      "season": 9011,
+      "match": "MOR-ASH",
+      "opponent_situation": "trailing",
+      "opponent_intent": "short_build_up",
+      "estimated_intents": [
+        "stay_the_course",
+        "attacking_subs",
+        "go_direct"
+      ],
+      "prob_on_actual": 0,
+      "own_options": [
+        "stay_the_course",
+        "protect_lead",
+        "drop_block"
+      ],
+      "dominant": true
+    },
+    {
+      "prob_on_actual_without_level1": 0.36,
+      "level1_pick_intent": "go_direct",
+      "level1_hit": true,
+      "season": 9011,
+      "match": "WEX-HAR",
+      "opponent_situation": "level",
+      "opponent_intent": "go_direct",
+      "estimated_intents": [
+        "stay_the_course",
+        "drop_block",
+        "go_direct"
+      ],
+      "prob_on_actual": 0.459,
+      "own_options": [
+        "stay_the_course",
+        "drop_block",
+        "go_direct"
+      ],
+      "dominant": false
+    },
+    {
+      "prob_on_actual_without_level1": 0.36,
+      "level1_pick_intent": "stay_the_course",
+      "level1_hit": false,
+      "season": 9011,
+      "match": "WEX-HAR",
+      "opponent_situation": "level",
+      "opponent_intent": "go_direct",
+      "estimated_intents": [
+        "stay_the_course",
+        "drop_block",
+        "go_direct"
+      ],
+      "prob_on_actual": 0.325,
+      "own_options": [
+        "stay_the_course",
+        "drop_block",
+        "go_direct"
+      ],
+      "dominant": true
+    },
+    {
+      "prob_on_actual_without_level1": 0.4,
+      "level1_pick_intent": "press_higher",
+      "level1_hit": false,
+      "season": 9011,
+      "match": "BRY-ASH",
+      "opponent_situation": "level",
+      "opponent_intent": "stay_the_course",
+      "estimated_intents": [
+        "stay_the_course",
+        "press_higher",
+        "short_build_up"
+      ],
+      "prob_on_actual": 0.285,
+      "own_options": [
+        "stay_the_course",
+        "press_higher",
+        "go_direct"
+      ],
+      "dominant": true
+    },
+    {
+      "prob_on_actual_without_level1": 0.24,
+      "level1_pick_intent": "press_higher",
+      "level1_hit": true,
+      "season": 9011,
+      "match": "BRY-ASH",
+      "opponent_situation": "level",
+      "opponent_intent": "press_higher",
+      "estimated_intents": [
+        "stay_the_course",
+        "press_higher",
+        "go_direct"
+      ],
+      "prob_on_actual": 0.459,
+      "own_options": [
+        "stay_the_course",
+        "drop_block",
+        "go_direct"
+      ],
+      "dominant": true
+    },
+    {
+      "prob_on_actual_without_level1": 0.714,
+      "level1_pick_intent": "attacking_subs",
+      "level1_hit": true,
+      "season": 9011,
+      "match": "ASH-KES",
+      "opponent_situation": "trailing",
+      "opponent_intent": "attacking_subs",
+      "estimated_intents": [
+        "stay_the_course",
+        "attacking_subs",
+        "short_build_up"
+      ],
+      "prob_on_actual": 0.459,
+      "own_options": [
+        "stay_the_course",
+        "protect_lead",
+        "drop_block"
+      ],
+      "dominant": true
+    },
+    {
+      "prob_on_actual_without_level1": 0.107,
+      "level1_pick_intent": "protect_lead",
+      "level1_hit": true,
+      "season": 9011,
+      "match": "ASH-KES",
+      "opponent_situation": "leading",
+      "opponent_intent": "protect_lead",
+      "estimated_intents": [
+        "stay_the_course",
+        "protect_lead",
+        "short_build_up"
+      ],
+      "prob_on_actual": 0.459,
+      "own_options": [
+        "stay_the_course",
+        "attacking_subs",
+        "drop_block"
+      ],
+      "dominant": true
+    },
+    {
+      "prob_on_actual_without_level1": 0.107,
+      "level1_pick_intent": "go_direct",
+      "level1_hit": false,
+      "season": 9011,
+      "match": "HAR-MOR",
+      "opponent_situation": "leading",
+      "opponent_intent": "protect_lead",
+      "estimated_intents": [
+        "stay_the_course",
+        "protect_lead",
+        "go_direct"
+      ],
+      "prob_on_actual": 0.09,
+      "own_options": [
+        "stay_the_course",
+        "attacking_subs",
+        "drop_block"
+      ],
+      "dominant": true
+    },
+    {
+      "prob_on_actual_without_level1": 0.714,
+      "level1_pick_intent": "attacking_subs",
+      "level1_hit": true,
+      "season": 9011,
+      "match": "HAR-MOR",
+      "opponent_situation": "trailing",
+      "opponent_intent": "attacking_subs",
+      "estimated_intents": [
+        "stay_the_course",
+        "attacking_subs",
+        "short_build_up"
+      ],
+      "prob_on_actual": 0.459,
+      "own_options": [
+        "stay_the_course",
+        "protect_lead",
+        "go_direct"
+      ],
+      "dominant": true
+    },
+    {
+      "prob_on_actual_without_level1": 0.536,
+      "level1_pick_intent": "short_build_up",
+      "level1_hit": false,
+      "season": 9012,
+      "match": "KES-HAR",
+      "opponent_situation": "leading",
+      "opponent_intent": "stay_the_course",
+      "estimated_intents": [
+        "stay_the_course",
+        "protect_lead",
+        "short_build_up"
+      ],
+      "prob_on_actual": 0.451,
+      "own_options": [
+        "stay_the_course",
+        "attacking_subs",
+        "go_direct"
+      ],
+      "dominant": false
+    },
+    {
+      "prob_on_actual_without_level1": 0.714,
+      "level1_pick_intent": "stay_the_course",
+      "level1_hit": false,
+      "season": 9012,
+      "match": "KES-HAR",
+      "opponent_situation": "trailing",
+      "opponent_intent": "attacking_subs",
+      "estimated_intents": [
+        "stay_the_course",
+        "attacking_subs",
+        "go_direct"
+      ],
+      "prob_on_actual": 0.47,
+      "own_options": [
+        "stay_the_course",
+        "protect_lead",
+        "drop_block"
+      ],
+      "dominant": true
+    },
+    {
+      "prob_on_actual_without_level1": 0.4,
+      "level1_pick_intent": "go_direct",
+      "level1_hit": false,
+      "season": 9012,
+      "match": "MOR-ASH",
+      "opponent_situation": "level",
+      "opponent_intent": "stay_the_course",
+      "estimated_intents": [
+        "stay_the_course",
+        "drop_block",
+        "go_direct"
+      ],
+      "prob_on_actual": 0.338,
+      "own_options": [
+        "stay_the_course",
+        "press_higher",
+        "go_direct"
+      ],
+      "dominant": false
+    },
+    {
+      "prob_on_actual_without_level1": 0.4,
+      "level1_pick_intent": "stay_the_course",
+      "level1_hit": true,
+      "season": 9012,
+      "match": "MOR-ASH",
+      "opponent_situation": "level",
+      "opponent_intent": "stay_the_course",
+      "estimated_intents": [
+        "stay_the_course",
+        "press_higher",
+        "go_direct"
+      ],
+      "prob_on_actual": 0.459,
+      "own_options": [
+        "stay_the_course",
+        "drop_block",
+        "go_direct"
+      ],
+      "dominant": false
+    },
+    {
+      "prob_on_actual_without_level1": 0.24,
+      "level1_pick_intent": "short_build_up",
+      "level1_hit": false,
+      "season": 9012,
+      "match": "WEX-HAR",
+      "opponent_situation": "level",
+      "opponent_intent": "drop_block",
+      "estimated_intents": [
+        "stay_the_course",
+        "drop_block",
+        "short_build_up"
+      ],
+      "prob_on_actual": 0.203,
+      "own_options": [
+        "stay_the_course",
+        "press_higher",
+        "go_direct"
+      ],
+      "dominant": true
+    },
+    {
+      "prob_on_actual_without_level1": 0.36,
+      "level1_pick_intent": "press_higher",
+      "level1_hit": false,
+      "season": 9012,
+      "match": "WEX-HAR",
+      "opponent_situation": "level",
+      "opponent_intent": "go_direct",
+      "estimated_intents": [
+        "stay_the_course",
+        "press_higher",
+        "go_direct"
+      ],
+      "prob_on_actual": 0.256,
+      "own_options": [
+        "stay_the_course",
+        "drop_block",
+        "short_build_up"
+      ],
+      "dominant": false
+    },
+    {
+      "prob_on_actual_without_level1": 0.536,
+      "level1_pick_intent": "protect_lead",
+      "level1_hit": false,
+      "season": 9012,
+      "match": "BRY-ASH",
+      "opponent_situation": "leading",
+      "opponent_intent": "stay_the_course",
+      "estimated_intents": [
+        "stay_the_course",
+        "protect_lead",
+        "go_direct"
+      ],
+      "prob_on_actual": 0.325,
+      "own_options": [
+        "stay_the_course",
+        "attacking_subs",
+        "go_direct"
+      ],
+      "dominant": false
+    },
+    {
+      "prob_on_actual_without_level1": 0.107,
+      "level1_pick_intent": "stay_the_course",
+      "level1_hit": false,
+      "season": 9012,
+      "match": "BRY-ASH",
+      "opponent_situation": "trailing",
+      "opponent_intent": "go_direct",
+      "estimated_intents": [
+        "stay_the_course",
+        "attacking_subs",
+        "go_direct"
+      ],
+      "prob_on_actual": 0.071,
+      "own_options": [
+        "stay_the_course",
+        "protect_lead",
+        "go_direct"
+      ],
+      "dominant": false
+    },
+    {
+      "prob_on_actual_without_level1": 0.536,
+      "level1_pick_intent": "protect_lead",
+      "level1_hit": false,
+      "season": 9012,
+      "match": "ASH-KES",
+      "opponent_situation": "leading",
+      "opponent_intent": "stay_the_course",
+      "estimated_intents": [
+        "stay_the_course",
+        "protect_lead",
+        "go_direct"
+      ],
+      "prob_on_actual": 0.325,
+      "own_options": [
+        "stay_the_course",
+        "attacking_subs",
+        "drop_block"
+      ],
+      "dominant": true
+    },
+    {
+      "prob_on_actual_without_level1": 0.714,
+      "level1_pick_intent": "attacking_subs",
+      "level1_hit": true,
+      "season": 9012,
+      "match": "ASH-KES",
+      "opponent_situation": "trailing",
+      "opponent_intent": "attacking_subs",
+      "estimated_intents": [
+        "stay_the_course",
+        "attacking_subs",
+        "short_build_up"
+      ],
+      "prob_on_actual": 0.459,
+      "own_options": [
+        "stay_the_course",
+        "protect_lead",
+        "go_direct"
+      ],
+      "dominant": true
+    },
+    {
+      "prob_on_actual_without_level1": 0.536,
+      "level1_pick_intent": "stay_the_course",
+      "level1_hit": true,
+      "season": 9012,
+      "match": "HAR-MOR",
+      "opponent_situation": "leading",
+      "opponent_intent": "stay_the_course",
+      "estimated_intents": [
+        "stay_the_course",
+        "protect_lead",
+        "short_build_up"
+      ],
+      "prob_on_actual": 0.459,
+      "own_options": [
+        "stay_the_course",
+        "attacking_subs",
+        "go_direct"
+      ],
+      "dominant": true
+    },
+    {
+      "prob_on_actual_without_level1": 0.179,
+      "level1_pick_intent": "attacking_subs",
+      "level1_hit": false,
+      "season": 9012,
+      "match": "HAR-MOR",
+      "opponent_situation": "trailing",
+      "opponent_intent": "stay_the_course",
+      "estimated_intents": [
+        "stay_the_course",
+        "attacking_subs",
+        "go_direct"
+      ],
+      "prob_on_actual": 0.339,
+      "own_options": [
+        "stay_the_course",
+        "protect_lead",
+        "go_direct"
+      ],
+      "dominant": true
+    }
+  ],
+  "rule": "slot probabilities: Laplace-smoothed slot frequencies per score situation of the other bench; level1_weight: Laplace-smoothed rate at which the simulated pick of the other bench was its real choice (both from dev duels)",
+  "dev_prob_on_actual_intent_without_level1": 0.412
+}

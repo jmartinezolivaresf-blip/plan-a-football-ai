@@ -100,3 +100,14 @@ def test_regret_non_negative_on_random_matrices(duel):
         for team, own, opp in (("KES", m.rows, m.cols), ("HAR", m.cols, m.rows)):
             _, value = dm.regret(m, team, rng.choice(own), rng.choice(opp))
             assert value >= -1e-12
+
+
+def test_a_dominated_option_is_never_a_gamble():
+    from contracts import Cell, Matrix
+    # row 1 is better than row 0 in every column (dominant); row 0 must not be called a gamble
+    vals = [[1.0, 0.9], [1.2, 1.1]]
+    cells = [[Cell(xpts={"KES": v, "HAR": 3 - v}, ci90={"KES": (v - .05, v + .05), "HAR": (2.9 - v, 3.1 - v)},
+                   claim_id=f"cm_t_{i}{j}") for j, v in enumerate(row)] for i, row in enumerate(vals)]
+    m = Matrix(matrix_id="t", match_id="m", kind="true", row_team="KES", col_team="HAR", rows=["A", "B"],
+               cols=["X", "Y"], cells=cells, R=10, seed=1)
+    assert dm.dominant(m, "KES") == "B" and dm.safe_pick(m, "KES") == "B" and dm.gamble(m, "KES") is None

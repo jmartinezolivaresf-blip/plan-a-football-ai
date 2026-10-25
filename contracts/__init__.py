@@ -4,7 +4,7 @@ Pydantic models are the source of truth; JSON Schemas in contracts/schemas/ are 
 (`make schemas`). Evaluator-only models live in contracts.eval_only and are deliberately NOT exported here.
 """
 
-from .bundle import SCHEMA_VERSION, AttackDirection, MatchBundle, MatchMeta, RenderFrame
+from .bundle import SCHEMA_VERSION, AttackDirection, FindingRef, MatchBundle, MatchMeta, RenderFrame, ScoutingSummary
 from .claim import Claim
 from .common import BROADCAST_SCOPE, I18nText, zone_index
 from .cue import Cue
@@ -43,7 +43,8 @@ PUBLIC_CONTRACTS = {
 
 __all__ = [
     "BROADCAST_SCOPE", "PUBLIC_CONTRACTS", "SCHEMA_VERSION", "AttackDirection", "Attributes", "Cell", "Claim",
-    "Cue", "Duel", "DuelBroadcast", "EstimatedOption", "Event", "I18nText", "Kpi", "KpiStatus", "LeverChanges",
+    "FindingRef", "ScoutingSummary", "Cue", "Duel", "DuelBroadcast", "EstimatedOption", "Event", "I18nText", "Kpi",
+    "KpiStatus", "LeverChanges",
     "Levers", "MatchBundle", "MatchMeta", "Matrix", "MatrixReading", "OpponentOptionsEstimate", "Option", "Plan",
     "PlanBAction", "PlanBCondition", "PlanBRule", "Player", "Regret", "RenderFrame", "RevealedChoice", "Seal",
     "SealedChoice", "Snapshot", "Squad", "Squads", "Sub", "TeamDuelPrivate", "TraceStep", "zone_index",

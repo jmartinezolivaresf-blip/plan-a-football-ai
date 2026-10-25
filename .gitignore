@@ -18,6 +18,7 @@ __pycache__/
 local.settings.json
 .azure/
 secrets/
+infra/deny.local
 
 # Generated data (the demo bundle is committed explicitly when frozen)
 data/*

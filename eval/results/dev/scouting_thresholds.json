@@ -1,0 +1,110 @@
+{
+  "seasons": [
+    9001,
+    9010
+  ],
+  "grid": [
+    0.0,
+    0.25,
+    0.5,
+    0.75,
+    1.0,
+    1.25,
+    1.5,
+    1.75,
+    2.0,
+    2.25,
+    2.5,
+    2.75,
+    3.0
+  ],
+  "rules": {
+    "losses_per_100_pressured_receptions": [
+      "fb_low_press_resistance",
+      1.0
+    ],
+    "goal_kick_short_vs_open_play": [
+      "gk_short_bias",
+      0.0
+    ],
+    "first_contact_conceded_share": [
+      "back_post_weak",
+      0.75
+    ],
+    "forward_success_conceded_share": [
+      "weak_channel",
+      0.0
+    ],
+    "deep_ball_success_conceded_share": [
+      "cb_low_pace",
+      1.0
+    ],
+    "late_xg_conceded_ratio": [
+      "late_fade",
+      0.0
+    ]
+  },
+  "per_statistic": {
+    "losses_per_100_pressured_receptions": {
+      "kind": "fb_low_press_resistance",
+      "z": 1.0,
+      "f1": 0.818,
+      "precision": 0.794,
+      "recall": 0.844,
+      "flagged": 34,
+      "real_traits": 32
+    },
+    "goal_kick_short_vs_open_play": {
+      "kind": "gk_short_bias",
+      "z": 0.0,
+      "f1": 0.877,
+      "precision": 0.862,
+      "recall": 0.893,
+      "flagged": 29,
+      "real_traits": 28
+    },
+    "first_contact_conceded_share": {
+      "kind": "back_post_weak",
+      "z": 0.75,
+      "f1": 0.55,
+      "precision": 0.786,
+      "recall": 0.423,
+      "flagged": 14,
+      "real_traits": 26
+    },
+    "forward_success_conceded_share": {
+      "kind": "weak_channel",
+      "z": 0.0,
+      "f1": 0.612,
+      "precision": 0.508,
+      "recall": 0.769,
+      "flagged": 59,
+      "real_traits": 39
+    },
+    "deep_ball_success_conceded_share": {
+      "kind": "cb_low_pace",
+      "z": 1.0,
+      "f1": 0.851,
+      "precision": 0.952,
+      "recall": 0.769,
+      "flagged": 21,
+      "real_traits": 26
+    },
+    "late_xg_conceded_ratio": {
+      "kind": "late_fade",
+      "z": 0.0,
+      "f1": 0.644,
+      "precision": 0.633,
+      "recall": 0.655,
+      "flagged": 30,
+      "real_traits": 29
+    }
+  },
+  "report_level": {
+    "precision": 0.771,
+    "recall": 0.672,
+    "flagged": 157,
+    "real_traits": 180
+  },
+  "rule": "per statistic, the grid z with the best claim-level F1 on dev (ties: higher z)"
+}

@@ -409,7 +409,8 @@
             "duel_matrix",
             "plan_scorecard",
             "bench_regret",
-            "option_not_taken"
+            "option_not_taken",
+            "goal_flash"
           ],
           "title": "Template",
           "type": "string"
@@ -779,6 +780,26 @@
         "sub_out"
       ],
       "title": "Event",
+      "type": "object"
+    },
+    "FindingRef": {
+      "additionalProperties": false,
+      "properties": {
+        "claim_id": {
+          "title": "Claim Id",
+          "type": "string"
+        },
+        "headline": {
+          "description": "Text with {claim_id.field} placeholders, verified by code.",
+          "title": "Headline",
+          "type": "string"
+        }
+      },
+      "required": [
+        "claim_id",
+        "headline"
+      ],
+      "title": "FindingRef",
       "type": "object"
     },
     "I18nText": {
@@ -1413,6 +1434,47 @@
       "title": "OpponentOptionsEstimate",
       "type": "object"
     },
+    "OpponentPlanEstimate": {
+      "additionalProperties": false,
+      "description": "Pre-match: the analyst's guess of the opponent's levers (never the opponent's real plan).",
+      "properties": {
+        "claims": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Claims",
+          "type": "array"
+        },
+        "confidence": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Confidence",
+          "type": "number"
+        },
+        "estimator": {
+          "pattern": "^[A-Z]{3}$",
+          "title": "Estimator",
+          "type": "string"
+        },
+        "levers": {
+          "$ref": "#/$defs/Levers"
+        },
+        "opponent": {
+          "pattern": "^[A-Z]{3}$",
+          "title": "Opponent",
+          "type": "string"
+        }
+      },
+      "required": [
+        "estimator",
+        "opponent",
+        "levers",
+        "confidence",
+        "claims"
+      ],
+      "title": "OpponentPlanEstimate",
+      "type": "object"
+    },
     "Option": {
       "additionalProperties": false,
       "properties": {
@@ -1875,6 +1937,54 @@
       "title": "RevealedChoice",
       "type": "object"
     },
+    "ScoutingSummary": {
+      "additionalProperties": false,
+      "description": "What a bench's analyst reported before kick-off (findings point to claims in `claims`).",
+      "properties": {
+        "findings": {
+          "items": {
+            "$ref": "#/$defs/FindingRef"
+          },
+          "maxItems": 5,
+          "title": "Findings",
+          "type": "array"
+        },
+        "model": {
+          "title": "Model",
+          "type": "string"
+        },
+        "opponent": {
+          "pattern": "^[A-Z]{3}$",
+          "title": "Opponent",
+          "type": "string"
+        },
+        "opponent_estimate": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/OpponentPlanEstimate"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "team": {
+          "pattern": "^[A-Z]{3}$",
+          "title": "Team",
+          "type": "string"
+        }
+      },
+      "required": [
+        "team",
+        "opponent",
+        "findings",
+        "opponent_estimate",
+        "model"
+      ],
+      "title": "ScoutingSummary",
+      "type": "object"
+    },
     "Seal": {
       "additionalProperties": false,
       "description": "Commit of the canonical plan JSON (everything except `sealed`). See contracts.sealing.",
@@ -2318,6 +2428,15 @@
       "title": "Schema Version",
       "type": "string"
     },
+    "scouting": {
+      "patternProperties": {
+        "^[A-Z]{3}$": {
+          "$ref": "#/$defs/ScoutingSummary"
+        }
+      },
+      "title": "Scouting",
+      "type": "object"
+    },
     "snapshots": {
       "items": {
         "$ref": "#/$defs/Snapshot"
@@ -2346,6 +2465,7 @@
     "plans",
     "duel",
     "claims",
+    "scouting",
     "cues",
     "traces",
     "eval",

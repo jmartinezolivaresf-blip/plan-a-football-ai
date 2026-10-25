@@ -41,3 +41,18 @@ class Claim(Contract):
     evidence: list[str] = Field(default_factory=list, description="event_ids / match refs that support it.")
     status: Literal["sufficient", "insufficient"] = "sufficient"
     illustrative: bool = Field(default=False, description="True for hand-written fixture data (not simulated).")
+
+
+Z90 = 1.6449  # two-sided 90% normal quantile used by every claim interval
+
+
+def evidence_z(claim: Claim | dict) -> float | None:
+    """How far the claim's value sits from its reference, in standard errors read off its 90% interval.
+
+    Positive means above the reference. None when the claim has no reference or no interval (e.g. a plain count).
+    Pure function on claim fields, so agents can rank evidence without importing the engine (D-049)."""
+    get = claim.get if isinstance(claim, dict) else (lambda k: getattr(claim, k))
+    value, ref, lo, hi = get("value"), get("league_ref"), get("interval_low"), get("interval_high")
+    if not isinstance(value, (int, float)) or ref is None or lo is None or hi is None or hi <= lo:
+        return None
+    return (float(value) - float(ref)) / ((float(hi) - float(lo)) / (2 * Z90))

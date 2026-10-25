@@ -11,7 +11,7 @@ from .common import Contract, I18nText, Mode, TeamCode
 CueTemplate = Literal[
     "plan_card", "plan_sealed", "plan_tracker_lt", "plan_alert", "adaptation_detected", "plan_b_fired",
     "duel_rooms", "duel_sealed", "duel_reveal", "duel_matrix", "plan_scorecard", "bench_regret",
-    "option_not_taken",
+    "option_not_taken", "goal_flash",
 ]
 
 

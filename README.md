@@ -1,54 +1,173 @@
 # Plan A: The Battle of the Benches
 
-Two AI coaching staffs, each blind to the other's private information, scout a fictional opponent, seal a game
-plan before kick-off and make a simultaneous half-time call. Every decision is priced against the other bench's
-answer with Monte Carlo forks of the same match. Built for the Microsoft + Premier League *Inside the Game*
-hackathon.
+Two AI coaching staffs, each blind to the other's private information, scout a fictional opponent, seal a game plan
+before kick-off and make a simultaneous half-time call. Every call is priced against the other bench's possible
+answers with Monte Carlo forks of the same match, and after the reveal the broadcast shows what each bench believed
+next to what was really true. Built for the Microsoft + Premier League *Inside the Game* hackathon.
 
-> **Data statement.** All data is synthetic. Clubs and players are fictional. No Premier League data is used.
-> The current `fixtures/` are **hand-scripted and illustrative** (not simulated) so that agents and UI can be
-> built before the simulator exists.
+> **Data statement.** All data is synthetic. Clubs and players are fictional. No Premier League data, names or marks
+> are used. Every number is produced inside our own simulator and is not a prediction about real football.
 
-Status: **H0** (contracts, fixtures, mocks, CI). See `docs/START_HERE.md`.
+**Demo:** <!-- DEMO_URL --> not deployed yet (ready for Azure Static Web Apps, `infra/AZURE_PLAN.md`). Run it
+locally in two commands below, or watch [`docs/media/plan_a_demo_v2.mp4`](docs/media/plan_a_demo_v2.mp4) (118 s, captured
+from the app; narration and timings in [`docs/VIDEO_SCRIPT.md`](docs/VIDEO_SCRIPT.md)).
+
+![Half-time duel: what each bench believed vs the real payoff matrix](docs/media/05-duel-true-matrix.png)
+
+## What you see
+
+1. **Pre-match.** Each staff (an analyst and a manager agent) scouts the other club from 8 past matches through
+   its own MCP tools, proposes plans, values them in simulation against its estimate of the opponent, and seals one
+   (SHA-256, verified in your browser).
+2. **First half.** A live Plan Tracker follows each plan's KPIs against the curve the staff expected; a detector
+   flags when a team changes how it builds up.
+3. **Half-time Duel.** Both benches choose at the same time from three options, without seeing each other's. Each
+   prices a payoff matrix with *its own* beliefs and seals its choice (salted commit-reveal). Only after both seals
+   does the broadcast price the true matrix.
+4. **Full time.** Whose plan worked, which KPIs held, and the regret of each call: the xPts left on the table
+   against the best answer to what the other bench really did, with an interval.
+
+<!-- DEMO_STORY -->
+**The demo match** (season 2026, match seed 204, agents: offline-rules/offline-rules): Kestrel 1-1 Harbourside at half-time, 1-3 at full time.
+- Plans: Kestrel "Measured approach", Harbourside "Exploit their weaknesses".
+- Kestrel changed its build-up at minute 25; the live detector flagged it at minute 31 (estimated change minute 23).
+- Harbourside changed its build-up at minute 46; the live detector flagged it at minute 59 (estimated change minute 13).
+- Half-time: Kestrel chose "Stay the course" (best guess on its own believed matrix).
+- Half-time: Harbourside chose "Back to short passing" (best guess on its own believed matrix).
+- Kestrel: regret 0.026 xPts (paired 90% interval -0.036 to 0.084) against "Press higher".
+- Harbourside: regret 0.12 xPts (paired 90% interval 0.01 to 0.228) against "Drop into a mid block".
+<!-- /DEMO_STORY -->
+
+This is one replay: it illustrates the decisions, it does not prove anything on its own; the half-time calls are
+judged by the matrices, and the evaluation below measures them over many matches.
+
+Deep links open any moment: `?t=45:00&reveal=1&mode=analyst`, `?t=45:00&reveal=1&matrix=believed`, `?t=90:00`,
+`?tab=desk&section=validation`, `?tab=desk&lang=es&club=HAR`.
+
+## Why it is agentic
+
+Full design: [`docs/MULTI_AGENT.md`](docs/MULTI_AGENT.md). Every decision of the demo with the claims behind it:
+[`docs/AGENT_EVIDENCE.md`](docs/AGENT_EVIDENCE.md) (generated from the bundle).
+
+- **Two adversarial teams of agents with private information.** Each staff only reaches the world through MCP
+  tools scoped to its club; the scope is fixed by the host, never by the request, and the other bench's options,
+  matrix and choice are unreachable (tested). A bench anticipates the other from what it saw in the first half,
+  never from the other team's real settings.
+- **Commitments.** Plans and half-time choices are sealed before anything that could change them is revealed.
+- **Grounded by construction.** Agents write `{claim_id.field}` placeholders, never digits; code fills them from
+  claims and rejects any text that is not grounded. Plans must cite claims the staff actually retrieved.
+- **Decisions under uncertainty, then accountability.** Believed vs true matrices and regret make each agent's
+  reasoning checkable after the fact.
+
+## Microsoft technology
+
+| Piece | Status |
+|---|---|
+| Microsoft Agent Framework (`agent-framework-core` 1.23.0): analyst, manager and duel-bench agents with MCP tools | used in every run |
+| Model Context Protocol (MCP SDK 2.3.0): one scoped server per club and one for the broadcast | used in every run |
+| Microsoft Foundry (`agent-framework-foundry` 1.15.0, Entra ID pinned to one tenant, no keys): `AGENTS_MODE=foundry` | code path verified against a local mock of the Responses API (`tests/test_foundry_contract.py`); **no real Foundry deployment has been called yet** (`docs/FOUNDRY.md`) |
+| Azure Static Web Apps (Free) for the public demo | config and guarded deploy script ready and checked in the SWA emulator; **not deployed yet** (`infra/AZURE_PLAN.md`) |
+
+Without Azure, the same agents run with a deterministic offline rules client (`AGENTS_MODE=offline`), which is what
+CI and the current demo bundle use; the bundle says which model produced it (`eval.build.models`).
+
+## Results (inside our simulator)
+
+Full tables: [`eval/results/RESULTS.md`](eval/results/RESULTS.md) (generated from the JSON results).
+
+<!-- RESULTS_HEADLINE -->
+| Test | What it measures | Result |
+|---|---|---|
+| E1 | Scouting reports vs hidden truth, 30 clubs in 5 unseen seasons with random trait kinds | precision 0.687, recall 0.633 (83 flagged, 90 real traits) |
+| E2 | Monte Carlo noise: R=300 vs R=3000 for 6 lever changes from one half-time state | mean abs error 0.013 xPts; 90% CI covers the reference 0.667; sign agreement 0.333 overall, 0.5 on the 2 cells whose reference interval excludes zero |
+| E3 | Plans that target a real hidden weakness (12 plans) | 0.75 vs 0.501 for a blind random plan; levers citing claims the staff retrieved 1.0 |
+| E4 | Grounded text | reports valid at first try 1.0; cues dropped by the verifier 0; numbers written by the model 0 (by construction) |
+| E7 | Probability a bench gave to what the other bench really did | 0.457 (90% CI 0.35 to 0.56, n 12); uniform guess 0.333 |
+| E8 | Half-time regret (xPts lost vs the best answer to the other bench's real choice) | AI 0.028 (90% CI 0.013 to 0.047, n 12); always stay 0.045 (90% CI 0.031 to 0.064, n 12); random 0.032 (90% CI 0.023 to 0.042, n 12) |
+| Duel | Half-times where the best answer depends on the other bench (no dominant option in the true matrix) | 0.5 of 12 bench decisions |
+<!-- /RESULTS_HEADLINE -->
+
+Reading them honestly: scouting (E1) and plans (E3) clearly beat blind baselines. The half-time calls do not yet:
+E7 is above a uniform guess on the test season (0.457) but below it on the dev check (0.284, `eval/results/dev`),
+so with 12 decisions per run we claim no anticipation skill; and the benches' regret is lower than always staying
+the course but about the same as a random choice (E8).
+
+How these were obtained: every threshold and simulator knob was chosen on **dev** seasons only (random trait kinds,
+seeds 9001-9015 and 11-14); the **test** seasons (8001-8005 for E1, 8101 for the matches) were run once before and
+once after the changes. Before/after table and every calibration: [`eval/results/RESULTS.md`](eval/results/RESULTS.md).
+One change that made results worse on dev (a "what would they pick" step for E7) was measured and removed (D-051).
+
+## Limitations
+
+- **Synthetic world.** Clubs, players, hidden weaknesses and matches come from our simulator. The results show the
+  agents are grounded and reproducible, and that their scouting and plans beat blind baselines *inside that
+  world*; they say nothing about real football or real coaches.
+- **A simple match model.** A zone-based simulator with five levers. Its season statistics are near, not always
+  inside, the target ranges (4 of 9 on the test season: goals, passes, pass accuracy and the home-win and draw
+  shares are off; 24-match samples are noisy). Pressing-based exploits
+  do not pay off in it yet (D-051), and many half-time matrices still have a dominant option.
+- **Small evaluation samples.** E7/E8 rest on 12 half-time decisions per run; intervals are reported.
+- **The other bench is guessed with lever changes only.** A bench prices "they push for a goal" as pressing high
+  with a balanced attack, not as substitutions. When the other team already plays that way, the guess is
+  the same as "they keep their plan" and the two are merged into one column (D-055), so an attacking substitution
+  by the other bench then gets no credit in E7.
+- **The live detector dates a change with one change point.** When a team's style drifts before it really
+  switches, the estimated minute is pulled earlier: in the demo it dates Harbourside's half-time switch (46') to
+  "about minute 13", because their long-ball share was already falling in the first half.
+- **Offline agents in the demo.** The committed demo was produced by the deterministic rules client. A Foundry run
+  will change texts, plans and possibly the story; the bundle records which model produced it.
+- **No live backend.** The public demo replays a precomputed bundle; the MCP server is not exposed.
+
+## Run it
+
+Requirements: [uv](https://docs.astral.sh/uv/) (installs Python 3.12) and Node.js 22+.
+
+```bash
+make setup        # .venv + Python and web dependencies
+make web-dev      # http://localhost:5173 with the committed demo bundle, no backend
+```
+
+Rebuild everything from scratch (offline mode, about a minute per match on a laptop):
+
+```bash
+make bundle SEED=204        # season -> pre-match -> first half -> duel -> second half -> web/public/match_bundle.json
+make seed-search N=48       # how the demo seed was chosen (criteria in pipeline/build.py, STORY_CRITERIA)
+make eval                   # calibrations on dev seasons, E1-E8, eval/results/RESULTS.md
+make check                  # lint, schemas, fixtures, tests
+```
+
+With Microsoft Foundry (needs your own subscription, see `docs/FOUNDRY.md`): set `FOUNDRY_PROJECT_ENDPOINT`,
+`FOUNDRY_MODEL_SMALL` and `FOUNDRY_TENANT_ID` in `.env`, `az login --tenant <tenant>`, then `make foundry-check`
+(no network), `make foundry-ping` (one call) and `AGENTS_MODE=foundry make bundle SEED=<seed>`.
 
 ## Layout
 
 ```
-contracts/    Pydantic contracts (source of truth), exported JSON Schemas, sim/engine/tools API docs
-fixtures/     Illustrative fixtures + canned MCP tool responses, built by fixtures/build_fixtures.py
-sim/          Vectorised simulator (person A)
-engine/       Scouting, KPIs, valuation, duel reading (person A)
-eval/         E1–E8 evaluation, calibration (person A)
-mcp_server/   MCP tools with team scopes; mock_engine.py for development (person B)
-agents/       Microsoft Agent Framework roles, workflows, validators (person B)
-web/          React + TypeScript + Vite; plays match_bundle.json with no backend (person B)
-infra/        Azure deployment notes (person B)
-tests/        Shared tests
-docs/         Plan (docs/plan), decisions, start guide, Copilot usage
+contracts/    Pydantic contracts (source of truth) -> JSON Schemas -> TypeScript types
+sim/          Vectorised match simulator, synthetic season, render layer
+engine/       Scouting claims, xG, plan valuation, Plan Tracker, adaptation detector, duel matrices, regret
+mcp_server/   Scoped MCP tools (KES, HAR, broadcast); loopback only
+agents/       Microsoft Agent Framework agents, offline rules client, validators, broadcast director
+pipeline/     The only holder of the hidden truth: builds the demo bundle, seed search
+eval/         Calibrations, E1-E8, results
+web/          React + TypeScript + Vite app (static)
+docs/         Architecture, multi-agent design, decisions, Foundry, submission, video script, media
+infra/        Guarded Azure scripts (Foundry, Static Web Apps, teardown)
 ```
 
-## Requirements
+Architecture: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md). Every design decision and disclosure:
+[`docs/DECISIONS.md`](docs/DECISIONS.md).
 
-- [uv](https://docs.astral.sh/uv/) (installs Python 3.12 for the project)
-- Node.js 22+ and npm
+## Rules enforced by tests
 
-## Setup and run
-
-```bash
-uv python install 3.12
-make setup        # .venv + Python deps + web deps
-make h0           # schemas, fixtures, lint, tests, TS types, web build
-make web-dev      # open http://localhost:5173 (fixture bundle, no backend)
-```
-
-Individual commands: `make help`.
-
-## Rules that are enforced by tests
-
-- The engine, MCP server and agents never import `contracts.eval_only` (hidden truth, simulator config).
-- A bench's private duel data never contains the true matrix or the opponent's real options or choice.
-- Plans and half-time choices are sealed with SHA-256 (salted commit-reveal for choices) and verifiable.
-- Text uses `{claim_id.field}` placeholders; numbers come from claims, not from the LLM.
+- Engine, MCP server and agents never import the hidden truth (`contracts.eval_only`).
+- A bench's private duel data never contains the true matrix or the other bench's options or choice.
+- Plan seals and choice commits verify; salts are random; regret is non-negative and matches the true matrix.
+- Every broadcast cue passes the text verifier; the bundle contains no hidden trait.
+- The simulator's KPI counters equal the engine's event definitions; the same seed gives the same bundle in any
+  process.
+- The committed demo bundle is internally consistent (score, matrices, readings, regret, seals, KPI verdicts), and
+  every number in this README's story block and in the video narration is in it (`tests/test_demo_consistency.py`).
 
 ## License
 

@@ -13,14 +13,11 @@ from typing import Any
 
 from contracts import Claim, DuelBroadcast, Event, MatchBundle, Matrix, Option, Plan, Snapshot, Squad
 from contracts.duel import OpponentOptionsEstimate, Regret, SealedChoice
+from contracts.engine_api import NotSealedYet
 from contracts.plan import OpponentPlanEstimate
 from contracts.refs import MatchRef, ValidationResult
 
 BUNDLE_PATH = Path(__file__).resolve().parents[1] / "fixtures" / "match_bundle_fixture.json"
-
-
-class NotSealedYet(RuntimeError):
-    pass
 
 
 class MockEngine:
@@ -78,7 +75,7 @@ class MockEngine:
                      perspective: str, opponent_probs: list[float]) -> Matrix:
         return self._duel().private[perspective].believed_matrix
 
-    def seal_choice(self, match_id: str, team: str, option_id: str) -> SealedChoice:
+    def seal_choice(self, match_id: str, team: str, option_id: str, rule: str = "best_guess") -> SealedChoice:
         self._sealed.add(team)
         return self._duel().private[team].choice
 

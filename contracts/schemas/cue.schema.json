@@ -90,7 +90,8 @@
         "duel_matrix",
         "plan_scorecard",
         "bench_regret",
-        "option_not_taken"
+        "option_not_taken",
+        "goal_flash"
       ],
       "title": "Template",
       "type": "string"

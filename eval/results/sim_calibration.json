@@ -1,0 +1,187 @@
+{
+  "seasons": [
+    11,
+    12,
+    13,
+    14
+  ],
+  "targets": {
+    "goals_per_match": [
+      2.7,
+      3.0
+    ],
+    "shots_per_match": [
+      24,
+      27
+    ],
+    "shot_conversion": [
+      0.1,
+      0.12
+    ],
+    "passes_per_match": [
+      850,
+      900
+    ],
+    "pass_accuracy": [
+      0.8,
+      0.85
+    ],
+    "corners_per_match": [
+      9,
+      11
+    ],
+    "high_turnovers_per_team": [
+      5,
+      14
+    ],
+    "home_win_share": [
+      0.35,
+      0.47
+    ],
+    "draw_share": [
+      0.2,
+      0.3
+    ]
+  },
+  "grid": [
+    {
+      "shot_logit_offset": 0.0,
+      "goals_per_match": 3.26,
+      "shots_per_match": 30.188,
+      "shot_conversion": 0.108,
+      "passes_per_match": 929.281,
+      "pass_accuracy": 0.781,
+      "corners_per_match": 11.031,
+      "high_turnovers_per_team": 6.333,
+      "home_win_share": 0.469,
+      "draw_share": 0.177,
+      "in_range": {
+        "goals_per_match": false,
+        "shots_per_match": false,
+        "shot_conversion": true,
+        "passes_per_match": false,
+        "pass_accuracy": false,
+        "corners_per_match": false,
+        "high_turnovers_per_team": true,
+        "home_win_share": true,
+        "draw_share": false
+      }
+    },
+    {
+      "shot_logit_offset": -0.1,
+      "goals_per_match": 3.24,
+      "shots_per_match": 28.948,
+      "shot_conversion": 0.112,
+      "passes_per_match": 933.104,
+      "pass_accuracy": 0.781,
+      "corners_per_match": 10.875,
+      "high_turnovers_per_team": 6.302,
+      "home_win_share": 0.406,
+      "draw_share": 0.26,
+      "in_range": {
+        "goals_per_match": false,
+        "shots_per_match": false,
+        "shot_conversion": true,
+        "passes_per_match": false,
+        "pass_accuracy": false,
+        "corners_per_match": true,
+        "high_turnovers_per_team": true,
+        "home_win_share": true,
+        "draw_share": true
+      }
+    },
+    {
+      "shot_logit_offset": -0.2,
+      "goals_per_match": 3.125,
+      "shots_per_match": 27.75,
+      "shot_conversion": 0.113,
+      "passes_per_match": 937.312,
+      "pass_accuracy": 0.78,
+      "corners_per_match": 10.802,
+      "high_turnovers_per_team": 6.219,
+      "home_win_share": 0.438,
+      "draw_share": 0.229,
+      "in_range": {
+        "goals_per_match": false,
+        "shots_per_match": false,
+        "shot_conversion": true,
+        "passes_per_match": false,
+        "pass_accuracy": false,
+        "corners_per_match": true,
+        "high_turnovers_per_team": true,
+        "home_win_share": true,
+        "draw_share": true
+      }
+    },
+    {
+      "shot_logit_offset": -0.3,
+      "goals_per_match": 2.938,
+      "shots_per_match": 26.656,
+      "shot_conversion": 0.11,
+      "passes_per_match": 940.698,
+      "pass_accuracy": 0.78,
+      "corners_per_match": 11.177,
+      "high_turnovers_per_team": 6.271,
+      "home_win_share": 0.406,
+      "draw_share": 0.229,
+      "in_range": {
+        "goals_per_match": true,
+        "shots_per_match": true,
+        "shot_conversion": true,
+        "passes_per_match": false,
+        "pass_accuracy": false,
+        "corners_per_match": false,
+        "high_turnovers_per_team": true,
+        "home_win_share": true,
+        "draw_share": true
+      }
+    },
+    {
+      "shot_logit_offset": -0.4,
+      "goals_per_match": 2.896,
+      "shots_per_match": 25.594,
+      "shot_conversion": 0.114,
+      "passes_per_match": 943.635,
+      "pass_accuracy": 0.779,
+      "corners_per_match": 11.125,
+      "high_turnovers_per_team": 6.25,
+      "home_win_share": 0.375,
+      "draw_share": 0.261,
+      "in_range": {
+        "goals_per_match": true,
+        "shots_per_match": true,
+        "shot_conversion": true,
+        "passes_per_match": false,
+        "pass_accuracy": false,
+        "corners_per_match": false,
+        "high_turnovers_per_team": true,
+        "home_win_share": true,
+        "draw_share": true
+      }
+    }
+  ],
+  "chosen": {
+    "shot_logit_offset": -0.4,
+    "goals_per_match": 2.896,
+    "shots_per_match": 25.594,
+    "shot_conversion": 0.114,
+    "passes_per_match": 943.635,
+    "pass_accuracy": 0.779,
+    "corners_per_match": 11.125,
+    "high_turnovers_per_team": 6.25,
+    "home_win_share": 0.375,
+    "draw_share": 0.261,
+    "in_range": {
+      "goals_per_match": true,
+      "shots_per_match": true,
+      "shot_conversion": true,
+      "passes_per_match": false,
+      "pass_accuracy": false,
+      "corners_per_match": false,
+      "high_turnovers_per_team": true,
+      "home_win_share": true,
+      "draw_share": true
+    }
+  },
+  "rule": "grid value with mean shots per match closest to the middle of the target range"
+}

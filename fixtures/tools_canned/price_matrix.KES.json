@@ -200,7 +200,7 @@
     },
     "safe_pick": "KES-HT-B",
     "best_guess": "KES-HT-B",
-    "gamble": "KES-HT-A",
+    "gamble": null,
     "dominant": null
    }
   },
