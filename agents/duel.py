@@ -144,6 +144,7 @@ class DuelBench:
         self.sealed: SealedChoice | None = None
         self.rule = "best_guess"
         self.validation: list[list[str]] = []
+        self.fallback = False  # True when the model's options did not validate and the offline ones were used
 
     async def decide(self) -> TeamDuelPrivate:
         try:
@@ -245,15 +246,19 @@ class DuelBench:
         if len(options) < 2 or options[0].intent != "stay_the_course":
             if drafts == offline_options(ev).options:
                 raise RuntimeError(f"{self.team}: the offline half-time options did not validate: {self.validation}")
+            self.fallback = self.staff.choice.mode != "offline"
             return await self._validated(client, offline_options(ev).options, ev)
         return options
 
 
-async def run_duel(engine: EngineAPI, home: str, away: str, plans: dict, mode: str | None = None) -> tuple[
-        dict, DuelBroadcast, list]:
-    """Both benches concurrently (blind), barrier, then the broadcast reveal."""
+async def run_duel(engine: EngineAPI, home: str, away: str, plans: dict, mode: str | None = None,
+                   benches_out: dict | None = None) -> tuple[dict, DuelBroadcast, list]:
+    """Both benches concurrently (blind), barrier, then the broadcast reveal. `benches_out`, if given, receives the
+    two DuelBench objects (their model calls and validation history, for pipeline/foundry_probe.py)."""
     choice = model_choice(mode)  # type: ignore[arg-type]
     benches = {t: DuelBench(engine, t, home, away, choice, plans[t]) for t in (home, away)}
+    if benches_out is not None:
+        benches_out.update(benches)
     privates = dict(zip(benches, await asyncio.gather(*(b.decide() for b in benches.values())), strict=True))
     bc = ScopedTools(engine=engine, scope=BROADCAST_SCOPE, home=home, away=away,
                      match_id=benches[home].staff.tools.match_id, visible_minute=45)
