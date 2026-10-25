@@ -69,6 +69,9 @@ foundry-check: ## Validate Foundry settings and build the clients, no network ca
 foundry-ping: ## ONE real Foundry call per role (needs an approved subscription, docs/FOUNDRY.md)
 	$(PY) -m agents.foundry_ping
 
+foundry-probe: ## Independent real-LLM check on the frozen demo (AGENTS_MODE=foundry); never changes the demo
+	$(PY) -m pipeline.foundry_probe
+
 deploy-check: ## Guards + production build for Static Web Apps, creates nothing (PLAN_A_SUBSCRIPTION_ID)
 	infra/swa_deploy.sh --check
 

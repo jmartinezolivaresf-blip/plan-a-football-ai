@@ -33,6 +33,8 @@ Only item 4 generates charges. Recommended: a budget alert on the resource group
 - Anonymous read access is intended (judges, no login) and the content is synthetic. The deploy script checks the
   live site anonymously (home page, bundle, CSP header) after uploading.
 - **The MCP server is not deployed:** it has no client authentication (D-026). The demo shows recorded tool calls.
+- If the subscription is not available in time, the same build can go to GitHub Pages (`docs/PUBLISH.md`,
+  `.github/workflows/pages.yml`, manual only).
 
 ```bash
 az login --tenant <HACKATHON_TENANT_ID>

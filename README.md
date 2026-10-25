@@ -8,7 +8,8 @@ next to what was really true. Built for the Microsoft + Premier League *Inside t
 > **Data statement.** All data is synthetic. Clubs and players are fictional. No Premier League data, names or marks
 > are used. Every number is produced inside our own simulator and is not a prediction about real football.
 
-**Demo:** <!-- DEMO_URL --> not deployed yet (ready for Azure Static Web Apps, `infra/AZURE_PLAN.md`). Run it
+**Demo:** <!-- DEMO_URL --> not deployed yet (ready for Azure Static Web Apps, `infra/AZURE_PLAN.md`; GitHub Pages
+fallback in `docs/PUBLISH.md`). Run it
 locally in two commands below, or watch [`docs/media/plan_a_demo_v2.mp4`](docs/media/plan_a_demo_v2.mp4) (118 s, captured
 from the app; narration and timings in [`docs/VIDEO_SCRIPT.md`](docs/VIDEO_SCRIPT.md)).
 
@@ -138,7 +139,8 @@ make check                  # lint, schemas, fixtures, tests
 
 With Microsoft Foundry (needs your own subscription, see `docs/FOUNDRY.md`): set `FOUNDRY_PROJECT_ENDPOINT`,
 `FOUNDRY_MODEL_SMALL` and `FOUNDRY_TENANT_ID` in `.env`, `az login --tenant <tenant>`, then `make foundry-check`
-(no network), `make foundry-ping` (one call) and `AGENTS_MODE=foundry make bundle SEED=<seed>`.
+(no network), `make foundry-ping` (one call) and `AGENTS_MODE=foundry make foundry-probe`: the same agents with the
+real model on the demo's data and half-time, recorded in `docs/FOUNDRY_EVIDENCE.md`, without changing the demo.
 
 ## Layout
 

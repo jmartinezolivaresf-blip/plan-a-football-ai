@@ -1,0 +1,66 @@
+# Publish the static demo (web/dist) on GitHub Pages: the fallback when Azure Static Web Apps is not available
+# (docs/PUBLISH.md). MANUAL ONLY: nothing is published until an owner enables Pages (Settings > Pages > Source:
+# GitHub Actions) and runs this workflow from the Actions tab. On GitHub Free, Pages needs a public repository.
+# Whatever this publishes is public to anyone with the URL: the app and the committed synthetic demo bundle only.
+name: pages
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+      - run: npm ci
+        working-directory: web
+      - name: Types match the exported schema
+        run: npm run check:types
+        working-directory: web
+      - name: Frontend tests
+        run: npm test
+        working-directory: web
+      - name: The bundle is the frozen demo, not the fixture
+        run: |
+          node -e '
+            const b = require("./web/public/match_bundle.json");
+            const build = b.eval && b.eval.build;
+            if (!build || !build.match_seed || build.uncommitted_changes || !b.meta.synthetic) {
+              console.error("web/public/match_bundle.json is not a frozen demo bundle"); process.exit(1);
+            }
+            console.log(`demo bundle: season ${build.season_seed}, match seed ${build.match_seed}, commit ${build.git_commit}`);'
+      - name: Build for the repository sub-path
+        run: npm run build -- --base=/${{ github.event.repository.name }}/
+        working-directory: web
+      - name: Nothing but the static site (no source maps, no credentials)
+        run: |
+          ! find web/dist -name "*.map" | grep .
+          ! grep -rIlE "(AKIA[0-9A-Z]{16}|sk-[A-Za-z0-9]{20,}|AccountKey=|-----BEGIN [A-Z ]*PRIVATE KEY|ghp_[A-Za-z0-9]{30,})" web/dist
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: web/dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

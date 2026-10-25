@@ -80,6 +80,7 @@ class Staff:
         self.trace: list[TraceStep] = []
         self._actor = "analyst"
         self._recorded = 0
+        self.llm_calls: list[dict[str, Any]] = []  # what the model service answered (pipeline/foundry_probe.py)
 
     # ------------------------------------------------------------------ tools and trace
     async def call(self, client: Client, tool: str, args: dict[str, Any]) -> Any:
@@ -121,12 +122,16 @@ class Staff:
                                   allowed_tools=SCOUTING_TOOLS if role == "analyst" else None)]
         agent = Agent(self.chat.get(role), instructions, name=f"{self.team}-{role}", tools=tools)
         t0 = time.perf_counter()
+        before = len(self.tools.calls)
         try:
             resp = await agent.run(prompt, options={"response_format": fmt})
         finally:
             await agent.close()  # closes the MCP tool contexts the run opened; the shared chat client stays open
+        model_tools = [c.tool for c in self.tools.calls[before:]]  # tools the model itself called through MCP
         self._flush()
         model = self.choice.analyst if role == "analyst" else self.choice.manager
+        self.llm_calls.append(_service_record(resp, role, fmt.__name__, model, model_tools,
+                                              int((time.perf_counter() - t0) * 1000)))
         self._step(role, None, {"response_format": fmt.__name__}, [], int((time.perf_counter() - t0) * 1000), "ok",
                    f"model:{model}")
         value = resp.value if resp.value is not None else fmt.model_validate_json(resp.text)
@@ -279,6 +284,18 @@ class Staff:
         return Plan(plan_id=f"{self.team}-template", team=self.team, opponent=self.opp,
                     name=I18nText(en="Balanced default plan", es="Plan equilibrado por defecto"), levers=Levers(),
                     kpis=[Kpi(id="k1", metric="balls_in_behind_conceded", target="<=3", by_minute=90)])
+
+
+def _service_record(resp, role: str, fmt: str, deployment: str, model_tools: list[str], ms: int) -> dict[str, Any]:
+    """What the model service itself reported for one turn: its response id, the model it ran and the tokens.
+    The offline rules client reports none of these."""
+    raw = resp.raw_representation
+    service_model = getattr(getattr(raw, "raw_representation", None), "model", None) or getattr(raw, "model", None)
+    usage = dict(resp.usage_details or {})
+    return {"role": role, "response_format": fmt, "deployment": deployment, "response_id": resp.response_id,
+            "service_model": service_model if isinstance(service_model, str) else None,
+            "input_tokens": usage.get("input_token_count"), "output_tokens": usage.get("output_token_count"),
+            "tools_called_by_model": model_tools, "ms": ms}
 
 
 def _confidence(c: Claim) -> str:
