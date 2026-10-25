@@ -32,6 +32,7 @@ from contracts import (
 )
 from contracts.duel import EstimatedOption, OpponentOptionsEstimate
 from contracts.engine_api import NotReady, NotSealedYet
+from contracts.option import changes_nothing
 from contracts.plan import OpponentPlanEstimate
 from contracts.refs import MatchRef, ValidationResult
 from contracts.sealing import choice_digest, new_salt
@@ -51,7 +52,7 @@ def _tactics(plan: Plan) -> str:
 
 # P(keep the plan, situational move, build-up switch) for the OTHER bench, by its score situation at half-time:
 # Laplace-smoothed frequencies of dev duels (eval/calibrate_estimates.py, D-048); a test pins them to the file.
-ESTIMATE_PROBS: dict[str, list[float]] = {"leading": [0.4, 0.16, 0.44], "level": [0.452, 0.194, 0.355],
+ESTIMATE_PROBS: dict[str, list[float]] = {"leading": [0.4, 0.16, 0.44], "level": [0.258, 0.29, 0.452],
                                           "trailing": [0.2, 0.68, 0.12]}
 
 
@@ -306,7 +307,8 @@ class RealEngine:
                            label=I18nText(en="They go direct", es="Juegan directo"),
                            lever_changes=LeverChanges(build_up="direct"))
         evidence = [c.claim_id for c in adapted] + [c.claim_id for c in seen]
-        options = (stay, second, third)
+        # guesses that are the same tactics on top of what was seen are one guess, never two columns (D-055)
+        options, probs = dm.merge_equivalent([stay, second, third], list(probs), observed)
         total = sum(probs)
         probs = [p / total for p in probs]  # calibrated values are rounded; the contract needs an exact sum of 1
         cid = f"c_est_{team}"
@@ -341,10 +343,15 @@ class RealEngine:
         if not own_options or not opponent_options:
             raise ValueError("own_options and opponent_options are required")
         R = min(R, self.R_matrix)
-        self.declared[perspective] = list(own_options)
         opp = self.opponent(perspective)
         # a bench prices the other team from what it saw in the first half, not from their real levers (D-048)
         observed, seen = observed_levers(opp, self.events, self.home, 45)
+        # two rows (or columns) with the same tactics would be one option shown twice (D-055)
+        same = (dm.duplicate_pairs(list(own_options), self.ht_state.levers[perspective].model_dump())
+                + dm.duplicate_pairs(list(opponent_options), observed))
+        if same:
+            raise ValueError(f"options with the same tactics: {same}")
+        self.declared[perspective] = list(own_options)
         self._keep(seen)
         as_seen = [o.model_copy(update={"lever_changes": LeverChanges(**{
             **observed, **o.lever_changes.model_dump(exclude_none=True)})}) for o in opponent_options]
@@ -378,6 +385,14 @@ class RealEngine:
         if option.lever_changes.press_target and option.lever_changes.press_target not in {
                 p.player_id for p in self.squads.teams[self.opponent(option.team)].players}:
             errors.append("press_target must be an opponent player")
+        # an option is measured against the levers in force at half-time (a fired Plan B included), D-055
+        now = self.ht_state.levers[option.team].model_dump()
+        idle = changes_nothing(now, option.lever_changes, option.subs)
+        if option.intent == "stay_the_course" and not idle:
+            errors.append("'stay the course' cannot change levers or players")
+        elif option.intent != "stay_the_course" and idle:
+            in_force = ", ".join(f"{k}={v}" for k, v in option.lever_changes.model_dump(exclude_none=True).items())
+            errors.append(f"this option changes nothing: already in force ({in_force or 'no change'})")
         return ValidationResult(ok=not errors, errors=errors)
 
     def _option(self, team: str, option_id: str) -> Option:

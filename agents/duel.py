@@ -28,7 +28,7 @@ from contracts import (
     TeamDuelPrivate,
 )
 from contracts.engine_api import EngineAPI
-from contracts.option import Intent
+from contracts.option import Intent, tactics
 from mcp_server.policy import ScopedTools
 from mcp_server.server import build_server
 
@@ -57,52 +57,73 @@ class OptionsDraft(BaseModel):
 
 MANAGER_DUEL_INSTRUCTIONS = """You are the manager of {team} at half-time against {opp}. Propose exactly 3 options: the
 first is "Stay the course" (no changes); the other two change levers (press_height, press_target, build_up,
-attack_channel, corner_delivery) and/or make up to 3 substitutions (window "HT"). Cite claim_ids in evidence. Use only
-players on the pitch for `out` and unused bench players for `in`. Never write numbers in labels."""
+attack_channel, corner_delivery) and/or make up to 3 substitutions (window "HT"). `levers` are the levers your team
+plays with now (a fired Plan B included): each option must change something in force, and no two options may be the
+same change. Cite claim_ids in evidence. Use only players on the pitch for `out` and unused bench players for `in`.
+Never write numbers in labels."""
+
+# The build-up switches and pressing moves a bench can always fall back to when its situational move would change
+# nothing in force or repeat an earlier option (D-055).
+FALLBACKS = (
+    ("Go direct", "Jugar directo", "go_direct", LeverChanges(build_up="direct")),
+    ("Back to short passing", "Volver al juego corto", "short_build_up", LeverChanges(build_up="short")),
+    ("Press higher", "Presionar más arriba", "press_higher", LeverChanges(press_height="high")),
+    ("Drop into a mid block", "Bajar a bloque medio", "drop_block", LeverChanges(press_height="mid")),
+    ("Sit deeper", "Replegarse", "drop_block", LeverChanges(press_height="low")),
+)
 
 
 def offline_options(ev: dict[str, Any]) -> OptionsDraft:
-    """Deterministic half-time options from the bench's situation (used by the offline rules client)."""
+    """Deterministic half-time options from the bench's situation (used by the offline rules client).
+
+    Options change the levers in force (`ev["levers"]`, a fired Plan B included). Each slot takes its first candidate
+    that changes something and is not the same tactics as an earlier option (D-055)."""
     team, diff = ev["team"], ev["score_diff"]
     statuses = {k["metric"]: k["label"] for k in ev["kpis"]}
     levers = ev["levers"]
+    evidence = ev["kpi_claims"]
+
+    def draft(label_en, label_es, intent, changes=None, subs=()):
+        return OptionDraft(option_id="", label_en=label_en, label_es=label_es, intent=intent,
+                           lever_changes=changes or LeverChanges(), subs=list(subs), evidence=evidence)
+
     stay = OptionDraft(option_id=f"{team}-HT-A", label_en="Stay the course", label_es="Mantener el plan",
                        intent="stay_the_course")
     press_struggling = statuses.get("high_turnovers") in ("at_risk", "failing")
-    out: list[OptionDraft] = [stay]
     if diff < 0:
         subs = [Sub(window="HT", out=o, into=i) for o, i in zip(ev["tired_attackers"], ev["bench_attackers"],
                                                                  strict=False)][:2]
-        out.append(OptionDraft(option_id=f"{team}-HT-B", label_en="Fresh legs up front",
-                               label_es="Piernas frescas arriba", intent="attacking_subs", subs=subs,
-                               lever_changes=LeverChanges(attack_channel="balanced"), evidence=ev["kpi_claims"]))
+        situational = [draft("Fresh legs up front", "Piernas frescas arriba", "attacking_subs",
+                             LeverChanges(attack_channel="balanced"), subs)]
     elif diff > 0:
-        out.append(OptionDraft(option_id=f"{team}-HT-B", label_en="Protect the lead", label_es="Proteger la ventaja",
-                               intent="protect_lead", lever_changes=LeverChanges(press_height="low"),
-                               evidence=ev["kpi_claims"]))
+        situational = [draft("Protect the lead", "Proteger la ventaja", "protect_lead",
+                             LeverChanges(press_height="low"))]
+    elif levers["press_height"] == "high":
+        situational = [draft("Drop into a mid block", "Bajar a bloque medio", "drop_block",
+                             LeverChanges(press_height="mid"))]
     else:
-        if levers["press_height"] == "high":
-            out.append(OptionDraft(option_id=f"{team}-HT-B", label_en="Drop into a mid block",
-                                   label_es="Bajar a bloque medio", intent="drop_block",
-                                   lever_changes=LeverChanges(press_height="mid"), evidence=ev["kpi_claims"]))
-        else:
-            out.append(OptionDraft(option_id=f"{team}-HT-B", label_en="Press higher", label_es="Presionar más arriba",
-                                   intent="press_higher", lever_changes=LeverChanges(press_height="high"),
-                                   evidence=ev["kpi_claims"]))
+        situational = [draft("Press higher", "Presionar más arriba", "press_higher", LeverChanges(press_height="high"))]
+    fallbacks = [draft(*f) for f in FALLBACKS]
+    out: list[OptionDraft] = [stay]
+    taken = [tactics(levers, stay.lever_changes, stay.subs)]
+
+    def pick(slot: str, candidates: list[OptionDraft]) -> OptionDraft:
+        for c in candidates:
+            key = tactics(levers, c.lever_changes, c.subs)
+            if key not in taken:
+                taken.append(key)
+                return c.model_copy(update={"option_id": f"{team}-HT-{slot}"})
+        raise ValueError(f"no distinct half-time option for {team}")  # unreachable: the fallbacks always differ
+
+    out.append(pick("B", situational + fallbacks))
+    switch = []
     if press_struggling and levers["press_height"] == "high" and out[1].intent != "drop_block":
-        third = OptionDraft(option_id=f"{team}-HT-C", label_en="Mid block, go direct",
-                            label_es="Bloque medio y juego directo", intent="drop_block",
-                            lever_changes=LeverChanges(press_height="mid", build_up="direct"),
-                            evidence=ev["kpi_claims"])
-    elif levers["build_up"] != "direct":
-        third = OptionDraft(option_id=f"{team}-HT-C", label_en="Go direct", label_es="Jugar directo",
-                            intent="go_direct", lever_changes=LeverChanges(build_up="direct"),
-                            evidence=ev["kpi_claims"])
-    else:
-        third = OptionDraft(option_id=f"{team}-HT-C", label_en="Back to short passing",
-                            label_es="Volver al juego corto", intent="short_build_up",
-                            lever_changes=LeverChanges(build_up="short"), evidence=ev["kpi_claims"])
-    out.append(third)
+        switch.append(draft("Mid block, go direct", "Bloque medio y juego directo", "drop_block",
+                            LeverChanges(press_height="mid", build_up="direct")))
+    if levers["build_up"] != "direct":
+        switch.append(fallbacks[0])  # go direct
+    switch.append(fallbacks[1])  # back to short passing
+    out.append(pick("C", switch + fallbacks))
     return OptionsDraft(options=out)
 
 
@@ -195,22 +216,36 @@ class DuelBench:
         return out.options
 
     async def _validated(self, client: Client, drafts: list[OptionDraft], ev: dict) -> list[Option]:
-        options = []
+        """Validate each option with the engine; an option that stays invalid, or that is the same tactics as an
+        earlier one, is dropped, never kept as a copy of Stay (D-055). Fewer than two left: the offline options."""
+        options: list[Option] = []
+        taken: list[tuple] = []
         for d in drafts:
             opt = Option(option_id=d.option_id, team=self.team, label=I18nText(en=d.label_en, es=d.label_es),
                          intent=d.intent, lever_changes=d.lever_changes, subs=d.subs, evidence=d.evidence)
-            for attempt in range(MAX_REVISIONS + 1):
+            ok = False
+            for _ in range(MAX_REVISIONS + 1):
                 res = await self.staff.call(client, "validate_plan", {"option": opt.model_dump(mode="json")})
                 self.validation.append(res.get("errors", []))
                 if res.get("ok"):
+                    ok = True
                     break
-                # deterministic repair: drop invalid substitutions, keep the lever changes
                 self.staff.trace[-1] = self.staff.trace[-1].model_copy(update={
                     "status": "rejected", "message": "; ".join(res.get("errors", []))[:300]})
-                opt = opt.model_copy(update={"subs": []})
-                if attempt == MAX_REVISIONS:
-                    opt = opt.model_copy(update={"subs": [], "lever_changes": LeverChanges()})
-            options.append(opt)
+                if not opt.subs:
+                    break  # nothing left to repair deterministically
+                opt = opt.model_copy(update={"subs": []})  # drop invalid substitutions, keep the lever changes
+            key = tactics(ev["levers"], opt.lever_changes, opt.subs)
+            if ok and key in taken:
+                ok = False
+                self.validation.append([f"{opt.option_id} is the same change as an earlier option"])
+            if ok:
+                taken.append(key)
+                options.append(opt)
+        if len(options) < 2 or options[0].intent != "stay_the_course":
+            if drafts == offline_options(ev).options:
+                raise RuntimeError(f"{self.team}: the offline half-time options did not validate: {self.validation}")
+            return await self._validated(client, offline_options(ev).options, ev)
         return options
 
 

@@ -82,6 +82,27 @@ def render() -> str:
                       lambda x: f"{x['duel_interaction']['share_without_dominant_option']}"),
                   row("Season statistics in target range",
                       lambda x: f"{sum(v['in_range'] for v in x['calibration'].values())} of {len(x['calibration'])}")]
+    prev = _load("test_before_d055.json")
+    if prev:
+        def row2(name, get):
+            return f"| {name} | {get(prev)} | {get(s)} |"
+        lines += ["", "## Before and after the half-time option fix (same test seasons, D-055)", "",
+                  "Before: the run above as committed before D-055 (`eval/results/test_before_d055.json`), when a "
+                  "bench built its options from its sealed plan. After: this run (options start from the levers in "
+                  "force; equivalent options are merged or replaced). The fix was decided on correctness and checked "
+                  "on dev data before this test run.", "",
+                  "| Measure | Before | After |", "|---|---|---|",
+                  row2("E7 probability on the other bench's real intent (uniform 0.333)",
+                       lambda x: _ci(x["E7"]["prob_on_actual_intent"])),
+                  row2("E8 regret, AI (xPts)", lambda x: _ci(x["E8"]["ai_regret"])),
+                  row2("E8 regret, always stay (xPts)", lambda x: _ci(x["E8"]["always_stay_regret"])),
+                  row2("E8 regret, random choice (xPts)", lambda x: _ci(x["E8"]["random_choice_regret"])),
+                  row2("Half-times without a dominant option",
+                       lambda x: f"{x['duel_interaction']['share_without_dominant_option']}"),
+                  row2("E1 precision / recall (no duel involved)",
+                       lambda x: f"{x['E1']['precision']} / {x['E1']['recall']}"),
+                  row2("E3 plans targeting a real weakness (no duel involved)",
+                       lambda x: f"{x['E3']['plans_attacking_a_real_weakness']}")]
     lines += [
         "",
         "## E1 by trait kind",
@@ -120,8 +141,9 @@ def render() -> str:
                   f"{c['shots_per_match']} shots and {c['goals_per_match']} goals per match on seasons "
                   f"{', '.join(map(str, sim['seasons']))}."]
     lines += ["", "What these do not show: that the agents would help a real coach, or that the simulator's football",
-              "is realistic beyond the statistics above. They show the pipeline is grounded, reproducible and better",
-              "than blind baselines inside its own world.", ""]
+              "is realistic beyond the statistics above. They show the pipeline is grounded and reproducible, and that",
+              "inside its own world the scouting (E1) and the plans (E3) beat blind baselines. Compare E7 and E8 with",
+              "their baselines above before saying anything about the half-time calls.", ""]
     return "\n".join(lines)
 
 

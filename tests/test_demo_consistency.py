@@ -84,6 +84,21 @@ def test_each_choice_follows_its_own_believed_matrix_and_rule(demo):
         assert not {o.option_id for o in demo.duel.private[other].options} & set(p.believed_matrix.cols)
 
 
+def test_every_half_time_option_is_a_real_alternative(demo):
+    """Each option changes the levers in force at half-time (a fired Plan B included) and no two options, rows or
+    columns are the same (D-054, D-055)."""
+    from contracts.option import changes_nothing, tactics
+    for team, p in demo.duel.private.items():
+        now = demo.snapshots[45].active_levers[team].model_dump()
+        assert p.options[0].intent == "stay_the_course"
+        assert all(not changes_nothing(now, o.lever_changes, o.subs) for o in p.options[1:]), team
+        assert len({tactics(now, o.lever_changes, o.subs) for o in p.options}) == len(p.options), team
+    for m in [demo.duel.broadcast.true_matrix] + [p.believed_matrix for p in demo.duel.private.values()]:
+        rows = [tuple(c.xpts[m.row_team] for c in row) for row in m.cells]
+        cols = [tuple(row[j].xpts[m.row_team] for row in m.cells) for j in range(len(m.cols))]
+        assert len(set(rows)) == len(rows) and len(set(cols)) == len(cols), m.matrix_id
+
+
 def test_no_dominated_option_is_called_a_gamble(demo):
     for m in [demo.duel.broadcast.true_matrix] + [p.believed_matrix for p in demo.duel.private.values()]:
         for team, reading in m.readings.items():

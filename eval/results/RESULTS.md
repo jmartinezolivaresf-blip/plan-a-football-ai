@@ -11,8 +11,8 @@ simulator** on synthetic data with fictional clubs; nothing here is a claim abou
 | E2 | Monte Carlo noise: R=300 vs R=3000 for 6 lever changes from one half-time state | mean abs error 0.013 xPts; 90% CI covers the reference 0.667; sign agreement 0.333 overall, 0.5 on the 2 cells whose reference interval excludes zero |
 | E3 | Plans that target a real hidden weakness (12 plans) | 0.75 vs 0.501 for a blind random plan; levers citing claims the staff retrieved 1.0 |
 | E4 | Grounded text | reports valid at first try 1.0; cues dropped by the verifier 0; numbers written by the model 0 (by construction) |
-| E7 | Probability a bench gave to what the other bench really did | 0.4 (90% CI 0.31 to 0.493, n 12); uniform guess 0.333 |
-| E8 | Half-time regret (xPts lost vs the best answer to the other bench's real choice) | AI 0.028 (90% CI 0.013 to 0.047, n 12); always stay 0.045 (90% CI 0.031 to 0.064, n 12); random 0.029 (90% CI 0.02 to 0.039, n 12) |
+| E7 | Probability a bench gave to what the other bench really did | 0.457 (90% CI 0.35 to 0.56, n 12); uniform guess 0.333 |
+| E8 | Half-time regret (xPts lost vs the best answer to the other bench's real choice) | AI 0.028 (90% CI 0.013 to 0.047, n 12); always stay 0.045 (90% CI 0.031 to 0.064, n 12); random 0.032 (90% CI 0.023 to 0.042, n 12) |
 | Duel | Half-times where the best answer depends on the other bench (no dominant option in the true matrix) | 0.5 of 12 bench decisions |
 
 ## Before and after the evaluation improvements (same test seasons)
@@ -23,10 +23,24 @@ Before: commit 0d51fc7 (`eval/results/test_before.json`). After: this run. The c
 |---|---|---|
 | E1 precision / recall | 0.492 / 0.333 | 0.687 / 0.633 |
 | E3 plans targeting a real weakness (random plan) | 0.583 (0.501) | 0.75 (0.501) |
-| E7 probability on the other bench's real intent (uniform 0.333) | 0.379 | 0.4 |
-| E8 regret AI / always stay / random (xPts) | 0.004 / 0.073 / 0.062 | 0.028 / 0.045 / 0.029 |
+| E7 probability on the other bench's real intent (uniform 0.333) | 0.379 | 0.457 |
+| E8 regret AI / always stay / random (xPts) | 0.004 / 0.073 / 0.062 | 0.028 / 0.045 / 0.032 |
 | Half-times without a dominant option | 0.25 | 0.5 |
 | Season statistics in target range | 4 of 9 | 4 of 9 |
+
+## Before and after the half-time option fix (same test seasons, D-055)
+
+Before: the run above as committed before D-055 (`eval/results/test_before_d055.json`), when a bench built its options from its sealed plan. After: this run (options start from the levers in force; equivalent options are merged or replaced). The fix was decided on correctness and checked on dev data before this test run.
+
+| Measure | Before | After |
+|---|---|---|
+| E7 probability on the other bench's real intent (uniform 0.333) | 0.4 (90% CI 0.31 to 0.493, n 12) | 0.457 (90% CI 0.35 to 0.56, n 12) |
+| E8 regret, AI (xPts) | 0.028 (90% CI 0.013 to 0.047, n 12) | 0.028 (90% CI 0.013 to 0.047, n 12) |
+| E8 regret, always stay (xPts) | 0.045 (90% CI 0.031 to 0.064, n 12) | 0.045 (90% CI 0.031 to 0.064, n 12) |
+| E8 regret, random choice (xPts) | 0.029 (90% CI 0.02 to 0.039, n 12) | 0.032 (90% CI 0.023 to 0.042, n 12) |
+| Half-times without a dominant option | 0.5 | 0.5 |
+| E1 precision / recall (no duel involved) | 0.687 / 0.633 | 0.687 / 0.633 |
+| E3 plans targeting a real weakness (no duel involved) | 0.75 | 0.75 |
 
 ## E1 by trait kind
 
@@ -62,5 +76,6 @@ seasons, below).
 - **Shot volume** (rule: grid value with mean shots per match closest to the middle of the target range): shot_logit_offset -0.4 gives 25.594 shots and 2.896 goals per match on seasons 11, 12, 13, 14.
 
 What these do not show: that the agents would help a real coach, or that the simulator's football
-is realistic beyond the statistics above. They show the pipeline is grounded, reproducible and better
-than blind baselines inside its own world.
+is realistic beyond the statistics above. They show the pipeline is grounded and reproducible, and that
+inside its own world the scouting (E1) and the plans (E3) beat blind baselines. Compare E7 and E8 with
+their baselines above before saying anything about the half-time calls.

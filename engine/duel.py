@@ -5,7 +5,11 @@ All functions work for either team: for the column team the matrix is read trans
 
 from __future__ import annotations
 
-from contracts import Matrix, MatrixReading
+from collections.abc import Mapping
+from typing import Any
+
+from contracts import Matrix, MatrixReading, Option
+from contracts.option import tactics
 
 # A gamble must have a worst case at least this much below the safe pick's worst case (xPts).
 GAMBLE_MARGIN = 0.02
@@ -72,3 +76,30 @@ def regret(true_matrix: Matrix, team: str, chosen: str, opponent_chosen: str) ->
     j = opp.index(opponent_chosen)
     best = max(range(len(own)), key=lambda i: p[i][j])
     return own[best], p[best][j] - p[own.index(chosen)][j]
+
+
+def merge_equivalent(options: list[Option], probs: list[float], levers: Mapping[str, Any]) -> tuple[
+        list[Option], list[float]]:
+    """Merge options that are the same tactics on top of `levers` (the first one stays, probabilities add up).
+
+    An estimate of the other bench is priced on top of what was seen of it: two guesses that change nothing
+    different (e.g. "they push for a goal" by pressing high, when they already press high) are one guess (D-055)."""
+    kept: list[Option] = []
+    kept_probs: list[float] = []
+    keys: list[tuple] = []
+    for option, p in zip(options, probs, strict=True):
+        key = tactics(levers, option.lever_changes, option.subs)
+        if key in keys:
+            kept_probs[keys.index(key)] += p
+            continue
+        kept.append(option)
+        kept_probs.append(p)
+        keys.append(key)
+    return kept, kept_probs
+
+
+def duplicate_pairs(options: list[Option], levers: Mapping[str, Any]) -> list[tuple[str, str]]:
+    """Pairs of option ids that are the same tactics on top of `levers`."""
+    keys = [tactics(levers, o.lever_changes, o.subs) for o in options]
+    return [(options[i].option_id, options[j].option_id) for i in range(len(options))
+            for j in range(i + 1, len(options)) if keys[i] == keys[j]]

@@ -16,6 +16,13 @@
    9015
   ],
   "per_kind": {
+   "back_post_weak": {
+    "flagged": 5,
+    "correct": 4,
+    "true": 18,
+    "precision": 0.8,
+    "recall": 0.222
+   },
    "weak_channel": {
     "flagged": 22,
     "correct": 15,
@@ -30,12 +37,12 @@
     "precision": 0.75,
     "recall": 0.3
    },
-   "back_post_weak": {
-    "flagged": 5,
-    "correct": 4,
-    "true": 18,
-    "precision": 0.8,
-    "recall": 0.222
+   "gk_short_bias": {
+    "flagged": 15,
+    "correct": 14,
+    "true": 16,
+    "precision": 0.933,
+    "recall": 0.875
    },
    "fb_low_press_resistance": {
     "flagged": 13,
@@ -43,13 +50,6 @@
     "true": 10,
     "precision": 0.692,
     "recall": 0.9
-   },
-   "gk_short_bias": {
-    "flagged": 15,
-    "correct": 14,
-    "true": 16,
-    "precision": 0.933,
-    "recall": 0.875
    },
    "cb_low_pace": {
     "flagged": 8,
@@ -1173,10 +1173,10 @@
  },
  "E7": {
   "prob_on_actual_intent": {
-   "mean": 0.341,
+   "mean": 0.284,
    "ci90": [
-    0.267,
-    0.421
+    0.217,
+    0.353
    ],
    "n": 12
   },
@@ -1185,26 +1185,26 @@
  },
  "E8": {
   "ai_regret": {
-   "mean": 0.032,
+   "mean": 0.026,
    "ci90": [
-    0.014,
-    0.051
+    0.009,
+    0.044
    ],
    "n": 12
   },
   "always_stay_regret": {
-   "mean": 0.035,
+   "mean": 0.022,
    "ci90": [
-    0.011,
-    0.066
+    0.01,
+    0.036
    ],
    "n": 12
   },
   "random_choice_regret": {
-   "mean": 0.036,
+   "mean": 0.029,
    "ci90": [
-    0.02,
-    0.055
+    0.019,
+    0.039
    ],
    "n": 12
   },
@@ -1294,6 +1294,6 @@
    "target_inside_ci90": true
   }
  },
- "seconds": 165.5,
+ "seconds": 166.4,
  "scope": "all results are inside our simulator; synthetic data; not claims about real football"
 }

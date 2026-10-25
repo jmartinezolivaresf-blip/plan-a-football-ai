@@ -81,8 +81,8 @@ Full tables: [`eval/results/RESULTS.md`](eval/results/RESULTS.md) (generated fro
 | E2 | Monte Carlo noise: R=300 vs R=3000 for 6 lever changes from one half-time state | mean abs error 0.013 xPts; 90% CI covers the reference 0.667; sign agreement 0.333 overall, 0.5 on the 2 cells whose reference interval excludes zero |
 | E3 | Plans that target a real hidden weakness (12 plans) | 0.75 vs 0.501 for a blind random plan; levers citing claims the staff retrieved 1.0 |
 | E4 | Grounded text | reports valid at first try 1.0; cues dropped by the verifier 0; numbers written by the model 0 (by construction) |
-| E7 | Probability a bench gave to what the other bench really did | 0.4 (90% CI 0.31 to 0.493, n 12); uniform guess 0.333 |
-| E8 | Half-time regret (xPts lost vs the best answer to the other bench's real choice) | AI 0.028 (90% CI 0.013 to 0.047, n 12); always stay 0.045 (90% CI 0.031 to 0.064, n 12); random 0.029 (90% CI 0.02 to 0.039, n 12) |
+| E7 | Probability a bench gave to what the other bench really did | 0.457 (90% CI 0.35 to 0.56, n 12); uniform guess 0.333 |
+| E8 | Half-time regret (xPts lost vs the best answer to the other bench's real choice) | AI 0.028 (90% CI 0.013 to 0.047, n 12); always stay 0.045 (90% CI 0.031 to 0.064, n 12); random 0.032 (90% CI 0.023 to 0.042, n 12) |
 | Duel | Half-times where the best answer depends on the other bench (no dominant option in the true matrix) | 0.5 of 12 bench decisions |
 <!-- /RESULTS_HEADLINE -->
 
