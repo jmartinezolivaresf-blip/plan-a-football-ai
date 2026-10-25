@@ -10,7 +10,7 @@ the information is split. The host (`pipeline/`, `agents/`) enforces that split;
 |---|---|---|---|---|
 | Analyst | yes | `FOUNDRY_MODEL_SMALL` | scouting tools of its club's MCP server | scouting report: up to 5 findings, each tied to one claim, plus a guess of the opponent's levers |
 | Manager | yes | `FOUNDRY_MODEL_LARGE` | `simulate_plan`, `validate_plan` | 2-3 candidate plans; the best valued one is sealed |
-| Half-time bench | yes | `FOUNDRY_MODEL_LARGE` | `get_plan_status`, `get_events`, `estimate_opponent_options`, `price_matrix`, `seal_choice` | three options, its believed matrix, a sealed choice |
+| Half-time bench | yes | `FOUNDRY_MODEL_LARGE` | `get_squad_condition`, `get_plan_status`, `get_events`, `estimate_opponent_options`, `price_matrix`, `seal_choice` | three distinct options, its believed matrix, a sealed choice |
 | Director | broadcast | deterministic code | broadcast MCP server (`get_true_matrix` after both seals) | timed cues; every number is a claim |
 
 In `AGENTS_MODE=offline` the analyst, manager and bench are the same Agent Framework agents with a deterministic
@@ -45,7 +45,11 @@ both seals --> broadcast: true matrix, regret --> director cues --> bundle
   validator's errors (`MAX_ATTEMPTS`), then a template is used and the trace says so.
 - **Valid plans and options.** `validate_plan` rejects levers without evidence the staff actually retrieved,
   unknown players and impossible substitutions; the manager revises up to `MAX_REVISIONS` times, then falls back
-  to its sealed template (`tests/test_agents_prematch.py` exercises both paths).
+  to its sealed template (`tests/test_agents_prematch.py` exercises both paths). At half-time an option is
+  measured against the levers the team plays with now (its Plan B included, read through its own
+  `get_squad_condition`): an option that changes nothing is rejected, two options with the same tactics are never
+  priced as two rows, and guesses about the other bench that look the same from what was seen become one column
+  (D-055, `tests/test_duel_options.py`).
 - **Seals.** Plans are sealed before kick-off; half-time choices are committed with a random salt and revealed only
   after both benches sealed. The browser re-verifies both.
 

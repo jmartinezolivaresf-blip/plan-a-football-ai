@@ -45,8 +45,8 @@ def shots() -> list[tuple[str, float, str | None]]:
         out.append((f"t={s // 60}:{s % 60:02d}&mode=analyst", 2.0 if last else 0.25,
                     "03-live-detector" if last else None))
     out += [("t=45:00&mode=analyst", 3.0, "04-duel-rooms"),
-            ("t=45:00&reveal=1&mode=analyst", 6.0, "05-duel-true-matrix"),
-            ("t=45:00&reveal=1&mode=analyst&matrix=believed", 5.0, "06-duel-believed-matrix"),
+            ("t=45:00&reveal=1&mode=analyst&club=HAR", 6.0, "05-duel-true-matrix"),
+            ("t=45:00&reveal=1&mode=analyst&matrix=believed&club=HAR", 5.0, "06-duel-believed-matrix"),
             ("t=90:00&mode=analyst", 6.0, "07-full-time"),
             ("tab=desk&t=50:00&mode=analyst&section=trace", 5.0, "08-agent-trace"),
             ("tab=desk&t=90:00&mode=analyst&section=validation", 6.0, "09-validation-panel")]

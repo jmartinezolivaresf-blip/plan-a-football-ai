@@ -48,41 +48,41 @@ SCENES: list[dict] = [
            "eight matches. The manager turns that evidence into a game plan and tests it in simulation."},
     {"kind": "shot", "seconds": 7.5, "state": "kickoff", "start": None, "end": "kick_cards",
      "highlight": ["kick_seal_home", "kick_seal_away"], "phase": "Locked before kick-off",
-     "caption": "Both plans are sealed. Neither bench can see the other's.",
+     "caption": "Kestrel: a measured approach. Harbourside: exploit their weaknesses. Both plans are sealed.",
      "vo": "Then each plan is locked in. Neither bench can see the other's plan, and nobody can change it once "
            "the match starts."},
     {"kind": "live", "seconds": 16.0, "state": "live", "box": "live_pitch", "phase": "2 · The match",
-     "caption": "Kestrel's backup plan switches to long balls at 25'. The live detector spots it in the data.",
+     "caption": "Kestrel's backup plan switches to long balls at 25'. The live detector spots it at 31'.",
      "vo": "The match is simulated live, and a tracker follows each plan's targets. At minute 25, Kestrel's "
-           "backup plan kicks in and they go long. The live detector flags it in the data: long balls jump "
-           "from 16% to 56%."},
+           "backup plan kicks in and they go long. The live detector flags it six minutes later: long balls "
+           "jump from 6% to 45%."},
     {"kind": "shot", "seconds": 10.0, "state": "ht_closed", "start": None, "end": "ht_rooms",
      "highlight": ["ht_score"], "phase": "3 · Half-time: the duel",
-     "caption": "Kestrel lead 2-0. Both benches choose at the same time, blind to each other.",
-     "vo": "Half-time: Kestrel lead two-nil. Both benches pick one of three options at the same moment, blind "
-           "to each other. Each choice is locked in."},
+     "caption": "1-1 at half-time. Both benches choose at the same time, blind to each other.",
+     "vo": "Half-time, one-all. Both benches pick one of three options at the same moment, blind to each "
+           "other. Each choice is locked in."},
     {"kind": "shot", "seconds": 6.0, "state": "ht_revealed", "start": "ht_rooms", "end": "ht_rooms",
      "highlight": ["chosen_home", "chosen_away"], "phase": "The reveal",
-     "caption": "Kestrel: Stay the course. Harbourside: Stay the course.",
-     "vo": "Reveal. Both benches decide to stay the course."},
-    {"kind": "shot", "seconds": 9.0, "state": "ht_revealed", "start": "m_believed", "end": "m_believed",
-     "highlight": ["believed_row"], "phase": "What Kestrel believed",
-     "caption": "On its own numbers, staying the course looked like the safe choice.",
-     "vo": "This is what Kestrel's staff believed. On their own numbers, staying the course looked like the "
-           "safe choice."},
+     "caption": "Kestrel: Stay the course. Harbourside: Back to short passing.",
+     "vo": "Reveal. Kestrel stay the course. Harbourside go back to short passing."},
+    {"kind": "shot", "seconds": 10.0, "state": "ht_revealed", "start": "m_believed", "end": "m_believed",
+     "highlight": ["believed_row"], "phase": "What Harbourside believed",
+     "caption": "They expected Kestrel to go back to short too. On their numbers, short passing was the answer.",
+     "vo": "Harbourside's staff expected Kestrel to switch back to short passing. Against that, short passing "
+           "was their best answer."},
     {"kind": "shot", "seconds": 12.0, "state": "ht_revealed", "start": "m_true", "end": "m_true",
      "highlight": ["cell_happened", "cell_best"], "phase": "What was really true",
-     "caption": "Protecting the lead was the better answer, whatever Harbourside did.",
-     "vo": "And this is what was really true. The simulator replays the second half hundreds of times for "
-           "every pair of choices. Protecting the lead was better, whatever Harbourside did."},
+     "caption": "Kestrel stayed. Against that, dropping into a mid block was Harbourside's best answer.",
+     "vo": "But Kestrel stayed the course. The simulator replays the second half hundreds of times for every "
+           "pair of choices: against that, dropping into a mid block was better."},
     {"kind": "shot", "seconds": 9.5, "state": "ht_revealed", "start": "m_true", "end": "m_true",
      "highlight": ["cell_happened", "cell_best"], "phase": "The cost of the call",
-     "caption": "About 0.08 expected points left on the table (likely range 0.01 to 0.14).",
-     "vo": "Kestrel's call left about 0.08 expected points on the table: a likely range of 0.01 to 0.14."},
+     "caption": "About 0.12 expected points left on the table (likely range 0.01 to 0.23).",
+     "vo": "Harbourside's call left about 0.12 expected points on the table: a likely range of 0.01 to 0.23."},
     {"kind": "shot", "seconds": 10.0, "state": "final", "start": None, "end": ["final_head", "recap"],
      "highlight": ["goal_line"], "phase": "4 · Full time",
-     "caption": "Harbourside come back to 2-2. The call is judged against every alternative, not the score.",
-     "vo": "Harbourside come back to draw two-two. One match proves nothing on its own, so every call is judged "
+     "caption": "Harbourside win 3-1 anyway. The call is judged against every alternative, not the score.",
+     "vo": "Harbourside still win three-one. One match proves nothing on its own, so every call is judged "
            "against all the alternatives, not the final score."},
     {"kind": "shot", "seconds": 13.0, "state": "desk_trace", "start": ["trace_r1", "trace_r16"],
      "end": ["trace_r1", "trace_r8"],
@@ -104,11 +104,12 @@ STATES = [
     ("kickoff", "t=0:00", None,
      {"kick_cards": ".stage", "kick_seal_home": ".plan-card.home .seal", "kick_seal_away": ".plan-card.away .seal"}),
     ("ht_closed", "t=45:00", None, {"ht_rooms": ".halftime", "ht_score": ".ht-head h2"}),
-    ("ht_revealed", "t=45:00", "reveal",
+    # the duel through Harbourside's eyes: theirs is the call whose cost is above the simulator's noise
+    ("ht_revealed", "t=45:00&club=HAR", "reveal",
      {"ht_rooms": ".rooms", "chosen_home": ".room:nth-of-type(1) li.chosen",
       "chosen_away": ".room:nth-of-type(2) li.chosen",
       "m_believed": ".duel-matrix.believed", "m_true": ".duel-matrix.true",
-      "believed_row": ".duel-matrix.believed tbody tr:nth-of-type(1)", "cell_happened": ".duel-matrix.true td.happened",
+      "believed_row": ".duel-matrix.believed tbody tr:nth-of-type(3)", "cell_happened": ".duel-matrix.true td.happened",
       "cell_best": ".duel-matrix.true td.best-answer", "verdict": ".halftime .verdict"}),
     ("final", "t=90:00", None, {"final_stage": ".final", "goal_line": ".goal-line", "final_head": ".final .ht-head",
                                 "recap": ".final .recap"}),
@@ -196,12 +197,14 @@ def _union(boxes: dict, keys):
     return x0, y0, x1 - x0, y1 - y0
 
 
-def _fit(box, pad: float = 40.0) -> tuple[float, float, float, float]:
-    """A 16:9 crop around a box (with padding), kept inside the frame."""
+def _fit(box, pad: float = 40.0, below: float = 0.2) -> tuple[float, float, float, float]:
+    """A 16:9 crop around a box (with padding), kept inside the frame, leaving the bottom `below` of the crop for
+    the caption so the caption never covers what the scene is about."""
     if box is None:
         return 0.0, 0.0, float(W), float(H)
     x, y, w, h = box
     x, y, w, h = x - pad, y - pad, w + 2 * pad, h + 2 * pad
+    h = h / (1 - below)
     if w / h > W / H:
         nh = w * H / W
         y, h = y - (nh - h) / 2, nh
@@ -348,6 +351,8 @@ def write_script(starts: list[tuple[float, float]], lengths: list[float] | None)
         fit = "" if lengths is None else f"{lengths[k]:.1f} s"
         rows.append(f"| {ts(a)}-{ts(b)} | {sc.get('phase', 'Title')} | {on_screen} | \"{sc['vo']}\" | {fit} |")
     total = starts[-1][1]
+    build = json.loads((DIST / "match_bundle.json").read_text())["eval"]["build"]
+    season, seed = build["season_seed"], build["match_seed"]
     text = f"""# Video script (generated by scripts/make_presentation.py; edit SCENES there, not here)
 
 **Two AI coaching staffs. Two hidden strategies. One tactical duel.** Total {total:.0f} s (limit 120 s).
@@ -356,7 +361,7 @@ Files: `docs/media/plan_a_demo_v2.mp4` (silent, 1920x1080, to record the narrati
 `docs/media/plan_a_demo_v2_guide_voice.mp4` (a synthetic macOS voice, ONLY to check timing; record a human voice for
 the submission). The earlier `docs/media/walkthrough.mp4` is kept as a reference.
 
-Every number below comes from the frozen demo bundle (season 2026, match seed 236) and is checked by
+Every number below comes from the frozen demo bundle (season {season}, match seed {seed}) and is checked by
 `tests/test_demo_consistency.py`. What the narration must not claim: that this single match proves anything (it is one
 replay), that the AI beats random choices at half-time (E8 does not show that), or that the agents run on Microsoft
 Foundry (the integration is prepared but no real call has been verified yet).

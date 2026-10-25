@@ -9,7 +9,7 @@ next to what was really true. Built for the Microsoft + Premier League *Inside t
 > are used. Every number is produced inside our own simulator and is not a prediction about real football.
 
 **Demo:** <!-- DEMO_URL --> not deployed yet (ready for Azure Static Web Apps, `infra/AZURE_PLAN.md`). Run it
-locally in two commands below, or watch [`docs/media/plan_a_demo_v2.mp4`](docs/media/plan_a_demo_v2.mp4) (117 s, captured
+locally in two commands below, or watch [`docs/media/plan_a_demo_v2.mp4`](docs/media/plan_a_demo_v2.mp4) (118 s, captured
 from the app; narration and timings in [`docs/VIDEO_SCRIPT.md`](docs/VIDEO_SCRIPT.md)).
 
 ![Half-time duel: what each bench believed vs the real payoff matrix](docs/media/05-duel-true-matrix.png)
@@ -28,13 +28,14 @@ from the app; narration and timings in [`docs/VIDEO_SCRIPT.md`](docs/VIDEO_SCRIP
    against the best answer to what the other bench really did, with an interval.
 
 <!-- DEMO_STORY -->
-**The demo match** (season 2026, match seed 236, agents: offline-rules/offline-rules): Kestrel 2-0 Harbourside at half-time, 2-2 at full time.
+**The demo match** (season 2026, match seed 204, agents: offline-rules/offline-rules): Kestrel 1-1 Harbourside at half-time, 1-3 at full time.
 - Plans: Kestrel "Measured approach", Harbourside "Exploit their weaknesses".
-- Kestrel changed its build-up at minute 25; the live detector flagged it at minute 37 (estimated change minute 26).
-- Half-time: Kestrel chose "Stay the course" (safe pick on its own believed matrix).
-- Half-time: Harbourside chose "Stay the course" (best guess on its own believed matrix).
-- Kestrel: regret 0.076 xPts (paired 90% interval 0.012 to 0.144) against "Protect the lead"; "Protect the lead" was dominant in the true matrix.
-- Harbourside: regret 0.03 xPts (paired 90% interval -0.032 to 0.098) against "Back to short passing".
+- Kestrel changed its build-up at minute 25; the live detector flagged it at minute 31 (estimated change minute 23).
+- Harbourside changed its build-up at minute 46; the live detector flagged it at minute 59 (estimated change minute 13).
+- Half-time: Kestrel chose "Stay the course" (best guess on its own believed matrix).
+- Half-time: Harbourside chose "Back to short passing" (best guess on its own believed matrix).
+- Kestrel: regret 0.026 xPts (paired 90% interval -0.036 to 0.084) against "Press higher".
+- Harbourside: regret 0.12 xPts (paired 90% interval 0.01 to 0.228) against "Drop into a mid block".
 <!-- /DEMO_STORY -->
 
 This is one replay: it illustrates the decisions, it does not prove anything on its own; the half-time calls are
@@ -87,8 +88,9 @@ Full tables: [`eval/results/RESULTS.md`](eval/results/RESULTS.md) (generated fro
 <!-- /RESULTS_HEADLINE -->
 
 Reading them honestly: scouting (E1) and plans (E3) clearly beat blind baselines. The half-time calls do not yet:
-the benches anticipate the other bench only slightly better than a uniform guess (E7, interval includes 0.333), and
-their regret is lower than always staying the course but about the same as a random choice (E8).
+E7 is above a uniform guess on the test season (0.457) but below it on the dev check (0.284, `eval/results/dev`),
+so with 12 decisions per run we claim no anticipation skill; and the benches' regret is lower than always staying
+the course but about the same as a random choice (E8).
 
 How these were obtained: every threshold and simulator knob was chosen on **dev** seasons only (random trait kinds,
 seeds 9001-9015 and 11-14); the **test** seasons (8001-8005 for E1, 8101 for the matches) were run once before and
@@ -101,13 +103,17 @@ One change that made results worse on dev (a "what would they pick" step for E7)
   agents are grounded and reproducible, and that their scouting and plans beat blind baselines *inside that
   world*; they say nothing about real football or real coaches.
 - **A simple match model.** A zone-based simulator with five levers. Its season statistics are near, not always
-  inside, the target ranges (passes and pass accuracy are off; 24-match samples are noisy). Pressing-based exploits
+  inside, the target ranges (4 of 9 on the test season: goals, passes, pass accuracy and the home-win and draw
+  shares are off; 24-match samples are noisy). Pressing-based exploits
   do not pay off in it yet (D-051), and many half-time matrices still have a dominant option.
 - **Small evaluation samples.** E7/E8 rest on 12 half-time decisions per run; intervals are reported.
-- **Half-time options come from the sealed plan.** After a Plan B a bench can be offered an option that changes
-  nothing: in the demo, Kestrel's "Go direct" has the same numbers as "Stay the course" because its Plan B already
-  went direct at minute 25 (D-053). The fix touches the engine protocol and the evaluated numbers, so it is kept on
-  a separate branch for the owners to decide.
+- **The other bench is guessed with lever changes only.** A bench prices "they push for a goal" as pressing high
+  with a balanced attack, not as substitutions. When the other team already plays that way, the guess is
+  the same as "they keep their plan" and the two are merged into one column (D-055), so an attacking substitution
+  by the other bench then gets no credit in E7.
+- **The live detector dates a change with one change point.** When a team's style drifts before it really
+  switches, the estimated minute is pulled earlier: in the demo it dates Harbourside's half-time switch (46') to
+  "about minute 13", because their long-ball share was already falling in the first half.
 - **Offline agents in the demo.** The committed demo was produced by the deterministic rules client. A Foundry run
   will change texts, plans and possibly the story; the bundle records which model produced it.
 - **No live backend.** The public demo replays a precomputed bundle; the MCP server is not exposed.
@@ -124,7 +130,7 @@ make web-dev      # http://localhost:5173 with the committed demo bundle, no bac
 Rebuild everything from scratch (offline mode, about a minute per match on a laptop):
 
 ```bash
-make bundle SEED=236        # season -> pre-match -> first half -> duel -> second half -> web/public/match_bundle.json
+make bundle SEED=204        # season -> pre-match -> first half -> duel -> second half -> web/public/match_bundle.json
 make seed-search N=48       # how the demo seed was chosen (criteria in pipeline/build.py, STORY_CRITERIA)
 make eval                   # calibrations on dev seasons, E1-E8, eval/results/RESULTS.md
 make check                  # lint, schemas, fixtures, tests

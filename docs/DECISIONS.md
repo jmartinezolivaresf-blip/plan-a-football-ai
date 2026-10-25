@@ -312,11 +312,11 @@ the reveal and verifies with the revealed salt afterwards. (3) Known, not fixed 
 options from its sealed plan, not from its current levers, so after a Plan B it can offer an option that changes
 nothing (in the demo, Kestrel's "Go direct" equals "Stay the course" because its Plan B already went direct at 25').
 The fix touches the engine protocol and changes the demo match and the evaluated numbers; it is prepared on branch
-`fix/duel-active-levers` with its measured effect for the owners to decide. A clean clone rebuilds the demo bundle
+`fix/duel-active-levers` with its measured effect for the owners to decide (the owners chose to fix it: D-055). A clean clone rebuilds the demo bundle
 identical to the committed one (salts and wall-clock fields aside), and `tests/test_demo_consistency.py` checks the
 bundle against itself, the README story block and every number in the video narration.
 
-**D-054 · Half-time options start from the levers in force (branch `fix/duel-active-levers`, not merged).** A bench
+**D-054 · Half-time options start from the levers in force (first step; completed and merged as D-055).** A bench
 built its options from its sealed plan, so after a Plan B it could offer a change that was already in force (D-053:
 Kestrel's "Go direct" at seed 236). `get_squad_condition` now also returns the caller's own levers at the visible
 minute (its plan, or its Plan B once fired; own team only, same time gate), and the bench builds its options from
@@ -325,3 +325,34 @@ E1 on 9011-9015) is identical before and after, because no dev bench had a no-op
 at seed 236 Kestrel's third option becomes "Back to short passing", Kestrel picks it, the match ends 4-1 (not 2-2) and
 seed 236 no longer meets the story criteria (final goal difference 3). Merging needs a new seed search, bundle,
 story, evidence, screenshots and video; the test seasons were not run with this change. Seed search with the fix (48 seeds from 202): 4 meet the criteria (215, 238, 242, 248; 236 does not); the smallest, 215, is Kestrel 1-3 at half-time and 2-3 at full time, with Kestrel's switch detected only in the second half (minute 61).
+
+**D-055 · Every half-time option is a real alternative; new demo match (2026-10-25, owners' decision).** Cause: a
+bench built its options from its sealed plan, while the match is played with the levers in force (the plan, or its
+Plan B once fired). At seed 236 Kestrel's Plan B had switched it to a direct build-up at 25' (k3 failing), so "Go
+direct" re-applied a lever already in force; with common random numbers its forks were the very same replicas as
+"Stay the course", hence identical rows in both matrices. `fork()` itself was right: it restores the half-time
+levers (Plan B included) and overrides only the fields an option sets; a fired Plan B rule never fires again. In 43
+of 120 benches of the demo season the levers at half-time differ from the sealed plan. Fix: (1) the bench reads its
+own levers in force (D-054); (2) one definition of what an option does, `contracts.option.tactics` (levers in force
+with the option's changes applied, plus substitutions); (3) the engine rejects an option that changes nothing, and
+`price_matrix` refuses two rows or two columns with the same tactics; (4) the offline bench takes the next real
+alternative when its situational move is already in force (e.g. "Protect the lead" when already sitting deep), and an
+option that stays invalid is dropped instead of being stripped into a copy of Stay; (5) the estimate of the other
+bench merges guesses that are the same tactics on top of what was seen (in about 3% of benches "they push for a goal"
+= press high with a balanced attack was what the other team already did); probabilities add up and the matrix has two
+columns, which the contract already allowed. No difference was forced: options that are the same are one option.
+Recalibration (dev only): the estimate probabilities for a level score came from dev duels that included the
+redundant options; re-running `eval.calibrate_estimates` on 9001-9006 until two passes agree moved them from
+[0.452, 0.194, 0.355] to [0.258, 0.29, 0.452] (leading and trailing unchanged; share of dev half-times without a
+dominant option 0.431 to 0.583). Measured: dev check (9101, 12 decisions) E7 0.341 to 0.284 (the merge removed a
+0.68 credit where the other bench made attacking substitutions; E7 matches labels, and that guess was priced as no
+change), E8 AI / stay / random 0.032 / 0.035 / 0.036 to 0.026 / 0.022 / 0.029; then one test run: E7 0.40 to 0.457,
+E8 0.028 / 0.045 / 0.029 to 0.028 / 0.045 / 0.032, no-dominant share 0.5 unchanged, E1/E3 unchanged. With 12
+decisions per run neither direction is a finding. Demo: the seed search with the unchanged STORY_CRITERIA picks the
+smallest passing seed, 204 (4 of 48 pass; 236 no longer does): Kestrel 1-1 Harbourside at half-time, 1-3 at full
+time; Kestrel's Plan B at 25' is detected at 31'; at half-time Kestrel stay the course and Harbourside go back to
+short passing, the best answer to the move they expected (Kestrel going back to short) but not to what Kestrel did;
+Harbourside's regret 0.12 xPts (paired 90% interval 0.01 to 0.228) against "Drop into a mid block", Kestrel's 0.026
+is within noise; neither bench has a dominant option. Known limits recorded in the README: the estimate prices "they
+push for a goal" without substitutions, and the detector's single change point dates Harbourside's 46' switch to
+minute 13 because their long-ball share was already drifting down in the first half.
