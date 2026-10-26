@@ -12,6 +12,7 @@ from __future__ import annotations
 import argparse
 import asyncio
 import json
+import re
 import time
 from datetime import UTC, datetime
 from pathlib import Path
@@ -56,7 +57,10 @@ plans using ONLY these levers: press_height (high|mid|low), press_target (an opp
 (short|mixed|direct), attack_channel (left|center|right|balanced), corner_delivery (near_post|far_post|short).
 Every lever you change from the default (mid, null, mixed, balanced, near_post) must cite at least one claim_id
 from the scouting report in lever_evidence (one {{lever, claim_ids}} item per lever). KPIs must come from:
-high_turnovers, final_third_entries_share (with its channel), set_piece_xg, balls_in_behind_conceded. Never write
+high_turnovers, final_third_entries_share (with its channel), set_piece_xg, balls_in_behind_conceded. Targets must
+be plausible: whole numbers for counts, a share between 0 and 1, a minimum (>=) for what you want more of and a
+maximum (<=) for balls in behind conceded, and nothing beyond what teams reached by that minute in this league;
+the validator says the league's range when it rejects one. Never write
 numbers in the rationale except as {{claim_id.field}} placeholders or [claim_id] tags. If VALIDATION ERRORS are
 given, fix exactly those."""
 
@@ -245,6 +249,10 @@ class Staff:
             if not errors:
                 return CandidateResult(plan=plan, rationale=draft.rationale, validation=history, valid=True)
             if attempt == MAX_REVISIONS:
+                repaired = await self._without_failing_kpis(client, plan, errors)
+                if repaired is not None:  # no more model calls: keep the plan, drop the targets it could not fix
+                    history.append([])
+                    return CandidateResult(plan=repaired, rationale=draft.rationale, validation=history, valid=True)
                 break
             self.trace[-1] = self.trace[-1].model_copy(update={"status": "rejected",
                                                                "message": "; ".join(errors)[:300]})
@@ -256,6 +264,24 @@ class Staff:
             draft = revised[0]
             self.trace[-1] = self.trace[-1].model_copy(update={"status": "retried"})
         return CandidateResult(plan=plan, rationale=draft.rationale, validation=history, valid=False)
+
+    async def _without_failing_kpis(self, client: Client, plan: Plan, errors: list[str]) -> Plan | None:
+        """Deterministic fallback once the revisions are used up (D-057): if every remaining error is about a KPI
+        target, drop those KPIs (and any Plan B rule that watches them) and validate again; None if nothing is left."""
+        failing = {m.group(1) for e in errors if (m := re.match(r"KPI (\S+): ", e))}
+        if not failing or any(not e.startswith("KPI ") for e in errors):
+            return None
+        kpis = [k for k in plan.kpis if k.id not in failing]
+        if not kpis:
+            return None
+        repaired = plan.model_copy(update={"kpis": kpis,
+                                           "plan_b": [r for r in plan.plan_b if r.if_.kpi not in failing]})
+        check = await self.call(client, "validate_plan", {"plan": repaired.model_dump(mode="json", by_alias=True)})
+        if not check.get("ok"):
+            return None
+        self._step("manager", None, {"action": "drop_kpis", "plan_id": plan.plan_id}, [], 0, "ok",
+                   f"dropped KPIs the revisions could not make plausible: {sorted(failing)}")
+        return repaired
 
     def _to_plan(self, i: int, d: CandidateDraft, claims: dict[str, Claim]) -> tuple[Plan, list[str]]:
         plan = Plan(plan_id=f"{self.team}-cand-{i + 1}", team=self.team, opponent=self.opp,
@@ -285,7 +311,8 @@ class Staff:
     def _template_plan(self) -> Plan:
         return Plan(plan_id=f"{self.team}-template", team=self.team, opponent=self.opp,
                     name=I18nText(en="Balanced default plan", es="Plan equilibrado por defecto"), levers=Levers(),
-                    kpis=[Kpi(id="k1", metric="balls_in_behind_conceded", target="<=3", by_minute=90)])
+                    # the rule-based plans' baseline target: within every season's observed range (D-057)
+                    kpis=[Kpi(id="k1", metric="balls_in_behind_conceded", target="<=14", by_minute=90)])
 
 
 def _service_record(resp, role: str, fmt: str, deployment: str, model_tools: list[str], ms: int) -> dict[str, Any]:

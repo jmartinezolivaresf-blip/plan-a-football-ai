@@ -41,7 +41,7 @@ from contracts.sim_types import MatchState
 from . import duel as dm
 from .beliefs import beliefs_from_claims
 from .scouting import MatchLog, Scout
-from .tracker import PlanTracker, detect_adaptation, observed_levers
+from .tracker import PlanTracker, detect_adaptation, kpi_plausibility, league_kpi_values, observed_levers
 from .valuation import default_plan, estimate_plan, matrix_from_outcomes, paired_ci, points
 
 
@@ -92,6 +92,7 @@ class RealEngine:
         positions = {p.player_id: p.position for sq in self.squads.teams.values() for p in sq.players}
         self.scout = Scout(self.matches, positions)
         self.xg = self.scout.xg
+        self._kpi_league: dict[tuple, list[float]] = {}  # league KPI values by (metric, params, minute), D-057
         self._value_cache: dict[str, tuple[np.ndarray, dict]] = {}
         self._worlds: dict[str, Any] = {}
 
@@ -364,7 +365,16 @@ class RealEngine:
         return m
 
     def validate_plan(self, plan: Plan) -> ValidationResult:
-        return ValidationResult(ok=True)
+        """KPI targets must lie within what teams reached by that minute in the league's public matches (D-057)."""
+        errors = [e for k in plan.kpis if (e := kpi_plausibility(k, self._league_kpi(k.metric, k.params,
+                                                                                     k.by_minute)))]
+        return ValidationResult(ok=not errors, errors=errors)
+
+    def _league_kpi(self, metric: str, params: dict[str, str], minute: int) -> list[float]:
+        key = (metric, tuple(sorted(params.items())), minute)
+        if key not in self._kpi_league:
+            self._kpi_league[key] = league_kpi_values(metric, params, self.matches, minute, self.xg)
+        return self._kpi_league[key]
 
     def validate_option(self, match_id: str, option: Option) -> ValidationResult:
         if self.ht_state is None:
