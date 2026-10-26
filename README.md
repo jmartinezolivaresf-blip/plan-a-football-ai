@@ -8,8 +8,8 @@ next to what was really true. Built for the Microsoft + Premier League *Inside t
 > **Data statement.** All data is synthetic. Clubs and players are fictional. No Premier League data, names or marks
 > are used. Every number is produced inside our own simulator and is not a prediction about real football.
 
-**Demo:** <!-- DEMO_URL --> not deployed yet (ready for Azure Static Web Apps, `infra/AZURE_PLAN.md`; GitHub Pages
-fallback in `docs/PUBLISH.md`). Run it
+**Demo:** <!-- DEMO_URL --> **https://agreeable-hill-0e1a17a0f.4.azurestaticapps.net** (Azure Static Web Apps, Free plan; public, no login; it replays the
+frozen demo match). Run it
 locally in two commands below, or watch [`docs/media/plan_a_demo_v2.mp4`](docs/media/plan_a_demo_v2.mp4) (118 s, captured
 from the app; narration and timings in [`docs/VIDEO_SCRIPT.md`](docs/VIDEO_SCRIPT.md)).
 

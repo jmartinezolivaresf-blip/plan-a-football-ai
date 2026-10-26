@@ -2,13 +2,13 @@
 
 The demo is a static site: `web/dist` (the app) plus the committed, synthetic `match_bundle.json` (season 2026, match
 seed 204). No backend, no keys, no MCP server exposed. Whoever has the URL can open it, which is the point: judges
-must reach it without logging in until 10 Nov 2026. Nothing below has been run yet.
+must reach it without logging in until 10 Nov 2026. Azure Static Web Apps is live (below); the fallbacks were not used.
 
 ## Options
 
 | Option | Status | Needs | URL |
 |---|---|---|---|
-| **Azure Static Web Apps (Free)**, the plan | ready: `infra/swa_deploy.sh` (guards, Free plan, anonymous check), config verified in the SWA emulator | the personal Azure subscription (in review) | `https://<name>.azurestaticapps.net` |
+| **Azure Static Web Apps (Free)**, the plan | **live since 2026-10-26**: `plan-a-football`, East US 2, deployed with `infra/swa_deploy.sh` | the personal subscription (done) | https://agreeable-hill-0e1a17a0f.4.azurestaticapps.net |
 | **GitHub Pages**, the simplest fallback | ready: `.github/workflows/pages.yml`, manual only | the repository public (GitHub Free) or a Pro plan; Pages enabled by the owner | `https://jmartinezolivaresf-blip.github.io/plan-a-football-ai/` |
 | Netlify or Cloudflare Pages | not prepared beyond the build | an account on that service; works from a private repository | `https://<name>.netlify.app` / `https://<name>.pages.dev` |
 

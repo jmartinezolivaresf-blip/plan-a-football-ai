@@ -1,8 +1,11 @@
 # Azure plan (needs explicit approval before anything is created)
 
-Status on 2026-10-24: **nothing provisioned, nothing deployed.** The dev machine's Azure CLI is signed in to
-corporate subscriptions that must not be used for this project: no resources, no deployments, no model calls. The
-scripts below refuse any subscription in the Microsoft corporate tenant and any listed in the git-ignored
+Status on 2026-10-26: **provisioned in the owners' personal Free Trial subscription "Azure subscription 1"** (its own
+directory, spending limit on), resource group `rg-plan-a`: the Foundry resource, project and `gpt-4.1-mini` Global
+Standard deployment (docs/FOUNDRY.md, D-056), a 20 EUR budget alert, and the Static Web App **`plan-a-football`,
+Free plan, East US 2**, serving the demo at https://agreeable-hill-0e1a17a0f.4.azurestaticapps.net (deployed with the SWA CLI, no GitHub link: the repository stays
+private; West Europe refused new Free Trial customers). The corporate subscriptions on this machine are never used:
+the scripts refuse any subscription in the Microsoft corporate tenant and any listed in the git-ignored
 `infra/deny.local` (or `PLAN_A_DENY_SUBSCRIPTIONS`), never fall back to the CLI's default subscription, and stop
 before any billable step unless `PLAN_A_APPROVED=yes` (D-046, tested in `tests/test_infra_guard.py` with a fake
 `az`).
@@ -43,9 +46,12 @@ infra/swa_deploy.sh --check                 # guards + production build + bundle
 PLAN_A_APPROVED=yes infra/swa_deploy.sh     # group + Free static web app + deploy + anonymous verification
 ```
 
-Optional settings (env or `.env`): `PLAN_A_RESOURCE_GROUP`, `PLAN_A_LOCATION`, `PLAN_A_SWA_LOCATION` (Static Web
-Apps regions: westeurope, eastus2, centralus, westus2, eastasia), `PLAN_A_SWA_NAME`. Redeploying after a new bundle:
-run the same command; the deployment token is read from Azure each time and never printed or stored.
+Optional settings (env or `.env`): `PLAN_A_RESOURCE_GROUP` (an existing group is reused), `PLAN_A_LOCATION` (only
+for a new group), `PLAN_A_SWA_LOCATION` (default eastus2; Static Web Apps regions: eastus2, centralus, westus2,
+eastasia, westeurope), `PLAN_A_SWA_NAME` (default `plan-a-football`). **Updating the site** after a frontend or bundle
+change merged on `main`: `git pull`, then `PLAN_A_APPROVED=yes infra/swa_deploy.sh`; it rebuilds `web/dist`, reuses the
+Free app, deploys and re-checks anonymously. The deployment token is read from Azure each time and never printed or
+stored.
 
 ## Microsoft Foundry
 

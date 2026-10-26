@@ -1,16 +1,53 @@
 {
   "navigationFallback": {
     "rewrite": "/index.html",
-    "exclude": ["/assets/*", "/*.json", "/*.svg", "/*.png", "/*.ico", "/*.txt"]
+    "exclude": [
+      "/assets/*",
+      "/*.json",
+      "/*.svg",
+      "/*.png",
+      "/*.ico",
+      "/*.txt"
+    ]
   },
   "routes": [
-    { "route": "/assets/*", "headers": { "cache-control": "public, max-age=31536000, immutable" } },
-    { "route": "/match_bundle.json", "headers": { "cache-control": "public, max-age=300, must-revalidate" } },
-    { "route": "/staticwebapp.config.json", "statusCode": 404 },
-    { "route": "/.auth/*", "statusCode": 404 }
+    {
+      "route": "/assets/*",
+      "headers": {
+        "cache-control": "public, max-age=31536000, immutable"
+      }
+    },
+    {
+      "route": "/match_bundle.json",
+      "headers": {
+        "cache-control": "public, max-age=300, must-revalidate"
+      }
+    },
+    {
+      "route": "/staticwebapp.config.json",
+      "statusCode": 404
+    },
+    {
+      "route": "/.auth/login/github",
+      "statusCode": 404
+    },
+    {
+      "route": "/.auth/login/aad",
+      "statusCode": 404
+    },
+    {
+      "route": "/.auth/login/twitter",
+      "statusCode": 404
+    },
+    {
+      "route": "/.auth/*",
+      "statusCode": 404
+    }
   ],
   "responseOverrides": {
-    "404": { "rewrite": "/index.html" }
+    "404": {
+      "rewrite": "/index.html"
+    }
   },
   "mimeTypes": {
     ".json": "application/json",

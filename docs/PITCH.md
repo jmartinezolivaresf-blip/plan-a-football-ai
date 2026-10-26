@@ -2,7 +2,7 @@
 
 **Project:** Plan A: The Battle of the Benches
 **Category:** Best Multi-Agent System (owners to decide on "Best Use of Microsoft Foundry": a real Foundry run of the agents is recorded in `docs/FOUNDRY_EVIDENCE.md`, but the published demo replays the offline run)
-**Links:** demo URL (todo: deployment needs a personal subscription) · public repository (todo: owner flips visibility) ·
+**Links:** demo https://agreeable-hill-0e1a17a0f.4.azurestaticapps.net · public repository (todo: owner flips visibility) ·
 video (todo: upload `docs/media/plan_a_demo_v2.mp4` with the recorded narration)
 
 ## One line
