@@ -14,8 +14,10 @@ load_env_file
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 RG="${PLAN_A_RESOURCE_GROUP:-rg-plan-a}"
 LOCATION="${PLAN_A_LOCATION:-westeurope}"
-SWA_LOCATION="${PLAN_A_SWA_LOCATION:-westeurope}"  # Static Web Apps regions: westeurope, eastus2, centralus, westus2, eastasia
-NAME="${PLAN_A_SWA_NAME:-plan-a-battle-of-the-benches}"
+# Static Web Apps regions: eastus2, centralus, westus2, eastasia, westeurope (westeurope refused new Free Trial
+# customers on 2026-10-26; the static content is served the same way from any of them)
+SWA_LOCATION="${PLAN_A_SWA_LOCATION:-eastus2}"
+NAME="${PLAN_A_SWA_NAME:-plan-a-football}"
 CHECK_ONLY="${1:-}"
 
 require_subscription
@@ -40,8 +42,12 @@ if [[ "$CHECK_ONLY" == "--check" ]]; then
 fi
 require_approval "Static Web Apps Free + resource group"
 
-echo "== resource group $RG ($LOCATION)"
-az_sub group create --name "$RG" --location "$LOCATION" --tags project=plan-a purpose=hackathon -o none
+if az_sub group show --name "$RG" -o none 2>/dev/null; then
+  echo "== resource group $RG exists ($(az_sub group show --name "$RG" --query location -o tsv)): reused"
+else
+  echo "== resource group $RG ($LOCATION)"
+  az_sub group create --name "$RG" --location "$LOCATION" --tags project=plan-a purpose=hackathon -o none
+fi
 
 echo "== static web app $NAME (Free)"
 if ! az_sub staticwebapp show --name "$NAME" --resource-group "$RG" -o none 2>/dev/null; then
