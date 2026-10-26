@@ -1,0 +1,620 @@
+{
+ "mode": "foundry",
+ "deployments": {
+  "analyst": "gpt-4.1-mini",
+  "manager": "gpt-4.1-mini"
+ },
+ "endpoint_host": "*.services.ai.azure.com",
+ "season_seed": 2026,
+ "match_seed": 204,
+ "demo_bundle_sha256": "d684dfa2417164bc5b6e358ad6e23780b267fa3fe450ac308597b4b4a56be6c0",
+ "started_utc": "2026-10-26T13:35:57Z",
+ "prematch": {
+  "KES": {
+   "report": {
+    "model": "gpt-4.1-mini",
+    "attempts": 1,
+    "fallback": false,
+    "findings": [
+     "c_sc_HAR_late",
+     "c_sc_HAR-5_press",
+     "c_sc_HAR-10_press",
+     "c_sc_HAR-11_press",
+     "c_sc_HAR_gk_short"
+    ]
+   },
+   "candidates": [
+    {
+     "plan_id": "KES-cand-1",
+     "valid": false,
+     "validation": [
+      [
+       "KPI kpi_1: target must be positive",
+       "plan name (en) must not contain numbers",
+       "plan name (es) must not contain numbers",
+       "rationale: causal claim without an observed_mechanism claim: 'We choose high press focusing on HAR-10 because this striker'",
+       "rationale: sentence cites no claim: 'Mixed build up balances control and speed.'"
+      ],
+      [
+       "KPI kpi_1: target must be positive",
+       "rationale: sentence cites no claim: 'Mixed build up aims to maintain versatility between possessi'"
+      ],
+      [
+       "KPI kpi_1: target must be positive",
+       "rationale: sentence cites no claim: 'The mixed build up retains tactical flexibility.'"
+      ]
+     ]
+    },
+    {
+     "plan_id": "KES-cand-2",
+     "valid": true,
+     "validation": [
+      [
+       "KPI kpi_2: target must be positive"
+      ],
+      []
+     ]
+    },
+    {
+     "plan_id": "KES-cand-3",
+     "valid": true,
+     "validation": [
+      [
+       "KPI kpi_3: target must be positive",
+       "rationale: sentence cites no claim: 'Balanced press maintains team shape and keeps HAR uncertain.'"
+      ],
+      []
+     ]
+    }
+   ],
+   "chosen": {
+    "name": "Target HAR Left Back under pressure with Mid Press Height",
+    "levers": {
+     "press_height": "mid",
+     "press_target": "HAR-5",
+     "build_up": "short",
+     "attack_channel": "left",
+     "corner_delivery": "near_post"
+    },
+    "kpis": [
+     "high_turnovers >10 by 90'"
+    ],
+    "plan_b_rules": 0,
+    "seal_verifies": true,
+    "reason": "highest simulated value",
+    "used_template": false
+   },
+   "demo_plan": {
+    "name": "Measured approach",
+    "levers": {
+     "press_height": "mid",
+     "press_target": null,
+     "build_up": "mixed",
+     "attack_channel": "balanced",
+     "corner_delivery": "far_post"
+    }
+   },
+   "same_levers_as_demo": false,
+   "tool_calls": 22,
+   "rejected_steps": [
+    "KPI kpi_1: target must be positive; plan name (en) must not contain numbers; plan name (es) must not contain numbers; rationale: causal claim without an observed_mechanism claim: 'We choose high press focusing on HAR-10 because this striker'; rationale: sentence cites no claim: 'Mixed build up balan",
+    "model:gpt-4.1-mini",
+    "KPI kpi_1: target must be positive; rationale: sentence cites no claim: 'Mixed build up aims to maintain versatility between possessi'",
+    "model:gpt-4.1-mini",
+    "KPI kpi_2: target must be positive",
+    "model:gpt-4.1-mini",
+    "KPI kpi_3: target must be positive; rationale: sentence cites no claim: 'Balanced press maintains team shape and keeps HAR uncertain.'",
+    "model:gpt-4.1-mini"
+   ],
+   "llm_calls": [
+    {
+     "role": "analyst",
+     "response_format": "ScoutingDraft",
+     "deployment": "gpt-4.1-mini",
+     "response_id": "resp_02b485560f9c52a9006adf574434b081968b7b54fad220289b",
+     "service_model": "gpt-4.1-mini",
+     "input_tokens": 8452,
+     "output_tokens": 496,
+     "tools_called_by_model": [
+      "get_player_profile",
+      "get_player_profile",
+      "get_player_profile"
+     ],
+     "ms": 10337
+    },
+    {
+     "role": "manager",
+     "response_format": "CandidateSetDraft",
+     "deployment": "gpt-4.1-mini",
+     "response_id": "resp_00ad938097f4f97d006adf574d41288190b38cf4990f21b718",
+     "service_model": "gpt-4.1-mini",
+     "input_tokens": 17594,
+     "output_tokens": 670,
+     "tools_called_by_model": [
+      "get_team_tendencies",
+      "get_team_tendencies"
+     ],
+     "ms": 10138
+    },
+    {
+     "role": "manager",
+     "response_format": "CandidateSetDraft",
+     "deployment": "gpt-4.1-mini",
+     "response_id": "resp_0a98a688863bdd6f006adf5753291481948c89f0ef9c5596b2",
+     "service_model": "gpt-4.1-mini",
+     "input_tokens": 6072,
+     "output_tokens": 265,
+     "tools_called_by_model": [],
+     "ms": 3688
+    },
+    {
+     "role": "manager",
+     "response_format": "CandidateSetDraft",
+     "deployment": "gpt-4.1-mini",
+     "response_id": "resp_0a6bdf2beb01d81d006adf5756d4c881978872215cacc1b903",
+     "service_model": "gpt-4.1-mini",
+     "input_tokens": 6019,
+     "output_tokens": 225,
+     "tools_called_by_model": [],
+     "ms": 2890
+    },
+    {
+     "role": "manager",
+     "response_format": "CandidateSetDraft",
+     "deployment": "gpt-4.1-mini",
+     "response_id": "resp_04b715dd01bbfaaa006adf5759b010819796a3c42b3f85270b",
+     "service_model": "gpt-4.1-mini",
+     "input_tokens": 5944,
+     "output_tokens": 233,
+     "tools_called_by_model": [],
+     "ms": 2952
+    },
+    {
+     "role": "manager",
+     "response_format": "CandidateSetDraft",
+     "deployment": "gpt-4.1-mini",
+     "response_id": "resp_0d50e001f3301998006adf575cd58081979d9dd261f49d9c83",
+     "service_model": "gpt-4.1-mini",
+     "input_tokens": 5919,
+     "output_tokens": 185,
+     "tools_called_by_model": [],
+     "ms": 3208
+    }
+   ]
+  },
+  "HAR": {
+   "report": {
+    "model": "gpt-4.1-mini",
+    "attempts": 3,
+    "fallback": false,
+    "findings": [
+     "c_sc_KES_bib",
+     "c_sc_KES_entries_left",
+     "c_sc_KES_deep",
+     "c_sc_KES-6_press",
+     "c_sc_KES_late"
+    ]
+   },
+   "candidates": [
+    {
+     "plan_id": "HAR-cand-1",
+     "valid": true,
+     "validation": [
+      [
+       "KPI kpi2: a share target must be between 0 and 1"
+      ],
+      []
+     ]
+    },
+    {
+     "plan_id": "HAR-cand-2",
+     "valid": true,
+     "validation": [
+      [
+       "KPI kpi1: a share target must be between 0 and 1",
+       "rationale: causal claim without an observed_mechanism claim: 'Therefore a direct build-up to exploit these balls and focus'"
+      ],
+      [
+       "rationale: sentence cites no claim: 'This is reinforced by the observed mechanism of high deep ba'",
+       "rationale: causal claim without an observed_mechanism claim: 'Therefore, a direct build-up to exploit these balls and focu'"
+      ],
+      []
+     ]
+    },
+    {
+     "plan_id": "HAR-cand-3",
+     "valid": true,
+     "validation": [
+      []
+     ]
+    }
+   ],
+   "chosen": {
+    "name": "High Press and Attack Left",
+    "levers": {
+     "press_height": "high",
+     "press_target": "KES-6",
+     "build_up": "mixed",
+     "attack_channel": "left",
+     "corner_delivery": "near_post"
+    },
+    "kpis": [
+     "high_turnovers >=27.2 by 15'",
+     "final_third_entries_share <=0.416 by 15'"
+    ],
+    "plan_b_rules": 0,
+    "seal_verifies": true,
+    "reason": "highest simulated value",
+    "used_template": false
+   },
+   "demo_plan": {
+    "name": "Exploit their weaknesses",
+    "levers": {
+     "press_height": "high",
+     "press_target": "KES-6",
+     "build_up": "direct",
+     "attack_channel": "right",
+     "corner_delivery": "near_post"
+    }
+   },
+   "same_levers_as_demo": false,
+   "tool_calls": 20,
+   "rejected_steps": [
+    "c_sc_KES-6_press: contains numbers that do not come from a claim placeholder",
+    "c_sc_KES-6_press: contains numbers that do not come from a claim placeholder",
+    "KPI kpi2: a share target must be between 0 and 1",
+    "model:gpt-4.1-mini",
+    "KPI kpi1: a share target must be between 0 and 1; rationale: causal claim without an observed_mechanism claim: 'Therefore a direct build-up to exploit these balls and focus'",
+    "model:gpt-4.1-mini",
+    "rationale: sentence cites no claim: 'This is reinforced by the observed mechanism of high deep ba'; rationale: causal claim without an observed_mechanism claim: 'Therefore, a direct build-up to exploit these balls and focu'",
+    "model:gpt-4.1-mini"
+   ],
+   "llm_calls": [
+    {
+     "role": "analyst",
+     "response_format": "ScoutingDraft",
+     "deployment": "gpt-4.1-mini",
+     "response_id": "resp_0e471e4ea5c63c2a006adf576590388194a1c04a6dc6dd7286",
+     "service_model": "gpt-4.1-mini",
+     "input_tokens": 3786,
+     "output_tokens": 361,
+     "tools_called_by_model": [],
+     "ms": 5089
+    },
+    {
+     "role": "analyst",
+     "response_format": "ScoutingDraft",
+     "deployment": "gpt-4.1-mini",
+     "response_id": "resp_08e4660d3fea8d3b006adf5769cfb88195b0ac64a83d694ba8",
+     "service_model": "gpt-4.1-mini",
+     "input_tokens": 3810,
+     "output_tokens": 401,
+     "tools_called_by_model": [],
+     "ms": 3973
+    },
+    {
+     "role": "analyst",
+     "response_format": "ScoutingDraft",
+     "deployment": "gpt-4.1-mini",
+     "response_id": "resp_05967520a759e631006adf576dbc2c8195b233897f1b4eb8d1",
+     "service_model": "gpt-4.1-mini",
+     "input_tokens": 3810,
+     "output_tokens": 329,
+     "tools_called_by_model": [],
+     "ms": 11290
+    },
+    {
+     "role": "manager",
+     "response_format": "CandidateSetDraft",
+     "deployment": "gpt-4.1-mini",
+     "response_id": "resp_0b68ec517da6ae17006adf577bda48819098028d2039000de2",
+     "service_model": "gpt-4.1-mini",
+     "input_tokens": 17923,
+     "output_tokens": 783,
+     "tools_called_by_model": [
+      "get_set_piece_profile",
+      "get_team_tendencies",
+      "get_team_tendencies"
+     ],
+     "ms": 10303
+    },
+    {
+     "role": "manager",
+     "response_format": "CandidateSetDraft",
+     "deployment": "gpt-4.1-mini",
+     "response_id": "resp_0ee28dc34bd0b300006adf5783b4288190a914d6b38e51add4",
+     "service_model": "gpt-4.1-mini",
+     "input_tokens": 5910,
+     "output_tokens": 280,
+     "tools_called_by_model": [],
+     "ms": 3895
+    },
+    {
+     "role": "manager",
+     "response_format": "CandidateSetDraft",
+     "deployment": "gpt-4.1-mini",
+     "response_id": "resp_04eaf9982f513b5b006adf578731288193b4ed172a54a0f4c0",
+     "service_model": "gpt-4.1-mini",
+     "input_tokens": 5963,
+     "output_tokens": 306,
+     "tools_called_by_model": [],
+     "ms": 9497
+    },
+    {
+     "role": "manager",
+     "response_format": "CandidateSetDraft",
+     "deployment": "gpt-4.1-mini",
+     "response_id": "resp_03fc9eb1055150d5006adf5790beac819490c700565a5b95c5",
+     "service_model": "gpt-4.1-mini",
+     "input_tokens": 5995,
+     "output_tokens": 278,
+     "tools_called_by_model": [],
+     "ms": 3072
+    }
+   ]
+  }
+ },
+ "halftime": {
+  "same_half_time_as_demo": {
+   "plans": true,
+   "score": true,
+   "levers_in_force": true,
+   "first_half_events": true
+  },
+  "ht_score": {
+   "KES": 1,
+   "HAR": 1
+  },
+  "benches": {
+   "KES": {
+    "levers_in_force": {
+     "press_height": "mid",
+     "press_target": null,
+     "build_up": "direct",
+     "attack_channel": "balanced",
+     "corner_delivery": "far_post"
+    },
+    "options": [
+     {
+      "option_id": "stay_the_course",
+      "label": "Stay the course",
+      "intent": "stay_the_course",
+      "lever_changes": {
+       "press_height": "mid",
+       "build_up": "direct",
+       "attack_channel": "balanced",
+       "corner_delivery": "far_post"
+      },
+      "subs": [],
+      "evidence": [
+       "c_kpi_KES_k3_45",
+       "c_kpi_KES_k4_45"
+      ]
+     },
+     {
+      "option_id": "press_higher_and_short_build_up",
+      "label": "Press higher and build up shorter",
+      "intent": "press_higher",
+      "lever_changes": {
+       "press_height": "high",
+       "build_up": "short"
+      },
+      "subs": [],
+      "evidence": [
+       "c_kpi_KES_k4_45"
+      ]
+     },
+     {
+      "option_id": "sub_attackers_and_wide_attack",
+      "label": "Substitute attackers and shift attack right",
+      "intent": "attacking_subs",
+      "lever_changes": {
+       "attack_channel": "right"
+      },
+      "subs": [
+       [
+        "KES-10",
+        "KES-16"
+       ],
+       [
+        "KES-11",
+        "KES-17"
+       ]
+      ],
+      "evidence": [
+       "c_kpi_KES_k3_45"
+      ]
+     }
+    ],
+    "options_distinct": true,
+    "fallback_to_offline_options": false,
+    "validation": [
+     [],
+     [],
+     []
+    ],
+    "estimate_of_other_bench": [
+     [
+      "They keep their plan",
+      0.258
+     ],
+     [
+      "They drop deeper",
+      0.29
+     ],
+     [
+      "They go back to short",
+      0.452
+     ]
+    ],
+    "believed_reading": {
+     "safe_pick": "Press higher and build up shorter",
+     "best_guess": "Substitute attackers and shift attack right",
+     "gamble": "Substitute attackers and shift attack right",
+     "dominant": null
+    },
+    "rule": "best_guess",
+    "choice": "Substitute attackers and shift attack right",
+    "demo_choice": "Stay the course",
+    "regret_xpts": 0.024,
+    "regret_ci90": [
+     -0.096,
+     0.138
+    ],
+    "best_response": "Press higher and build up shorter",
+    "llm_calls": [
+     {
+      "role": "manager",
+      "response_format": "OptionsDraft",
+      "deployment": "gpt-4.1-mini",
+      "response_id": "resp_0ddfe7f7654f14c3006adf57a7d06081978e56a748d63eb964",
+      "service_model": "gpt-4.1-mini",
+      "input_tokens": 1759,
+      "output_tokens": 313,
+      "tools_called_by_model": [],
+      "ms": 4134
+     }
+    ]
+   },
+   "HAR": {
+    "levers_in_force": {
+     "press_height": "high",
+     "press_target": "KES-6",
+     "build_up": "direct",
+     "attack_channel": "right",
+     "corner_delivery": "near_post"
+    },
+    "options": [
+     {
+      "option_id": "stay_course",
+      "label": "Stay the Course",
+      "intent": "stay_the_course",
+      "lever_changes": {
+       "press_height": "high",
+       "press_target": "KES-6",
+       "build_up": "direct",
+       "attack_channel": "right",
+       "corner_delivery": "near_post"
+      },
+      "subs": [],
+      "evidence": [
+       "c_kpi_HAR_k1_45",
+       "c_kpi_HAR_k2_45"
+      ]
+     },
+     {
+      "option_id": "press_mid_drop_build_short",
+      "label": "Lower Press and Build Shorter",
+      "intent": "press_higher",
+      "lever_changes": {
+       "press_height": "mid",
+       "build_up": "short"
+      },
+      "subs": [
+       [
+        "HAR-10",
+        "HAR-16"
+       ],
+       [
+        "HAR-11",
+        "HAR-17"
+       ]
+      ],
+      "evidence": [
+       "c_kpi_HAR_k1_45"
+      ]
+     },
+     {
+      "option_id": "switch_attack_left_far_corner",
+      "label": "Switch to Left Attack and Far Post Corners",
+      "intent": "target_weak_side",
+      "lever_changes": {
+       "attack_channel": "left",
+       "corner_delivery": "far_post"
+      },
+      "subs": [],
+      "evidence": [
+       "c_kpi_HAR_k2_45"
+      ]
+     }
+    ],
+    "options_distinct": true,
+    "fallback_to_offline_options": false,
+    "validation": [
+     [],
+     [],
+     []
+    ],
+    "estimate_of_other_bench": [
+     [
+      "They keep their plan",
+      0.258
+     ],
+     [
+      "They press higher",
+      0.29
+     ],
+     [
+      "They go back to short",
+      0.452
+     ]
+    ],
+    "believed_reading": {
+     "safe_pick": "Lower Press and Build Shorter",
+     "best_guess": "Lower Press and Build Shorter",
+     "gamble": null,
+     "dominant": "Lower Press and Build Shorter"
+    },
+    "rule": "best_guess",
+    "choice": "Lower Press and Build Shorter",
+    "demo_choice": "Back to short passing",
+    "regret_xpts": 0.0,
+    "regret_ci90": [
+     0.0,
+     0.0
+    ],
+    "best_response": "Lower Press and Build Shorter",
+    "llm_calls": [
+     {
+      "role": "manager",
+      "response_format": "OptionsDraft",
+      "deployment": "gpt-4.1-mini",
+      "response_id": "resp_0e7919b0a63482db006adf57a7be048195a61ac725a7825a9d",
+      "service_model": "gpt-4.1-mini",
+      "input_tokens": 1889,
+      "output_tokens": 317,
+      "tools_called_by_model": [],
+      "ms": 4135
+     }
+    ]
+   }
+  },
+  "true_matrix": {
+   "rows": [
+    "Stay the course",
+    "Press higher and build up shorter",
+    "Substitute attackers and shift attack right"
+   ],
+   "cols": [
+    "Stay the Course",
+    "Lower Press and Build Shorter",
+    "Switch to Left Attack and Far Post Corners"
+   ],
+   "dominant": {
+    "KES": null,
+    "HAR": "Lower Press and Build Shorter"
+   }
+  }
+ },
+ "seconds": 130.0,
+ "demo_bundle_unchanged": true,
+ "summary": {
+  "model_turns": 15,
+  "turns_with_service_response_id": 15,
+  "service_models": [
+   "gpt-4.1-mini"
+  ],
+  "input_tokens": 100845,
+  "output_tokens": 5442
+ }
+}

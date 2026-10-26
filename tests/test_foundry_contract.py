@@ -155,3 +155,39 @@ def test_ping_fails_cleanly_without_settings(monkeypatch, capsys):
     monkeypatch.setattr(foundry_ping, "load_env", lambda: False)
     assert foundry_ping.main(["--dry-run"]) == 1
     assert "FOUNDRY_PROJECT_ENDPOINT" in capsys.readouterr().err
+
+
+def _strict_problems(node, path="$") -> list[str]:
+    """What the Responses API rejects in a strict response_format schema: an object whose `required` is not exactly
+    its properties, or an object that is not closed (a free-form map such as dict[str, ...])."""
+    out: list[str] = []
+    if isinstance(node, dict):
+        if node.get("type") == "object" or "properties" in node:
+            props = set(node.get("properties", {}))
+            if set(node.get("required", [])) != props:
+                out.append(f"{path}: required != properties")
+            if node.get("additionalProperties") is not False:
+                out.append(f"{path}: not closed (additionalProperties {node.get('additionalProperties')!r})")
+        for key, value in node.items():
+            if key == "properties":  # property NAMES (e.g. a field called "if") are not keywords
+                for name, sub in value.items():
+                    out += _strict_problems(sub, f"{path}.properties.{name}")
+            else:
+                out += _strict_problems(value, f"{path}.{key}")
+    elif isinstance(node, list):
+        for i, value in enumerate(node):
+            out += _strict_problems(value, f"{path}[{i}]")
+    return out
+
+
+def test_every_response_format_is_valid_for_strict_structured_outputs(foundry):
+    """Regression (first real Foundry run, 2026-10-26): CandidateSetDraft had dict fields and the service refused it
+    with 400 invalid_json_schema. The mock does not validate schemas, so this test does."""
+    from agents.duel import DuelBench
+    engine = MockEngine()
+    asyncio.run(pm.run_staff(engine, "KES", "KES", "HAR", model_choice("foundry")))
+    asyncio.run(DuelBench(engine, "KES", "KES", "HAR", model_choice("foundry"), engine.bundle.plans["KES"]).decide())
+    schemas = {b["text"]["format"]["name"]: b["text"]["format"]["schema"] for b in foundry.requests}
+    assert set(schemas) == {"ScoutingDraft", "CandidateSetDraft", "OptionsDraft"}
+    for name, schema in schemas.items():
+        assert _strict_problems(schema) == [], name

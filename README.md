@@ -66,7 +66,7 @@ Full design: [`docs/MULTI_AGENT.md`](docs/MULTI_AGENT.md). Every decision of the
 |---|---|
 | Microsoft Agent Framework (`agent-framework-core` 1.23.0): analyst, manager and duel-bench agents with MCP tools | used in every run |
 | Model Context Protocol (MCP SDK 2.3.0): one scoped server per club and one for the broadcast | used in every run |
-| Microsoft Foundry (`agent-framework-foundry` 1.15.0, Entra ID pinned to one tenant, no keys): `AGENTS_MODE=foundry` | code path verified against a local mock of the Responses API (`tests/test_foundry_contract.py`); **no real Foundry deployment has been called yet** (`docs/FOUNDRY.md`) |
+| Microsoft Foundry (`agent-framework-foundry` 1.15.0, Entra ID pinned to one tenant, no keys): `AGENTS_MODE=foundry` | **verified with a real model (2026-10-26):** the same agents ran with `gpt-4.1-mini` (Global Standard, Sweden Central) on the demo's data and half-time, with their MCP tools: [`docs/FOUNDRY_EVIDENCE.md`](docs/FOUNDRY_EVIDENCE.md). The published demo replays the offline rules run (`docs/FOUNDRY.md`) |
 | Azure Static Web Apps (Free) for the public demo | config and guarded deploy script ready and checked in the SWA emulator; **not deployed yet** (`infra/AZURE_PLAN.md`) |
 
 Without Azure, the same agents run with a deterministic offline rules client (`AGENTS_MODE=offline`), which is what

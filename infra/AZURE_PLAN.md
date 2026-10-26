@@ -15,7 +15,7 @@ before any billable step unless `PLAN_A_APPROVED=yes` (D-046, tested in `tests/t
 | 2 | Static Web App, **Free** plan (public demo) | `infra/swa_deploy.sh` | free plan; the script stops if the plan is not Free |
 | 3 | Foundry resource (AIServices S0) + project | `infra/foundry_provision.sh` | no fixed fee |
 | 4 | Model deployment `gpt-4.1-mini` Global Standard | `infra/foundry_provision.sh` | **pay per token** (docs/FOUNDRY.md: ~23k input + 3.4k output tokens per demo build) |
-| 5 | Role assignment "Azure AI User" for the signed-in user | `infra/foundry_provision.sh` | free |
+| 5 | Role assignment "Foundry User" (formerly "Azure AI User") for the signed-in user | `infra/foundry_provision.sh` | free |
 | - | Not created: Container Apps, App Service, databases, Application Insights, public MCP server | | |
 
 Only item 4 generates charges. Recommended: a budget alert on the resource group (Cost Management) before step 4.

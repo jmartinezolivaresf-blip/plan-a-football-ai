@@ -180,8 +180,7 @@ def _candidate(lev: dict, evid: dict, en: str, es: str) -> CandidateDraft:
         kpis.append({"id": "k1", "metric": "high_turnovers", "target": ">=6", "by_minute": 45})
     ch = lev.get("attack_channel")
     if ch in ("left", "center", "right"):
-        kpis.append({"id": "k2", "metric": "final_third_entries_share", "params": {"channel": ch},
-                     "target": ">=0.40"})
+        kpis.append({"id": "k2", "metric": "final_third_entries_share", "channel": ch, "target": ">=0.40"})
     if lev.get("corner_delivery") == "far_post":
         kpis.append({"id": "k3", "metric": "set_piece_xg", "target": ">=0.30", "by_minute": 90})
     # The Plan Tracker follows four KPIs: the ones tied to a lever first, then baseline ones whose targets sit near
@@ -205,7 +204,8 @@ def _candidate(lev: dict, evid: dict, en: str, es: str) -> CandidateDraft:
         plan_b.append({"if": {"score_diff": "<0", "after_minute": 60}, "then": {"levers": {"press_height": "high"}}})
     cites = [c for cs in evid.values() for c in cs]
     rationale = " ".join(f"Supported by [{c}]." for c in dict.fromkeys(cites))
-    return CandidateDraft.model_validate({"name_en": en, "name_es": es, **lev, "lever_evidence": evid,
+    return CandidateDraft.model_validate({"name_en": en, "name_es": es, **lev,
+                                          "lever_evidence": [{"lever": k, "claim_ids": v} for k, v in evid.items()],
                                           "kpis": kpis, "plan_b": plan_b, "rationale": rationale})
 
 
@@ -218,7 +218,7 @@ def revise(ev: dict) -> CandidateSetDraft:
         for lever in ("press_height", "press_target", "build_up", "attack_channel", "corner_delivery"):
             if f"lever {lever}" in errors or (lever == "press_target" and "press_target" in errors):
                 c.pop(lever, None)
-                c.get("lever_evidence", {}).pop(lever, None)
+                c["lever_evidence"] = [e for e in c.get("lever_evidence", []) if e["lever"] != lever]
         out.append(c)
     return CandidateSetDraft.model_validate({"candidates": out})
 

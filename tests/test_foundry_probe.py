@@ -17,7 +17,10 @@ def test_the_probe_records_the_service_and_leaves_the_demo_untouched(monkeypatch
     from agent_framework_foundry import FoundryChatClient
     mock = MockResponses()
 
-    def make(self, role):
+    def make(self, role):  # like ChatClients._make: offline staffs keep the rules client
+        if self.choice.mode == "offline":
+            from agents.offline import OfflineRulesClient
+            return OfflineRulesClient()
         model = self.choice.analyst if role == "analyst" else self.choice.manager
         return FoundryChatClient(project_client=mock.project(), model=model)
 
@@ -31,6 +34,10 @@ def test_the_probe_records_the_service_and_leaves_the_demo_untouched(monkeypatch
     # every model turn went through the Foundry client and came back with the service's own response id and model
     assert s["model_turns"] == 6 and s["turns_with_service_response_id"] == s["model_turns"]
     assert len(mock.requests) >= s["model_turns"]  # a turn where the model calls a tool takes more than one request
+    # the half-time replay re-runs the demo's pre-match with the rules client, never through the model (first real
+    # run, 2026-10-26: it followed AGENTS_MODE and asked the model for the plans a second time)
+    assert sum(b["text"]["format"]["name"] == "CandidateSetDraft" for b in mock.requests) == 2
+    assert "errors" not in r
     assert s["service_models"] == ["large-deployment", "small-deployment"]
     assert r["endpoint_host"] == "*.services.ai.azure.com" and r["demo_bundle_unchanged"]
     assert any("get_team_tendencies" in c["tools_called_by_model"] for p in r["prematch"].values()

@@ -356,3 +356,24 @@ Harbourside's regret 0.12 xPts (paired 90% interval 0.01 to 0.228) against "Drop
 is within noise; neither bench has a dominant option. Known limits recorded in the README: the estimate prices "they
 push for a goal" without substitutions, and the detector's single change point dates Harbourside's 46' switch to
 minute 13 because their long-ball share was already drifting down in the first half.
+
+**D-056 · First real Microsoft Foundry run (2026-10-26).** Where: the owners' personal subscription "Azure subscription
+1" (Free Trial, spending limit on, its own directory; the three corporate subscriptions and the corporate tenant were
+never used), resource group `rg-plan-a` in Sweden Central: one AIServices S0 resource with a project and one
+`gpt-4.1-mini` (2025-04-14) Global Standard deployment (pay per token, capacity 50K tokens/min of a 200K quota), the
+"Foundry User" role on that resource, and a 20 EUR budget alert. What ran: `make foundry-ping` (one call) and one
+complete `AGENTS_MODE=foundry make foundry-probe`: 15 model turns, every one answered with a service response id;
+100,845 input and 5,442 output tokens, identical to Azure Monitor for the same window; both analysts and both managers
+called their scoped MCP tools themselves (`get_player_profile`, `get_team_tendencies`, `get_set_piece_profile`). The
+validators rejected numbers typed by the model, KPI targets out of range, digits in plan names and sentences without a
+claim; the model fixed them on retry except one Kestrel candidate, which stayed invalid and was discarded; the half-time options were all valid and distinct with no fallback. Found by
+the real run and fixed (each with a regression test): the manager's CandidateSetDraft used two free-form maps
+(lever_evidence, Kpi.params) that strict structured outputs refuse (400 invalid_json_schema; the mock did not check
+schemas, a test now does): the drafts write them as lists and code rebuilds the same Plan, so the demo is unchanged;
+the probe's half-time replay followed AGENTS_MODE and asked the model for the demo's plans again (its identity check
+stopped it); tests could read a real `.env` (Python and the infra scripts now never do in tests); the built-in role
+"Azure AI User" is now "Foundry User" (the script assigns it by id). Two incomplete probe runs came before the complete
+one; the whole day used 61 requests, 353,797 input and 19,060 output tokens, about 0.17 EUR at the public price (the
+complete probe alone about 0.05 EUR). Quality note: the model's plans differ from the demo's and some KPI targets are
+not sensible (e.g. 27.2 high turnovers by minute 15); the validators check grounding and format, not tactical sense.
+The demo bundle (seed 204) and the video are unchanged (SHA-256 checked before and after) and still say offline rules.

@@ -7,7 +7,7 @@ public until then. Status column: done / todo / needs approval (owner decision b
 |---|---|---|---|
 | 1 | Code complete on `main` | done 2026-10-25 | PR #3 merged (merge commit e823546); PRs #1 and #2 are included in it and marked merged |
 | 2 | CI green | done on `main` (e823546) | python and web jobs; locally `make check` 269 passed, web types, 24 tests and build green |
-| 3 | Real Microsoft Foundry call verified and recorded | needs a personal subscription | `make foundry-ping` (one call per role), then `AGENTS_MODE=foundry make foundry-probe`: the agents with the real model on the demo's data and half-time, recorded in `docs/FOUNDRY_EVIDENCE.md`, demo and video unchanged (`docs/FOUNDRY.md`); tested against a Responses API mock |
+| 3 | Real Microsoft Foundry call verified and recorded | done 2026-10-26 | `make foundry-ping` and `AGENTS_MODE=foundry make foundry-probe` with gpt-4.1-mini (Global Standard, Sweden Central, personal Free Trial subscription): `docs/FOUNDRY_EVIDENCE.md`, `eval/results/foundry/probe_seed204.json`; demo and video unchanged (D-056) |
 | 4 | Demo bundle frozen (seed, mode, git commit recorded in the bundle's eval.build) | done: seed 204, offline rules, 994a317 (clean tree) | after a Foundry run: seed search, bundle, `pipeline.story`, `pipeline.evidence`, re-record |
 | 5 | Public demo URL (no login) | ready, needs a personal subscription or the GitHub Pages fallback | `infra/swa_deploy.sh` (Free plan, guards, anonymous verification); fallback `.github/workflows/pages.yml` (manual; needs the repository public on GitHub Free), `docs/PUBLISH.md` |
 | 6 | MCP server not exposed publicly | done | loopback only (D-026); the demo shows recorded traces |

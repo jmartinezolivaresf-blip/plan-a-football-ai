@@ -33,6 +33,7 @@ def run(tmp_path: Path, script: str, *args: str, name: str = "Plan A Hackathon",
     log = tmp_path / "az.log"
     log.write_text("")
     env = {"PATH": f"{bin_dir}:{os.environ['PATH']}", "HOME": str(tmp_path), "FAKE_AZ_LOG": str(log),
+           "PLAN_A_NO_DOTENV": "1",  # the repository's .env may hold real settings
            "FAKE_SUB_NAME": name, "FAKE_TENANT": tenant,
            **{k: v for k, v in os.environ.items() if k == "PLAN_A_DENY_SUBSCRIPTIONS"}}
     if sub:

@@ -5,7 +5,8 @@
 #   PLAN_A_SUBSCRIPTION_ID=<id> infra/foundry_provision.sh --check      # guards only, nothing created
 #
 # Creates (docs/FOUNDRY.md): resource group, Foundry resource (kind AIServices, S0, no fixed fee), project, one
-# Global Standard deployment (pay per token) and an "Azure AI User" role for the signed-in user. No API keys are
+# Global Standard deployment (pay per token) and the "Foundry User" role (formerly "Azure AI User") for the signed-in
+# user. No API keys are
 # read or printed: the agents authenticate with Entra ID.
 
 source "$(dirname "$0")/lib.sh"
@@ -43,8 +44,10 @@ az_sub cognitiveservices account deployment create --name "$ACCOUNT" --resource-
 
 SCOPE="$(az_sub cognitiveservices account show --name "$ACCOUNT" --resource-group "$RG" --query id -o tsv)"
 ME="$(az ad signed-in-user show --query id -o tsv)"
-az_sub role assignment create --assignee-object-id "$ME" --assignee-principal-type User --role "Azure AI User" \
-  --scope "$SCOPE" -o none || echo "role assignment failed: ask the subscription owner to grant 'Azure AI User'"
+# by role id: the built-in "Azure AI User" was renamed "Foundry User" (2026); its id does not change
+az_sub role assignment create --assignee-object-id "$ME" --assignee-principal-type User \
+  --role 53ca6127-db72-4b80-b1b0-d745d6d5456d \
+  --scope "$SCOPE" -o none || echo "role assignment failed: ask the subscription owner to grant 'Foundry User' (formerly 'Azure AI User')"
 
 cat <<EOF
 Add to .env (never commit it):

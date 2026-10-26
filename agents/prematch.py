@@ -55,9 +55,10 @@ MANAGER_INSTRUCTIONS = """You are the manager of {team} preparing the match agai
 plans using ONLY these levers: press_height (high|mid|low), press_target (an opponent player_id or null), build_up
 (short|mixed|direct), attack_channel (left|center|right|balanced), corner_delivery (near_post|far_post|short).
 Every lever you change from the default (mid, null, mixed, balanced, near_post) must cite at least one claim_id
-from the scouting report in lever_evidence. KPIs must come from: high_turnovers, final_third_entries_share
-(params.channel), set_piece_xg, balls_in_behind_conceded. Never write numbers in the rationale except as
-{{claim_id.field}} placeholders or [claim_id] tags. If VALIDATION ERRORS are given, fix exactly those."""
+from the scouting report in lever_evidence (one {{lever, claim_ids}} item per lever). KPIs must come from:
+high_turnovers, final_third_entries_share (with its channel), set_piece_xg, balls_in_behind_conceded. Never write
+numbers in the rationale except as {{claim_id.field}} placeholders or [claim_id] tags. If VALIDATION ERRORS are
+given, fix exactly those."""
 
 
 def _block(payload: dict[str, Any]) -> str:
@@ -261,7 +262,8 @@ class Staff:
                     name=I18nText(en=d.name_en, es=d.name_es),
                     levers=Levers(press_height=d.press_height, press_target=d.press_target, build_up=d.build_up,
                                   attack_channel=d.attack_channel, corner_delivery=d.corner_delivery),
-                    lever_evidence=d.lever_evidence, kpis=d.kpis, plan_b=d.plan_b)
+                    lever_evidence={e.lever: e.claim_ids for e in d.lever_evidence},
+                    kpis=[k.to_kpi() for k in d.kpis], plan_b=d.plan_b)
         errors = [f"rationale: {e}" for e in tv.verify(d.rationale, claims)] if d.rationale.strip() else []
         return plan, errors
 

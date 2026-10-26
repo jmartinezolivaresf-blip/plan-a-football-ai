@@ -38,7 +38,11 @@ async def _ping(dry_run: bool) -> int:
             resp = await agent.run("ping")
             ms = int((time.perf_counter() - t0) * 1000)
             text = (resp.text or "").strip()
-            print(f"{role}: deployment {deployment}, latency {ms} ms, reply {text[:80]!r}")
+            raw = getattr(resp.raw_representation, "raw_representation", None) or resp.raw_representation
+            usage = dict(resp.usage_details or {})
+            print(f"{role}: deployment {deployment}, latency {ms} ms, reply {text[:80]!r}; service model "
+                  f"{getattr(raw, 'model', None)}, response id {resp.response_id}, tokens in/out "
+                  f"{usage.get('input_token_count')}/{usage.get('output_token_count')}")
             ok = ok and "PLAN-A-OK" in text
             if choice.analyst == choice.manager:
                 break  # same deployment: one call is enough
