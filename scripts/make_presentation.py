@@ -29,6 +29,8 @@ ROOT = Path(__file__).resolve().parents[1]
 DIST = ROOT / "web" / "dist"
 OUT_DIR = ROOT / "docs" / "media"
 W, H, FPS, FADE = 1920, 1080, 30, 0.35
+NATURAL_WPM = 150  # a relaxed narration pace (words per minute) for the timing check and the guide voice
+LEAD, TAIL = 0.25, 0.25  # each line starts LEAD s into its scene and must end TAIL s before the cut
 PORT = 4183
 FONT = "/System/Library/Fonts/HelveticaNeue.ttc"
 YELLOW, WHITE, MUTED, BG = (251, 191, 36), (240, 244, 250), (148, 163, 184), (8, 13, 24)
@@ -39,62 +41,60 @@ YELLOW, WHITE, MUTED, BG = (251, 191, 36), (240, 244, 250), (148, 163, 184), (8,
 SCENES: list[dict] = [
     {"kind": "card", "seconds": 7.0, "title": "Two AI coaching staffs.\nTwo hidden strategies.\nOne tactical duel.",
      "sub": "Plan A · The Battle of the Benches",
-     "vo": "Every manager walks in with a plan. The manager in the other dugout walks in with an answer. "
-           "This is Plan A."},
+     "speaker": "Javier", "vo": "Hi, I'm Javier. Plan A: two AI coaching staffs, one tactical duel."},
     {"kind": "shot", "seconds": 12.0, "state": "desk", "start": None, "end": "desk_report",
      "highlight": ["desk_report"], "phase": "1 · Each bench prepares in private",
      "caption": "An analyst agent studies the opponent. A manager agent turns the evidence into a plan.",
-     "vo": "Each club has its own AI staff: an analyst and a manager. The analyst studies the opponent's last "
-           "eight matches. The manager turns that evidence into a game plan and tests it in simulation."},
+     "speaker": "Javier", "vo": "Each club gets an AI staff: an analyst who scouts the opponent's last eight matches, "
+            "and a manager who turns that evidence into a game plan."},
     {"kind": "shot", "seconds": 7.5, "state": "kickoff", "start": None, "end": "kick_cards",
      "highlight": ["kick_seal_home", "kick_seal_away"], "phase": "Locked before kick-off",
      "caption": "Kestrel: a measured approach. Harbourside: exploit their weaknesses. Both plans are sealed.",
-     "vo": "Then each plan is locked in. Neither bench can see the other's plan, and nobody can change it once "
-           "the match starts."},
+     "speaker": "Javier", "vo": "Both plans are sealed before kick-off, and neither bench can see the other's."},
     {"kind": "live", "seconds": 16.0, "state": "live", "box": "live_pitch", "phase": "2 · The match",
      "caption": "Kestrel's backup plan switches to long balls at 25'. The live detector spots it at 31'.",
-     "vo": "The match is simulated live, and a tracker follows each plan's targets. At minute 25, Kestrel's "
-           "backup plan kicks in and they go long. The live detector flags it six minutes later: long balls "
-           "jump from 6% to 45%."},
+     "speaker": "Javier", "vo": "The match plays out live, with a tracker on each plan. At minute 25, Kestrel's backup "
+            "plan switches them to long balls, and the live detector spots it: from 6% to 45%."},
     {"kind": "shot", "seconds": 10.0, "state": "ht_closed", "start": None, "end": "ht_rooms",
      "highlight": ["ht_score"], "phase": "3 · Half-time: the duel",
      "caption": "1-1 at half-time. Both benches choose at the same time, blind to each other.",
-     "vo": "Half-time, one-all. Both benches pick one of three options at the same moment, blind to each "
-           "other. Each choice is locked in."},
+     "speaker": "Javier", "vo": "Half-time, one-all. Now the duel: both benches pick from three options at the same "
+            "moment, blind, and lock in."},
     {"kind": "shot", "seconds": 6.0, "state": "ht_revealed", "start": "ht_rooms", "end": "ht_rooms",
      "highlight": ["chosen_home", "chosen_away"], "phase": "The reveal",
      "caption": "Kestrel: Stay the course. Harbourside: Back to short passing.",
-     "vo": "Reveal. Kestrel stay the course. Harbourside go back to short passing."},
+     "speaker": "Javier", "vo": "The reveal: Kestrel stay, Harbourside go back to short passing."},
     {"kind": "shot", "seconds": 10.0, "state": "ht_revealed", "start": "m_believed", "end": "m_believed",
      "highlight": ["believed_row"], "phase": "What Harbourside believed",
      "caption": "They expected Kestrel to go back to short too. On their numbers, short passing was the answer.",
-     "vo": "Harbourside's staff expected Kestrel to switch back to short passing. Against that, short passing "
-           "was their best answer."},
+     "speaker": "Bernardo", "vo": "And I'm Bernardo. Harbourside expected Kestrel to switch back to short passing, so "
+            "matching it looked like the best answer."},
     {"kind": "shot", "seconds": 12.0, "state": "ht_revealed", "start": "m_true", "end": "m_true",
      "highlight": ["cell_happened", "cell_best"], "phase": "What was really true",
      "caption": "Kestrel stayed. Against that, dropping into a mid block was Harbourside's best answer.",
-     "vo": "But Kestrel stayed the course. The simulator replays the second half hundreds of times for every "
-           "pair of choices: against that, dropping into a mid block was better."},
+     "speaker": "Bernardo", "vo": "But Kestrel stayed. The simulator replays the second half hundreds of times for "
+            "every pair of choices: against that, a mid block was better."},
     {"kind": "shot", "seconds": 9.5, "state": "ht_revealed", "start": "m_true", "end": "m_true",
      "highlight": ["cell_happened", "cell_best"], "phase": "The cost of the call",
      "caption": "About 0.12 expected points left on the table (likely range 0.01 to 0.23).",
-     "vo": "Harbourside's call left about 0.12 expected points on the table: a likely range of 0.01 to 0.23."},
+     "speaker": "Bernardo", "vo": "Harbourside's call cost about 0.12 expected points, and the whole likely range is "
+            "above zero."},
     {"kind": "shot", "seconds": 10.0, "state": "final", "start": None, "end": ["final_head", "recap"],
      "highlight": ["goal_line"], "phase": "4 · Full time",
      "caption": "Harbourside win 3-1 anyway. The call is judged against every alternative, not the score.",
-     "vo": "Harbourside still win three-one. One match proves nothing on its own, so every call is judged "
-           "against all the alternatives, not the final score."},
+     "speaker": "Bernardo", "vo": "Yet Harbourside win three-one. One match proves nothing, so every call is judged "
+            "against the alternatives, not the score."},
     {"kind": "shot", "seconds": 13.0, "state": "desk_trace", "start": ["trace_r1", "trace_r16"],
      "end": ["trace_r1", "trace_r8"],
      "highlight": [], "phase": "5 · Under the hood",
      "caption": "Microsoft Agent Framework agents, each bench with its own MCP tools. Every figure points to "
                 "recorded data.",
-     "vo": "Under the hood: Microsoft Agent Framework agents, each bench with its own MCP tools, so neither can "
-           "see the other. Agents never type numbers; every figure points to recorded data."},
+     "speaker": "Bernardo", "vo": "Each bench runs Microsoft Agent Framework agents with their own MCP tools. We also "
+            "ran them on a real model in Microsoft Foundry, and every call is recorded."},
     {"kind": "card", "seconds": 5.0, "title": "Plan A\nThe Battle of the Benches",
-     "sub": "Microsoft Agent Framework agents · MCP tools · this demo runs offline rules; "
-            "Microsoft Foundry integration prepared, not yet verified · synthetic data, fictional clubs",
-     "vo": "Plan A. The Battle of the Benches."},
+     "sub": "Microsoft Agent Framework agents · MCP tools · the agents also ran on Microsoft Foundry "
+            "(gpt-4.1-mini); this demo replays the offline run · synthetic data, fictional clubs",
+     "speaker": "Bernardo", "vo": "Plan A. The Battle of the Benches."},
 ]
 
 # what to capture: (state, url query, action, {box name: CSS selector})
@@ -313,6 +313,23 @@ def render(images: dict, boxes: dict, out: Path) -> list[tuple[float, float]]:
 
 
 # ------------------------------------------------------------------------------------------------ voice + docs
+def read_time(text: str, out: Path) -> float:
+    """Seconds the macOS voice takes to read `text` at NATURAL_WPM (writes a WAV to `out`)."""
+    subprocess.run(["say", "-v", "Daniel", "-r", str(NATURAL_WPM), "-o", str(out), "--file-format=WAVE",
+                    "--data-format=LEI16@22050", text], check=True)
+    with wave.open(str(out)) as w:
+        return w.getnframes() / w.getframerate()
+
+
+def scene_starts() -> list[tuple[float, float]]:
+    """Scene start and end times: the video is the scenes back to back (render() uses the same sums)."""
+    out, t = [], 0.0
+    for sc in SCENES:
+        out.append((t, t + sc["seconds"]))
+        t += sc["seconds"]
+    return out
+
+
 def guide_voice(starts: list[tuple[float, float]], video: Path, out: Path, tmp: Path) -> list[float]:
     """A SYNTHETIC voice (macOS `say`) laid on the scene starts, only to check that the narration fits."""
     import imageio_ffmpeg
@@ -322,12 +339,11 @@ def guide_voice(starts: list[tuple[float, float]], video: Path, out: Path, tmp: 
     track = np.zeros(int(total * rate) + rate, dtype=np.int16)
     for k, sc in enumerate(SCENES):
         clip = tmp / f"vo_{k:02d}.wav"
-        subprocess.run(["say", "-v", "Daniel", "-r", "175", "-o", str(clip), "--file-format=WAVE",
-                        "--data-format=LEI16@22050", sc["vo"]], check=True)
+        read_time(sc["vo"], clip)
         with wave.open(str(clip)) as w:
             data = np.frombuffer(w.readframes(w.getnframes()), dtype=np.int16)
         lengths.append(len(data) / rate)
-        at = int((starts[k][0] + 0.25) * rate)
+        at = int((starts[k][0] + LEAD) * rate)
         end = min(len(track), at + len(data))
         track[at:end] = data[: end - at]
     audio = tmp / "guide.wav"
@@ -349,34 +365,59 @@ def write_script(starts: list[tuple[float, float]], lengths: list[float] | None)
     for k, (sc, (a, b)) in enumerate(zip(SCENES, starts, strict=True)):
         on_screen = sc.get("caption") or sc["title"].replace("\n", " ")
         fit = "" if lengths is None else f"{lengths[k]:.1f} s"
-        rows.append(f"| {ts(a)}-{ts(b)} | {sc.get('phase', 'Title')} | {on_screen} | \"{sc['vo']}\" | {fit} |")
+        rows.append(f"| {ts(a)}-{ts(b)} | {sc['speaker']} | {sc.get('phase', 'Title')} | {on_screen} | "
+                    f"\"{sc['vo']}\" | {fit} |")
     total = starts[-1][1]
-    build = json.loads((DIST / "match_bundle.json").read_text())["eval"]["build"]
+    build = json.loads((ROOT / "web" / "public" / "match_bundle.json").read_text())["eval"]["build"]
     season, seed = build["season_seed"], build["match_seed"]
+    parts, speakers = [], list(dict.fromkeys(sc["speaker"] for sc in SCENES))
+    for who in speakers:
+        ks = [k for k, sc in enumerate(SCENES) if sc["speaker"] == who]
+        a, b = starts[ks[0]][0], starts[ks[-1]][1]
+        words = sum(len(SCENES[k]["vo"].split()) for k in ks)
+        read = "" if lengths is None else f", read in {sum(lengths[k] for k in ks):.0f} s at {NATURAL_WPM} wpm"
+        lines = "\n".join(f"> **{ts(starts[k][0] + LEAD)}** {SCENES[k]['vo']}" for k in ks)
+        parts.append(f"### {who}: {ts(a)} to {ts(b)} ({b - a:.1f} s, {words} words{read})\n\n{lines}")
+    handover = next(starts[k][0] for k, sc in enumerate(SCENES) if sc["speaker"] != SCENES[0]["speaker"])
+    after = next(sc.get("phase", "") for sc in SCENES if sc["speaker"] != SCENES[0]["speaker"])
     text = f"""# Video script (generated by scripts/make_presentation.py; edit SCENES there, not here)
 
-**Two AI coaching staffs. Two hidden strategies. One tactical duel.** Total {total:.0f} s (limit 120 s).
+**Two AI coaching staffs. Two hidden strategies. One tactical duel.** Total {total:.0f} s (limit 120 s), two
+presenters, one turn each. The handover is at **{ts(handover)}**, on the cut to "{after}".
 
 Files: `docs/media/plan_a_demo_v2.mp4` (silent, 1920x1080, to record the narration over),
-`docs/media/plan_a_demo_v2_guide_voice.mp4` (a synthetic macOS voice, ONLY to check timing; record a human voice for
+`docs/media/plan_a_demo_v2_guide_voice.mp4` (a synthetic macOS voice, ONLY to check timing; record human voices for
 the submission). The earlier `docs/media/walkthrough.mp4` is kept as a reference.
 
 Every number below comes from the frozen demo bundle (season {season}, match seed {seed}) and is checked by
 `tests/test_demo_consistency.py`. What the narration must not claim: that this single match proves anything (it is one
-replay), that the AI beats random choices at half-time (E8 does not show that), or that the agents run on Microsoft
-Foundry (the integration is prepared but no real call has been verified yet).
+replay), that the AI beats random choices at half-time (E8 does not show that), or that this video's match was played
+by Microsoft Foundry models (the demo replays the offline rules run; the same agents ran separately on Foundry,
+`docs/FOUNDRY_EVIDENCE.md`).
 
-| Time | Phase | On screen | Narration | Guide voice read |
-|---|---|---|---|---|
+## The script in two parts, ready to read
+
+Times are when each line starts in the video. Read at a relaxed pace; every line fits its shot at {NATURAL_WPM}
+words per minute.
+
+""" + "\n\n".join(parts) + """
+
+## Shot by shot
+
+| Time | Speaker | Phase | On screen | Narration | Read at """ + str(NATURAL_WPM) + """ wpm |
+|---|---|---|---|---|---|
 """ + "\n".join(rows) + """
 
 ## Recording notes
 
-- Read at a relaxed pace (about 2.3 words per second); each line starts 0.25 s into its scene.
-- Architecture appears once, in "Under the hood": agents built with Microsoft Agent Framework, MCP tools per bench.
-  The closing card states that this demo runs offline rules and that the Microsoft Foundry integration is prepared
-  but not yet verified; do not say the agents run on Foundry.
-- If the bundle is rebuilt (for example with Foundry), re-run the generator and the tests before recording.
+- Each line starts 0.25 s into its shot; one turn each, no alternation. If a line runs long, cut words rather than
+  speeding up.
+- The cut at the handover changes shot and caption, so the second voice comes in on a visual change.
+- Foundry: say only that the agents also ran on a real model in Microsoft Foundry and that every call is recorded
+  (docs/FOUNDRY_EVIDENCE.md, D-056). **The closing card of the current `plan_a_demo_v2.mp4` still says the Foundry
+  integration is "prepared, not yet verified"**; the generator already has the corrected card, so re-render the video
+  (`scripts/make_presentation.py`) before recording so picture and voice agree.
+- If the bundle is rebuilt, re-run the generator and the tests before recording.
 """
     path = ROOT / "docs" / "VIDEO_SCRIPT.md"
     path.write_text(text)
@@ -386,7 +427,20 @@ Foundry (the integration is prepared but no real call has been verified yet).
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--guide-voice", action="store_true")
+    ap.add_argument("--script-only", action="store_true",
+                    help="write docs/VIDEO_SCRIPT.md (times from the scene list, lines measured at a natural pace) "
+                         "without capturing or rendering any video")
     args = ap.parse_args(argv)
+    if args.script_only:
+        starts = scene_starts()
+        with tempfile.TemporaryDirectory() as t:
+            lengths = [read_time(sc["vo"], Path(t) / f"vo_{k:02d}.wav") for k, sc in enumerate(SCENES)]
+        too_long = [(k, n, sc["seconds"]) for k, (sc, n) in enumerate(zip(SCENES, lengths, strict=True))
+                    if n > sc["seconds"] - LEAD - TAIL]
+        for k, n, sec in too_long:
+            print(f"WARNING scene {k} narration {n:.1f} s does not fit in {sec} s at {NATURAL_WPM} wpm")
+        print(f"wrote {write_script(starts, lengths)} ({starts[-1][1]:.0f} s, no video changed)")
+        return 1 if too_long else 0
     if not (DIST / "index.html").exists():
         sys.exit("build the web app first: cd web && npm run build")
     OUT_DIR.mkdir(parents=True, exist_ok=True)
@@ -408,7 +462,7 @@ def main(argv: list[str] | None = None) -> int:
             if args.guide_voice:
                 lengths = guide_voice(starts, video, OUT_DIR / "plan_a_demo_v2_guide_voice.mp4", tmp)
                 for k, (sc, n) in enumerate(zip(SCENES, lengths, strict=True)):
-                    if n > sc["seconds"] - 0.5:
+                    if n > sc["seconds"] - LEAD - TAIL:
                         print(f"WARNING scene {k} narration {n:.1f} s does not fit in {sc['seconds']} s")
             script = write_script(starts, lengths)
             print(f"wrote {video} ({starts[-1][1]:.0f} s) and {script}")
