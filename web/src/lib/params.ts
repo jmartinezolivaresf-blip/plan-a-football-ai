@@ -1,4 +1,4 @@
-// Deep links: ?t=45:00&tab=desk&mode=analyst&lang=es&club=HAR&reveal=1&matrix=believed&section=validation
+// Deep links: ?t=45:00&tab=desk&mode=analyst&lang=es&club=HAR&reveal=1&matrix=believed&section=validation|trace|foundry
 // (for judges, screenshots and the video).
 export interface LinkParams {
   t: number | null; // match seconds
@@ -8,7 +8,7 @@ export interface LinkParams {
   club: string | null;
   reveal: boolean;
   matrix: "true" | "believed" | null;
-  section: "validation" | "trace" | null;
+  section: "validation" | "trace" | "foundry" | null;
 }
 
 export function parseTime(raw: string | null): number | null {
@@ -33,6 +33,6 @@ export function readParams(search: string): LinkParams {
     club: q.get("club"),
     reveal: q.get("reveal") === "1",
     matrix: pick("matrix", ["true", "believed"] as const),
-    section: pick("section", ["validation", "trace"] as const),
+    section: pick("section", ["validation", "trace", "foundry"] as const),
   };
 }

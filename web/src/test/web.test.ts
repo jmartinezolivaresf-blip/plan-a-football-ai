@@ -5,6 +5,8 @@ import { createElement } from "react";
 import { renderToString } from "react-dom/server";
 import { describe, expect, it } from "vitest";
 import { Broadcast } from "../App";
+import { FoundryRunPanel } from "../components/FoundryRun";
+import type { FoundryRun } from "../lib/foundry";
 import type { MatchBundle } from "../contracts/bundle";
 import { clockReducer, initClock } from "../lib/clock";
 import { changedLevers, kpiTarget, objective } from "../lib/levers";
@@ -250,5 +252,42 @@ describe("pitch markers", () => {
       for (let b = a + 1; b < ids.length; b++)
         expect(Math.hypot(out[ids[a]][0] - out[ids[b]][0], out[ids[a]][1] - out[ids[b]][1])).toBeGreaterThan(2.5);
     expect(out["HAR-5"]).toEqual([10, 10]);
+  });
+});
+
+describe("Real Microsoft Foundry Run panel", () => {
+  const run: FoundryRun = JSON.parse(readFileSync(new URL("../../public/foundry_run.json", import.meta.url), "utf8"));
+  const html = renderToString(createElement(FoundryRunPanel, { run, colors: { KES: "#2dd4bf", HAR: "#f59e0b" },
+                                                               names: { KES: "Kestrel", HAR: "Harbourside" } }));
+
+  it("shows the real model, every call and the tools the model chose", () => {
+    expect(html).toContain("Real Microsoft Foundry Run");
+    expect(html).toContain("gpt-4.1-mini");
+    expect(run.turns).toHaveLength(run.totals.model_turns);
+    for (const t of run.turns) expect(html).toContain(t.response_id!.slice(0, 14));
+    expect(html).toContain("a player&#x27;s profile ×3");
+  });
+
+  it("separates the real run from the deterministic replay and compares their half-time calls", () => {
+    expect(html).toContain("a recorded run with real calls to a model in Microsoft Foundry");
+    expect(html).toContain("a deterministic replay of the same agents");
+    for (const b of Object.values(run.halftime.benches)) {
+      expect(html).toContain(b.foundry.choice);
+      expect(html).toContain(b.demo.choice);
+    }
+    expect(html).toContain("Foundry agents");
+    expect(html).toContain("Offline demo");
+  });
+
+  it("shows what the validators rejected and how each agent reacted", () => {
+    for (const g of run.guardrails) expect(html).toContain(g.outcome);
+    expect(html).toContain("typed a number instead of citing recorded data");
+  });
+
+  it("opens from a deep link without loading anything else into the match", () => {
+    expect(readParams("?tab=desk&section=foundry").section).toBe("foundry");
+    const desk = renderToString(createElement(Broadcast, { bundle, link: readParams("?tab=desk&section=foundry") }));
+    expect(desk).toContain("Real Microsoft Foundry Run");
+    expect(desk).toContain("Loading the recorded run");  // fetched on the client, separate from the bundle
   });
 });
