@@ -24,6 +24,7 @@ die() { echo "ERROR: $*" >&2; exit 1; }
 
 load_env_file() {
   local root
+  [[ "${PLAN_A_NO_DOTENV:-}" == "1" ]] && return 0  # tests: never the developer's real settings
   root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
   if [[ -f "$root/.env" ]]; then
     # only the PLAN_A_* deployment settings; never source the whole file into the shell

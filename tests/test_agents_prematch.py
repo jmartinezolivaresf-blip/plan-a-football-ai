@@ -104,7 +104,7 @@ class _ScriptedClient(BaseChatClient):
             self.manager_calls += 1
             if self.manager_calls <= self.bad_rounds:
                 good = offline_candidates(ev).candidates[0].model_dump()
-                good["lever_evidence"] = {}  # every changed lever loses its evidence -> invalid
+                good["lever_evidence"] = []  # every changed lever loses its evidence -> invalid
                 out = CandidateSetDraft.model_validate({"candidates": [good]})
             else:
                 from agents.offline import revise

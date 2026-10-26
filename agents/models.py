@@ -11,7 +11,7 @@ from typing import Literal
 from pydantic import BaseModel, ConfigDict, Field
 
 from contracts import I18nText, Kpi, Levers, Plan, PlanBRule, TraceStep
-from contracts.plan import AttackChannel, BuildUp, CornerDelivery, OpponentPlanEstimate, PressHeight
+from contracts.plan import AttackChannel, BuildUp, CornerDelivery, KpiMetric, OpponentPlanEstimate, PressHeight
 
 Confidence = Literal["high", "medium", "low", "insufficient"]
 
@@ -40,6 +40,29 @@ class ScoutingDraft(_Strict):
     opponent_confidence: Literal["high", "medium", "low"] = "low"
 
 
+# Strict structured outputs (the Responses API) accept no free-form maps, so the two maps of a Plan are written by the
+# model as lists and turned back into the Plan's maps by code (agents/prematch.py, Staff._to_plan).
+LeverName = Literal["press_height", "press_target", "build_up", "attack_channel", "corner_delivery"]
+
+
+class LeverEvidenceDraft(_Strict):
+    lever: LeverName
+    claim_ids: list[str]
+
+
+class KpiDraft(_Strict):
+    id: str
+    metric: KpiMetric
+    channel: Literal["left", "center", "right"] | None = Field(
+        default=None, description="Only for final_third_entries_share: the channel whose share is measured.")
+    target: str = Field(pattern=r"^(>=|<=|>|<)\d+(\.\d+)?$")
+    by_minute: int = Field(default=90, ge=1, le=90)
+
+    def to_kpi(self) -> Kpi:
+        return Kpi(id=self.id, metric=self.metric, params={"channel": self.channel} if self.channel else {},
+                   target=self.target, by_minute=self.by_minute)
+
+
 class CandidateDraft(_Strict):
     name_en: str
     name_es: str
@@ -48,8 +71,8 @@ class CandidateDraft(_Strict):
     build_up: BuildUp = "mixed"
     attack_channel: AttackChannel = "balanced"
     corner_delivery: CornerDelivery = "near_post"
-    lever_evidence: dict[str, list[str]] = Field(default_factory=dict)
-    kpis: list[Kpi] = Field(min_length=1, max_length=4)
+    lever_evidence: list[LeverEvidenceDraft] = Field(default_factory=list)
+    kpis: list[KpiDraft] = Field(min_length=1, max_length=4)
     plan_b: list[PlanBRule] = Field(default_factory=list)
     rationale: str = Field(description="Why this plan, citing claims; numbers only as placeholders.")
 

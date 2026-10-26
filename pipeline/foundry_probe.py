@@ -95,7 +95,8 @@ def prematch_part(season: Season, demo: MatchBundle, choice: ModelChoice) -> dic
 
 def halftime_part(season: Season, demo: MatchBundle, choice: ModelChoice) -> dict[str, Any]:
     home, away, seed = demo.meta.home, demo.meta.away, demo.eval["build"]["match_seed"]
-    pre = run_prematch_for(season, home, away, None)  # the demo's own pre-match: the same sealed plans and claims
+    # the demo's own pre-match, ALWAYS with the rules client (never AGENTS_MODE): the same sealed plans and claims
+    pre = run_prematch_for(season, home, away, "offline")
     plans = {t: r.chosen for t, r in pre.results.items()}
     engine = make_engine(season, home, away, Seeds(match=seed))
     engine.claims.update(pre.claims)
@@ -165,6 +166,7 @@ def render(r: dict[str, Any]) -> str:
         f"- **Service:** {s['model_turns']} model turns, {s['turns_with_service_response_id']} answered with a "
         f"service response id; models reported by the service: {', '.join(s['service_models']) or 'none'}; tokens "
         f"in/out {s['input_tokens']} / {s['output_tokens']}.",
+        *([f"- **FAILED:** {r['errors']}"] if r.get("errors") else []),
         f"- **Demo untouched:** bundle sha256 `{r['demo_bundle_sha256'][:16]}…` before and after: "
         f"{'yes' if r['demo_bundle_unchanged'] else 'NO'} (season {r['season_seed']}, match seed {r['match_seed']}).",
         "",
@@ -234,10 +236,15 @@ def main(argv: list[str] | None = None) -> int:
         "endpoint_host": _host(choice.endpoint), "season_seed": build["season_seed"],
         "match_seed": build["match_seed"], "demo_bundle_sha256": before,
         "started_utc": datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ")}
-    if "prematch" in parts:
-        result["prematch"] = prematch_part(season, demo, choice)
-    if "halftime" in parts:
-        result["halftime"] = halftime_part(season, demo, choice)
+    # a part that fails is recorded with its error; the parts that ran are still written (their model calls count)
+    for part, run in (("prematch", prematch_part), ("halftime", halftime_part)):
+        if part not in parts:
+            continue
+        try:
+            result[part] = run(season, demo, choice)
+        except Exception as exc:  # noqa: BLE001 - recorded in the evidence, then the exit code says it failed
+            result.setdefault("errors", {})[part] = f"{type(exc).__name__}: {str(exc)[:500]}"
+            break
     result["seconds"] = round(time.perf_counter() - t0, 1)
     result["demo_bundle_unchanged"] = _sha(BUNDLE) == before
     calls = _calls(result)
@@ -258,8 +265,9 @@ def main(argv: list[str] | None = None) -> int:
     data.write_text(json.dumps(result, indent=1))
     doc = docs_dir / "FOUNDRY_EVIDENCE.md"
     doc.write_text(render(result))
-    print(f"wrote {data} and {doc}: {result['summary']}; demo unchanged: {result['demo_bundle_unchanged']}")
-    return 0 if result["demo_bundle_unchanged"] else 1
+    print(f"wrote {data} and {doc}: {result['summary']}; demo unchanged: {result['demo_bundle_unchanged']}"
+          + (f"; FAILED: {result['errors']}" if result.get("errors") else ""))
+    return 0 if result["demo_bundle_unchanged"] and not result.get("errors") else 1
 
 
 if __name__ == "__main__":

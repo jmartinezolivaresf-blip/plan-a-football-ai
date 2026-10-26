@@ -16,6 +16,15 @@ def load(path: Path):
     return json.loads(path.read_text())
 
 
+@pytest.fixture(autouse=True)
+def _never_the_real_dotenv(monkeypatch):
+    """Tests never read the developer's .env: with real Foundry settings in it, a test that removes them and runs the
+    ping or the probe would otherwise call the real model (and spend tokens)."""
+    from agents import foundry_ping, settings
+    monkeypatch.setattr(settings, "load_env", lambda: False)
+    monkeypatch.setattr(foundry_ping, "load_env", lambda: False)  # imported by name at module level
+
+
 @pytest.fixture(scope="session")
 def bundle() -> MatchBundle:
     return MatchBundle.model_validate(load(FIXTURES / "match_bundle_fixture.json"))

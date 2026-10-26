@@ -1,10 +1,11 @@
 # Microsoft Foundry: setup and verification
 
-**Status (2026-10-25): not connected.** No Foundry resource exists and no real model call has been made. The code
-path is verified offline: the real `FoundryChatClient` + `Agent` + scoped MCP tools run the pre-match and half-time
-workflows against a local mock of the Responses API (`tests/test_foundry_contract.py`). The demo bundle in the repo
-was produced by the offline rules client (`eval.build.models` says so). Do not describe the agents as running on
-Foundry until `python -m agents.foundry_ping` has succeeded and `make foundry-probe` (below) has recorded a real run.
+**Status (2026-10-26): connected; one real run recorded.** A Foundry resource in Sweden Central with one
+`gpt-4.1-mini` (2025-04-14) Global Standard deployment, in the owners' personal Free Trial subscription (spending limit
+on; no corporate subscription or tenant). `make foundry-ping` answered and `make foundry-probe` ran the agents with the
+real model on the demo's data and half-time: [`docs/FOUNDRY_EVIDENCE.md`](FOUNDRY_EVIDENCE.md) (service response ids,
+the model the service ran, tokens, the MCP tools the model called; token totals match Azure Monitor). **The demo
+bundle and the video were produced by the offline rules client** (`eval.build.models`) and were not changed (D-056).
 
 ## What the code does
 
@@ -12,7 +13,7 @@ Foundry until `python -m agents.foundry_ping` has succeeded and `make foundry-pr
 |---|---|---|
 | Mode switch | `AGENTS_MODE=offline|foundry` (`agents/clients.py`) | Same agents, tools, validators and workflows in both modes |
 | Client | `agent_framework_foundry.FoundryChatClient` 1.15.0 (Responses API) | `project_endpoint`, `model` (deployment name), credential |
-| Auth | `azure.identity.aio.AzureCliCredential(tenant_id=FOUNDRY_TENANT_ID)` | Entra ID, no keys; pinned tenant, corporate tenants refused |
+| Auth | `azure.identity.aio.AzureCliCredential(tenant_id=FOUNDRY_TENANT_ID)` | Entra ID, no keys; pinned tenant, corporate tenants refused; role "Foundry User" (formerly "Azure AI User") on the resource |
 | Roles | analyst -> `FOUNDRY_MODEL_SMALL`, manager and half-time bench -> `FOUNDRY_MODEL_LARGE` | one deployment can serve both |
 | Tools | `MCPStdioTool(mcp_client=...)` over the staff's in-process scoped MCP server | analyst limited to scouting tools; never broadcast tools |
 | Output | `response_format` = Pydantic model -> strict JSON schema | validators then check every claim id and number |
