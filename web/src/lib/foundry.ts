@@ -34,9 +34,9 @@ export interface BenchDecision {
 export interface ComparisonRow {
   metric: string;
   unit?: string;
-  rules: { value: number; ci90?: [number, number] };
-  llm: { value: number; ci90?: [number, number] };
-  diff: { value: number; ci90: [number, number] };
+  rules: { value: number; ci95?: [number, number] };
+  llm: { value: number; ci95?: [number, number] };
+  diff: { value: number; ci95: [number, number] };
   significant: boolean;
 }
 

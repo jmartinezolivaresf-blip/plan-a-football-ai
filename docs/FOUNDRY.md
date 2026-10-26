@@ -7,6 +7,17 @@ real model on the demo's data and half-time: [`docs/FOUNDRY_EVIDENCE.md`](FOUNDR
 the model the service ran, tokens, the MCP tools the model called; token totals match Azure Monitor). **The demo
 bundle and the video were produced by the offline rules client** (`eval.build.models`) and were not changed (D-056).
 
+## In the web, and measured against the rule agents
+
+- The analyst desk's **Real Microsoft Foundry Run** tab (`?tab=desk&section=foundry`) shows the recorded run: every
+  model turn with its service response id, tokens and the MCP tools the model chose; what the validators rejected and
+  how each agent reacted; the half-time calls next to the offline demo's. Data: `web/public/foundry_run.json`, from
+  `make foundry-web` (allow-listed fields; no tenant, subscription or resource name).
+- `eval/compare_agents.py` measures the Foundry agents against the rule agents on E1 and E3 with the same test data
+  (D-058, report in `eval/results/compare/AGENTS_COMPARISON.md`). Model runs need a hard spending cap:
+  `PLAN_A_LLM_BUDGET_EUR=<eur> PLAN_A_LLM_LEDGER=<file> python -m eval.compare_agents` (`agents/budget.py` refuses any
+  turn that could pass it); `--pilot` runs one unit first to measure the cost.
+
 ## What the code does
 
 | Piece | Where | Notes |

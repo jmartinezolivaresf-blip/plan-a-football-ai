@@ -98,6 +98,28 @@ seeds 9001-9015 and 11-14); the **test** seasons (8001-8005 for E1, 8101 for the
 once after the changes. Before/after table and every calibration: [`eval/results/RESULTS.md`](eval/results/RESULTS.md).
 One change that made results worse on dev (a "what would they pick" step for E7) was measured and removed (D-051).
 
+### Foundry agents (gpt-4.1-mini) against the rule agents
+
+The same agents ran with a real model on Microsoft Foundry on the same test seasons as E1 and E3 (and ten fresh
+seasons declared before the run), twice per unit, scored with the same functions (D-058). Full report:
+[`eval/results/compare/AGENTS_COMPARISON.md`](eval/results/compare/AGENTS_COMPARISON.md); the analyst desk's
+"Real Microsoft Foundry Run" tab shows the recorded run and this summary.
+
+<!-- AGENTS_COMPARISON -->
+| Measure | Set | Rule agents | Foundry agents | Difference (95% CI) | Significant |
+|---|---|---|---|---|---|
+| E1 precision | official test set | 0.687 | 0.736 | 0.049 (-0.059 to 0.143) | no |
+| E1 precision | all units | 0.697 | 0.724 | 0.028 (-0.035 to 0.089) | no |
+| E1 recall | official test set | 0.633 | 0.294 | -0.339 (-0.422 to -0.25) | yes |
+| E1 recall | all units | 0.604 | 0.287 | -0.317 (-0.365 to -0.267) | yes |
+| E3 plans attacking a real weakness | official test set | 0.75 | 0.458 | -0.292 (-0.625 to 0.042) | no |
+| E3 plans attacking a real weakness | all units | 0.784 | 0.441 | -0.343 (-0.436 to -0.245) | yes |
+<!-- /AGENTS_COMPARISON -->
+
+In plain words: the model is about as precise as the rules but flags fewer than half as many weaknesses, and its plans
+target a real weakness no more often than a random plan would; the rule agents (thresholds chosen on dev data) are
+better on both. The validators kept every model output grounded, at the cost of many retries and template fallbacks.
+
 ## Limitations
 
 - **Synthetic world.** Clubs, players, hidden weaknesses and matches come from our simulator. The results show the

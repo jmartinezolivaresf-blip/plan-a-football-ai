@@ -284,6 +284,18 @@ describe("Real Microsoft Foundry Run panel", () => {
     expect(html).toContain("typed a number instead of citing recorded data");
   });
 
+  it("shows the agent comparison compactly when it exists, with significance stated", () => {
+    const withComparison: FoundryRun = { ...run, comparison: {
+      title: "E1 and E3: Foundry agents against the rule agents", design: "same seasons", llm_runs: 2, cost_eur: 1.2,
+      calls: 300, note: "95% intervals.", report: "eval/results/compare/AGENTS_COMPARISON.md",
+      rows: [{ metric: "E1 precision · all units", rules: { value: 0.7 }, llm: { value: 0.6 },
+               diff: { value: -0.1, ci95: [-0.2, 0.05] }, significant: false }] } };
+    const out = renderToString(createElement(FoundryRunPanel, { run: withComparison, colors: {} }));
+    expect(out).toContain("E1 precision · all units");
+    expect(out).toContain("not significant");
+    expect(out).toContain("AGENTS_COMPARISON.md");
+  });
+
   it("opens from a deep link without loading anything else into the match", () => {
     expect(readParams("?tab=desk&section=foundry").section).toBe("foundry");
     const desk = renderToString(createElement(Broadcast, { bundle, link: readParams("?tab=desk&section=foundry") }));

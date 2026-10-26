@@ -32,3 +32,7 @@ dist/
 .DS_Store
 .vscode/
 .idea/
+
+# agent comparison: lock files, and the summary written by the runner before the report existed (D-058)
+eval/results/compare/*.lock
+eval/results/compare/summary.json

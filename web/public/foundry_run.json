@@ -3,8 +3,8 @@
  "sources": {
   "evidence": "eval/results/foundry/probe_seed204.json",
   "evidence_sha256": "dee88398f4df24f4895853e29dcb50fc9a04002e0a01727e78e0c99a0a041e65",
-  "comparison": null,
-  "comparison_sha256": null
+  "comparison": "eval/results/compare/agents_llm_vs_rules.json",
+  "comparison_sha256": "4cbe2a7f34c259e3a193f7eab9cfa16041df515d3c730882967d780be28dd4bf"
  },
  "run": {
   "mode": "foundry",
@@ -485,5 +485,117 @@
    }
   }
  },
- "comparison": null
+ "comparison": {
+  "title": "E1 and E3: Foundry agents (gpt-4.1-mini) against the rule agents",
+  "design": "Same test seasons, matchups, seeds and scoring for both; the model ran 2 times per unit; differences (model minus rules) with 95% paired bootstrap intervals over units.",
+  "rows": [
+   {
+    "metric": "E1 precision · official test set",
+    "rules": {
+     "value": 0.687
+    },
+    "llm": {
+     "value": 0.736
+    },
+    "diff": {
+     "value": 0.049,
+     "ci95": [
+      -0.059,
+      0.143
+     ]
+    },
+    "significant": false
+   },
+   {
+    "metric": "E1 precision · all units",
+    "rules": {
+     "value": 0.697
+    },
+    "llm": {
+     "value": 0.724
+    },
+    "diff": {
+     "value": 0.028,
+     "ci95": [
+      -0.035,
+      0.089
+     ]
+    },
+    "significant": false
+   },
+   {
+    "metric": "E1 recall · official test set",
+    "rules": {
+     "value": 0.633
+    },
+    "llm": {
+     "value": 0.294
+    },
+    "diff": {
+     "value": -0.339,
+     "ci95": [
+      -0.422,
+      -0.25
+     ]
+    },
+    "significant": true
+   },
+   {
+    "metric": "E1 recall · all units",
+    "rules": {
+     "value": 0.604
+    },
+    "llm": {
+     "value": 0.287
+    },
+    "diff": {
+     "value": -0.317,
+     "ci95": [
+      -0.365,
+      -0.267
+     ]
+    },
+    "significant": true
+   },
+   {
+    "metric": "E3 plans attacking a real weakness · official test set",
+    "rules": {
+     "value": 0.75
+    },
+    "llm": {
+     "value": 0.458
+    },
+    "diff": {
+     "value": -0.292,
+     "ci95": [
+      -0.625,
+      0.042
+     ]
+    },
+    "significant": false
+   },
+   {
+    "metric": "E3 plans attacking a real weakness · all units",
+    "rules": {
+     "value": 0.784
+    },
+    "llm": {
+     "value": 0.441
+    },
+    "diff": {
+     "value": -0.343,
+     "ci95": [
+      -0.436,
+      -0.245
+     ]
+    },
+    "significant": true
+   }
+  ],
+  "llm_runs": 2,
+  "cost_eur": 6.95,
+  "calls": 1707,
+  "note": "The model is about as precise as the rules (0.724 vs 0.697) but flags fewer weaknesses (1.17 vs 2.61 per report), so its recall is lower (0.287 vs 0.604). Its plans attack a real weakness 0.441 of the time against 0.784 for the rules (a random plan: 0.545). \"Significant\" means the 95% interval of the difference excludes zero.",
+  "report": "eval/results/compare/AGENTS_COMPARISON.md"
+ }
 }

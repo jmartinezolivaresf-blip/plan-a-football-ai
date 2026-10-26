@@ -160,21 +160,22 @@ export function FoundryRunPanel({ run, colors, names = {} }: {
           <h4>{run.comparison.title}</h4>
           <p className="fd-note">{run.comparison.design}</p>
           <table className="kpi-table">
-            <thead><tr><th>measure</th><th>rule agents</th><th>Foundry agents</th><th>difference (90% CI)</th><th></th></tr></thead>
+            <thead><tr><th>measure</th><th>rule agents</th><th>Foundry agents</th><th>difference (95% CI)</th><th></th></tr></thead>
             <tbody>
               {run.comparison.rows.map((r) => (
                 <tr key={r.metric}>
                   <td>{r.metric}</td>
-                  <td>{r.rules.value}{r.rules.ci90 ? ` (${ci(r.rules.ci90)})` : ""}</td>
-                  <td>{r.llm.value}{r.llm.ci90 ? ` (${ci(r.llm.ci90)})` : ""}</td>
-                  <td>{r.diff.value > 0 ? "+" : ""}{r.diff.value} ({ci(r.diff.ci90)})</td>
+                  <td>{r.rules.value}{r.rules.ci95 ? ` (${ci(r.rules.ci95)})` : ""}</td>
+                  <td>{r.llm.value}{r.llm.ci95 ? ` (${ci(r.llm.ci95)})` : ""}</td>
+                  <td>{r.diff.value > 0 ? "+" : ""}{r.diff.value} ({ci(r.diff.ci95)})</td>
                   <td className={r.significant ? "at_risk" : ""}>{r.significant ? "significant" : "not significant"}</td>
                 </tr>
               ))}
             </tbody>
           </table>
-          <p className="legend">{run.comparison.note} {run.comparison.calls} model turns, about €{run.comparison.cost_eur} of
-            credit. Full report: <code>{run.comparison.report}</code></p>
+          <p className="legend">{run.comparison.note} {run.comparison.calls.toLocaleString("en-GB")} model turns, at most
+            about €{run.comparison.cost_eur} of Azure free credit (list price plus 10%). Full report:{" "}
+            <code>{run.comparison.report}</code></p>
         </section>
       )}
 
