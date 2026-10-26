@@ -11,6 +11,10 @@ from contracts.refs import ValidationResult
 DEFAULT_LEVERS = Levers()
 LEVER_NAMES = ("press_height", "press_target", "build_up", "attack_channel", "corner_delivery")
 SHARE_METRICS = {"final_third_entries_share"}
+# Scale and direction of each KPI (D-057): counts are whole events; a share is a fraction; set-piece xG is continuous.
+# A KPI states a goal: a minimum for what the plan wants more of, a maximum for what it wants fewer of.
+COUNT_METRICS = {"high_turnovers", "balls_in_behind_conceded"}
+FEWER_IS_BETTER = {"balls_in_behind_conceded"}
 CHANNELS = {"left", "center", "right"}
 MAX_SUBS, MAX_WINDOWS = 5, 3
 _DIGIT = re.compile(r"\d")
@@ -51,13 +55,20 @@ def validate_plan(plan: Plan, squads: dict[str, Squad], claims_known: Iterable[s
         errors.append("duplicate KPI ids")
     for k in plan.kpis:
         value = float(k.target.lstrip("<>="))
+        minimum = k.target.startswith(">")
         if k.metric in SHARE_METRICS:
             if k.params.get("channel") not in CHANNELS:
                 errors.append(f"KPI {k.id}: final_third_entries_share needs channel left|center|right")
             if not 0 < value < 1:
                 errors.append(f"KPI {k.id}: a share target must be between 0 and 1")
-        elif value <= 0 and k.target.startswith(">"):
+        elif value <= 0 and minimum:
             errors.append(f"KPI {k.id}: target must be positive")
+        if k.metric in COUNT_METRICS and value != int(value):
+            errors.append(f"KPI {k.id}: {k.metric} counts whole events: use a whole number, not {value:g}")
+        if k.metric in FEWER_IS_BETTER and minimum:
+            errors.append(f"KPI {k.id}: {k.metric} is what the plan wants fewer of: state a maximum (<= or <)")
+        elif k.metric not in FEWER_IS_BETTER and not minimum:
+            errors.append(f"KPI {k.id}: {k.metric} is what the plan wants more of: state a minimum (>= or >)")
 
     # Plan B
     for i, rule in enumerate(plan.plan_b):

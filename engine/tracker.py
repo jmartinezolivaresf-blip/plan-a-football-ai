@@ -50,6 +50,44 @@ def kpi_value(metric: str, params: dict[str, str], team: str, events: list[Event
     raise ValueError(f"unknown KPI metric {metric}")
 
 
+def league_kpi_values(metric: str, params: dict[str, str], matches, minute: int, xg: XGModel) -> list[float]:
+    """Every team's value of a KPI by `minute` (the tracker's cut: events before that minute) in past matches, here
+    the league's public matches that the staffs scout: no hidden trait, nothing from the match being planned."""
+    return [kpi_value(metric, params, team, [e for e in m.events if e.minute < minute], m.home, xg).value
+            for m in matches for team in (m.home, m.away)]
+
+
+KPI_LABELS = {"high_turnovers": "high turnovers", "final_third_entries_share": "the share of final-third entries",
+              "set_piece_xg": "set-piece xG", "balls_in_behind_conceded": "balls in behind conceded"}
+
+
+def kpi_plausibility(kpi, values: list[float]) -> str | None:
+    """None if the target lies within what teams really reached by its minute; otherwise a message for the manager.
+
+    A minimum (>=, >) above the highest value any team reached by that minute, or a maximum (<=, <) below the lowest,
+    never happened in the league: clearly implausible (D-057). The bound is the observed range, not a tuned margin."""
+    if not values:
+        return None
+    op, threshold = _TARGET.match(kpi.target).groups()
+    t, lo, hi = float(threshold), min(values), max(values)
+    med = sorted(values)[len(values) // 2]
+    label, m, n = KPI_LABELS.get(kpi.metric, kpi.metric), kpi.by_minute, len(values)
+    decimals = kpi.metric in ("final_third_entries_share", "set_piece_xg")  # shares and xG; the rest are counts
+
+    def fmt(v: float) -> str:
+        return f"{v:.2f}" if decimals else f"{v:g}"
+
+    if (op == ">=" and t > hi) or (op == ">" and t >= hi):
+        return (f"KPI {kpi.id}: {kpi.metric} {kpi.target} by {m}' is beyond anything in the league: in {n} "
+                f"team-matches no team had more than {fmt(hi)} {label} by minute {m} (median {fmt(med)}). Use a target "
+                f"of at most {fmt(hi)}, or a later minute.")
+    if (op == "<=" and t < lo) or (op == "<" and t <= lo):
+        return (f"KPI {kpi.id}: {kpi.metric} {kpi.target} by {m}' is below anything in the league: in {n} "
+                f"team-matches no team had fewer than {fmt(lo)} {label} by minute {m} (median {fmt(med)}). Use a "
+                f"target of at least {fmt(lo)}, or an earlier minute.")
+    return None
+
+
 def expected_at(metric: str, params: dict[str, str], team: str, minute: int,
                 trajectories: dict[str, list[float]]) -> float | None:
     """Mean of pre-match simulations at this minute (sim counters share the engine's definitions, D-015)."""
