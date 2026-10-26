@@ -44,7 +44,8 @@ both seals --> broadcast: true matrix, regret --> director cues --> bundle
   rejects any other digit and any claim the agent was not served. A rejected report is retried with the
   validator's errors (`MAX_ATTEMPTS`), then a template is used and the trace says so.
 - **Valid plans and options.** `validate_plan` rejects levers without evidence the staff actually retrieved,
-  unknown players and impossible substitutions; the manager revises up to `MAX_REVISIONS` times, then falls back
+  unknown players, impossible substitutions and implausible KPI targets (wrong scale or direction, or beyond what
+  teams reached by that minute in the league's public matches, D-057); the manager revises up to `MAX_REVISIONS` times, then falls back
   to its sealed template (`tests/test_agents_prematch.py` exercises both paths). At half-time an option is
   measured against the levers the team plays with now (its Plan B included, read through its own
   `get_squad_condition`): an option that changes nothing is rejected, two options with the same tactics are never

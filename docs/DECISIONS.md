@@ -375,5 +375,22 @@ stopped it); tests could read a real `.env` (Python and the infra scripts now ne
 "Azure AI User" is now "Foundry User" (the script assigns it by id). Two incomplete probe runs came before the complete
 one; the whole day used 61 requests, 353,797 input and 19,060 output tokens, about 0.17 EUR at the public price (the
 complete probe alone about 0.05 EUR). Quality note: the model's plans differ from the demo's and some KPI targets are
-not sensible (e.g. 27.2 high turnovers by minute 15); the validators check grounding and format, not tactical sense.
+not sensible (e.g. 27.2 high turnovers by minute 15); the validators checked grounding and format, not tactical sense (addressed in D-057).
 The demo bundle (seed 204) and the video are unchanged (SHA-256 checked before and after) and still say offline rules.
+
+**D-057 · KPI targets must be football-plausible (2026-10-26).** Cause: the plan validator only checked that a share
+lay in (0, 1) and that a minimum was positive, so the real Foundry run's "high_turnovers >=27.2 by 15'" passed.
+Now, deterministically: (1) scale: high turnovers and balls in behind conceded are counts (whole numbers), the
+final-third entry share is a fraction, set-piece xG is continuous; (2) direction: a KPI states a goal, a minimum for
+what the plan wants more of (turnovers, entries down its channel, set-piece xG) and a maximum for balls in behind
+conceded; (3) range by minute: the engine (`validate_plan`, through the staff's own `validate_plan` tool) rejects a
+minimum above the highest value any team reached by that minute, or a maximum below the lowest, in the league's
+public matches (the matches the staffs scout; never hidden traits or the match being planned), with the tracker's
+own definitions and cut. The bound is the observed range, not a tuned margin: 27.2 high turnovers by 15' against a
+league maximum of 6 is rejected, 6 is accepted. The message gives the manager the league's range and median so it
+can correct the target within the existing revision limit; if it cannot, the KPIs it could not fix are dropped
+(with any Plan B rule watching them) when others remain, otherwise the candidate is discarded and the template plan,
+whose target is now plausible (balls in behind conceded <=14 by 90, as the rule-based plans; the old <=3 was below
+every team in every season), is used. Checked on the 27 seasons the pipeline and evaluations use: every rule-based
+KPI target is within range, so the demo (seed 204 rebuilds identically) and the evaluated numbers do not change.
+The recorded Foundry run (D-056) is unchanged; a new run would now reject its KPI targets and ask for corrections.
