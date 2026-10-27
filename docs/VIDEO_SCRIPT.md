@@ -18,18 +18,18 @@ by Microsoft Foundry models (the demo replays the offline rules run; the same ag
 Times are when each line starts in the video. Read at a relaxed pace; every line fits its shot at 150
 words per minute.
 
-### Javier: 0:00.0 to 0:58.5 (58.5 s, 112 words, read in 47 s at 150 wpm)
+### Javier: 0:00.0 to 0:58.5 (58.5 s, 117 words, read in 48 s at 150 wpm)
 
-> **0:00.2** Hi, I'm Javier. Plan A: two AI coaching staffs, one tactical duel.
+> **0:00.2** Hi, we're Javier and Bernardo. Welcome to Plan A, where two AI benches face off.
 > **0:07.2** Each club gets an AI staff: an analyst who scouts the opponent's last eight matches, and a manager who turns that evidence into a game plan.
 > **0:19.2** Both plans are sealed before kick-off, and neither bench can see the other's.
 > **0:26.8** The match plays out live, with a tracker on each plan. At minute 25, Kestrel's backup plan switches them to long balls, and the live detector spots it: from 6% to 45%.
 > **0:42.8** Half-time, one-all. Now the duel: both benches pick from three options at the same moment, blind, and lock in.
-> **0:52.8** The reveal: Kestrel stay, Harbourside go back to short passing.
+> **0:52.8** Then the reveal: Kestrel stay, and Harbourside go back to short passing.
 
-### Bernardo: 0:58.5 to 1:58.0 (59.5 s, 113 words, read in 46 s at 150 wpm)
+### Bernardo: 0:58.5 to 1:58.0 (59.5 s, 110 words, read in 45 s at 150 wpm)
 
-> **0:58.8** And I'm Bernardo. Harbourside expected Kestrel to switch back to short passing, so matching it looked like the best answer.
+> **0:58.8** Harbourside expected Kestrel to switch back to short passing, so matching it looked like the best answer.
 > **1:08.8** But Kestrel stayed. The simulator replays the second half hundreds of times for every pair of choices: against that, a mid block was better.
 > **1:20.8** Harbourside's call cost about 0.12 expected points, and the whole likely range is above zero.
 > **1:30.2** Yet Harbourside win three-one. One match proves nothing, so every call is judged against the alternatives, not the score.
@@ -40,13 +40,13 @@ words per minute.
 
 | Time | Speaker | Phase | On screen | Narration | Read at 150 wpm |
 |---|---|---|---|---|---|
-| 0:00.0-0:07.0 | Javier | Title | Two AI coaching staffs. Two hidden strategies. One tactical duel. | "Hi, I'm Javier. Plan A: two AI coaching staffs, one tactical duel." | 6.1 s |
+| 0:00.0-0:07.0 | Javier | Title | Two AI coaching staffs. Two hidden strategies. One tactical duel. | "Hi, we're Javier and Bernardo. Welcome to Plan A, where two AI benches face off." | 6.3 s |
 | 0:07.0-0:19.0 | Javier | 1 · Each bench prepares in private | An analyst agent studies the opponent. A manager agent turns the evidence into a plan. | "Each club gets an AI staff: an analyst who scouts the opponent's last eight matches, and a manager who turns that evidence into a game plan." | 9.3 s |
 | 0:19.0-0:26.5 | Javier | Locked before kick-off | Kestrel: a measured approach. Harbourside: exploit their weaknesses. Both plans are sealed. | "Both plans are sealed before kick-off, and neither bench can see the other's." | 5.0 s |
 | 0:26.5-0:42.5 | Javier | 2 · The match | Kestrel's backup plan switches to long balls at 25'. The live detector spots it at 31'. | "The match plays out live, with a tracker on each plan. At minute 25, Kestrel's backup plan switches them to long balls, and the live detector spots it: from 6% to 45%." | 13.6 s |
 | 0:42.5-0:52.5 | Javier | 3 · Half-time: the duel | 1-1 at half-time. Both benches choose at the same time, blind to each other. | "Half-time, one-all. Now the duel: both benches pick from three options at the same moment, blind, and lock in." | 8.5 s |
-| 0:52.5-0:58.5 | Javier | The reveal | Kestrel: Stay the course. Harbourside: Back to short passing. | "The reveal: Kestrel stay, Harbourside go back to short passing." | 4.8 s |
-| 0:58.5-1:08.5 | Bernardo | What Harbourside believed | They expected Kestrel to go back to short too. On their numbers, short passing was the answer. | "And I'm Bernardo. Harbourside expected Kestrel to switch back to short passing, so matching it looked like the best answer." | 8.0 s |
+| 0:52.5-0:58.5 | Javier | The reveal | Kestrel: Stay the course. Harbourside: Back to short passing. | "Then the reveal: Kestrel stay, and Harbourside go back to short passing." | 5.2 s |
+| 0:58.5-1:08.5 | Bernardo | What Harbourside believed | They expected Kestrel to go back to short too. On their numbers, short passing was the answer. | "Harbourside expected Kestrel to switch back to short passing, so matching it looked like the best answer." | 6.7 s |
 | 1:08.5-1:20.5 | Bernardo | What was really true | Kestrel stayed. Against that, dropping into a mid block was Harbourside's best answer. | "But Kestrel stayed. The simulator replays the second half hundreds of times for every pair of choices: against that, a mid block was better." | 9.5 s |
 | 1:20.5-1:30.0 | Bernardo | The cost of the call | About 0.12 expected points left on the table (likely range 0.01 to 0.23). | "Harbourside's call cost about 0.12 expected points, and the whole likely range is above zero." | 7.0 s |
 | 1:30.0-1:40.0 | Bernardo | 4 · Full time | Harbourside win 3-1 anyway. The call is judged against every alternative, not the score. | "Yet Harbourside win three-one. One match proves nothing, so every call is judged against the alternatives, not the score." | 8.3 s |
