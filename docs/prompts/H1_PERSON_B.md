@@ -7,7 +7,8 @@ Person B only**, working entirely against the mock engine.
 
 ## Repository
 
-- Private repo: `https://github.com/jmartinezolivaresf-blip/plan-a-football-ai` (branch `main`).
+- Repository: `https://github.com/jmartinezolivaresf-blip/plan-a-football-ai` (branch `main`; private when this prompt was
+  used).
 - Setup: `uv python install 3.12 && make setup`, then `make h0` must pass before you change anything.
 - Read fully before writing code:
   1. `docs/plan/PLAN_A_v6.md` §8 (architecture rules), §9.10–§9.16 (agents, workflows, failure recovery, MCP,

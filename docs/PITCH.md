@@ -1,9 +1,9 @@
-# Submission text (draft)
+# Submission text
 
 **Project:** Plan A: The Battle of the Benches
 **Category:** Best Multi-Agent System (owners to decide on "Best Use of Microsoft Foundry": a real Foundry run of the agents is recorded in `docs/FOUNDRY_EVIDENCE.md`, but the published demo replays the offline run)
-**Links:** demo https://agreeable-hill-0e1a17a0f.4.azurestaticapps.net · public repository (todo: owner flips visibility) ·
-video (todo: upload `docs/media/plan_a_demo_v2.mp4` with the recorded narration)
+**Links:** demo https://agreeable-hill-0e1a17a0f.4.azurestaticapps.net · repository
+https://github.com/jmartinezolivaresf-blip/plan-a-football-ai (public at submission) · video https://youtu.be/ffceYHJo5Dw
 
 ## One line
 
@@ -36,6 +36,7 @@ Roles hand over through tools and claims, not shared memory, and the isolation i
 
 ## Before submitting
 
-- [ ] Replace the "todo" links.
+- [x] Demo, repository and video links filled in.
 - [ ] Re-check every number against `eval/results/RESULTS.md` (generated) if the evaluation is re-run.
-- [ ] Do not say the agents run on Microsoft Foundry unless `docs/FOUNDRY.md` records a real, verified run.
+- [x] Foundry wording backed by a real, verified run (`docs/FOUNDRY.md`, `docs/FOUNDRY_EVIDENCE.md`, D-056): say that
+  the agents also ran on Microsoft Foundry, not that the published demo did.

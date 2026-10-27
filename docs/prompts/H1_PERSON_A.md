@@ -6,7 +6,8 @@ MCP server and the web app. Your job in this session is **H1 for Person A only**
 
 ## Repository
 
-- Private repo: `https://github.com/jmartinezolivaresf-blip/plan-a-football-ai` (branch `main`).
+- Repository: `https://github.com/jmartinezolivaresf-blip/plan-a-football-ai` (branch `main`; private when this prompt was
+  used).
 - Setup: `uv python install 3.12 && make setup`, then `make h0` must pass before you change anything.
 - Read fully before writing code:
   1. `docs/plan/PLAN_A_v6.md` §9.1–§9.4 (contracts, simulator, levers, traits) and §8 (architecture rules).

@@ -9,9 +9,11 @@ next to what was really true. Built for the Microsoft + Premier League *Inside t
 > are used. Every number is produced inside our own simulator and is not a prediction about real football.
 
 **Demo:** <!-- DEMO_URL --> **https://agreeable-hill-0e1a17a0f.4.azurestaticapps.net** (Azure Static Web Apps, Free plan; public, no login; it replays the
-frozen demo match). Run it
-locally in two commands below, or watch [`docs/media/plan_a_demo_v2.mp4`](docs/media/plan_a_demo_v2.mp4) (118 s, captured
-from the app; narration and timings in [`docs/VIDEO_SCRIPT.md`](docs/VIDEO_SCRIPT.md)).
+frozen demo match). Run it locally in two commands below.
+
+**Video (1:58):** <!-- VIDEO_URL --> **https://youtu.be/ffceYHJo5Dw**, the narrated presentation. The picture is
+[`docs/media/plan_a_demo_v2.mp4`](docs/media/plan_a_demo_v2.mp4) (captured from the app); script and timings in
+[`docs/VIDEO_SCRIPT.md`](docs/VIDEO_SCRIPT.md).
 
 ![Half-time duel: what each bench believed vs the real payoff matrix](docs/media/05-duel-true-matrix.png)
 
@@ -67,7 +69,10 @@ Full design: [`docs/MULTI_AGENT.md`](docs/MULTI_AGENT.md). Every decision of the
 | Microsoft Agent Framework (`agent-framework-core` 1.23.0): analyst, manager and duel-bench agents with MCP tools | used in every run |
 | Model Context Protocol (MCP SDK 2.3.0): one scoped server per club and one for the broadcast | used in every run |
 | Microsoft Foundry (`agent-framework-foundry` 1.15.0, Entra ID pinned to one tenant, no keys): `AGENTS_MODE=foundry` | **verified with a real model (2026-10-26):** the same agents ran with `gpt-4.1-mini` (Global Standard, Sweden Central) on the demo's data and half-time, with their MCP tools: [`docs/FOUNDRY_EVIDENCE.md`](docs/FOUNDRY_EVIDENCE.md). The published demo replays the offline rules run (`docs/FOUNDRY.md`) |
-| Azure Static Web Apps (Free) for the public demo | config and guarded deploy script ready and checked in the SWA emulator; **not deployed yet** (`infra/AZURE_PLAN.md`) |
+| Azure Static Web Apps (Free) for the public demo | **live since 2026-10-26** at the demo URL above (`plan-a-football`, East US 2), serving the current `main` build; deployed from a local build with the guarded `infra/swa_deploy.sh` (SWA CLI, no GitHub link; `infra/AZURE_PLAN.md`) |
+
+Every Azure resource above (the Foundry resource and deployment, the Static Web App) is in the owners' personal Azure
+Free Trial subscription, with its spending limit on; Plan A uses no other subscription (`infra/AZURE_PLAN.md`).
 
 Without Azure, the same agents run with a deterministic offline rules client (`AGENTS_MODE=offline`), which is what
 CI and the current demo bundle use; the bundle says which model produced it (`eval.build.models`).

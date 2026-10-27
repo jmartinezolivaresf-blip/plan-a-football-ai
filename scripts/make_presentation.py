@@ -385,9 +385,9 @@ def write_script(starts: list[tuple[float, float]], lengths: list[float] | None)
 **Two AI coaching staffs. Two hidden strategies. One tactical duel.** Total {total:.0f} s (limit 120 s), two
 presenters, one turn each. The handover is at **{ts(handover)}**, on the cut to "{after}".
 
-Files: `docs/media/plan_a_demo_v2.mp4` (silent, 1920x1080, to record the narration over),
-`docs/media/plan_a_demo_v2_guide_voice.mp4` (a synthetic macOS voice, ONLY to check timing; record human voices for
-the submission). The earlier `docs/media/walkthrough.mp4` is kept as a reference.
+Files: `docs/media/plan_a_demo_v2.mp4` (silent, 1920x1080; the presenters recorded their narration over it, and the
+narrated video is https://youtu.be/ffceYHJo5Dw), `docs/media/plan_a_demo_v2_guide_voice.mp4` (a synthetic macOS voice,
+ONLY to check timing). The earlier `docs/media/walkthrough.mp4` is kept as a reference.
 
 Every number below comes from the frozen demo bundle (season {season}, match seed {seed}) and is checked by
 `tests/test_demo_consistency.py`. What the narration must not claim: that this single match proves anything (it is one
@@ -414,9 +414,8 @@ words per minute.
   speeding up.
 - The cut at the handover changes shot and caption, so the second voice comes in on a visual change.
 - Foundry: say only that the agents also ran on a real model in Microsoft Foundry and that every call is recorded
-  (docs/FOUNDRY_EVIDENCE.md, D-056). **The closing card of the current `plan_a_demo_v2.mp4` still says the Foundry
-  integration is "prepared, not yet verified"**; the generator already has the corrected card, so re-render the video
-  (`scripts/make_presentation.py`) before recording so picture and voice agree.
+  (docs/FOUNDRY_EVIDENCE.md, D-056); the closing card of `plan_a_demo_v2.mp4` says the same, and that the match shown
+  is the deterministic replay of the offline run.
 - If the bundle is rebuilt, re-run the generator and the tests before recording.
 """
     path = ROOT / "docs" / "VIDEO_SCRIPT.md"
