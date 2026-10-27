@@ -1,0 +1,601 @@
+{
+ "schema": "plan-a/foundry-run@1",
+ "sources": {
+  "evidence": "eval/results/foundry/probe_seed204.json",
+  "evidence_sha256": "dee88398f4df24f4895853e29dcb50fc9a04002e0a01727e78e0c99a0a041e65",
+  "comparison": "eval/results/compare/agents_llm_vs_rules.json",
+  "comparison_sha256": "4cbe2a7f34c259e3a193f7eab9cfa16041df515d3c730882967d780be28dd4bf"
+ },
+ "run": {
+  "mode": "foundry",
+  "model": [
+   "gpt-4.1-mini"
+  ],
+  "started_utc": "2026-10-26T13:35:57Z",
+  "seconds": 130.0,
+  "endpoint_domain": "*.services.ai.azure.com",
+  "season_seed": 2026,
+  "match_seed": 204,
+  "demo_bundle_sha256": "d684dfa2417164bc5b6e358ad6e23780b267fa3fe450ac308597b4b4a56be6c0",
+  "demo_bundle_unchanged": true
+ },
+ "totals": {
+  "model_turns": 15,
+  "with_service_response_id": 15,
+  "input_tokens": 100845,
+  "output_tokens": 5442,
+  "tool_calls_by_model": 8,
+  "tools_by_model": {
+   "get_player_profile": 3,
+   "get_set_piece_profile": 1,
+   "get_team_tendencies": 4
+  }
+ },
+ "turns": [
+  {
+   "phase": "pre-match",
+   "club": "KES",
+   "role": "analyst",
+   "output": "ScoutingDraft",
+   "response_id": "resp_02b485560f9c52a9006adf574434b081968b7b54fad220289b",
+   "service_model": "gpt-4.1-mini",
+   "input_tokens": 8452,
+   "output_tokens": 496,
+   "tools": [
+    "get_player_profile",
+    "get_player_profile",
+    "get_player_profile"
+   ],
+   "ms": 10337
+  },
+  {
+   "phase": "pre-match",
+   "club": "KES",
+   "role": "manager",
+   "output": "CandidateSetDraft",
+   "response_id": "resp_00ad938097f4f97d006adf574d41288190b38cf4990f21b718",
+   "service_model": "gpt-4.1-mini",
+   "input_tokens": 17594,
+   "output_tokens": 670,
+   "tools": [
+    "get_team_tendencies",
+    "get_team_tendencies"
+   ],
+   "ms": 10138
+  },
+  {
+   "phase": "pre-match",
+   "club": "KES",
+   "role": "manager",
+   "output": "CandidateSetDraft",
+   "response_id": "resp_0a98a688863bdd6f006adf5753291481948c89f0ef9c5596b2",
+   "service_model": "gpt-4.1-mini",
+   "input_tokens": 6072,
+   "output_tokens": 265,
+   "tools": [],
+   "ms": 3688
+  },
+  {
+   "phase": "pre-match",
+   "club": "KES",
+   "role": "manager",
+   "output": "CandidateSetDraft",
+   "response_id": "resp_0a6bdf2beb01d81d006adf5756d4c881978872215cacc1b903",
+   "service_model": "gpt-4.1-mini",
+   "input_tokens": 6019,
+   "output_tokens": 225,
+   "tools": [],
+   "ms": 2890
+  },
+  {
+   "phase": "pre-match",
+   "club": "KES",
+   "role": "manager",
+   "output": "CandidateSetDraft",
+   "response_id": "resp_04b715dd01bbfaaa006adf5759b010819796a3c42b3f85270b",
+   "service_model": "gpt-4.1-mini",
+   "input_tokens": 5944,
+   "output_tokens": 233,
+   "tools": [],
+   "ms": 2952
+  },
+  {
+   "phase": "pre-match",
+   "club": "KES",
+   "role": "manager",
+   "output": "CandidateSetDraft",
+   "response_id": "resp_0d50e001f3301998006adf575cd58081979d9dd261f49d9c83",
+   "service_model": "gpt-4.1-mini",
+   "input_tokens": 5919,
+   "output_tokens": 185,
+   "tools": [],
+   "ms": 3208
+  },
+  {
+   "phase": "pre-match",
+   "club": "HAR",
+   "role": "analyst",
+   "output": "ScoutingDraft",
+   "response_id": "resp_0e471e4ea5c63c2a006adf576590388194a1c04a6dc6dd7286",
+   "service_model": "gpt-4.1-mini",
+   "input_tokens": 3786,
+   "output_tokens": 361,
+   "tools": [],
+   "ms": 5089
+  },
+  {
+   "phase": "pre-match",
+   "club": "HAR",
+   "role": "analyst",
+   "output": "ScoutingDraft",
+   "response_id": "resp_08e4660d3fea8d3b006adf5769cfb88195b0ac64a83d694ba8",
+   "service_model": "gpt-4.1-mini",
+   "input_tokens": 3810,
+   "output_tokens": 401,
+   "tools": [],
+   "ms": 3973
+  },
+  {
+   "phase": "pre-match",
+   "club": "HAR",
+   "role": "analyst",
+   "output": "ScoutingDraft",
+   "response_id": "resp_05967520a759e631006adf576dbc2c8195b233897f1b4eb8d1",
+   "service_model": "gpt-4.1-mini",
+   "input_tokens": 3810,
+   "output_tokens": 329,
+   "tools": [],
+   "ms": 11290
+  },
+  {
+   "phase": "pre-match",
+   "club": "HAR",
+   "role": "manager",
+   "output": "CandidateSetDraft",
+   "response_id": "resp_0b68ec517da6ae17006adf577bda48819098028d2039000de2",
+   "service_model": "gpt-4.1-mini",
+   "input_tokens": 17923,
+   "output_tokens": 783,
+   "tools": [
+    "get_set_piece_profile",
+    "get_team_tendencies",
+    "get_team_tendencies"
+   ],
+   "ms": 10303
+  },
+  {
+   "phase": "pre-match",
+   "club": "HAR",
+   "role": "manager",
+   "output": "CandidateSetDraft",
+   "response_id": "resp_0ee28dc34bd0b300006adf5783b4288190a914d6b38e51add4",
+   "service_model": "gpt-4.1-mini",
+   "input_tokens": 5910,
+   "output_tokens": 280,
+   "tools": [],
+   "ms": 3895
+  },
+  {
+   "phase": "pre-match",
+   "club": "HAR",
+   "role": "manager",
+   "output": "CandidateSetDraft",
+   "response_id": "resp_04eaf9982f513b5b006adf578731288193b4ed172a54a0f4c0",
+   "service_model": "gpt-4.1-mini",
+   "input_tokens": 5963,
+   "output_tokens": 306,
+   "tools": [],
+   "ms": 9497
+  },
+  {
+   "phase": "pre-match",
+   "club": "HAR",
+   "role": "manager",
+   "output": "CandidateSetDraft",
+   "response_id": "resp_03fc9eb1055150d5006adf5790beac819490c700565a5b95c5",
+   "service_model": "gpt-4.1-mini",
+   "input_tokens": 5995,
+   "output_tokens": 278,
+   "tools": [],
+   "ms": 3072
+  },
+  {
+   "phase": "half-time",
+   "club": "KES",
+   "role": "manager",
+   "output": "OptionsDraft",
+   "response_id": "resp_0ddfe7f7654f14c3006adf57a7d06081978e56a748d63eb964",
+   "service_model": "gpt-4.1-mini",
+   "input_tokens": 1759,
+   "output_tokens": 313,
+   "tools": [],
+   "ms": 4134
+  },
+  {
+   "phase": "half-time",
+   "club": "HAR",
+   "role": "manager",
+   "output": "OptionsDraft",
+   "response_id": "resp_0e7919b0a63482db006adf57a7be048195a61ac725a7825a9d",
+   "service_model": "gpt-4.1-mini",
+   "input_tokens": 1889,
+   "output_tokens": 317,
+   "tools": [],
+   "ms": 4135
+  }
+ ],
+ "guardrails": [
+  {
+   "club": "KES",
+   "agent": "manager",
+   "item": "plan candidate 1",
+   "attempts": 3,
+   "rejections": [
+    {
+     "message": "KPI kpi_1: target must be positive",
+     "plain": "set a KPI target of zero or less"
+    },
+    {
+     "message": "plan name (en) must not contain numbers",
+     "plain": "put numbers in a plan's name"
+    },
+    {
+     "message": "rationale: causal claim without an observed_mechanism claim: 'We choose high press focusing on HAR-10 because this striker'",
+     "plain": "claimed a cause without evidence of the mechanism"
+    },
+    {
+     "message": "rationale: sentence cites no claim: 'Mixed build up balances control and speed.'",
+     "plain": "wrote a sentence without citing evidence"
+    }
+   ],
+   "outcome": "still invalid after 3 attempts: discarded"
+  },
+  {
+   "club": "KES",
+   "agent": "manager",
+   "item": "plan candidate 2",
+   "attempts": 2,
+   "rejections": [
+    {
+     "message": "KPI kpi_2: target must be positive",
+     "plain": "set a KPI target of zero or less"
+    }
+   ],
+   "outcome": "fixed on attempt 2"
+  },
+  {
+   "club": "KES",
+   "agent": "manager",
+   "item": "plan candidate 3",
+   "attempts": 2,
+   "rejections": [
+    {
+     "message": "KPI kpi_3: target must be positive",
+     "plain": "set a KPI target of zero or less"
+    },
+    {
+     "message": "rationale: sentence cites no claim: 'Balanced press maintains team shape and keeps HAR uncertain.'",
+     "plain": "wrote a sentence without citing evidence"
+    }
+   ],
+   "outcome": "fixed on attempt 2"
+  },
+  {
+   "club": "HAR",
+   "agent": "analyst",
+   "item": "scouting report",
+   "attempts": 3,
+   "rejections": [
+    {
+     "message": "c_sc_KES-6_press: contains numbers that do not come from a claim placeholder",
+     "plain": "typed a number instead of citing recorded data"
+    },
+    {
+     "message": "c_sc_KES-6_press: contains numbers that do not come from a claim placeholder",
+     "plain": "typed a number instead of citing recorded data"
+    }
+   ],
+   "outcome": "accepted on attempt 3"
+  },
+  {
+   "club": "HAR",
+   "agent": "manager",
+   "item": "plan candidate 1",
+   "attempts": 2,
+   "rejections": [
+    {
+     "message": "KPI kpi2: a share target must be between 0 and 1",
+     "plain": "set a percentage target outside 0-100%"
+    }
+   ],
+   "outcome": "fixed on attempt 2"
+  },
+  {
+   "club": "HAR",
+   "agent": "manager",
+   "item": "plan candidate 2",
+   "attempts": 3,
+   "rejections": [
+    {
+     "message": "KPI kpi1: a share target must be between 0 and 1",
+     "plain": "set a percentage target outside 0-100%"
+    },
+    {
+     "message": "rationale: causal claim without an observed_mechanism claim: 'Therefore a direct build-up to exploit these balls and focus'",
+     "plain": "claimed a cause without evidence of the mechanism"
+    },
+    {
+     "message": "rationale: sentence cites no claim: 'This is reinforced by the observed mechanism of high deep ba'",
+     "plain": "wrote a sentence without citing evidence"
+    }
+   ],
+   "outcome": "fixed on attempt 3"
+  }
+ ],
+ "plans": {
+  "KES": {
+   "foundry_plan": "Target HAR Left Back under pressure with Mid Press Height",
+   "kpis": [
+    "high_turnovers >10 by 90'"
+   ],
+   "seal_verifies": true,
+   "demo_plan": "Measured approach",
+   "same_levers_as_demo": false,
+   "report_attempts": 1,
+   "findings": 5
+  },
+  "HAR": {
+   "foundry_plan": "High Press and Attack Left",
+   "kpis": [
+    "high_turnovers >=27.2 by 15'",
+    "final_third_entries_share <=0.416 by 15'"
+   ],
+   "seal_verifies": true,
+   "demo_plan": "Exploit their weaknesses",
+   "same_levers_as_demo": false,
+   "report_attempts": 3,
+   "findings": 5
+  }
+ },
+ "halftime": {
+  "score": {
+   "KES": 1,
+   "HAR": 1
+  },
+  "same_as_demo": {
+   "plans": true,
+   "score": true,
+   "levers_in_force": true,
+   "first_half_events": true
+  },
+  "benches": {
+   "KES": {
+    "foundry": {
+     "options": [
+      {
+       "label": "Stay the course",
+       "changes": {
+        "press_height": "mid",
+        "build_up": "direct",
+        "attack_channel": "balanced",
+        "corner_delivery": "far_post"
+       },
+       "subs": 0
+      },
+      {
+       "label": "Press higher and build up shorter",
+       "changes": {
+        "press_height": "high",
+        "build_up": "short"
+       },
+       "subs": 0
+      },
+      {
+       "label": "Substitute attackers and shift attack right",
+       "changes": {
+        "attack_channel": "right"
+       },
+       "subs": 2
+      }
+     ],
+     "distinct": true,
+     "fell_back_to_rules": false,
+     "choice": "Substitute attackers and shift attack right",
+     "rule": "best_guess",
+     "regret_xpts": 0.024,
+     "regret_ci90": [
+      -0.096,
+      0.138
+     ],
+     "best_response": "Press higher and build up shorter"
+    },
+    "demo": {
+     "choice": "Stay the course",
+     "rule": "best_guess",
+     "regret_xpts": 0.026,
+     "regret_ci90": [
+      -0.036,
+      0.084
+     ],
+     "best_response": "Press higher",
+     "options": [
+      "Stay the course",
+      "Press higher",
+      "Back to short passing"
+     ]
+    }
+   },
+   "HAR": {
+    "foundry": {
+     "options": [
+      {
+       "label": "Stay the Course",
+       "changes": {
+        "press_height": "high",
+        "press_target": "KES-6",
+        "build_up": "direct",
+        "attack_channel": "right",
+        "corner_delivery": "near_post"
+       },
+       "subs": 0
+      },
+      {
+       "label": "Lower Press and Build Shorter",
+       "changes": {
+        "press_height": "mid",
+        "build_up": "short"
+       },
+       "subs": 2
+      },
+      {
+       "label": "Switch to Left Attack and Far Post Corners",
+       "changes": {
+        "attack_channel": "left",
+        "corner_delivery": "far_post"
+       },
+       "subs": 0
+      }
+     ],
+     "distinct": true,
+     "fell_back_to_rules": false,
+     "choice": "Lower Press and Build Shorter",
+     "rule": "best_guess",
+     "regret_xpts": 0.0,
+     "regret_ci90": [
+      0.0,
+      0.0
+     ],
+     "best_response": "Lower Press and Build Shorter"
+    },
+    "demo": {
+     "choice": "Back to short passing",
+     "rule": "best_guess",
+     "regret_xpts": 0.12,
+     "regret_ci90": [
+      0.01,
+      0.228
+     ],
+     "best_response": "Drop into a mid block",
+     "options": [
+      "Stay the course",
+      "Drop into a mid block",
+      "Back to short passing"
+     ]
+    }
+   }
+  }
+ },
+ "comparison": {
+  "title": "E1 and E3: Foundry agents (gpt-4.1-mini) against the rule agents",
+  "design": "Same test seasons, matchups, seeds and scoring for both; the model ran 2 times per unit; differences (model minus rules) with 95% paired bootstrap intervals over units.",
+  "rows": [
+   {
+    "metric": "E1 precision · official test set",
+    "rules": {
+     "value": 0.687
+    },
+    "llm": {
+     "value": 0.736
+    },
+    "diff": {
+     "value": 0.049,
+     "ci95": [
+      -0.059,
+      0.143
+     ]
+    },
+    "significant": false
+   },
+   {
+    "metric": "E1 precision · all units",
+    "rules": {
+     "value": 0.697
+    },
+    "llm": {
+     "value": 0.724
+    },
+    "diff": {
+     "value": 0.028,
+     "ci95": [
+      -0.035,
+      0.089
+     ]
+    },
+    "significant": false
+   },
+   {
+    "metric": "E1 recall · official test set",
+    "rules": {
+     "value": 0.633
+    },
+    "llm": {
+     "value": 0.294
+    },
+    "diff": {
+     "value": -0.339,
+     "ci95": [
+      -0.422,
+      -0.25
+     ]
+    },
+    "significant": true
+   },
+   {
+    "metric": "E1 recall · all units",
+    "rules": {
+     "value": 0.604
+    },
+    "llm": {
+     "value": 0.287
+    },
+    "diff": {
+     "value": -0.317,
+     "ci95": [
+      -0.365,
+      -0.267
+     ]
+    },
+    "significant": true
+   },
+   {
+    "metric": "E3 plans attacking a real weakness · official test set",
+    "rules": {
+     "value": 0.75
+    },
+    "llm": {
+     "value": 0.458
+    },
+    "diff": {
+     "value": -0.292,
+     "ci95": [
+      -0.625,
+      0.042
+     ]
+    },
+    "significant": false
+   },
+   {
+    "metric": "E3 plans attacking a real weakness · all units",
+    "rules": {
+     "value": 0.784
+    },
+    "llm": {
+     "value": 0.441
+    },
+    "diff": {
+     "value": -0.343,
+     "ci95": [
+      -0.436,
+      -0.245
+     ]
+    },
+    "significant": true
+   }
+  ],
+  "llm_runs": 2,
+  "cost_eur": 6.95,
+  "calls": 1707,
+  "note": "The model is about as precise as the rules (0.724 vs 0.697) but flags fewer weaknesses (1.17 vs 2.61 per report), so its recall is lower (0.287 vs 0.604). Its plans attack a real weakness 0.441 of the time against 0.784 for the rules (a random plan: 0.545). \"Significant\" means the 95% interval of the difference excludes zero.",
+  "report": "eval/results/compare/AGENTS_COMPARISON.md"
+ }
+}

@@ -1,9 +1,11 @@
 // Analyst desk: scouting reports with evidence, plans, KPIs, agent traces, matrix comparison, validation panel.
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { MatchBundle } from "../contracts/bundle";
 import { type ClaimIndex, fill } from "../lib/claims";
 import { kpiLabel } from "../lib/levers";
+import { type FoundryRun, loadFoundryRun } from "../lib/foundry";
 import { DuelMatrix } from "./Duel";
+import { FoundryRunPanel } from "./FoundryRun";
 import type { Lang } from "./Overlays";
 
 function ClaimRow({ id, claims }: { id: string; claims: ClaimIndex }) {
@@ -27,10 +29,16 @@ export function AnalystDesk({ bundle, claims, minute, lang, colors, section = nu
   minute: number;
   lang: Lang;
   colors: Record<string, string>;
-  section?: "validation" | "trace" | null;
+  section?: "validation" | "trace" | "foundry" | null;
 }) {
   const first = (name: "validation" | "trace") => (section === name ? { order: -1 } : undefined);  // deep-link focus
   const [team, setTeam] = useState(bundle.meta.home);
+  const [view, setView] = useState<"club" | "foundry">(section === "foundry" ? "foundry" : "club");
+  const [run, setRun] = useState<FoundryRun | null>(null);
+  const [runError, setRunError] = useState<string | null>(null);
+  useEffect(() => {  // the recorded Foundry run is a separate file, loaded only when its tab is opened
+    if (view === "foundry" && !run && !runError) loadFoundryRun().then(setRun, (e: Error) => setRunError(e.message));
+  }, [view, run, runError]);
   const report = bundle.scouting[team];
   const plan = bundle.plans[team];
   const snap = bundle.snapshots[Math.min(minute, bundle.snapshots.length - 1)];
@@ -40,12 +48,22 @@ export function AnalystDesk({ bundle, claims, minute, lang, colors, section = nu
     <div className="desk">
       <div className="desk-tabs" role="tablist">
         {[bundle.meta.home, bundle.meta.away].map((t) => (
-          <button key={t} type="button" role="tab" aria-selected={t === team} className={t === team ? "on" : ""}
-                  style={{ borderBottomColor: colors[t] }} onClick={() => setTeam(t)}>
+          <button key={t} type="button" role="tab" aria-selected={view === "club" && t === team}
+                  className={view === "club" && t === team ? "on" : ""}
+                  style={{ borderBottomColor: colors[t] }} onClick={() => { setTeam(t); setView("club"); }}>
             {bundle.squads.teams[t].name}
           </button>
         ))}
+        <button type="button" role="tab" aria-selected={view === "foundry"} className={`fd-tab ${view === "foundry" ? "on" : ""}`}
+                onClick={() => setView("foundry")}>
+          Real Microsoft Foundry Run
+        </button>
       </div>
+      {view === "foundry" ? (
+        run ? <FoundryRunPanel run={run} colors={colors}
+                               names={Object.fromEntries(Object.entries(bundle.squads.teams).map(([c, t]) => [c, t.short_name]))} />
+          : <p className="fd-loading">{runError ? `The recorded run could not be loaded: ${runError}` : "Loading the recorded run…"}</p>
+      ) : (
       <div className="desk-grid">
         <section>
           <h3>Scouting report {report ? `· ${report.model}` : ""}</h3>
@@ -145,6 +163,7 @@ export function AnalystDesk({ bundle, claims, minute, lang, colors, section = nu
           {ev?.story && <p className="legend">Demo story criteria: {ev.story_criteria}</p>}
         </section>
       </div>
+      )}
     </div>
   );
 }

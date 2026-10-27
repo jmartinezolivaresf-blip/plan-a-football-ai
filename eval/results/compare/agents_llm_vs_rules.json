@@ -1,0 +1,560 @@
+{
+ "design": {
+  "official_e1_seasons": [
+   8001,
+   8002,
+   8003,
+   8004,
+   8005
+  ],
+  "extended_e1_seasons": [
+   8006,
+   8007,
+   8008,
+   8009,
+   8010,
+   8011,
+   8012,
+   8013,
+   8014,
+   8015
+  ],
+  "e3_season": 8101,
+  "llm_runs_per_unit": 2,
+  "bootstrap": 10000,
+  "interval": "95% paired bootstrap over units"
+ },
+ "units_paired": 51,
+ "errors": [
+  {
+   "unit": [
+    "e1",
+    8001,
+    0
+   ],
+   "mode": "foundry",
+   "rep": 1,
+   "error": "ExceptionGroup: unhandled errors in a TaskGroup (1 sub-exception)"
+  },
+  {
+   "unit": [
+    "e1",
+    8001,
+    1
+   ],
+   "mode": "foundry",
+   "rep": 1,
+   "error": "ExceptionGroup: unhandled errors in a TaskGroup (1 sub-exception)"
+  },
+  {
+   "unit": [
+    "e1",
+    8001,
+    2
+   ],
+   "mode": "foundry",
+   "rep": 1,
+   "error": "ExceptionGroup: unhandled errors in a TaskGroup (1 sub-exception)"
+  },
+  {
+   "unit": [
+    "e1",
+    8002,
+    0
+   ],
+   "mode": "foundry",
+   "rep": 1,
+   "error": "ExceptionGroup: unhandled errors in a TaskGroup (1 sub-exception)"
+  },
+  {
+   "unit": [
+    "e1",
+    8001,
+    1
+   ],
+   "mode": "foundry",
+   "rep": 1,
+   "error": "ChatClientException: (\"<class 'agent_framework_foundry._chat_client.FoundryChatClient'> service failed to complete the prompt: Error code: 429 - {'error': {'code': 'rate_limit_exceeded', 'message': 'Model deployment rate limit exceeded. Your requests to gpt-4.1-mini for  <- RateLimitError: Error code: 429 - {'error': {'code': 'rate_limit_exceeded', 'message': 'Model deployment rate limit exceeded. Your requests to gpt-4.1-mini for gpt-4.1-mini in swedencentral have exceeded token rate limit.. To request more quota, see https://learn.mi"
+  },
+  {
+   "unit": [
+    "e1",
+    8001,
+    0
+   ],
+   "mode": "foundry",
+   "rep": 1,
+   "error": "ChatClientException: (\"<class 'agent_framework_foundry._chat_client.FoundryChatClient'> service failed to complete the prompt: Error code: 429 - {'error': {'code': 'rate_limit_exceeded', 'message': 'Model deployment rate limit exceeded. Your requests to gpt-4.1-mini for  <- RateLimitError: Error code: 429 - {'error': {'code': 'rate_limit_exceeded', 'message': 'Model deployment rate limit exceeded. Your requests to gpt-4.1-mini for gpt-4.1-mini in swedencentral have exceeded token rate limit.. To request more quota, see https://learn.mi"
+  },
+  {
+   "unit": [
+    "e1",
+    8002,
+    0
+   ],
+   "mode": "foundry",
+   "rep": 1,
+   "error": "ChatClientException: (\"<class 'agent_framework_foundry._chat_client.FoundryChatClient'> service failed to complete the prompt: Error code: 429 - {'error': {'code': 'rate_limit_exceeded', 'message': 'Model deployment rate limit exceeded. Your requests to gpt-4.1-mini for  <- RateLimitError: Error code: 429 - {'error': {'code': 'rate_limit_exceeded', 'message': 'Model deployment rate limit exceeded. Your requests to gpt-4.1-mini for gpt-4.1-mini in swedencentral have exceeded token rate limit.. To request more quota, see https://learn.mi"
+  },
+  {
+   "unit": [
+    "e1",
+    8001,
+    2
+   ],
+   "mode": "foundry",
+   "rep": 1,
+   "error": "ChatClientException: (\"<class 'agent_framework_foundry._chat_client.FoundryChatClient'> service failed to complete the prompt: Error code: 429 - {'error': {'code': 'rate_limit_exceeded', 'message': 'Model deployment rate limit exceeded. Your requests to gpt-4.1-mini for  <- RateLimitError: Error code: 429 - {'error': {'code': 'rate_limit_exceeded', 'message': 'Model deployment rate limit exceeded. Your requests to gpt-4.1-mini for gpt-4.1-mini in swedencentral have exceeded token rate limit.. To request more quota, see https://learn.mi"
+  }
+ ],
+ "errors_unresolved": [],
+ "official": {
+  "e1_units": 15,
+  "e3_units": 6,
+  "E1_precision": {
+   "rules": {
+    "value": 0.687,
+    "ci95": [
+     0.617,
+     0.762
+    ]
+   },
+   "llm": {
+    "value": 0.736,
+    "ci95": [
+     0.634,
+     0.836
+    ]
+   },
+   "diff": {
+    "value": 0.049,
+    "ci95": [
+     -0.059,
+     0.143
+    ]
+   },
+   "significant": false,
+   "units": 15
+  },
+  "E1_recall": {
+   "rules": {
+    "value": 0.633,
+    "ci95": [
+     0.544,
+     0.711
+    ]
+   },
+   "llm": {
+    "value": 0.294,
+    "ci95": [
+     0.222,
+     0.372
+    ]
+   },
+   "diff": {
+    "value": -0.339,
+    "ci95": [
+     -0.422,
+     -0.25
+    ]
+   },
+   "significant": true,
+   "units": 15
+  },
+  "E1_counts": {
+   "rules": [
+    57.0,
+    83.0,
+    90.0
+   ],
+   "llm": [
+    53.0,
+    72.0,
+    180.0
+   ],
+   "fields": [
+    "correct",
+    "flagged",
+    "true"
+   ]
+  },
+  "E3_attacks_real_weakness": {
+   "rules": {
+    "value": 0.75,
+    "ci95": [
+     0.583,
+     0.917
+    ]
+   },
+   "llm": {
+    "value": 0.458,
+    "ci95": [
+     0.292,
+     0.625
+    ]
+   },
+   "diff": {
+    "value": -0.292,
+    "ci95": [
+     -0.625,
+     0.042
+    ]
+   },
+   "significant": false,
+   "units": 6
+  },
+  "E3_plans": {
+   "rules": 12,
+   "llm": 24
+  },
+  "E3_random_plan_baseline": 0.501
+ },
+ "extended": {
+  "e1_units": 30,
+  "e3_units": 0,
+  "E1_precision": {
+   "rules": {
+    "value": 0.702,
+    "ci95": [
+     0.656,
+     0.752
+    ]
+   },
+   "llm": {
+    "value": 0.718,
+    "ci95": [
+     0.634,
+     0.801
+    ]
+   },
+   "diff": {
+    "value": 0.016,
+    "ci95": [
+     -0.057,
+     0.094
+    ]
+   },
+   "significant": false,
+   "units": 30
+  },
+  "E1_recall": {
+   "rules": {
+    "value": 0.589,
+    "ci95": [
+     0.517,
+     0.661
+    ]
+   },
+   "llm": {
+    "value": 0.283,
+    "ci95": [
+     0.231,
+     0.339
+    ]
+   },
+   "diff": {
+    "value": -0.306,
+    "ci95": [
+     -0.361,
+     -0.247
+    ]
+   },
+   "significant": true,
+   "units": 30
+  },
+  "E1_counts": {
+   "rules": [
+    106.0,
+    151.0,
+    180.0
+   ],
+   "llm": [
+    102.0,
+    142.0,
+    360.0
+   ],
+   "fields": [
+    "correct",
+    "flagged",
+    "true"
+   ]
+  },
+  "E3_attacks_real_weakness": {
+   "rules": {
+    "value": 0.767,
+    "ci95": [
+     0.667,
+     0.867
+    ]
+   },
+   "llm": {
+    "value": 0.467,
+    "ci95": [
+     0.375,
+     0.558
+    ]
+   },
+   "diff": {
+    "value": -0.3,
+    "ci95": [
+     -0.425,
+     -0.175
+    ]
+   },
+   "significant": true,
+   "units": 30
+  },
+  "E3_plans": {
+   "rules": 60,
+   "llm": 120
+  },
+  "E3_random_plan_baseline": 0.561
+ },
+ "all": {
+  "e1_units": 45,
+  "e3_units": 6,
+  "E1_precision": {
+   "rules": {
+    "value": 0.697,
+    "ci95": [
+     0.657,
+     0.737
+    ]
+   },
+   "llm": {
+    "value": 0.724,
+    "ci95": [
+     0.658,
+     0.788
+    ]
+   },
+   "diff": {
+    "value": 0.028,
+    "ci95": [
+     -0.035,
+     0.089
+    ]
+   },
+   "significant": false,
+   "units": 45
+  },
+  "E1_recall": {
+   "rules": {
+    "value": 0.604,
+    "ci95": [
+     0.548,
+     0.656
+    ]
+   },
+   "llm": {
+    "value": 0.287,
+    "ci95": [
+     0.243,
+     0.333
+    ]
+   },
+   "diff": {
+    "value": -0.317,
+    "ci95": [
+     -0.365,
+     -0.267
+    ]
+   },
+   "significant": true,
+   "units": 45
+  },
+  "E1_counts": {
+   "rules": [
+    163.0,
+    234.0,
+    270.0
+   ],
+   "llm": [
+    155.0,
+    214.0,
+    540.0
+   ],
+   "fields": [
+    "correct",
+    "flagged",
+    "true"
+   ]
+  },
+  "E3_attacks_real_weakness": {
+   "rules": {
+    "value": 0.784,
+    "ci95": [
+     0.706,
+     0.853
+    ]
+   },
+   "llm": {
+    "value": 0.441,
+    "ci95": [
+     0.373,
+     0.51
+    ]
+   },
+   "diff": {
+    "value": -0.343,
+    "ci95": [
+     -0.436,
+     -0.245
+    ]
+   },
+   "significant": true,
+   "units": 51
+  },
+  "E3_plans": {
+   "rules": 102,
+   "llm": 204
+  },
+  "E3_random_plan_baseline": 0.545
+ },
+ "llm_behaviour": {
+  "reports": 204,
+  "reports_valid_first_try": 0.314,
+  "reports_fallback": 82,
+  "plans_from_template": 43,
+  "levers_citing_served_claims": 1.0
+ },
+ "diagnostic": {
+  "flagged_per_report": {
+   "rules": 2.61,
+   "llm": 1.17
+  },
+  "llm_validated_reports": {
+   "n": 122,
+   "precision": 0.806,
+   "recall": 0.317
+  },
+  "llm_own_plans": {
+   "n": 161,
+   "attack_real_weakness": 0.559,
+   "random_baseline": 0.547
+  }
+ },
+ "llm_run_to_run": {
+  "run 1": 0.741,
+  "run 2": 0.708
+ },
+ "ledger": {
+  "turns": 1707,
+  "input_tokens": 13495777,
+  "output_tokens": 660232,
+  "cost_eur": 6.9549
+ },
+ "web_summary": {
+  "title": "E1 and E3: Foundry agents (gpt-4.1-mini) against the rule agents",
+  "design": "Same test seasons, matchups, seeds and scoring for both; the model ran 2 times per unit; differences (model minus rules) with 95% paired bootstrap intervals over units.",
+  "rows": [
+   {
+    "metric": "E1 precision \u00b7 official test set",
+    "rules": {
+     "value": 0.687
+    },
+    "llm": {
+     "value": 0.736
+    },
+    "diff": {
+     "value": 0.049,
+     "ci95": [
+      -0.059,
+      0.143
+     ]
+    },
+    "significant": false
+   },
+   {
+    "metric": "E1 precision \u00b7 all units",
+    "rules": {
+     "value": 0.697
+    },
+    "llm": {
+     "value": 0.724
+    },
+    "diff": {
+     "value": 0.028,
+     "ci95": [
+      -0.035,
+      0.089
+     ]
+    },
+    "significant": false
+   },
+   {
+    "metric": "E1 recall \u00b7 official test set",
+    "rules": {
+     "value": 0.633
+    },
+    "llm": {
+     "value": 0.294
+    },
+    "diff": {
+     "value": -0.339,
+     "ci95": [
+      -0.422,
+      -0.25
+     ]
+    },
+    "significant": true
+   },
+   {
+    "metric": "E1 recall \u00b7 all units",
+    "rules": {
+     "value": 0.604
+    },
+    "llm": {
+     "value": 0.287
+    },
+    "diff": {
+     "value": -0.317,
+     "ci95": [
+      -0.365,
+      -0.267
+     ]
+    },
+    "significant": true
+   },
+   {
+    "metric": "E3 plans attacking a real weakness \u00b7 official test set",
+    "rules": {
+     "value": 0.75
+    },
+    "llm": {
+     "value": 0.458
+    },
+    "diff": {
+     "value": -0.292,
+     "ci95": [
+      -0.625,
+      0.042
+     ]
+    },
+    "significant": false
+   },
+   {
+    "metric": "E3 plans attacking a real weakness \u00b7 all units",
+    "rules": {
+     "value": 0.784
+    },
+    "llm": {
+     "value": 0.441
+    },
+    "diff": {
+     "value": -0.343,
+     "ci95": [
+      -0.436,
+      -0.245
+     ]
+    },
+    "significant": true
+   }
+  ],
+  "llm_runs": 2,
+  "cost_eur": 6.95,
+  "calls": 1707,
+  "note": "The model is about as precise as the rules (0.724 vs 0.697) but flags fewer weaknesses (1.17 vs 2.61 per report), so its recall is lower (0.287 vs 0.604). Its plans attack a real weakness 0.441 of the time against 0.784 for the rules (a random plan: 0.545). \"Significant\" means the 95% interval of the difference excludes zero.",
+  "report": "eval/results/compare/AGENTS_COMPARISON.md"
+ }
+}

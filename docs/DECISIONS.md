@@ -394,3 +394,27 @@ whose target is now plausible (balls in behind conceded <=14 by 90, as the rule-
 every team in every season), is used. Checked on the 27 seasons the pipeline and evaluations use: every rule-based
 KPI target is within range, so the demo (seed 204 rebuilds identically) and the evaluated numbers do not change.
 The recorded Foundry run (D-056) is unchanged; a new run would now reject its KPI targets and ask for corrections.
+
+**D-058 · The real Foundry run in the web, and the Foundry agents measured against the rule agents (2026-10-26).**
+(1) The analyst desk has a "Real Microsoft Foundry Run" tab (`?tab=desk&section=foundry`, linked from the banner)
+built from the recorded run (D-056) by `pipeline/foundry_web.py`: model turns with service response ids, tokens and
+the MCP tools the model chose, validator rejections in plain words and the agents' reaction, the Foundry benches'
+half-time calls next to the offline demo's. It is a separate, allow-listed file (`web/public/foundry_run.json`); the
+match bundle is unchanged. (2) `eval/compare_agents.py` ran E1 and E3 for both systems on the same units: the official
+test seasons (E1 8001-8005, E3 8101) and ten fresh seasons 8006-8015 declared before the run; 51 units, the model twice
+per unit (102 runs), same seasons, matchups, seeds and scoring as `eval/run.py` (the rule agents reproduced the
+committed E1 0.687/0.633 and E3 0.75 exactly). Budget: a hard cap in code (`agents/budget.py`: a shared ledger of the
+tokens each turn reported; a turn that could pass the cap is refused before it is sent), set to 15 EUR of the
+owners' 100 EUR allowance after a one-unit pilot (0.06 EUR); the deployment's rate limit was raised from 50K to 200K
+tokens/min for the run (Global Standard, pay per token; no new resource) and set back to 50K afterwards; units run one
+at a time after parallel runs hit the rate limit (8 throttled attempts, re-run). Spent: 13,686,108 input and 668,923
+output tokens in 2,190 requests according to Azure Monitor, about 6.41 EUR at the public price, on the Free Trial
+credit; the ledger recorded 99.5% of it (throttled attempts consumed tokens it could not see) and its +10% margin
+covered the rest. Results (95% paired bootstrap, all units): E1 precision 0.724 (model) vs 0.697 (rules), not
+significant; E1 recall 0.287 vs 0.604, significantly lower; E3 0.441 vs 0.784, significantly lower and below a random
+plan (0.545). Official set alone: same directions; E3 not significant (12 plans). Diagnostic: the model flags 1.17
+weaknesses per report against 2.61; its validated reports are precise (0.806) but miss most real traits; 31% of its
+reports were valid at the first attempt and 40% ended as the template after the retries; its own plans hit a real
+weakness about as often as a random plan. Conclusion published as is: with the production prompts and validators,
+gpt-4.1-mini does not beat the rule agents at scouting or planning in our simulator; the validators keep it grounded.
+Nothing was tuned for this comparison and no unit was dropped.

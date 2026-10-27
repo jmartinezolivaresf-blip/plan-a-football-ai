@@ -12,6 +12,7 @@ from __future__ import annotations
 import argparse
 import asyncio
 import json
+import os
 import re
 import time
 from datetime import UTC, datetime
@@ -28,6 +29,7 @@ from contracts.sealing import plan_digest, verify_plan
 from mcp_server.policy import ScopedTools
 from mcp_server.server import DEMO_MATCH, build_server
 
+from .budget import Ledger
 from .clients import ChatClients, ModelChoice, model_choice
 from .models import (
     CandidateDraft,
@@ -126,12 +128,20 @@ class Staff:
             tools = [MCPStdioTool(name=f"plan-a-{self.team}", mcp_client=client,
                                   allowed_tools=SCOUTING_TOOLS if role == "analyst" else None)]
         agent = Agent(self.chat.get(role), instructions, name=f"{self.team}-{role}", tools=tools)
+        ledger = Ledger.from_env() if self.choice.mode == "foundry" else None  # hard spending cap (D-058)
+        if ledger:
+            ledger.check()
         t0 = time.perf_counter()
         before = len(self.tools.calls)
         try:
             resp = await agent.run(prompt, options={"response_format": fmt})
         finally:
             await agent.close()  # closes the MCP tool contexts the run opened; the shared chat client stays open
+        if ledger:
+            usage = dict(resp.usage_details or {})
+            ledger.record(input_tokens=usage.get("input_token_count"), output_tokens=usage.get("output_token_count"),
+                          response_id=resp.response_id,
+                          tag=f"{os.environ.get('PLAN_A_LLM_TAG', '')}|{self.workflow}:{self.team}:{role}")
         model_tools = [c.tool for c in self.tools.calls[before:]]  # tools the model itself called through MCP
         self._flush()
         model = self.choice.analyst if role == "analyst" else self.choice.manager

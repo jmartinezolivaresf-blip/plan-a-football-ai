@@ -71,7 +71,8 @@ export function Broadcast({ bundle, initialTab = "broadcast", link = NO_PARAMS }
       <p className="banner" role="note">
         {bundle.meta.precomputed ? "Precomputed demo" : "Live"} · {bundle.meta.competition}
         {bundle.illustrative ? " · illustrative fixture data, not simulated" : " · simulated with our synthetic engine"} ·
-        fictional clubs and players · values are inside our simulator, not real-football predictions
+        fictional clubs and players · values are inside our simulator, not real-football predictions ·{" "}
+        <a href="?tab=desk&amp;section=foundry">see the agents' real Microsoft Foundry run</a>
       </p>
       {tab === "broadcast" ? (
         <div className="stage">

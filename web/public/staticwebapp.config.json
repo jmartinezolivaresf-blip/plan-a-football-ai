@@ -24,6 +24,12 @@
       }
     },
     {
+      "route": "/foundry_run.json",
+      "headers": {
+        "cache-control": "public, max-age=300, must-revalidate"
+      }
+    },
+    {
       "route": "/staticwebapp.config.json",
       "statusCode": 404
     },

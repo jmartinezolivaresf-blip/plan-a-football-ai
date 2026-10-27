@@ -1,0 +1,54 @@
+{
+ "design": {
+  "official_e1_seasons": [
+   8001,
+   8002,
+   8003,
+   8004,
+   8005
+  ],
+  "extended_e1_seasons": [
+   8006,
+   8007,
+   8008,
+   8009,
+   8010,
+   8011,
+   8012,
+   8013,
+   8014,
+   8015
+  ],
+  "e3_season": 8101,
+  "llm_runs_per_unit": 2,
+  "bootstrap": 10000,
+  "interval": "95% paired bootstrap over units"
+ },
+ "units_paired": 0,
+ "errors": [],
+ "official": {
+  "e1_units": 0,
+  "e3_units": 0
+ },
+ "extended": {
+  "e1_units": 0,
+  "e3_units": 0
+ },
+ "all": {
+  "e1_units": 0,
+  "e3_units": 0
+ },
+ "llm_behaviour": {
+  "reports": 2,
+  "reports_valid_first_try": 0.5,
+  "reports_fallback": 1,
+  "plans_from_template": 0,
+  "levers_citing_served_claims": 1.0
+ },
+ "ledger": {
+  "turns": 16,
+  "input_tokens": 121719,
+  "output_tokens": 5965,
+  "cost_eur": 0.0627
+ }
+}

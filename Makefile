@@ -72,6 +72,9 @@ foundry-ping: ## ONE real Foundry call per role (needs an approved subscription,
 foundry-probe: ## Independent real-LLM check on the frozen demo (AGENTS_MODE=foundry); never changes the demo
 	$(PY) -m pipeline.foundry_probe
 
+foundry-web: ## Publish the recorded Foundry run for the analyst desk (web/public/foundry_run.json)
+	$(PY) -m pipeline.foundry_web
+
 deploy-check: ## Guards + production build for Static Web Apps, creates nothing (PLAN_A_SUBSCRIPTION_ID)
 	infra/swa_deploy.sh --check
 

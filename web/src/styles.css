@@ -194,3 +194,52 @@ button.primary.big { font-size: 18px; padding: 14px 26px; box-shadow: 0 0 0 4px 
 .two { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 .eval { font-size: 13px; }
 .pc-now { color: #fbbf24; font-style: normal; font-weight: 600; }
+
+/* ---- Real Microsoft Foundry Run (analyst desk): blue marks what came from real model calls */
+.banner a { color: #93c5fd; }
+.desk-tabs .fd-tab { border-bottom-color: #3b82f6; }
+.desk-tabs .fd-tab::before { content: "●"; color: #60a5fa; margin-right: 6px; font-size: 10px; vertical-align: middle; }
+.fd-loading { color: var(--muted); }
+.foundry { display: grid; gap: 12px; }
+.fd-head { display: grid; grid-template-columns: 1.3fr 1fr; gap: 16px; align-items: end; background: linear-gradient(120deg, #0f2a4a, #0b1220 70%); border: 1px solid #1e3a5f; border-radius: 12px; padding: 16px 18px; }
+.fd-head h3 { margin: 6px 0 4px; font-size: 24px; }
+.fd-sub { margin: 0; color: #cbd5e1; font-size: 14px; }
+.fd-badge { display: inline-block; font-size: 11px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: #0b1220; background: #60a5fa; border-radius: 999px; padding: 3px 10px; }
+.fd-modes { display: grid; gap: 6px; }
+.fd-mode { margin: 0; font-size: 12px; padding: 7px 10px; border-radius: 8px; border-left: 4px solid; color: #cbd5e1; }
+.fd-mode b { display: block; font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: #fff; }
+.fd-mode.real { background: rgba(59, 130, 246, 0.14); border-color: #60a5fa; }
+.fd-mode.replay { background: rgba(148, 163, 184, 0.10); border-color: #64748b; }
+.fd-tiles { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
+.fd-tile { background: var(--panel); border-radius: 10px; padding: 10px 12px; border-top: 3px solid #3b82f6; }
+.fd-tile span { display: block; font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
+.fd-tile strong { display: block; font-size: 22px; margin: 2px 0; font-variant-numeric: tabular-nums; }
+.fd-tile small { color: var(--muted); font-size: 11px; }
+.fd-grid { display: grid; grid-template-columns: 1fr 1.4fr; gap: 12px; align-items: start; }
+.fd-card { background: var(--panel); border-radius: 10px; padding: 12px 14px; }
+.fd-card h4 { margin: 0 0 6px; font-size: 15px; }
+.fd-note { margin: 0 0 8px; font-size: 12px; color: var(--muted); }
+.fd-tools { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin: 6px 0; font-size: 13px; }
+.fd-chip { background: rgba(59, 130, 246, 0.16); border: 1px solid #1e3a5f; border-radius: 999px; padding: 3px 10px; font-size: 12px; }
+.fd-chip.muted { background: transparent; color: var(--muted); }
+.fd-guards { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.fd-guards > li { border-left: 3px solid #334155; padding: 4px 10px; }
+.fd-guard-head { font-size: 13px; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.fd-pill { font-size: 11px; font-weight: 800; border-radius: 999px; padding: 1px 8px; }
+.fd-pill.good { background: rgba(52, 211, 153, 0.18); color: #6ee7b7; }
+.fd-pill.bad { background: rgba(248, 113, 113, 0.18); color: #fca5a5; }
+.fd-why { display: block; font-size: 12px; color: #cbd5e1; margin-top: 2px; }
+.fd-guards details { font-size: 11px; color: var(--muted); }
+.fd-guards details code { color: #93c5fd; }
+.fd-benches { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.fd-bench { border-top: 4px solid; border-radius: 8px; background: #0b1220; padding: 10px 12px; }
+.fd-bench h5 { margin: 0 0 8px; font-size: 14px; text-transform: uppercase; letter-spacing: 0.06em; }
+.fd-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.fd-col { border-radius: 8px; padding: 8px 10px; display: grid; gap: 3px; }
+.fd-col.real { background: rgba(59, 130, 246, 0.14); border: 1px solid #1e3a5f; }
+.fd-col.replay { background: rgba(148, 163, 184, 0.08); border: 1px solid #1e293b; }
+.fd-col strong { font-size: 16px; }
+.fd-col small { color: #cbd5e1; font-size: 11px; }
+.fd-tag { font-size: 10px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+.fd-col.real .fd-tag { color: #93c5fd; }
+.fd-calls summary { cursor: pointer; font-weight: 700; font-size: 14px; }
