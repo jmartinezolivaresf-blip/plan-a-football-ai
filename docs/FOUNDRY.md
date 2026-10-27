@@ -2,7 +2,7 @@
 
 **Status (2026-10-26): connected; one real run recorded.** A Foundry resource in Sweden Central with one
 `gpt-4.1-mini` (2025-04-14) Global Standard deployment, in the owners' personal Free Trial subscription (spending limit
-on; no corporate subscription or tenant). `make foundry-ping` answered and `make foundry-probe` ran the agents with the
+on; no other subscription or directory is used). `make foundry-ping` answered and `make foundry-probe` ran the agents with the
 real model on the demo's data and half-time: [`docs/FOUNDRY_EVIDENCE.md`](FOUNDRY_EVIDENCE.md) (service response ids,
 the model the service ran, tokens, the MCP tools the model called; token totals match Azure Monitor). **The demo
 bundle and the video were produced by the offline rules client** (`eval.build.models`) and were not changed (D-056).
@@ -71,11 +71,11 @@ on the resource group (Cost Management, for example 20 USD).
 ## Procedure once the subscription exists
 
 ```bash
-# 1. sign in to the hackathon subscription's own directory (not the corporate one)
+# 1. sign in to the directory of the project's own subscription (never the CLI's default)
 az login --tenant <TENANT_ID>
 export PLAN_A_SUBSCRIPTION_ID=<SUBSCRIPTION_ID>
 
-# 2. guards only (refuses corporate subscriptions/tenants, creates nothing)
+# 2. guards only (refuses denied subscriptions and tenants, creates nothing)
 infra/foundry_provision.sh --check
 
 # 3. after approving the resources above

@@ -1,10 +1,10 @@
 # Shared guards for every Azure script in infra/ (sourced, not executed).
 #
 # - The subscription is ALWAYS explicit (PLAN_A_SUBSCRIPTION_ID) and passed to every az command; the CLI default is
-#   never used, because this machine's default is a corporate subscription.
+#   never used, because the CLI can be signed in to subscriptions outside this project.
 # - Subscriptions in the Microsoft corporate tenant are refused by tenant id; more subscriptions (names or ids) can be
 #   refused through PLAN_A_DENY_SUBSCRIPTIONS (comma separated) or infra/deny.local (git-ignored, one per line), so no
-#   internal subscription name is published in this repository (D-046).
+#   other subscription's name is published in this repository (D-046).
 # - Anything that can cost money needs PLAN_A_APPROVED=yes, set by the owner after approving infra/AZURE_PLAN.md.
 # - Secrets (deployment tokens) are never printed or written to disk.
 

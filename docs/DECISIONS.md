@@ -223,9 +223,10 @@ commits and wall-clock fields; the determinism test excludes exactly those.
 
 ## H3, readiness (2026-10-24)
 
-**D-046 · Foundry and Azure readiness without touching Azure.** The dev machine's CLI is signed in only to corporate
-subscriptions, which must not be used. (1) `AGENTS_MODE=foundry` needs `FOUNDRY_PROJECT_ENDPOINT`,
-`FOUNDRY_MODEL_SMALL` and `FOUNDRY_TENANT_ID`; the credential is `AzureCliCredential` pinned to that tenant, and the
+**D-046 · Foundry and Azure readiness without touching Azure.** The project had no Azure subscription of its own yet,
+and the Azure CLI on the development machine had access only to subscriptions outside the project, which must not be
+used. (1) `AGENTS_MODE=foundry` needs `FOUNDRY_PROJECT_ENDPOINT`, `FOUNDRY_MODEL_SMALL` and `FOUNDRY_TENANT_ID`;
+the credential is `AzureCliCredential` pinned to that tenant, and the
 Microsoft corporate tenant (plus any in `FOUNDRY_DENY_TENANTS`) is refused before any client exists. (2) The Foundry
 path is tested end to end against a local mock of the Responses API: the real `FoundryChatClient`, `Agent` and the
 staff's scoped MCP tools run the pre-match and half-time workflows (`tests/test_foundry_contract.py`). This found
@@ -358,8 +359,8 @@ push for a goal" without substitutions, and the detector's single change point d
 minute 13 because their long-ball share was already drifting down in the first half.
 
 **D-056 · First real Microsoft Foundry run (2026-10-26).** Where: the owners' personal subscription "Azure subscription
-1" (Free Trial, spending limit on, its own directory; the three corporate subscriptions and the corporate tenant were
-never used), resource group `rg-plan-a` in Sweden Central: one AIServices S0 resource with a project and one
+1" (Free Trial, spending limit on, its own directory; no other subscription or directory was used),
+resource group `rg-plan-a` in Sweden Central: one AIServices S0 resource with a project and one
 `gpt-4.1-mini` (2025-04-14) Global Standard deployment (pay per token, capacity 50K tokens/min of a 200K quota), the
 "Foundry User" role on that resource, and a 20 EUR budget alert. What ran: `make foundry-ping` (one call) and one
 complete `AGENTS_MODE=foundry make foundry-probe`: 15 model turns, every one answered with a service response id;

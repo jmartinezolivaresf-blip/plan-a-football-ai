@@ -3,12 +3,12 @@
 Status on 2026-10-26: **provisioned in the owners' personal Free Trial subscription "Azure subscription 1"** (its own
 directory, spending limit on), resource group `rg-plan-a`: the Foundry resource, project and `gpt-4.1-mini` Global
 Standard deployment (docs/FOUNDRY.md, D-056), a 20 EUR budget alert, and the Static Web App **`plan-a-football`,
-Free plan, East US 2**, serving the demo at https://agreeable-hill-0e1a17a0f.4.azurestaticapps.net (deployed with the SWA CLI, no GitHub link: the repository stays
-private; West Europe refused new Free Trial customers). The corporate subscriptions on this machine are never used:
-the scripts refuse any subscription in the Microsoft corporate tenant and any listed in the git-ignored
-`infra/deny.local` (or `PLAN_A_DENY_SUBSCRIPTIONS`), never fall back to the CLI's default subscription, and stop
-before any billable step unless `PLAN_A_APPROVED=yes` (D-046, tested in `tests/test_infra_guard.py` with a fake
-`az`).
+Free plan, East US 2**, serving the demo at https://agreeable-hill-0e1a17a0f.4.azurestaticapps.net (deployed with the SWA CLI from a local build, no GitHub link;
+West Europe refused new Free Trial customers). Plan A uses only this subscription. As a safeguard, because an Azure
+CLI can be signed in to other subscriptions, the scripts refuse any subscription in the Microsoft corporate tenant
+and any listed in the git-ignored `infra/deny.local` (or `PLAN_A_DENY_SUBSCRIPTIONS`), never fall back to the CLI's
+default subscription, and stop before any billable step unless `PLAN_A_APPROVED=yes` (D-046, tested in
+`tests/test_infra_guard.py` with a fake `az`).
 
 ## What gets created, and what can cost money
 
